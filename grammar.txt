@@ -1,0 +1,75 @@
+The language Lab grammar definition.
+
+Many programming languages have some basic building blocks.
+Comments, whitespace, special characters(escape sequences),  null symbols
+built in types, statements, functions and other constructs.
+We are going to leverage these in our parser by allowing the user
+to specify what a comment looks like, what whitespace if any there is,
+etc...
+
+Many programs are described in BNF (Backus Naur Form).  If your unsure what
+BNF syntax is, look it up and then come back here.  Our form of BNF is
+going to drop the <>'s normally used and instead put double quotes around
+terminal symbols.  Our BNF syntax is going to support the following items, that
+you need to know about: comments, terminals, non terminals, 
+production rules, start symbol, Whitespace, Null symbols and other special
+symbols.
+
+
+We'll also define two types of non terminals.
+Major non terminals and minor non terminals.  A minor non terminal is basically
+a sub rule that we may want to skip over or expand to make more readable
+grammars.  For example, when defining Operators and having multiple levels
+for operator precedence to work effectively, we may have a bunch of operator 
+rules and when printing the grammar we may want to just print a summary of
+all of the operator rules.
+
+A Major non terminal is a string consisting of a combination of the 
+following symbols: 
+	Lowercase Letters, Uppercase Letters, Underscore(_)
+A Minor non terminal is a major terminal followed by a number, example:
+	Operator_5
+
+Comments:
+When you look at programming languages comments have two major forms.
+single line comments and multi line comments.  Examples:
+c++ single line comment //
+c multi line comments have a start and end symbol /* */
+So we are going to have a way to define comments with a start and end symbol.
+If no end symbol is specified assume end of line, there may be other ways to
+express comments but this covers the majority of them.  If you want to work
+on this feel free to run with it and expand it.
+
+Whitespace:
+We are also going to create a construct for whitespace Our tokenizer will
+recognize whitespace and pass it on, along with comments.  It will also
+provide a type of token so that the parser can choose to ignore things or not.
+Whitespace will be identified by the keyword whitespace, followed by the symbol in quotes and then a ;
+If you want to have multiple whitespace symbols put them on multiple lines.
+Example:
+whitespace " " ;
+
+Terminals:
+Terminals are going to be a string surrounded by "'s at the start and end.
+example, the lowercase letter e would be: "e"
+You may specify multi character terminals, some examples: "\n", "||", "::=",
+	"int"
+The tokenizer is built to search for the largest match possible, so the more
+multi character terminals you have the less efficient the tokenizer will be.
+
+Rules:
+Rules have the following syntax:
+	 LeftHand_Side RULE_OPERATOR RightHand_Side ENDOFRULE_SYMBOL
+We will use ::= as our RULE_OPERATOR and ; as our ENDOFRULE_SYMBOL
+The LeftHand_Side will be a single non terminal for now, since this is
+	the most useful at this stage, and keeps things simple.
+The Righthand_Side gets a bit complicated, it can be a terminal, a Null, or
+	a concatenation of the following items in any order: 
+		Terminals, Null, Non Terminals
+	If you want to do Rule := "X" | "Y" ; you would split it across multiple 
+	lines like this:
+		Rule := "X" ;
+		Rule := "Y" ;
+
+To identify the starting non terminal you use the key word entry, followed by the nonterminal and then a ;  Example:
+entry Start ;
