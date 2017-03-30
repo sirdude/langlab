@@ -3,7 +3,12 @@
 use strict;
 use warnings;
 
-my (%terminals, %startchars, $debug);
+my (%terminals, %startchars, @tokens);
+
+my $EOF = "EOF__XXX";
+my $EOL = "EOL__XXX";
+
+my $debug = 1;
 
 sub usage {
 	print "\tUsage: $0 filename(s)\n";
@@ -60,26 +65,51 @@ sub load_terminals {
 }
 
 sub add_node {
-	my ($tok) = @_;
+	my ($tok, $file, $line, $pos) = @_;
 
 	if ($debug) {
-		print "add_node($tok)\n";
+		print "add_node($tok, $file, $line, $pos)\n";
 	}
 
-	# XXX need to do work here..
+	my $node;
+
+	$node->{"file"} = $file;
+	$node->{"line"} = $line;
+	$node->{"pos"} = $pos;
+	$node->{"value"} = $tok;
+	if ($tok eq $EOF) {
+		$node->{"type"} = $EOF;
+	} elsif ($tok eq $EOL) {
+		$node->{"type"} = $EOL;
+	} else {
+		$node->{"type"} = "token";
+	}
+
+	push(@tokens, $node);
 
 	return 1;
 }
 
 sub print_nodes {
+	my $c = 0;
 
-	# XXX need to do work here..
+	foreach my $i (@tokens) {
+		$c = $c + 1;
+		print "Token: $c Value: " . $i->{'value'} . " Type: " . 
+			$i->{'type'};
+		if ($debug) {
+			print " File: " . $i->{'file'};
+			print " Line: " . $i->{'line'};
+			print " Pos: " . $i->{'pos'};
+		}
+		print "\n";
+	}
 
 	return 1;
 }
 
 sub process_line {
-	my ($line, $c) = @_;
+	my ($line, $c, $file) = @_;
 	my $len = length($line) - 1;
 	my $x = 0;
 
@@ -92,7 +122,7 @@ sub process_line {
 			my $sub = substr($line,$x,$f);
 			if (exists($terminals{$sub})) {
 				$done = 1;
-				add_node($sub);
+				add_node($sub,$file, $c, $x);
 				$x = $x + $f;
 			} else {
 				$f = $f - 1;
@@ -105,6 +135,7 @@ sub process_line {
 		}
 			
 	}
+	add_node($EOL,$file, $c, $x);
 
 	return 1;
 }
@@ -123,10 +154,11 @@ sub process_file {
 		my $line = $_;
 		$num = $num + 1;
 
-		if (!process_line($line, $num)) {
+		if (!process_line($line, $num, $file)) {
 			$error = $error + 1;
 		}
 	}
+	add_node($EOF,$file, $num, 0);
 
 	return $error;
 }
@@ -170,3 +202,5 @@ if ($debug) {
 foreach my $i (@ARGV) {
 	process_file($i);
 }
+
+print_nodes();
