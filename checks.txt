@@ -1,0 +1,15 @@
+check for ambiguity
+last list, first list
+left recursive
+right recursive
+indirect left recursion
+Chomsky type 0, 1, 2, 3
+NFA/DFA
+
+Print out statemachine
+
+This is for our language not this project....
+check out DRAKON Editor  would be cool to do it both ways.
+	src -> Flowchart
+	FLowcart -> src
+
