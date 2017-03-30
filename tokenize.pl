@@ -62,9 +62,18 @@ sub load_terminals {
 sub add_node {
 	my ($tok) = @_;
 
-#	if ($debug) {
+	if ($debug) {
 		print "add_node($tok)\n";
-#	}
+	}
+
+	# XXX need to do work here..
+
+	return 1;
+}
+
+sub print_nodes {
+
+	# XXX need to do work here..
 
 	return 1;
 }
@@ -154,7 +163,9 @@ if (!load_terminals("terminals.txt")) {
 	exit(1);
 }
 
-# print_terminal_info();
+if ($debug) {
+	print_terminal_info();
+}
 
 foreach my $i (@ARGV) {
 	process_file($i);

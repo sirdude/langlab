@@ -21,9 +21,19 @@ comment "/*" "*/" ;
 whitespace " " ;
 whitespace "\t" ;
 
+Program ::= Entryline Program ;
+Program ::= Commentline Program ;
+Program ::= Whitespaceline Program ;
 Program ::= Rule Program ;
 Program ::= Comment Program ;
 Program ::= "" ;
+
+Entryline ::= "entry" Ident ";" ;
+
+Commentline ::= "comment" Terminal ";" ;
+Commentline ::= "comment" Terminal Terminal ";" ;
+
+Whitespaceline ::= "whitespace" Terminal ";" ;
 
 Comment ::= "#" Notendofline Endofline ;
 
