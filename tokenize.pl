@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use Getopt::Long;
 
-my (%terminals, %startchars, @tokens, %Options);
+my (%terminals, %startchars, @tokens, @parse_tokens, %Options);
 
 my $EOF = "EOF__XXX";
 my $EOL = "EOL__XXX";
@@ -98,7 +98,7 @@ sub print_nodes {
 
 	foreach my $i (@tokens) {
 		$c = $c + 1;
-		print "Token: $c Value: " . $i->{'value'} . " Type: " . 
+		print "Token: $c Value: " . $i->{'value'} . " Type: " .
 			$i->{'type'};
 		if ($Options{"debug"}) {
 			print " File: " . $i->{'file'};
@@ -170,11 +170,15 @@ sub print_terminal_info {
 	my $t=0;
 	my $c=0;
 
+	print "\nCalling: print_terminal_info()\n";
+
 	foreach my $i (keys %terminals) {
 		$t = $t + 1;
-		print "Terminal \"$i\" : $terminals{$i}\n";
 		if ($terminals{$i} > 1) {
-			print "Error Duplicate terminal $i\n";
+			print "Error Duplicate Terminal \"$i\" : " .
+				$terminals{$i} . "\n";
+		} elsif ($Options{'debug'}) {
+			print "Terminal \"$i\" : $terminals{$i}\n";
 		}
 	}
 
@@ -182,11 +186,27 @@ sub print_terminal_info {
 
 	foreach my $i (keys %startchars) {
 		$c = $c + 1;
-		print "Startchars \"$i\" : $startchars{$i}\n";
+		if ($startchars{$i} > 1) {
+			print "Startchars \"$i\" : $startchars{$i}\n";
+		} elsif($Options{'debug'}) {
+			print "Startchars \"$i\" : $startchars{$i}\n";
+		}
 	}
 
 	print "\nTerminals: $t startchars = $c\n";
 	return $c;
+}
+
+sub parse_tokens {
+	my $c = 0;
+	my $len = $#tokens;
+
+	while ($c < $len) {
+
+# XXX do the work here;
+		return 1;
+
+	}
 }
 
 sub main {
@@ -205,11 +225,7 @@ sub main {
 		return 1;
 	}
 
-	if ($Options{"debug"}) {
-		print "\ncalling: print_terminal_info()\n";
-
-		print_terminal_info();
-	}
+	print_terminal_info();
 
 	foreach my $i (@ARGV) {
 		process_file($i);
@@ -219,6 +235,8 @@ sub main {
 		print "\ncalling: print_nodes()\n";
 		print_nodes();
 	}
+
+	parse_tokens();
 
 	return 0;
 }
