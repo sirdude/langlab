@@ -2,16 +2,15 @@
 
 use strict;
 use warnings;
+use Getopt::Long;
 
-my (%terminals, %startchars, @tokens);
+my (%terminals, %startchars, @tokens, %Options);
 
 my $EOF = "EOF__XXX";
 my $EOL = "EOL__XXX";
 
-my $debug = 1;
-
 sub usage {
-	print "\tUsage: $0 filename(s)\n";
+	print "\tUsage: $0 [--debug] filename(s)\n";
 	print "Examine grammar files and print stats about it.\n\n";
 
 	return 1;
@@ -20,7 +19,7 @@ sub usage {
 sub add_terminal {
 	my ($tmp) = $_;
 
-	if ($debug) {
+	if ($Options{"debug"}) {
 		print "DEBUG: add_terminal($tmp)\n";
 	}
 
@@ -49,6 +48,10 @@ sub load_terminals {
 	my ($infile) = @_;
 	my ($fh, $c);
 
+	if ($Options{"debug"}) {
+		print "\ncalling: load_terminals($infile)\n";
+	}
+
 	if (!open($fh, "<", $infile)) {
 		print "Error could not read terminals from file: $infile\n";
 		return 0;
@@ -67,7 +70,7 @@ sub load_terminals {
 sub add_node {
 	my ($tok, $file, $line, $pos) = @_;
 
-	if ($debug) {
+	if ($Options{"debug"}) {
 		print "add_node($tok, $file, $line, $pos)\n";
 	}
 
@@ -97,7 +100,7 @@ sub print_nodes {
 		$c = $c + 1;
 		print "Token: $c Value: " . $i->{'value'} . " Type: " . 
 			$i->{'type'};
-		if ($debug) {
+		if ($Options{"debug"}) {
 			print " File: " . $i->{'file'};
 			print " Line: " . $i->{'line'};
 			print " Pos: " . $i->{'pos'};
@@ -187,16 +190,24 @@ sub print_terminal_info {
 }
 
 sub main {
+	GetOptions(\%Options, "debug");
+
 	if ($#ARGV < 0) {
 		usage();
 		return 1;
+	}
+	if ($Options{"debug"}) {
+		print "EOF is set to: $EOF\n";
+		print "EOL is set to: $EOL\n";
 	}
 
 	if (!load_terminals("terminals.txt")) {
 		return 1;
 	}
 
-	if ($debug) {
+	if ($Options{"debug"}) {
+		print "\ncalling: print_terminal_info()\n";
+
 		print_terminal_info();
 	}
 
@@ -204,7 +215,8 @@ sub main {
 		process_file($i);
 	}
 
-	if ($debug) {
+	if ($Options{"debug"}) {
+		print "\ncalling: print_nodes()\n";
 		print_nodes();
 	}
 
