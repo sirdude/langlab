@@ -186,21 +186,27 @@ sub print_terminal_info {
 	return $c;
 }
 
-if ($#ARGV < 0) {
-	usage();
-	exit 1;
+sub main {
+	if ($#ARGV < 0) {
+		usage();
+		exit 1;
+	}
+
+	if (!load_terminals("terminals.txt")) {
+		exit(1);
+	}
+
+	if ($debug) {
+		print_terminal_info();
+	}
+
+	foreach my $i (@ARGV) {
+		process_file($i);
+	}
+
+	if ($debug) {
+		print_nodes();
+	}
 }
 
-if (!load_terminals("terminals.txt")) {
-	exit(1);
-}
-
-if ($debug) {
-	print_terminal_info();
-}
-
-foreach my $i (@ARGV) {
-	process_file($i);
-}
-
-print_nodes();
+main();
