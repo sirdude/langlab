@@ -189,11 +189,11 @@ sub print_terminal_info {
 sub main {
 	if ($#ARGV < 0) {
 		usage();
-		exit 1;
+		return 1;
 	}
 
 	if (!load_terminals("terminals.txt")) {
-		exit(1);
+		return 1;
 	}
 
 	if ($debug) {
@@ -207,6 +207,8 @@ sub main {
 	if ($debug) {
 		print_nodes();
 	}
+
+	return 0;
 }
 
 main();
