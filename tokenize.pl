@@ -59,24 +59,62 @@ sub load_terminals {
 	return 1;
 }
 
+sub add_node {
+	my ($tok) = @_;
+
+#	if ($debug) {
+		print "add_node($tok)\n";
+#	}
+
+	return 1;
+}
+
 sub process_line {
-	my ($line) = @_;
+	my ($line, $c) = @_;
+	my $len = length($line) - 1;
+	my $x = 0;
+
+	while($x < $len) {
+		my $char = substr($line,$x,1);
+		my $f = $startchars{$char};
+		my $done = 0;
+
+		while (!$done && $f) {
+			my $sub = substr($line,$x,$f);
+			if (exists($terminals{$sub})) {
+				$done = 1;
+				add_node($sub);
+				$x = $x + $f;
+			} else {
+				$f = $f - 1;
+			}
+		}
+		if (!$done) {
+			print "Error at line: $c unknown terminal at $x\n";
+			print "$line\n";
+			return 0;
+		}
+			
+	}
 
 	return 1;
 }
 
 sub process_file {
 	my ($file) = @_;
-	my ($fh, $error);
+	my ($fh, $error, $num);
 
 	if (!open($fh, "<", $file)) {
 		print "Error opening $file\n";
 		return 1;
 	}
 
+	$num = 0;
 	while(<$fh>) {
 		my $line = $_;
-		if (!process_line($line)) {
+		$num = $num + 1;
+
+		if (!process_line($line, $num)) {
 			$error = $error + 1;
 		}
 	}
@@ -115,7 +153,7 @@ if (!load_terminals("terminals.txt")) {
 	exit(1);
 }
 
-print_terminal_info();
+# print_terminal_info();
 
 foreach my $i (@ARGV) {
 	process_file($i);
