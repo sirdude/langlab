@@ -142,6 +142,7 @@ sub print_terminal_info {
 	}
 
 	print "\nTerminals: $t startchars = $c\n";
+	return $c;
 }
 
 if ($#ARGV < 0) {
