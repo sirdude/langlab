@@ -80,6 +80,7 @@ sub add_node {
 	$node->{"line"} = $line;
 	$node->{"pos"} = $pos;
 	$node->{"value"} = $tok;
+
 	if ($tok eq $EOF) {
 		$node->{"type"} = $EOF;
 	} elsif ($tok eq $EOL) {
@@ -100,11 +101,13 @@ sub print_nodes {
 		$c = $c + 1;
 		print "Token: $c Value: " . $i->{'value'} . " Type: " .
 			$i->{'type'};
+
 		if ($Options{"debug"}) {
 			print " File: " . $i->{'file'};
 			print " Line: " . $i->{'line'};
 			print " Pos: " . $i->{'pos'};
 		}
+
 		print "\n";
 	}
 
@@ -120,9 +123,11 @@ sub process_line {
 		my $char = substr($line,$x,1);
 		my $f = $startchars{$char};
 		my $done = 0;
+		my $sub;
 
 		while (!$done && $f) {
-			my $sub = substr($line,$x,$f);
+			$sub = substr($line,$x,$f);
+
 			if (exists($terminals{$sub})) {
 				$done = 1;
 				add_node($sub,$file, $c, $x);
@@ -131,10 +136,11 @@ sub process_line {
 				$f = $f - 1;
 			}
 		}
+
 		if (!$done) {
-			print "Error at line: $c unknown terminal at $x\n";
+			print "Warning at line: $c unknown terminal at $x\n";
 			print "$line\n";
-			return 0;
+			add_node($sub, $file, $c, $x);
 		}
 			
 	}
@@ -205,7 +211,6 @@ sub parse_tokens {
 
 # XXX do the work here;
 		return 1;
-
 	}
 }
 
