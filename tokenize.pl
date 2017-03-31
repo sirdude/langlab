@@ -140,7 +140,10 @@ sub process_line {
 		if (!$done) {
 			print "Warning at line: $c unknown terminal at $x\n";
 			print "$line\n";
+
+			$sub = substr($line,$x,1);
 			add_node($sub, $file, $c, $x);
+			$x = $x + 1;
 		}
 			
 	}
