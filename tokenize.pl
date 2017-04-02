@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use Getopt::Long;
 
-my (%terminals, %startchars, @tokens, @parse_tokens, %Options);
+my (%terminals, %startchars, @tokens, @parse_tokens, @rules, %Options);
 
 my $EOF = "EOF__XXX";
 my $EOL = "EOL__XXX";
@@ -63,6 +63,37 @@ sub load_terminals {
 
 		add_terminal($tline);
 	}
+
+	return 1;
+}
+
+sub save_terminals {
+	my ($infile) = @_;
+	my ($fh, $c);
+
+	if ($Options{"debug"}) {
+		print "\ncalling: load_terminals($infile)\n";
+	}
+
+	if (!open($fh, ">", $infile)) {
+		print "Error could not write terminals to file: $infile\n";
+		return 0;
+	}
+
+	$c = 0;
+	foreach my $i (keys %terminals) {
+		print $fh "$i\n";
+		$c = $c +1;
+	}
+
+	close($fh);
+	return 1;
+}
+
+sub add_rule {
+	my ($lhs, @rhs) = @_;
+
+	# XXX Need to do work here
 
 	return 1;
 }
