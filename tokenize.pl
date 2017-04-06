@@ -2,7 +2,10 @@
 
 use strict;
 use warnings;
+
+use lib ".";
 use Getopt::Long;
+use LangLab::Parser;
 
 my (%terminals, %startchars, @tokens, @parse_tokens, @rules, %Options);
 
@@ -237,17 +240,6 @@ sub print_terminal_info {
 	return $c;
 }
 
-sub parse_tokens {
-	my $c = 0;
-	my $len = $#tokens;
-
-	while ($c < $len) {
-
-# XXX do the work here;
-		return 1;
-	}
-}
-
 sub main {
 	GetOptions(\%Options, "debug");
 
@@ -275,7 +267,7 @@ sub main {
 		print_nodes();
 	}
 
-	parse_tokens();
+	@parse_tokens = parser_main(@tokens);
 
 	return 0;
 }

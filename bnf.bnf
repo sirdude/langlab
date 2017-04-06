@@ -12,7 +12,7 @@
 #      \t   tab
 #      \\   escaped \
 #      a single \ is only allowed in comments.
-entry Program ;
+entry	Program ;
 
 comment "#" ;
 comment "--" ;
@@ -20,6 +20,8 @@ comment "/*" "*/" ;
 
 whitespace " " ;
 whitespace "\t" ;
+whitespace "\r" ;
+whitespace "\f" ;
 
 Program ::= Entryline Program ;
 Program ::= Commentline Program ;
