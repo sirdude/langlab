@@ -267,7 +267,7 @@ sub main {
 		print_nodes();
 	}
 
-	@parse_tokens = parser_main(@tokens);
+	@parse_tokens = Parser::parser_main(@tokens);
 
 	return 0;
 }

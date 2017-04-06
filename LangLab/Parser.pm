@@ -1,15 +1,18 @@
 package Parser;
 
+use strict;
+use warnings;
+
 our @EXPORT = qw(
 	parser_main
         );
 
-my ($current, $treesize, $tree);
+my ($current, $treesize, @tree);
 
 sub get_single_comment {
 	my ($node, $done);
 
-	if ($tree[$current]->{'value'} neq "#") {
+	if ($tree[$current]->{'value'} ne "#") {
 		print "Called get_single_comment, and first value is not " .
 			" the start of a single line comment.\n";
 		return 0;
@@ -20,7 +23,7 @@ sub get_single_comment {
 	$node->{'file'} = $tree[$current]->{'value'};
 	$node->{'pos'} = $tree[$current]->{'pos'};
 
-	while (!$done && ($tree[$current]->{'value'} neq $EOL)) {
+	while (!$done && ($tree[$current]->{'value'} ne $EOL)) {
 		$node->{'value'} = $node->{'value'} .
 			$tree[$current]->{'value'};
 
@@ -46,9 +49,9 @@ sub get_multi_comment {
 }
 
 sub parser_main {
-	($tree) = @_;
+	(@tree) = @_;
 	$current = 0;
-	$treesize = sizeof($tree);
+	$treesize = @tree;
 
 	# XXX Do the work here...
 
