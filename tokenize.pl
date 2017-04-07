@@ -50,6 +50,7 @@ sub add_terminal {
 sub load_terminals {
 	my ($infile) = @_;
 	my ($fh, $c);
+	$c = 0;
 
 	if ($Options{"debug"}) {
 		print "\ncalling: load_terminals($infile)\n";
@@ -60,12 +61,15 @@ sub load_terminals {
 		return 0;
 	}
 
-	$c = 0;
 	while(<$fh>) {
 		my $tline = chomp $_;
+		$c = $c + 1;
 
-		add_terminal($tline);
+		if (!add_terminal($tline)) {
+			print "Error in read terminals at line: $c\n";
+		}
 	}
+	close($fh);
 
 	return 1;
 }
@@ -204,6 +208,9 @@ sub process_file {
 			$error = $error + 1;
 		}
 	}
+
+	close($fh);
+
 	add_node($EOF,$file, $num, 0);
 
 	return $error;
