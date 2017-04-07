@@ -231,6 +231,42 @@ sub get_singlequotestring {
 	return $node;
 }
 
+sub is_whitespace {
+	my ($char) = @_;
+
+	if ($char eq " ") {
+	} elsif ($char eq "\t") {
+	} else {
+		return 0;
+	}
+
+	return 1;
+}
+
+sub eat_whitespace {
+	my ($node, $done);
+
+	$node->{'value'} = "";
+	$node->{'type'} = "doublequotestring";
+	$node->{'file'} = $tree[$current]->{'value'};
+	$node->{'pos'} = $tree[$current]->{'pos'};
+
+	while (!$done && is_whitespace($tree[$current]->{'value'})) {
+		$node->{'value'} = $node->{'value'} .
+			$tree[$current]->{'value'};
+		$current = $current + 1;
+		if ($current > $treesize) {
+			$done = 1;
+		}
+	}
+
+	if ($node->{'value'} ne "") {
+		return $node;
+	}
+
+	return 0;
+}
+
 sub parser_main {
 	(@tree) = @_;
 	$current = 0;
