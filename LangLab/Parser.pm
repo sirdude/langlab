@@ -85,13 +85,33 @@ sub get_multi_comment {
 	return $node;
 }
 
+sub is_uppercase {
+	my ($char) = @_;
+
+	if (($char >= 'A') && ($char <= 'Z')) {
+		return 1;
+	}
+
+	return 0;
+}
+
+sub is_lowercase {
+	my ($char) = @_;
+
+	if (($char >= 'A') && ($char <= 'Z')) {
+		return 1;
+	}
+
+	return 0;
+}
+
 sub is_letter {
 	my ($char) = @_;
 
-	if (($char >= 'a') && ($char <= 'z')) {
+	if (is_lowercase()) {
 		return 1;
 	}
-	if (($char >= 'A') && ($char <= 'Z')) {
+	if (is_uppercase()) {
 		return 1;
 	}
 
