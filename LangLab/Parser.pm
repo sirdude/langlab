@@ -170,6 +170,47 @@ sub get_entryline {
 		return 0;
 	}
 
+	$node->{'type'} = "entrypoint";
+
+	return $node;
+}
+
+sub get_commentline {
+	my ($tnode, $node, $done);
+
+	$tnode = get_id();
+
+	if (!$tnode) {
+		return 0;
+	}
+
+	if ($tnode->{'value'} ne "comment") {
+		# XXX Need to figure out what to do here to undo the get_id?
+
+		return 0;
+	}
+
+	$node = get_id();
+
+	if (!$node) {
+		print "Error: " .  $tnode->{'file'} .
+			" line " . $tnode->{'pos'} .
+			"Expected valid id for entrypoint.\n";
+		return 0;
+	
+	}
+
+# XXX If we get another ID here have multiline comment need to deal with it.
+
+	if (!get_semicolin()) {
+		print "Error: " .  $node->{'file'} .
+			" line " . $node->{'pos'} .
+			"Expected ; after entrypoint.\n";
+		return 0;
+	}
+
+	$node->{"type"} = "singlecommentdelim";
+
 	return $node;
 }
 
