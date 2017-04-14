@@ -76,8 +76,8 @@ sub get_multi_comment {
 			$tree[$current]->{'value'};
 		$current = $current + 1;
 	} else {
-		print "Error: " .  $node->['file'] .
-			" line " . $node->['pos'] .
+		print "Error: " .  $node->{'file'} .
+			" line " . $node->{'pos'} .
 			"non terminated multi line comment.\n";
 		return 0;
 	}
@@ -138,14 +138,49 @@ sub is_digit {
 	return 1;
 }
 
+sub get_entryline {
+	my ($tnode, $node, $done);
+
+	$tnode = get_id();
+
+	if (!$tnode) {
+		return 0;
+	}
+
+	if ($tnode->{'value'} ne "entry") {
+		# XXX Need to figure out what to do here to undo the get_id?
+
+		return 0;
+	}
+
+	$node = get_id();
+
+	if (!$node) {
+		print "Error: " .  $tnode->{'file'} .
+			" line " . $tnode->{'pos'} .
+			"Expected valid id for entrypoint.\n";
+		return 0;
+	
+	}
+
+	if (!get_semicolin()) {
+		print "Error: " .  $node->{'file'} .
+			" line " . $node->{'pos'} .
+			"Expected ; after entrypoint.\n";
+		return 0;
+	}
+
+	return $node;
+}
+
 sub get_id {
 	my ($node, $done);
 
 	$done = 0;
 
 	if (!is_letter($tree[$current]->{'value'})) {
-		print "Error: " .  $node->['file'] .
-			" line " . $node->['pos'] .
+		print "Error: " .  $node->{'file'} .
+			" line " . $node->{'pos'} .
 			"Expected ID which starts with a Letter.\n";
 		return 0;
 	}
@@ -186,8 +221,8 @@ sub get_doublequotestring {
 	while (!$done && ($tree[$current]->{'value'} ne "\"")) {
 
 		if ($tree[$current]->{'value'} eq $EOL) {
-			print "Warning: " . $node->['file'] . 
-				" line " . $node->['pos'] .
+			print "Warning: " . $node->{'file'} . 
+				" line " . $node->{'pos'} .
 				"string not terminated before end of line.\n";
 		}
 
@@ -201,8 +236,8 @@ sub get_doublequotestring {
 	}
 
 	if ($done) { 
-		print "Error: " .  $node->['file'] .
-			" line " . $node->['pos'] .
+		print "Error: " .  $node->{'file'} .
+			" line " . $node->{'pos'} .
 			"non terminated string.\n";
 		return 0;
 	}
@@ -227,8 +262,8 @@ sub get_singlequotestring {
 	while (!$done && ($tree[$current]->{'value'} ne "\'")) {
 
 		if ($tree[$current]->{'value'} eq $EOL) {
-			print "Warning: " . $node->['file'] . 
-				" line " . $node->['pos'] .
+			print "Warning: " . $node->{'file'} . 
+				" line " . $node->{'pos'} .
 				"string not terminated before end of line.\n";
 		}
 
@@ -242,8 +277,8 @@ sub get_singlequotestring {
 	}
 
 	if ($done) { 
-		print "Error: " .  $node->['file'] .
-			" line " . $node->['pos'] .
+		print "Error: " .  $node->{'file'} .
+			" line " . $node->{'pos'} .
 			"non terminated string.\n";
 		return 0;
 	}
