@@ -4,13 +4,12 @@ use strict;
 use warnings;
 
 use lib ".";
-use Getopt::Long;
 use LangLab::Parser;
+use LangLab::Symbols;
 
-my (%terminals, %startchars, @tokens, @parse_tokens, @rules, %Options);
+use Getopt::Long;
 
-my $EOF = "EOF__XXX";
-my $EOL = "EOL__XXX";
+my (%terminals, %startchars, @tokens, @parse_tokens, %rules, %Options);
 
 sub usage {
 	print "\tUsage: $0 [--debug] filename(s)\n";
@@ -100,6 +99,14 @@ sub save_terminals {
 sub add_rule {
 	my ($lhs, @rhs) = @_;
 
+	if ($Options{"debug"}) {
+		print "add_rule($lhs";
+		foreach my $t (@rhs) {
+			print ", $t";
+		}
+		print ")\n";
+	}
+
 	# XXX Need to do work here
 
 	return 1;
@@ -119,10 +126,10 @@ sub add_node {
 	$node->{"pos"} = $pos;
 	$node->{"value"} = $tok;
 
-	if ($tok eq $EOF) {
-		$node->{"type"} = $EOF;
-	} elsif ($tok eq $EOL) {
-		$node->{"type"} = $EOL;
+	if ($tok eq $Symbols::EOF) {
+		$node->{"type"} = $Symbols::EOF;
+	} elsif ($tok eq $Symbols::EOL) {
+		$node->{"type"} = $Symbols::EOL;
 	} else {
 		$node->{"type"} = "token";
 	}
@@ -185,7 +192,7 @@ sub process_line {
 		}
 			
 	}
-	add_node($EOL,$file, $c, $x);
+	add_node($Symbols::EOL,$file, $c, $x);
 
 	return 1;
 }
@@ -211,7 +218,7 @@ sub process_file {
 
 	close($fh);
 
-	add_node($EOF,$file, $num, 0);
+	add_node($Symbols::EOF,$file, $num, 0);
 
 	return $error;
 }
@@ -255,8 +262,8 @@ sub main {
 		return 1;
 	}
 	if ($Options{"debug"}) {
-		print "EOF is set to: $EOF\n";
-		print "EOL is set to: $EOL\n";
+		print "EOF is set to: $Symbols::EOF\n";
+		print "EOL is set to: $Symbols::EOL\n";
 	}
 
 	if (!load_terminals("terminals.txt")) {

@@ -1,0 +1,263 @@
+comment: # This is our simple grammar we are going to use as a base
+comment: # It basically says we have the following:
+comment: #      simple comments that start with -- or # and end at the end of a line
+comment: #      Multiline comments start with /* and end with */
+comment: #      Rules which have an Ident on the lefthand side and
+comment: #            on the Righthandside have one or more Idents or terminals ending
+comment: #            in a ;
+comment: #      Terminals are inclosed in "" or ''
+comment: #      "" is used as empty
+comment: #      The following escape chars are supported
+comment: #      \n   newline
+comment: #      \t   tab
+comment: #      \\   escaped \
+comment: #      a single \ is only allowed in comments.
+keyword: entry
+ident: Program 
+delimiter: ;
+newline:
+keyword: comment 
+terminal: "#" 
+delimiter: ;
+keyword: comment
+terminal: "--"
+delminter: ;
+keyword: comment
+terminal: "/*"
+terminal: "*/"
+delmiter: ;
+keyword: whitespace
+terminal: " "
+delimiter: ;
+keyword: whitespace
+terminal: "\t"
+delimiter: ;
+keyword: whitespace
+terminal: "\r"
+delimter: ;
+keyword: whitespace
+terminal: "\f"
+delimiter: ;
+ident: Program 
+terminal "::="
+ident: Entryline
+ident: Program
+delimiter: ;
+ident: Program
+terminal: "::="
+ident:  Commentline
+ident: Program
+delimiter: ;
+ident: Program
+terminal: "::="
+ident: Whitespaceline
+ident: Program
+delimter: ;
+ident: Program
+terminal: "::="
+ident: Rule
+ident: Program
+delimiter: ;
+ident: Program
+terminal: "::="
+ident: Comment
+ident: Program
+delimiter: ;
+ident: Program 
+terminal: "::="
+terminal: "\'\"\""
+delimiter: ;
+ident: Entryline
+terminal: "::="
+terminal: "entry"
+ident: Ident
+terminal: ";"
+delimiter: ;
+ident: Commentline
+terminal: "::="
+terminal: "comment"
+ident: Terminal
+terminal: ";"
+delimiter: ;
+ident: Commentline
+terminal: "::="
+terminal: "comment"
+ident: Terminal
+ident: Terminal
+terminal: ";"
+delimter: ;
+ident: Whitespaceline
+terminal: "::="
+terminal: "whitespace"
+ident: Terminal
+terminal: ";"
+delimiter: ;
+ident: Comment
+terminal: "::="
+terminal: "#"
+ident: Notendofline
+ident: Endofline
+delimiter: ;
+ident: Notendofline
+terminal: "::="
+ident: Letter
+ident: Notendofline
+delimiter: ;
+ident: Notendofline
+terminal: "::="
+ident: Digit
+ident: Notendofline
+delimiter: ;
+ident: Notendofline
+terminal: "::="
+ident: Symbol
+ident: Notendofline
+delimiter: ;
+ident: Notendofline
+terminal: "::="
+ident: Ws
+ident: Notendofline
+delimiter: ;
+ident: Notendofline
+terminal: "::="
+terminal:  "\"
+ident: Notendofline
+delimiter: ;
+ident: Notendofline
+terminal: "::="
+terminal:  ""
+delimiter: ;
+
+Endofline ::= "\n" ;
+
+Rule ::= Optionalws Ident Optionalws "::=" Optionalws Rsh Optionalws ";" ;
+
+Rsh ::= Ident Rsh ;
+Rsh ::= Terminal Rsh ;
+Rsh ::= "" ;
+
+Ws ::= " " Optionalws ;
+Ws ::= "\t" Optionalws ;
+
+Optionalws ::= Ws ;
+Optionalws ::= "" ;
+
+Ident ::= Letter Letterlist ;
+Terminal ::= '"' Text1 '"' ;
+Terminal ::= "'" Text2 "'" ;
+
+Text1 ::= Letter Text1 ;
+Text1 ::= Digit Text1 ;
+Text1 ::= Symbol Text1 ;
+Text1 ::= "'" Text1 ;
+Text1 ::= "" ;
+
+Text2 ::= Letter Text2 ;
+Text2 ::= Digit Text2 ;
+Text2 ::= Symbol Text2 ;
+Text2 ::= '"' Text2 ;
+Text2 ::= "" ;
+
+Letterlist ::= Letter Letterlist ;
+Letterlist ::= Digit Letterlist ;
+Letterlist ::= "." Letterlist ;
+Letterlist ::= "" ;
+
+Letter ::= Lowercase ;
+Letter ::= Uppercase ;
+
+Digit ::= "0" ;
+Digit ::= "1" ;
+Digit ::= "2" ;
+Digit ::= "3" ;
+Digit ::= "4" ;
+Digit ::= "5" ;
+Digit ::= "6" ;
+Digit ::= "7" ;
+Digit ::= "8" ;
+Digit ::= "9" ;
+
+Lowercase ::= "a" ;
+Lowercase ::= "b" ;
+Lowercase ::= "c" ;
+Lowercase ::= "d" ;
+Lowercase ::= "e" ;
+Lowercase ::= "f" ;
+Lowercase ::= "g" ;
+Lowercase ::= "h" ;
+Lowercase ::= "i" ;
+Lowercase ::= "j" ;
+Lowercase ::= "k" ;
+Lowercase ::= "l" ;
+Lowercase ::= "m" ;
+Lowercase ::= "n" ;
+Lowercase ::= "o" ;
+Lowercase ::= "p" ;
+Lowercase ::= "q" ;
+Lowercase ::= "r" ;
+Lowercase ::= "s" ;
+Lowercase ::= "t" ;
+Lowercase ::= "u" ;
+Lowercase ::= "v" ;
+Lowercase ::= "w" ;
+Lowercase ::= "x" ;
+Lowercase ::= "y" ;
+Lowercase ::= "z" ;
+
+Uppercase ::= "A" ;
+Uppercase ::= "B" ;
+Uppercase ::= "C" ;
+Uppercase ::= "D" ;
+Uppercase ::= "E" ;
+Uppercase ::= "F" ;
+Uppercase ::= "G" ;
+Uppercase ::= "H" ;
+Uppercase ::= "I" ;
+Uppercase ::= "J" ;
+Uppercase ::= "K" ;
+Uppercase ::= "L" ;
+Uppercase ::= "M" ;
+Uppercase ::= "N" ;
+Uppercase ::= "O" ;
+Uppercase ::= "P" ;
+Uppercase ::= "Q" ;
+Uppercase ::= "R" ;
+Uppercase ::= "S" ;
+Uppercase ::= "T" ;
+Uppercase ::= "U" ;
+Uppercase ::= "V" ;
+Uppercase ::= "W" ;
+Uppercase ::= "X" ;
+Uppercase ::= "Y" ;
+Uppercase ::= "Z" ;
+
+Symbol ::= "|" ;
+Symbol ::= "-" ;
+Symbol ::= "!" ;
+Symbol ::= "#" ;
+Symbol ::= "$" ;
+Symbol ::= "%" ;
+Symbol ::= "&" ;
+Symbol ::= "(" ;
+Symbol ::= ")" ;
+Symbol ::= "*" ;
+Symbol ::= "+" ;
+Symbol ::= "," ;
+Symbol ::= "." ;
+Symbol ::= "/" ;
+Symbol ::= ":" ;
+Symbol ::= ";" ;
+Symbol ::= "<" ;
+Symbol ::= "=" ;
+Symbol ::= ">" ;
+Symbol ::= "?" ;
+Symbol ::= "@" ;
+Symbol ::= "[" ;
+Symbol ::= "\\" ;
+Symbol ::= "]" ;
+Symbol ::= "^" ;
+Symbol ::= "_" ;
+Symbol ::= "`" ;
+Symbol ::= "{" ;
+Symbol ::= "}" ;
+Symbol ::= "~" ;
