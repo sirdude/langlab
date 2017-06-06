@@ -322,9 +322,9 @@ terminal ::=
 string "d"
 terminal ;
 ident Lowercase
-teriminal ::=
+terminal ::=
 string "e"
-teriminal ;
+terminal ;
 ident Lowercase
 terminal ::=
 string "f"
@@ -528,7 +528,7 @@ terminal ;
 ident Symbol
 terminal ::= 
 string "#" 
-terinal ;
+terminal ;
 ident Symbol 
 terminal ::=
 string "$"
