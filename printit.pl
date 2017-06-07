@@ -76,4 +76,23 @@ insert_rule("Digit", "7");
 insert_rule("Digit", "8");
 insert_rule("Digit", "9");
 
+insert_rule("Uppercase", "A");
+insert_rule("Uppercase", "B");
+insert_rule("Uppercase", "C");
+insert_rule("Uppercase", "D");
+insert_rule("Uppercase", "E");
+insert_rule("Uppercase", "F");
+insert_rule("Uppercase", "G");
+
+insert_rule("Lowercase", "a");
+insert_rule("Lowercase", "b");
+insert_rule("Lowercase", "c");
+insert_rule("Lowercase", "d");
+insert_rule("Lowercase", "e");
+insert_rule("Lowercase", "f");
+insert_rule("Lowercase", "g");
+
+insert_rule("Letter", "Lowercase");
+insert_rule("Letter", "Uppercase");
+
 generate_code();
