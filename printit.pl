@@ -38,6 +38,8 @@ sub generate_is {
 	print "\n\treturn 0;\n";
 
 	print "\n}\n\n";
+
+	return 1;
 }
 
 sub generate_do {
@@ -56,6 +58,8 @@ sub generate_do {
 	print "\n\treturn 0;\n";
 
 	print "\n}\n\n";
+
+	return 1;
 }
 
 sub generate_code {

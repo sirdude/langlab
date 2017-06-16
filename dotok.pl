@@ -18,6 +18,8 @@ sub valid_type {
 		return 1;
 	} elsif ($input eq "ident") {
 		return 1;
+	} elsif ($input eq "whitespace") {
+		return 1;
 	}
 	return 0;
 }

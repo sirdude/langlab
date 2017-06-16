@@ -27,6 +27,30 @@ Steps:
 	Identify ways to expand the program to do useful things:
 		Identify sub sets.
 		Identify troublesome constructs.
+
+
+Stages for a useful tool:
+	convert file to chars
+	convert chars to tokens
+	convert tokens to ast
+	process ast and produce output
+		(could be another ast or another file, or actions)
+
+3 functions at each stage.
+	read_input_from_previous_stage
+	read_datafile_for_this_stage
+	write_datafile_for_this_stage
+
+If you do the following the output should be the same:
+	read_datafile_for_this_stage, write_datafile_for_this_stage
+
+	or
+
+	read an input file working up to this stage and then write out
+	the datafile for this stage, vs reading the datafile and then
+	writing the datafile.
+	
+
 		
 
 This code is released into the public domain, under the: CC0 License
