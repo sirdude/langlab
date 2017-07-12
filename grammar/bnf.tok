@@ -164,7 +164,6 @@ terminal ::=
 string "\t"
 ident Optionalws
 terminal ;
-
 ident Optionalws
 terminal ::=
 ident Ws

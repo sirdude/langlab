@@ -20,11 +20,13 @@ sub valid_type {
 		return 1;
 	} elsif ($input eq "whitespace") {
 		return 1;
+	} elsif ($input eq "unknown") {
+		return 1;
 	}
 	return 0;
 }
 
-sub read_file {
+sub read_tok_file {
 	my ($infile) = @_;
 	my ($fh, $type, $value, $c);
 
@@ -36,9 +38,9 @@ sub read_file {
 		$c = $c + 1;
 
 		if ($line =~ /^#(.*)/) {
-			# skip comments
+			# Skip comments in our .tok file.
 		} elsif ($line =~ /^$/) {
-			# skip blank lines
+			# Skip blank lines in our .tok file.
 		} elsif ($line =~ /^(\w+) (.*)$/) {
 			$type = $1;
 			$value = $2;
@@ -48,8 +50,12 @@ sub read_file {
 			} else {
 				my $node;
 				$node->{"file"} = $infile;
+
+				# XXX column and line should be 
+				# determined from the original source file.
 				$node->{"line"} = $c;
-				$node->{"column"} = 0; # XXX This should be figured out?
+				$node->{"column"} = 0; 
+
 				$node->{"type"} = $type;
 				$node->{"value"} = $value;
 
@@ -64,7 +70,7 @@ sub read_file {
 	return 1;
 }
 
-sub write_file {
+sub write_tok_file {
 	my ($outfile) = @_;
 	my ($fh);
 
@@ -94,6 +100,6 @@ my ($filename) = @ARGV;
 if (!$filename || $filename eq "") {
 	usage();
 } else {
-	read_file($filename);
-	write_file($filename . ".new");
+	read_tok_file($filename);
+	write_tok_file($filename . ".new");
 }
