@@ -9,7 +9,7 @@ use LangLab::Symbols;
 
 use Getopt::Long;
 
-my (%terminals, @tokens, %Options);
+my (@tokens, %Options);
 
 sub usage {
 	print "\tUsage: $0 [--debug] filename(s)\n";
@@ -18,17 +18,75 @@ sub usage {
         return 1;
 }
 
-sub add_node {
+
+sub make_node {
+	my ($tok, $file, $line, $pos) = @_;
+
+	if ($Options{"debug"}) {
+		print "make_node($tok, $file, $line, $pos)\n";
+	}
+
+	my $node;
+
+	$node->{"file"} = $file;
+	$node->{"line"} = $line;
+	$node->{"pos"} = $pos;
+	$node->{"value"} = $tok;
+
+	if ($tok eq $Symbols::EOF) {
+		$node->{"type"} = $Symbols::EOF;
+	} elsif ($tok eq $Symbols::EOL) {
+		$node->{"type"} = $Symbols::EOL;
+	} else {
+		$node->{"type"} = "token";
+	}
+
+	return $node;
 }
 
 sub process_line {
+	my ($line, $c, $file) = @_;
+	my $len = length($line) - 1;
+	my $x = 0;
+
+	while($x < $len) {
+		my $char = substr($line,$x,1);
+		my $f = get_startchar($char);
+		my $done = 0;
+		my $sub;
+
+		while (!$done && $f) {
+			$sub = substr($line,$x,$f);
+
+			if (is_terminal($sub)) {
+				$done = 1;
+				make_node($sub,$file, $c, $x);
+				$x = $x + $f;
+			} else {
+				$f = $f - 1;
+			}
+		}
+
+		if (!$done) {
+			print "Warning at line: $c unknown terminal at $x\n";
+			print "$line\n";
+
+			$sub = substr($line,$x,1);
+			make_node($sub, $file, $c, $x);
+			$x = $x + 1;
+		}
+
+	}
+	make_node($Symbols::EOL,$file, $c, $x);
+
+	return 1;
 }
 
 sub process_file {
-	my ($infile) = @_;
+	my ($file) = @_;
 	my ($fh, $error, $num);
 
-	if (!open($fh, "<", $file) {
+	if (!open($fh, "<", $file)) {
 		print "Error opening $file\n";
 		return 1;
 	}
@@ -45,7 +103,8 @@ sub process_file {
 
 	close($fh);
 
-	add_node($Symbols::EOF, $file, $num, 0);
+	my $node = make_node($Symbols::EOF, $file, $num, 0);
+	push(@tokens, $node);
 
 	return $error;
 }
