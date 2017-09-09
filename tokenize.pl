@@ -9,7 +9,7 @@ use LangLab::Symbols;
 
 use Getopt::Long;
 
-my (%terminals, %startchars, @tokens, @parse_tokens, %rules, %Options);
+my (@tokens, @parse_tokens, %rules, %Options);
 
 sub usage {
 	print "\tUsage: $0 [--debug] filename(s)\n";
@@ -28,71 +28,21 @@ sub add_terminal {
 	my $l = length($tmp);
 	my $first = substr($tmp,0,1);
 
-	if (exists($terminals{$tmp})) {
-		$terminals{$tmp} = $terminals{$tmp} + 1;
+	if (Symbols::is_terminal($tmp)) {
+		$Symbols::terminals{$tmp} = $Symbols::terminals{$tmp} + 1;
 	} else {
-		$terminals{$tmp} = 1;
+		$Symbols::terminals{$tmp} = 1;
 	}
 
-	if (exists($startchars{$first})) {
-		my $r = $startchars{$first};
+	if (is_startchar($first)) {
+		my $r = Symbols::get_startchar($first);
 		if ($r < $l) {
-			$startchars{$first} = $l;
+			Symbols::set_startchar($first, $l);
 		}
 	} else {
-		$startchars{$first} = $l;
+		Symbols::set_startchar($first, $l);
 	}
 
-	return 1;
-}
-
-sub load_terminals {
-	my ($infile) = @_;
-	my ($fh, $c);
-	$c = 0;
-
-	if ($Options{"debug"}) {
-		print "\ncalling: load_terminals($infile)\n";
-	}
-
-	if (!open($fh, "<", $infile)) {
-		print "Error could not read terminals from file: $infile\n";
-		return 0;
-	}
-
-	while(<$fh>) {
-		my $tline = chomp $_;
-		$c = $c + 1;
-
-		if (!add_terminal($tline)) {
-			print "Error in read terminals at line: $c\n";
-		}
-	}
-	close($fh);
-
-	return 1;
-}
-
-sub save_terminals {
-	my ($infile) = @_;
-	my ($fh, $c);
-
-	if ($Options{"debug"}) {
-		print "\ncalling: load_terminals($infile)\n";
-	}
-
-	if (!open($fh, ">", $infile)) {
-		print "Error could not write terminals to file: $infile\n";
-		return 0;
-	}
-
-	$c = 0;
-	foreach my $i (keys %terminals) {
-		print $fh "$i\n";
-		$c = $c +1;
-	}
-
-	close($fh);
 	return 1;
 }
 
@@ -166,14 +116,14 @@ sub process_line {
 
 	while($x < $len) {
 		my $char = substr($line,$x,1);
-		my $f = $startchars{$char};
+		my $f = Symbols::get_startchar($char);
 		my $done = 0;
 		my $sub;
 
 		while (!$done && $f) {
 			$sub = substr($line,$x,$f);
 
-			if (exists($terminals{$sub})) {
+			if (Symbols::is_terminal($sub)) {
 				$done = 1;
 				add_node($sub,$file, $c, $x);
 				$x = $x + $f;
@@ -229,24 +179,26 @@ sub print_terminal_info {
 
 	print "\nCalling: print_terminal_info()\n";
 
-	foreach my $i (keys %terminals) {
+	foreach my $i (keys %Symbols::terminals) {
 		$t = $t + 1;
-		if ($terminals{$i} > 1) {
+		if ($Symbols::terminals{$i} > 1) {
 			print "Error Duplicate Terminal \"$i\" : " .
-				$terminals{$i} . "\n";
+				$Symbols::terminals{$i} . "\n";
 		} elsif ($Options{'debug'}) {
-			print "Terminal \"$i\" : $terminals{$i}\n";
+			print "Terminal \"$i\" : $Symbols::terminals{$i}\n";
 		}
 	}
 
 	print "\n";
 
-	foreach my $i (keys %startchars) {
+	foreach my $i (keys %Symbols::startchars) {
 		$c = $c + 1;
-		if ($startchars{$i} > 1) {
-			print "Startchars \"$i\" : $startchars{$i}\n";
+		if (Symbols::get_startchar($i) > 1) {
+			print "Startchars \"$i\" : " .
+				Symbols::get_startchar($i) . "\n";
 		} elsif($Options{'debug'}) {
-			print "Startchars \"$i\" : $startchars{$i}\n";
+			print "Startchars \"$i\" : " .
+				Symbols::get_startchar($i) . "\n";
 		}
 	}
 
@@ -266,7 +218,7 @@ sub main {
 		print "EOL is set to: $Symbols::EOL\n";
 	}
 
-	if (!load_terminals("terminals.txt")) {
+	if (!Symbols::load_terminals("terminals.txt")) {
 		return 1;
 	}
 

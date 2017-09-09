@@ -9,9 +9,12 @@ our @EXPORT = qw(
 	$TAB
 	$NEWLINE
 	load_terminals
+	save_terminals
 	is_terminal
 	add_terminal
+	is_startchar
 	get_startchar
+	set_startchar
 	);
 
 our $EOF = "EOF_XXX";
@@ -19,8 +22,8 @@ our $EOL = "EOL_XXX";
 our $TAB = "\t";
 our $NEWLINE = "\n";
 
-my %terminals; 
-my %startchars;
+our %terminals; 
+our %startchars;
 
 sub add_terminal {
 	my ($tmp) = $_;
@@ -94,10 +97,28 @@ sub save_terminals {
 	return 1;
 }
 
+sub is_startchar {
+	my ($arg) = @_;
+
+	return exists($startchars{$arg});
+}
+
 sub get_startchar {
 	my ($arg) = @_;
 
-	return $startchar{$arg};
+	return $startchars{$arg};
+}
+
+sub set_startchar {
+	my ($arg,$value) = @_;
+
+	if (!$value) {
+		print "ERROR: set_startchar called with out value\n";
+		return 0;
+	}
+
+	$startchars{$arg} = $value;
+	return 1;
 }
 
 1;

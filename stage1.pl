@@ -51,14 +51,14 @@ sub process_line {
 
 	while($x < $len) {
 		my $char = substr($line,$x,1);
-		my $f = get_startchar($char);
+		my $f = Symbols::get_startchar($char);
 		my $done = 0;
 		my $sub;
 
 		while (!$done && $f) {
 			$sub = substr($line,$x,$f);
 
-			if (is_terminal($sub)) {
+			if (Symbols::is_terminal($sub)) {
 				$done = 1;
 				make_node($sub,$file, $c, $x);
 				$x = $x + $f;
@@ -117,13 +117,15 @@ sub main {
 		return 1;
 	}
 
-	if (!load_terminals("terminals.txt")) {
+	if (!Symbols::load_terminals("terminals.txt")) {
 		return 1;
 	}
 
 	foreach my $i (@ARGV) {
 		process_file($i);
 	}
+
+	# XXX do the work here...
 
 	return 0;
 }
