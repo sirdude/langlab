@@ -6,6 +6,7 @@ use warnings;
 use lib ".";
 use LangLab::Parser;
 use LangLab::Symbols;
+use LangLab::Tokens;
 
 use Getopt::Long;
 
@@ -16,32 +17,6 @@ sub usage {
         print "Read in grammar files and convert to a list of characters.\n\n";
 
         return 1;
-}
-
-
-sub make_node {
-	my ($tok, $file, $line, $pos) = @_;
-
-	if ($Options{"debug"}) {
-		print "make_node($tok, $file, $line, $pos)\n";
-	}
-
-	my $node;
-
-	$node->{"file"} = $file;
-	$node->{"line"} = $line;
-	$node->{"pos"} = $pos;
-	$node->{"value"} = $tok;
-
-	if ($tok eq $Symbols::EOF) {
-		$node->{"type"} = $Symbols::EOF;
-	} elsif ($tok eq $Symbols::EOL) {
-		$node->{"type"} = $Symbols::EOL;
-	} else {
-		$node->{"type"} = "token";
-	}
-
-	return $node;
 }
 
 sub process_line {
@@ -60,7 +35,7 @@ sub process_line {
 
 			if (Symbols::is_terminal($sub)) {
 				$done = 1;
-				make_node($sub,$file, $c, $x);
+				Tokens::make_node($sub,"terminal", $file, $c, $x);
 				$x = $x + $f;
 			} else {
 				$f = $f - 1;
@@ -72,12 +47,12 @@ sub process_line {
 			print "$line\n";
 
 			$sub = substr($line,$x,1);
-			make_node($sub, $file, $c, $x);
+			Tokens::make_node($sub, "unknown", $file, $c, $x);
 			$x = $x + 1;
 		}
 
 	}
-	make_node($Symbols::EOL,$file, $c, $x);
+	Tokens::make_node($Symbols::EOL,"EOL", $file, $c, $x);
 
 	return 1;
 }
@@ -103,7 +78,7 @@ sub process_file {
 
 	close($fh);
 
-	my $node = make_node($Symbols::EOF, $file, $num, 0);
+	my $node = Tokens::make_node($Symbols::EOF, "EOF", $file, $num, 0);
 	push(@tokens, $node);
 
 	return $error;

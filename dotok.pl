@@ -2,9 +2,10 @@
 
 use strict;
 use warnings;
-use Io::Prompter;
+use IO::Prompter;
 
-my (@tokens);
+use lib ".";
+use LangLab::Tokens;
 
 sub valid_type {
 	my ($input) = @_;
@@ -25,68 +26,6 @@ sub valid_type {
 		return 1;
 	}
 	return 0;
-}
-
-sub read_tok_file {
-	my ($infile) = @_;
-	my ($fh, $type, $value, $c);
-
-	open($fh, "<", $infile) or die "Unable to open $infile for reading.\n";
-	$c = 0;
-	while(<$fh>) {
-		my $line = $_;
-
-		$c = $c + 1;
-
-		if ($line =~ /^#(.*)/) {
-			# Skip comments in our .tok file.
-		} elsif ($line =~ /^$/) {
-			# Skip blank lines in our .tok file.
-		} elsif ($line =~ /^(\w+) (.*)$/) {
-			$type = $1;
-			$value = $2;
-
-			if (!valid_type($type)) {
-				print "Error line $c: invalid type $type\n";
-			} else {
-				my $node;
-				$node->{"file"} = $infile;
-
-				# XXX column and line should be 
-				# determined from the original source file.
-				$node->{"line"} = $c;
-				$node->{"column"} = 0; 
-
-				$node->{"type"} = $type;
-				$node->{"value"} = $value;
-
-				push(@tokens, $node);
-				
-			}
-		} else {
-			print "Error line $c: $line\n";
-		}
-	}
-
-	return 1;
-}
-
-sub write_tok_file {
-	my ($outfile) = @_;
-	my ($fh);
-
-	open($fh, ">", $outfile) or die "Unable to open $outfile for writing.\n";
-
-	if (!$fh) {
-		return 0;
-	}
-	foreach my $node (@tokens) {
-		print $fh $node->{"type"} . " " . $node->{"value"} . "\n";
-	}
-
-	close($fh);
-
-	return 1;
 }
 
 sub usage {
@@ -121,6 +60,6 @@ if (!$filename || $filename eq "") {
 	if (!check_file($filename)) {
 		exit(1);
 	}
-	read_tok_file($filename);
-	write_tok_file($filename . ".new");
+	Tokens::read_tok_file($filename);
+	Tokens::write_tok_file($filename . ".new");
 }
