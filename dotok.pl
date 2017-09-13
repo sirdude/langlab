@@ -41,9 +41,9 @@ sub check_file {
 	if ($filename =~ /(.*).tok/) {
 		return 1;
 	} else {
-		print "Warning $filename does not end in .tok do you want to " .
-			"process it anyway?\n";
-		my $answer = prompt "(y/n) ";
+		print "Warning $filename does not end in: .tok\n" .
+			"Do you want to process it anyway?\n";
+		my $answer = prompt "(y/n) ", -stdio;
 		if ($answer eq "y") {
 			return 1;
 		}
