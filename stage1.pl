@@ -35,7 +35,8 @@ sub process_line {
 
 			if (Symbols::is_terminal($sub)) {
 				$done = 1;
-				Tokens::make_node($sub,"terminal", $file, $c, $x);
+				Tokens::make_node($sub,"terminal", $file, $c,
+					$x);
 				$x = $x + $f;
 			} else {
 				$f = $f - 1;

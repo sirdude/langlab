@@ -3,6 +3,10 @@ package Tokens;
 use strict;
 use warnings;
 
+use lib ".";
+use lib "./LangLab";
+use Symbols;
+
 our @EXPORT = qw(
 	valid_type
 	read_tok_file
@@ -36,7 +40,7 @@ sub make_node {
 	my ($tok, $type, $file, $line, $pos) = @_;
 
 # XXX How do we enable this now...
-#		print "make_node($tok, $file, $line, $pos)\n";
+	print "make_node($tok, $file, $line, $pos)\n";
 
 	my $node;
 
