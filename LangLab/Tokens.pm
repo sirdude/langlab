@@ -54,6 +54,12 @@ sub make_node {
 		$node->{"type"} = "EOF";
 	} elsif ($tok eq $Symbols::EOL) {
 		$node->{"type"} = "EOL";
+	} elsif ($tok =~ /#(.*)/) {
+		$node->{"type"} = "comment";
+	} elsif ($tok =~ /\"(.*)/) {
+		$node->{"type"} = "string";
+	} elsif ($tok =~ /\'(.*)/) {
+		$node->{"type"} = "string";
 	} else {
 		$node->{"type"} = "token";
 	}
@@ -107,7 +113,7 @@ sub write_tok_file {
 		return 0;
 	}
 	foreach my $node (@tokens) {
-		print $fh $node->{"type"} . " " . $node->{"value"} . "\n";
+		print $fh $node->{"type"} . ": " . $node->{"value"} . "\n";
 	}
 
 	close($fh);
