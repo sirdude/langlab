@@ -7,27 +7,6 @@ use IO::Prompter;
 use lib ".";
 use LangLab::Tokens;
 
-sub valid_type {
-	my ($input) = @_;
-
-	if ($input eq "delimiter") {
-		return 1;
-	} elsif ($input eq "terminal") {
-		return 1;
-	} elsif ($input eq "string") {
-		return 1;
-	} elsif ($input eq "comment") {
-		return 1;
-	} elsif ($input eq "ident") {
-		return 1;
-	} elsif ($input eq "whitespace") {
-		return 1;
-	} elsif ($input eq "unknown") {
-		return 1;
-	}
-	return 0;
-}
-
 sub usage {
 	print "Usage: $0 (infile)\n";
 	print "Read in a tokenize file\n";

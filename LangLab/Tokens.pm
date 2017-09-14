@@ -50,18 +50,20 @@ sub make_node {
 	$node->{"value"} = $tok;
 	$node->{"type"} = $type;
 
-	if ($tok eq $Symbols::EOF) {
-		$node->{"type"} = "EOF";
-	} elsif ($tok eq $Symbols::EOL) {
-		$node->{"type"} = "EOL";
-	} elsif ($tok =~ /#(.*)/) {
-		$node->{"type"} = "comment";
-	} elsif ($tok =~ /\"(.*)/) {
-		$node->{"type"} = "string";
-	} elsif ($tok =~ /\'(.*)/) {
-		$node->{"type"} = "string";
-	} else {
-		$node->{"type"} = "token";
+	if (!valid_type($type)) {
+		if ($tok eq $Symbols::EOF) {
+			$node->{"type"} = "EOF";
+		} elsif ($tok eq $Symbols::EOL) {
+			$node->{"type"} = "EOL";
+		} elsif ($tok =~ /#(.*)/) {
+			$node->{"type"} = "comment";
+		} elsif ($tok =~ /\"(.*)/) {
+			$node->{"type"} = "string";
+		} elsif ($tok =~ /\'(.*)/) {
+			$node->{"type"} = "string";
+		} else {
+			$node->{"type"} = "token";
+		}
 	}
 
 	return $node;
@@ -83,7 +85,7 @@ sub read_tok_file {
 			# Skip comments in our .tok file.
 		} elsif ($line =~ /^$/) {
 			# Skip blank lines in our .tok file.
-		} elsif ($line =~ /^(\w+) (.*)$/) {
+		} elsif ($line =~ /^(\w+): (.*)$/) {
 			$type = $1;
 			$value = $2;
 
