@@ -4,6 +4,26 @@ use strict;
 use warnings;
 my %rules;
 
+sub is_rule {
+	my ($tmp) = @_;
+
+	if (exists($rules{$tmp})) {
+		return 1;
+	}
+
+	return 0;
+}
+
+sub is_terminal {
+	my ($tmp) = @_;
+
+	if ($tmp =~ /^\'[^\']*'$/) {
+		return 1;
+	}
+
+	return 0;
+}
+
 sub insert_rule {
 	my ($lhs, $rhs) = @_;
 
@@ -30,9 +50,13 @@ sub generate_is {
 
 	my @tmp = @{$rules{$value}};
 	foreach my $x (@tmp) {
-		print "\tif (\$ptr eq $x) {\n";
-		print "\t\treturn 1;\n";
-		print "\t}\n";
+		if (is_terminal($x) || is_rule($x)) {
+			print "\tif (\$ptr eq $x) {\n";
+			print "\t\treturn 1;\n";
+			print "\t}\n";
+		} 
+
+		print "Unable to parse complex rule: {" . $value . "} = $x\n";
 	}
 
 	print "\n\treturn 0;\n";
