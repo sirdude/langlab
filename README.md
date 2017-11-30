@@ -30,16 +30,17 @@ Steps:
 
 
 Stages for a useful tool:
-	convert file to chars
-	convert chars to tokens
-	convert tokens to ast
+	convert file to chars	.bnf -> .bnf.new, .chr
+	convert chars to tokens .bnf -> .chr.new, .tok
+	convert tokens to ast   .tok -> .tok.new, .ast
 	process ast and produce output
 		(could be another ast or another file, or actions)
 
-3 functions at each stage.
+4 functions at each stage.
 	read_input_from_previous_stage
 	read_datafile_for_this_stage
 	write_datafile_for_this_stage
+	write_datafile_for_next_stage
 
 If you do the following the output should be the same:
 	read_datafile_for_this_stage, write_datafile_for_this_stage

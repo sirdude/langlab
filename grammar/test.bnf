@@ -1,0 +1,111 @@
+# Small subset language to get things going
+entry Program ;
+
+comment "#" ;
+
+whitespace " " ;
+whitespace "\t" ;
+whitespace "\r" ;
+whitespace "\n" ;
+whitespace "\f" ;
+
+Program ::= Statements ;
+
+Statements ::= Statements Statement ;
+
+Statement ::= "if" Expr "then" Statement ;
+Statement ::= "if" Expr "then" Statement "else" Statement ;
+Statement ::= "" ;
+
+Expr ::= Term Relop Term ;
+Expr ::= Term ;
+
+Term ::= Id ;
+Term ::= Num ;
+
+Relop ::= "<" ;
+Relop ::= "<=" ;
+Relop ::= "=" ;
+Relop ::= "<>" ;
+Relop ::= ">" ;
+Relop ::= ">=" ;
+
+Id ::= Letter Letterlist ;
+
+Letterlist ::= Letter Letterlist ;
+Letterlist ::= Digit Letterlist ;
+Letterlist ::= "" ;
+
+Num ::= Digit Digitlist ;
+
+Digitlist ::= Digit Digitlist ;
+Digitlist ::= "" ;
+
+Digit ::= "0" ;
+Digit ::= "1" ;
+Digit ::= "2" ;
+Digit ::= "3" ;
+Digit ::= "4" ;
+Digit ::= "5" ;
+Digit ::= "6" ;
+Digit ::= "7" ;
+Digit ::= "8" ;
+Digit ::= "9" ;
+
+Letter ::= Lowercase ;
+Letter ::= Uppercase ;
+
+Lowercase ::= "a" ;
+Lowercase ::= "b" ;
+Lowercase ::= "c" ;
+Lowercase ::= "d" ;
+Lowercase ::= "e" ;
+Lowercase ::= "f" ;
+Lowercase ::= "g" ;
+Lowercase ::= "h" ;
+Lowercase ::= "i" ;
+Lowercase ::= "j" ;
+Lowercase ::= "k" ;
+Lowercase ::= "l" ;
+Lowercase ::= "m" ;
+Lowercase ::= "n" ;
+Lowercase ::= "o" ;
+Lowercase ::= "p" ;
+Lowercase ::= "q" ;
+Lowercase ::= "r" ;
+Lowercase ::= "s" ;
+Lowercase ::= "t" ;
+Lowercase ::= "u" ;
+Lowercase ::= "v" ;
+Lowercase ::= "w" ;
+Lowercase ::= "x" ;
+Lowercase ::= "y" ;
+Lowercase ::= "z" ;
+
+Uppercase ::= "A" ;
+Uppercase ::= "B" ;
+Uppercase ::= "C" ;
+Uppercase ::= "D" ;
+Uppercase ::= "E" ;
+Uppercase ::= "F" ;
+Uppercase ::= "G" ;
+Uppercase ::= "H" ;
+Uppercase ::= "I" ;
+Uppercase ::= "J" ;
+Uppercase ::= "K" ;
+Uppercase ::= "L" ;
+Uppercase ::= "M" ;
+Uppercase ::= "N" ;
+Uppercase ::= "O" ;
+Uppercase ::= "P" ;
+Uppercase ::= "Q" ;
+Uppercase ::= "R" ;
+Uppercase ::= "S" ;
+Uppercase ::= "T" ;
+Uppercase ::= "U" ;
+Uppercase ::= "V" ;
+Uppercase ::= "W" ;
+Uppercase ::= "X" ;
+Uppercase ::= "Y" ;
+Uppercase ::= "Z" ;
+

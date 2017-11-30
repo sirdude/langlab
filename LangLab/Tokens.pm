@@ -11,6 +11,7 @@ our @EXPORT = qw(
 	valid_type
 	read_tok_file
 	write_tok_file
+	write_file
 	);
 
 our @tokens;
@@ -38,11 +39,10 @@ sub valid_type {
 
 sub make_node {
 	my ($tok, $type, $file, $line, $pos) = @_;
+	my $node;
 
 # XXX How do we enable this now...
-	print "make_node($tok, $file, $line, $pos)\n";
-
-	my $node;
+#	print "make_node($tok, $type, $file, $line, $pos)\n";
 
 	$node->{"file"} = $file;
 	$node->{"line"} = $line;
@@ -74,7 +74,8 @@ sub read_tok_file {
 	my ($infile) = @_;
 	my ($fh, $type, $value, $c);
 
-	open($fh, "<", $infile) or die "Unable to open $infile for reading.\n";
+	open($fh, "<", $infile) or
+		die "Unable to open $infile for reading.\n";
 	$c = 0;
 	while(<$fh>) {
 		my $line = $_;
@@ -109,13 +110,43 @@ sub write_tok_file {
 	my ($outfile) = @_;
 	my ($fh);
 
-	open($fh, ">", $outfile) or die "Unable to open $outfile for writing.\n";
+	open($fh, ">", $outfile) or 
+		die "Unable to open $outfile for writing.\n";
 
 	if (!$fh) {
 		return 0;
 	}
 	foreach my $node (@tokens) {
-		print $fh $node->{"type"} . ": " . $node->{"value"} . "\n";
+		print $fh "make_node(" .$node->{"value"} . ", " .
+			$node->{"type"} . ", " . 
+			$node->{"file"} . ", " . 
+			$node->{"line"} . ", " . 
+			$node->{"pos"} . ")\n"; 
+	}
+
+	close($fh);
+
+	return 1;
+}
+
+sub write_file {
+	my ($outfile) = @_;
+	my ($fh);
+
+	open($fh, ">", $outfile) or 
+		die "Unable to open $outfile for writing.\n";
+
+	if (!$fh) {
+		return 0;
+	}
+	foreach my $node (@tokens) {
+		if ($node->{"type"} eq "EOF") {
+			# We are done here don't print the symbol...
+		} elsif ($node->{"type"} eq "EOL") {
+			print $fh "\n";
+		} else {
+			print $fh $node->{"value"};
+		}
 	}
 
 	close($fh);
