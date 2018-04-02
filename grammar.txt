@@ -11,24 +11,28 @@ Many programs are described in BNF (Backus Naur Form).  If your unsure what
 BNF syntax is, look it up and then come back here.  Our form of BNF is
 going to drop the <>'s normally used and instead put double quotes around
 terminal symbols.  Our BNF syntax is going to support the following items, that
-you need to know about: comments, terminals, non terminals, 
-production rules, start symbol, Whitespace, Null symbols and other special
-symbols.
+you need to know about:
 
+definitions, comments, rules, terminals, non_terminals
 
-We'll also define two types of non terminals.
-Major non terminals and minor non terminals.  A minor non terminal is basically
-a sub rule that we may want to skip over or expand to make more readable
-grammars.  For example, when defining Operators and having multiple levels
-for operator precedence to work effectively, we may have a bunch of operator 
-rules and when printing the grammar we may want to just print a summary of
-all of the operator rules.
+Definitions are keywords that are used to define something in our
+programming langauge.  We are using the following definitions:
 
-A Major non terminal is a string consisting of a combination of the 
-following symbols: 
-	Lowercase Letters, Uppercase Letters, Underscore(_)
-A Minor non terminal is a major terminal followed by a number, example:
-	Operator_5
+whitespace - chars that should be ignored
+comment - chars used to denote comments.
+	See comments section below for details.
+rule_operator - symbol to sepearate rule
+rule_end - symbol to denote the terminator of a rule
+start - nonterminal to start our rules with.
+
+Definitions have the following syntax:
+KEYWORD Terminal RULEEND
+examples:
+whitespace " " ;
+comment "#" ;
+rule_operator ":=" ;
+rule_end ";"
+start Program ;
 
 Comments:
 When you look at programming languages comments have two major forms.
@@ -57,10 +61,24 @@ You may specify multi character terminals, some examples: "\n", "||", "::=",
 The tokenizer is built to search for the largest match possible, so the more
 multi character terminals you have the less efficient the tokenizer will be.
 
+We'll also define two types of non terminals.
+Major non terminals and minor non terminals.  A minor non terminal is basically
+a sub rule that we may want to skip over or expand to make more readable
+grammars.  For example, when defining Operators and having multiple levels
+for operator precedence to work effectively, we may have a bunch of operator 
+rules and when printing the grammar we may want to just print a summary of
+all of the operator rules.
+
+A Major non terminal is a string consisting of a combination of the 
+following symbols: 
+	Lowercase Letters, Uppercase Letters, Underscore(_)
+A Minor non terminal is a major terminal followed by a number, example:
+	Operator_5
+
 Rules:
 Rules have the following syntax:
-	 LeftHand_Side RULE_OPERATOR RightHand_Side ENDOFRULE_SYMBOL
-We will use ::= as our RULE_OPERATOR and ; as our ENDOFRULE_SYMBOL
+	 LeftHand_Side RULE_OPERATOR RightHand_Side RULE_END
+We will use "::=" as our RULE_OPERATOR and ";" as our RULE_END
 The LeftHand_Side will be a single non terminal for now, since this is
 	the most useful at this stage, and keeps things simple.
 The Righthand_Side gets a bit complicated, it can be a terminal, a Null, or
@@ -70,6 +88,3 @@ The Righthand_Side gets a bit complicated, it can be a terminal, a Null, or
 	lines like this:
 		Rule := "X" ;
 		Rule := "Y" ;
-
-To identify the starting non terminal you use the key word entry, followed by the nonterminal and then a ;  Example:
-entry Start ;

@@ -139,6 +139,9 @@ sub write_file {
 	if (!$fh) {
 		return 0;
 	}
+
+	print $fh "# Woo\n";
+
 	foreach my $node (@tokens) {
 		if ($node->{"type"} eq "EOF") {
 			# We are done here don't print the symbol...
