@@ -16,47 +16,112 @@ sub usage {
 	return 1;
 }
 
+sub make_node {
+	my ($value, $type, $infile, $line, $pos) = @_;
+	my $node;
+
+	$node->{'value'} = $value;
+	$node->{'type'} = $type;
+	$node->{'infile'} = $infile;
+	$node->{'line'} = $line;
+	$node->{'pos'} = $pos;
+
+	return $node;
+}
+
 sub read_input {
 	my ($infile) = @_;
-	my $fh;
+	my ($fh, $count, $type, $linen);
 
-	open($fh, "<", $infile) or die "Unable to open $infile for reading.\n";
-	foreach my $i (@chars) {
-		print $fh $i->$value;
+	if (!open($fh, "<", $infile)) {
+		print "Unable to open $infile for reading.\n";
+		return 0;
+	}
+
+	while(<$fh>) {
+		my ($line) = $_;
+		chomp $line;
+		my $len = length($line);
+
+		$linen = $linen + 1;
+		$count = 0;
+		$type = 'char';
+
+		while($count < $len) {
+			my $i = substr($line, $count, 1);
+			my $tnode = make_node($i, $type, $infile, $linen,
+				$count);
+			push(@chars, $tnode);
+			$count = $count + 1;
+		}
+
+		my $tnode = make_node("EOL", "EOL", $infile, $linen, $count);
+		push(@chars, $tnode);
+		$count = $count + 1;
+		
 	}
 	close($fh);
+
+	return $count;
 }
 
 sub write_input {
-	my ($outfile) = @_;";
+	my ($outfile) = @_;
 	my $fh;
 
-	open($fh, ">", $outfile) or die "Unable to open $outfile for " .
-		"writing.\n";
+	if (!open($fh, ">", $outfile)) {
+		print "Unable to open $outfile for writing.\n";
+		return 0;
+	}
+
 	foreach my $i (@chars) {
-		print $fh $i->$value;
+		if ($i->{'type'} eq "EOL") {
+			print $fh "\n";
+		} elsif ($i->{'type'} eq "EOF") {
+			# Skip it...
+		} else {
+			print $fh $i->{'value'};
+		}
 	}
 	close($fh);
+
+	return 1;
 }
 
 sub write_next_input {
 	my ($outfile) = @_;
-	my $fh;
+	my ($fh, $count);
 
-	open($fh, ">", $outfile) or die "Unable to open $outfile for " .
-		"writing\n";
-	foreach my $i (@chars) {
-		print $fh $i;
+	if (!open($fh, ">", $outfile)) {
+		print "Unable to open $outfile for writing\n";
+		return 0;
 	}
+
+	foreach my $i (@chars) {
+		$count = $count + 1;
+		print $fh "Token: " . $count  . " ";
+		print $fh "Value: " . $i->{'value'}  . " ";
+		print $fh "Type: " . $i->{'type'}  . " ";
+		print $fh "File: " . $i->{'file'}  . " ";
+		print $fh "Line: " . $i->{'line'}  . " ";
+		print $fh "Pos: " . $i->{'pos'} . "\n";
+	}
+
 	close($fh);
+	return 1;
 }
 
+GetOptions(\%Options, "debug", "help");
+
 my ($infile) = @ARGV;
-if (!$infile || ) {
+if (!$infile || $Options{'help'}) {
 	usage();
 	exit(1);
 }
 
-read_input($infile);
-write_input($infile);
-write_next_input($infile);
+if (!read_input($infile)) {
+}
+if (!write_input($infile)) {
+}
+if (!write_next_input($infile)){
+}
