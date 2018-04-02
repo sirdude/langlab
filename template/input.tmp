@@ -1,0 +1,62 @@
+#!/usr/bin/perl\n";
+
+use strict;
+use warnings;
+use Getopt::Long;
+
+my (%Options);
+
+my @chars;
+
+sub usage {
+	print "Usage: $0 (infile.opt)\n";
+
+	print "Reads in a file, blah.bnf and outputs a stream of chars.\n";
+
+	return 1;
+}
+
+sub read_input {
+	my ($infile) = @_;
+	my $fh;
+
+	open($fh, "<", $infile) or die "Unable to open $infile for reading.\n";
+	foreach my $i (@chars) {
+		print $fh $i->$value;
+	}
+	close($fh);
+}
+
+sub write_input {
+	my ($outfile) = @_;";
+	my $fh;
+
+	open($fh, ">", $outfile) or die "Unable to open $outfile for " .
+		"writing.\n";
+	foreach my $i (@chars) {
+		print $fh $i->$value;
+	}
+	close($fh);
+}
+
+sub write_next_input {
+	my ($outfile) = @_;
+	my $fh;
+
+	open($fh, ">", $outfile) or die "Unable to open $outfile for " .
+		"writing\n";
+	foreach my $i (@chars) {
+		print $fh $i;
+	}
+	close($fh);
+}
+
+my ($infile) = @ARGV;
+if (!$infile || ) {
+	usage();
+	exit(1);
+}
+
+read_input($infile);
+write_input($infile);
+write_next_input($infile);

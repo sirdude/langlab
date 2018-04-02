@@ -21,80 +21,169 @@ sub usage {
 		"specifications.\n";
 	print "\toutput_new.pl - new replacement for this file.\n";
 	print "\tstats_new.pl - new stats file.\n";
+
+	return 1;
 }
 
 sub write_new_programs {
-	write_input_pl("input_new.pl");
-	write_tokenizer_pl("tokenizer_new.pl");
-	write_astwriter_pl("astwriter_new.pl");
-	write_output_pl("output_new.pl");
-	write_stats_pl("stats_new.pl");
+	if (!write_input_pl("input_new.pl")) {
+		return 0;
+	}
+	if (!write_tokenizer_pl("tokenizer_new.pl")) {
+		return 0;
+	}
+	if (!write_astwriter_pl("astwriter_new.pl")) {
+		return 0;
+	}
+	if (!write_output_pl("output_new.pl")) {
+		return 0;
+	}
+	return write_stats_pl("stats_new.pl");
+}
+
+sub process_input {
+	my ($line) = @_;
+
+	return 1;
 }
 
 sub write_input_pl {
 	my ($filename) = @_;
-	my $fh;
+	my ($fh, $tmp, $template);
+
+	$tmp = "template/input.tmp";
 
 	unlink ($filename);
 	open($fh, ">", $filename) or die "Unable to open $filename\n";
+	open($template, "<", $tmp) or die "Unable to open $tmp\n";
 
-	print $fh "#!/usr/bin/perl\n";
-	print $fh "\n";
-	print $fh "use strict;\n";
-	print $fh "use warnings;\n";
-	print $fh "use Getopt::Long;\n";
-	print $fh "\n";
-	print $fh "my (%Options);\n";
-	print $fh "\n";
-	print $fh "sub usage {\n";
-	print $fh "print \"Usage: \$0 (infile.opt)\\n\";\n";
-	print $fh "}\n";
-	print $fh "\n";
+	while(<$template>) {
+		my $line = $_;
 
-	print $fh "sub read_input {\n";
-	print $fh "\tmy (\$infile) = \@_;\n";
-	print $fh "}\n";
-	print $fh "\n";
+		$line = process_input($line);
+		print $fh $line;
+	}
+	close ($template);
+	close ($fh);
 
-	print $fh "sub write_input {\n";
-	print $fh "\tmy (\$infile) = \@_;\n";
-	print $fh "}\n";
-	print $fh "\n";
+	return 1;
+}
 
-	print $fh "sub write_next_input {\n";
-	print $fh "\tmy (\$infile) = \@_;\n";
-	print $fh "}\n";
-	print $fh "\n";
+sub process_tokenizer {
+	my ($line) = @_;
 
-	print $fh "my (\$infile) = \@ARGV;\n";
-	print $fh "if (!\$infile || ) {\n";
-	print $fh "\tusage();\n";
-	print $fh "\texit(1);\n";
-	print $fh "}\n";
-	print $fh "\n";
-
-	print $fh "read_input(\$infile);\n";
-	print $fh "write_input(\$infile);\n";
-	print $fh "write_next_input(\$infile);\n";
-
-	close($fh);
+	return 1;
 }
 
 sub write_tokenizer_pl {
+	my ($filename) = @_;
+	my ($fh, $tmp, $template);
+
+	$tmp = "template/tokenizer.tmp";
+
+	unlink ($filename);
+	open($fh, ">", $filename) or die "Unable to open $filename\n";
+	open($template, "<", $tmp) or die "Unable to open $tmp\n";
+
+	while(<$template>) {
+		my $line = $_;
+
+		$line = process_tokenizer($line);
+		print $fh $line;
+	}
+	close ($template);
+	close ($fh);
+
+	return 1;
+}
+
+sub process_astwriter {
+	my ($line) = @_;
+
+	return 1;
 }
 
 sub write_astwriter_pl {
+	my ($filename) = @_;
+	my ($fh, $tmp, $template);
+
+	$tmp = "template/astwriter.tmp";
+
+	unlink ($filename);
+	open($fh, ">", $filename) or die "Unable to open $filename\n";
+	open($template, "<", $tmp) or die "Unable to open $tmp\n";
+
+	while(<$template>) {
+		my $line = $_;
+
+		$line = process_astwriter($line);
+		print $fh $line;
+	}
+	close ($template);
+	close ($fh);
+
+	return 1;
+}
+
+sub process_output {
+	my ($line) = @_;
+
+	return 1;
 }
 
 sub write_output_pl {
-# XXX Need to do the others first...
+	my ($filename) = @_;
+	my ($fh, $tmp, $template);
+
+	$tmp = "template/output.tmp";
+
+	unlink ($filename);
+	open($fh, ">", $filename) or die "Unable to open $filename\n";
+	open($template, "<", $tmp) or die "Unable to open $tmp\n";
+
+	while(<$template>) {
+		my $line = $_;
+
+		$line = process_output($line);
+		print $fh $line;
+	}
+	close ($template);
+	close ($fh);
+
+	return 1;
+}
+
+sub process_stats {
+	my ($line) = @_;
+
+	return 1;
 }
 
 sub write_stats_pl {
+	my ($filename) = @_;
+	my ($fh, $tmp, $template);
+
+	$tmp = "template/stats.tmp";
+
+	unlink ($filename);
+	open($fh, ">", $filename) or die "Unable to open $filename\n";
+	open($template, "<", $tmp) or die "Unable to open $tmp\n";
+
+	while(<$template>) {
+		my $line = $_;
+
+		$line = process_stats($line);
+		print $fh $line;
+	}
+	close ($template);
+	close ($fh);
+
+	return 1;
 }
 
 sub read_input {
 	my ($infile) = @ARGV;
+
 }
 
 sub write_input {
