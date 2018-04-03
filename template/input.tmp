@@ -1,8 +1,9 @@
-#!/usr/bin/perl\n";
+#!/usr/bin/perl;
 
 use strict;
 use warnings;
 use Getopt::Long;
+use Data::Dumper;
 
 my (%Options);
 
@@ -22,7 +23,7 @@ sub make_node {
 
 	$node->{'value'} = $value;
 	$node->{'type'} = $type;
-	$node->{'infile'} = $infile;
+	$node->{'file'} = $infile;
 	$node->{'line'} = $line;
 	$node->{'pos'} = $pos;
 
@@ -38,6 +39,7 @@ sub read_input {
 		return 0;
 	}
 
+	$linen = 0;
 	while(<$fh>) {
 		my ($line) = $_;
 		chomp $line;
@@ -90,25 +92,43 @@ sub write_input {
 
 sub write_next_input {
 	my ($outfile) = @_;
-	my ($fh, $count);
+	my ($fh);
 
 	if (!open($fh, ">", $outfile)) {
 		print "Unable to open $outfile for writing\n";
 		return 0;
 	}
 
-	foreach my $i (@chars) {
-		$count = $count + 1;
-		print $fh "Token: " . $count  . " ";
-		print $fh "Value: " . $i->{'value'}  . " ";
-		print $fh "Type: " . $i->{'type'}  . " ";
-		print $fh "File: " . $i->{'file'}  . " ";
-		print $fh "Line: " . $i->{'line'}  . " ";
-		print $fh "Pos: " . $i->{'pos'} . "\n";
-	}
+
+	print $fh Dumper(@chars);
 
 	close($fh);
 	return 1;
+}
+
+sub get_new_name {
+	my ($infile) = @_;
+	my $ri = rindex($infile,'.');
+
+	if ($ri > 1) {
+		my $newname = substr($infile,0,$ri) . "_new.bnf";
+		return $newname;
+	}
+
+	return "";
+}
+
+sub get_next_name {
+	my ($infile) = @_;
+
+	my $ri = rindex($infile,'.');
+
+	if ($ri > 1) {
+		my $newname = substr($infile,0,$ri) . ".chr";
+		return $newname;
+	}
+
+	return "";
 }
 
 GetOptions(\%Options, "debug", "help");
@@ -120,8 +140,15 @@ if (!$infile || $Options{'help'}) {
 }
 
 if (!read_input($infile)) {
+	exit(1);
 }
-if (!write_input($infile)) {
+
+my $newfile = get_new_name($infile);
+if (!write_input($newfile)) {
+	exit(1);
 }
-if (!write_next_input($infile)){
+
+$newfile = get_next_name($infile);
+if (!write_next_input($newfile)){
+	exit(1);
 }
