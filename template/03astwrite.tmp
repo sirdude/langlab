@@ -7,12 +7,13 @@ use Data::Dumper;
 
 my (%Options);
 
-my @chars;
+my (@tokens, @ast);
 
 sub usage {
-	print "Usage: $0 (infile.opt)\n";
+	print "Usage: $0 INFILE.chr\n";
 
-	print "Reads in a file, blah.bnf and outputs a stream of chars.\n";
+	print "Reads in a dump of our character tree and outputs a " .
+		"stream of tokens.\n";
 
 	return 1;
 }
@@ -32,61 +33,34 @@ sub make_node {
 
 sub read_input {
 	my ($infile) = @_;
-	my ($fh, $count, $type, $linen);
 
-	if (!open($fh, "<", $infile)) {
+	if (!-f $infile) {
 		print "Unable to open $infile for reading.\n";
 		return 0;
 	}
 
-	$linen = 0;
-	while(<$fh>) {
-		my ($line) = $_;
-		chomp $line;
-		my $len = length($line);
+	@tokens = eval($infile);
 
-		$linen = $linen + 1;
-		$count = 0;
-		$type = 'char';
-
-		while($count < $len) {
-			my $i = substr($line, $count, 1);
-			my $tnode = make_node($i, $type, $infile, $linen,
-				$count);
-			push(@chars, $tnode);
-			$count = $count + 1;
-		}
-
-		my $tnode = make_node("EOL", "EOL", $infile, $linen, $count);
-		push(@chars, $tnode);
-		$count = $count + 1;
-		
+	if (!@tokens) {
+		print "Error readking in $infile\n";
+		return 0;
 	}
-	close($fh);
 
-	return $count;
+	return 1;
 }
 
 sub write_input {
 	my ($outfile) = @_;
-	my $fh;
+	my ($fh);
 
 	if (!open($fh, ">", $outfile)) {
-		print "Unable to open $outfile for writing.\n";
+		print "Unable to open $outfile for writing\n";
 		return 0;
 	}
 
-	foreach my $i (@chars) {
-		if ($i->{'type'} eq "EOL") {
-			print $fh "\n";
-		} elsif ($i->{'type'} eq "EOF") {
-			# Skip it...
-		} else {
-			print $fh $i->{'value'};
-		}
-	}
-	close($fh);
+	print $fh Dumper(@tokens);
 
+	close($fh);
 	return 1;
 }
 
@@ -99,8 +73,7 @@ sub write_next_input {
 		return 0;
 	}
 
-
-	print $fh Dumper(@chars);
+	print $fh Dumper(@ast);
 
 	close($fh);
 	return 1;
@@ -131,6 +104,10 @@ sub get_next_name {
 	return "";
 }
 
+sub gen_ast {
+	my @values = @_;
+}
+
 GetOptions(\%Options, "debug", "help");
 
 my ($infile) = @ARGV;
@@ -142,6 +119,8 @@ if (!$infile || $Options{'help'}) {
 if (!read_input($infile)) {
 	exit(1);
 }
+
+gen_ast(@tokens);
 
 my $newfile = get_new_name($infile);
 if (!write_input($newfile)) {

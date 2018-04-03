@@ -11,34 +11,32 @@ sub usage {
 	print "Reads in an optomized ast datafile and outputs the following:\n";
 	print "\tA copy of it 'infile_new.opt' verifying that we read it " .
 		"correctly.\n";
-	print "\tinput_new.pl - new stage 1 based on our new " .
+	print "\t01input_new.pl - new stage 1 based on our new " .
 		"specifications.\n";
-	print "\ttokenizer_new.pl - new stage 2 based on our new " .
+	print "\t02token_new.pl - new stage 2 based on our new " .
 		"specifications.\n";
-	print "\tastwriter_new.pl - new stage 3 based on our new " .
+	print "\t03astwrite_new.pl - new stage 3 based on our new " .
 		"specifications.\n";
-	print "\tastwriter_new.pl - new stage 3 based on our new " .
-		"specifications.\n";
-	print "\toutput_new.pl - new replacement for this file.\n";
-	print "\tstats_new.pl - new stats file.\n";
+	print "\t04output_new.pl - new replacement for this file.\n";
+	print "\t04stats_new.pl - new stats file.\n";
 
 	return 1;
 }
 
 sub write_new_programs {
-	if (!write_input_pl("input_new.pl")) {
+	if (!write_input_pl("01input_new.pl")) {
 		return 0;
 	}
-	if (!write_tokenizer_pl("tokenizer_new.pl")) {
+	if (!write_tokenizer_pl("02token_new.pl")) {
 		return 0;
 	}
-	if (!write_astwriter_pl("astwriter_new.pl")) {
+	if (!write_astwriter_pl("03astwrite_new.pl")) {
 		return 0;
 	}
-	if (!write_output_pl("output_new.pl")) {
+	if (!write_output_pl("04output_new.pl")) {
 		return 0;
 	}
-	return write_stats_pl("stats_new.pl");
+	return write_stats_pl("04stats_new.pl");
 }
 
 sub process_input {
@@ -51,7 +49,7 @@ sub write_input_pl {
 	my ($filename) = @_;
 	my ($fh, $tmp, $template);
 
-	$tmp = "template/input.tmp";
+	$tmp = "template/01input.tmp";
 
 	unlink ($filename);
 	open($fh, ">", $filename) or die "Unable to open $filename\n";
@@ -63,8 +61,9 @@ sub write_input_pl {
 		$line = process_input($line);
 		print $fh $line;
 	}
-	close ($template);
-	close ($fh);
+	close($template);
+	close($fh);
+	chmod(0775, $filename);
 
 	return 1;
 }
@@ -79,7 +78,7 @@ sub write_tokenizer_pl {
 	my ($filename) = @_;
 	my ($fh, $tmp, $template);
 
-	$tmp = "template/tokenizer.tmp";
+	$tmp = "template/02token.tmp";
 
 	unlink ($filename);
 	open($fh, ">", $filename) or die "Unable to open $filename\n";
@@ -91,8 +90,9 @@ sub write_tokenizer_pl {
 		$line = process_tokenizer($line);
 		print $fh $line;
 	}
-	close ($template);
-	close ($fh);
+	close($template);
+	close($fh);
+	chmod(0775, $filename);
 
 	return 1;
 }
@@ -107,7 +107,7 @@ sub write_astwriter_pl {
 	my ($filename) = @_;
 	my ($fh, $tmp, $template);
 
-	$tmp = "template/astwriter.tmp";
+	$tmp = "template/03astwrite.tmp";
 
 	unlink ($filename);
 	open($fh, ">", $filename) or die "Unable to open $filename\n";
@@ -119,8 +119,9 @@ sub write_astwriter_pl {
 		$line = process_astwriter($line);
 		print $fh $line;
 	}
-	close ($template);
-	close ($fh);
+	close($template);
+	close($fh);
+	chmod(0775, $filename);
 
 	return 1;
 }
@@ -135,7 +136,7 @@ sub write_output_pl {
 	my ($filename) = @_;
 	my ($fh, $tmp, $template);
 
-	$tmp = "template/output.tmp";
+	$tmp = "template/04output.tmp";
 
 	unlink ($filename);
 	open($fh, ">", $filename) or die "Unable to open $filename\n";
@@ -147,8 +148,9 @@ sub write_output_pl {
 		$line = process_output($line);
 		print $fh $line;
 	}
-	close ($template);
-	close ($fh);
+	close($template);
+	close($fh);
+	chmod(0775, $filename);
 
 	return 1;
 }
@@ -163,7 +165,7 @@ sub write_stats_pl {
 	my ($filename) = @_;
 	my ($fh, $tmp, $template);
 
-	$tmp = "template/stats.tmp";
+	$tmp = "template/04stats.tmp";
 
 	unlink ($filename);
 	open($fh, ">", $filename) or die "Unable to open $filename\n";
@@ -175,8 +177,9 @@ sub write_stats_pl {
 		$line = process_stats($line);
 		print $fh $line;
 	}
-	close ($template);
-	close ($fh);
+	close($template);
+	close($fh);
+	chmod(0775, $filename);
 
 	return 1;
 }
