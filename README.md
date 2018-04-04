@@ -43,32 +43,39 @@ Steps for this project.
 		Identify troublesome constructs.
 
 
-Stages for our tool: input.pl, tokenizer.pl, astwriter.pl, output.pl, stats.pl
+Stages for our tool: 01input.pl, 02token.pl, 03astwrite.pl,
+	04output.pl, 04stats.pl
+
 	Each stage needs the following:
 		read and write current stage files.
 		write next stage input.
 		defined datastructures.
 
-	input.pl: read in blah.bnf
+	01input.pl: read in blah.bnf
 		write blah_new.bnf
 		write blah.chr
 		datastructures used: hash of definitions, chr tree
-	tokenizer.pl: read blah.chr
+	02token.pl: read blah.chr
 		write blah_new.chr
 		write blah.ast
 		datastructures used: chr tree, ast tree
-	astwriter.pl: read blah.ast
+	03astwrite.pl: read blah.ast
 		write blah_new.ast
 		write blah.opt
 		datastructures used: ast tree, output_ast tree
-	output.pl: read blah.opt
+	04output.pl: read blah.opt
 		write blah_new.opt
 		write input.pl, tokenizer.pl astwriter.pl, output.pl, stats.pl
 		datastructures used: hash of definitions, output_ast tree
-	stats.pl: read blah.opt
+	04stats.pl: read blah.opt
 		write blah_new.opt
 		write stats.txt
 		datastructures used: output_ast tree
+
+To get started using it run:
+perl ./template/04output.pl grammar/bnf.bnf
+That should create the inital scripts.  Documentation on workflow will come
+later once things are more fleshed out.
 		
 This code is released into the public domain, under the: CC0 License
 If you are interested in contributing send me a note.  If you use this

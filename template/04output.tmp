@@ -42,7 +42,7 @@ sub write_new_programs {
 sub process_input {
 	my ($line) = @_;
 
-	return 1;
+	return $line;
 }
 
 sub write_input_pl {
@@ -71,7 +71,7 @@ sub write_input_pl {
 sub process_tokenizer {
 	my ($line) = @_;
 
-	return 1;
+	return $line;
 }
 
 sub write_tokenizer_pl {
@@ -100,7 +100,7 @@ sub write_tokenizer_pl {
 sub process_astwriter {
 	my ($line) = @_;
 
-	return 1;
+	return $line;
 }
 
 sub write_astwriter_pl {
@@ -129,7 +129,7 @@ sub write_astwriter_pl {
 sub process_output {
 	my ($line) = @_;
 
-	return 1;
+	return $line;
 }
 
 sub write_output_pl {
@@ -158,7 +158,7 @@ sub write_output_pl {
 sub process_stats {
 	my ($line) = @_;
 
-	return 1;
+	return $line;
 }
 
 sub write_stats_pl {
