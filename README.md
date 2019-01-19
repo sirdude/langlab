@@ -14,7 +14,7 @@ will not throw anything away.  The idea being maybe this tool can be used for
 other things, stats about code, syntax highlighting or other things as well.
 
 The goals of the language lab is to make it easy to explore and create
-a computer langage, making it easy to modify it and to help you evaluate
+a computer language, making it easy to modify it and to help you evaluate
 your changes.
 
 Steps associated with a compiler:
@@ -22,7 +22,7 @@ Steps associated with a compiler:
 	Read in a file and convert it to a tree of chars.
 	Convert a tree of chars and convert to tokens.
 	Convert tokens to an AST.
-	Preform some actons on the AST.
+	Perform some actions on the AST.
 	Output results.
 
 
@@ -33,10 +33,10 @@ Steps for this project.
 	Write a tokenizer that works on our syntax.
 	Write a parser for our syntax.
 	Print out stats for our grammar.
-	Put it all togeather and make a meta parser.
-		(Read in our langauge file and output our parser from it.)
-		(Show that we can change the langage by changing the file and
-		 running the prevous parser on our new file.)
+	Put it all together and make a meta parser.
+		(Read in our language file and output our parser from it.)
+		(Show that we can change the language by changing the file and
+		 running the previous parser on our new file.)
 	Load some other languages and compare.
 	Identify ways to expand the program to do useful things:
 		Identify sub sets.
@@ -49,32 +49,32 @@ Stages for our tool: 01input.pl, 02token.pl, 03astwrite.pl,
 	Each stage needs the following:
 		read and write current stage files.
 		write next stage input.
-		defined datastructures.
+		defined data-structures.
 
 	01input.pl: read in blah.bnf
 		write blah_new.bnf
 		write blah.chr
-		datastructures used: hash of definitions, chr tree
+		data-structures used: hash of definitions, chr tree
 	02token.pl: read blah.chr
 		write blah_new.chr
 		write blah.ast
-		datastructures used: chr tree, ast tree
+		data-structures used: chr tree, ast tree
 	03astwrite.pl: read blah.ast
 		write blah_new.ast
 		write blah.opt
-		datastructures used: ast tree, output_ast tree
+		data-structures used: ast tree, output_ast tree
 	04output.pl: read blah.opt
 		write blah_new.opt
 		write input.pl, tokenizer.pl astwriter.pl, output.pl, stats.pl
-		datastructures used: hash of definitions, output_ast tree
+		data-structures used: hash of definitions, output_ast tree
 	04stats.pl: read blah.opt
 		write blah_new.opt
 		write stats.txt
-		datastructures used: output_ast tree
+		data-structures used: output_ast tree
 
 To get started using it run:
-perl ./template/04output.pl grammar/bnf.bnf
-That should create the inital scripts.  Documentation on workflow will come
+perl ./template/04output.tmp grammar/bnf.bnf
+That should create the initial scripts.  Documentation on workflow will come
 later once things are more fleshed out.
 		
 This code is released into the public domain, under the: CC0 License
