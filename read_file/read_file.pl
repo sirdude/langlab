@@ -10,15 +10,13 @@ my (%Options);
 my @chars, @config;
 
 sub usage {
-	print "Usage: $0 filename\n\n";
+	print "Usage: read_file filename\n\n";
 
 	print "Reads in a file and creates a datastructure of the ";
 	print "symbols with extra\ninformation.  ";
 	print "Then it writes two new files, the first recreates the\n";
 	print "original file.  ";
 	print "The second prints out the internal datastructure.\n\n";
-
-	return 1;
 }
 
 sub read_config {

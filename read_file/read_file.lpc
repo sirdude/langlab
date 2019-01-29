@@ -1,0 +1,11 @@
+void usage() {
+	write "Usage: read_file filename\n\n";
+
+	write "Reads in a file and creates a datastructure of the ";
+	write "symbols with extra\ninformation.  ";
+	write "Then it writes two new files, the first recreates the\n";
+	write "original file.  ";
+	write "The second prints out the internal datastructure.\n\n";
+}
+
+
