@@ -7,7 +7,7 @@ use Data::Dumper;
 
 my (%Options);
 
-my (@chars, @config);
+my (@chars, %startchar, %endchar);
 
 sub usage {
 	print "Usage: read_file filename\n\n";
@@ -24,18 +24,41 @@ sub usage {
 sub add_commenttype {
 	my ($startc, $endc) = @_;
 
-	print "Adding comment start: $startc end: $endc\n";
+	if ($Options{"debug"}) {
+		print "Adding comment start: $startc end: $endc\n";
+	}
+
+	if (exists($startchar{$startc})) {
+		print "Error An entry for $startc: $startchar{$startc} " .
+			" endchar: $endchar{$startc} already exists.\n";
+		return 0;
+	} else {
+		$startchar{$startc} = "comment";
+		$endchar{$startc} = $endc;
+		return 1;
+	}
 }
 
 sub add_stringtype {
 	my ($startc, $endc) = @_;
 
-	print "Adding string start: $startc end: $endc\n";
+	if ($Options{"debug"}) {
+		print "Adding string start: $startc end: $endc\n";
+	}
+	if (exists($startchar{$startc})) {
+		print "Error An entry for $startc: $startchar{$startc} " .
+			" endchar: $endchar{$startc} already exists.\n";
+		return 0;
+	} else {
+		$startchar{$startc} = "string";
+		$endchar{$startc} = $endc;
+		return 1;
+	}
 }
 
 sub read_config {
 	my ($infile) = @_;
-	my $fh;
+	my ($fh, @values);
         my $c = 0;
 
 	open($fh,"<","$infile") or die "Unable to open $infile\n";
@@ -43,13 +66,19 @@ sub read_config {
 		my $line = $_;
                 $c = $c+ 1;
 
-		# print "Looking at line $c: $line\n";
+		if ($Options{"debug"}) {
+			print "read_config: Looking at line $c: $line\n";
+		}
+
+		chomp $line;
 
 		if ($line =~ /^#(.*)/) {
-		} elsif ($line =~ /^comment,([^,]),(.*)$/) {
-			add_commenttype($1,$2);
-		} elsif ($line =~ /^string,([^,]),(.*)$/) {
-			add_stringtype($1,$2);
+		} elsif ($line =~ /^comment,(.*)$/) {
+			@values = split(',', $line);
+			add_commenttype($values[1],$values[2]);
+		} elsif ($line =~ /^string,(.*)$/) {
+			@values = split(',', $line);
+			add_stringtype($values[1],$values[2]);
 		} else {
 			print "Error line $c: $line";
 		}
