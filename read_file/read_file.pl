@@ -7,7 +7,7 @@ use Data::Dumper;
 
 my (%Options);
 
-my @chars, @config;
+my (@chars, @config);
 
 sub usage {
 	print "Usage: read_file filename\n\n";
@@ -17,14 +17,41 @@ sub usage {
 	print "Then it writes two new files, the first recreates the\n";
 	print "original file.  ";
 	print "The second prints out the internal datastructure.\n\n";
+
+	return 1;
+}
+
+sub add_commenttype {
+	my ($startc, $endc) = @_;
+
+	print "Adding comment start: $startc end: $endc\n";
+}
+
+sub add_stringtype {
+	my ($startc, $endc) = @_;
+
+	print "Adding string start: $startc end: $endc\n";
 }
 
 sub read_config {
+	my ($infile) = @_;
 	my $fh;
-	open($fh,"<","read_file.conf") or die "Unable to open read_file.conf\n";
+        my $c = 0;
+
+	open($fh,"<","$infile") or die "Unable to open $infile\n";
 	while(<$fh>) {
 		my $line = $_;
+                $c = $c+ 1;
+
+		# print "Looking at line $c: $line\n";
+
 		if ($line =~ /^#(.*)/) {
+		} elsif ($line =~ /^comment,([^,]),(.*)$/) {
+			add_commenttype($1,$2);
+		} elsif ($line =~ /^string,([^,]),(.*)$/) {
+			add_stringtype($1,$2);
+		} else {
+			print "Error line $c: $line";
 		}
 	}
 
@@ -76,6 +103,7 @@ sub read_input {
 		$count = $count + 1;
 		
 	}
+
 	close($fh);
 
 	return $count;
@@ -99,6 +127,7 @@ sub write_input {
 			print $fh $i->{'value'};
 		}
 	}
+
 	close($fh);
 
 	return 1;
@@ -150,6 +179,10 @@ GetOptions(\%Options, "debug", "help");
 my ($infile) = @ARGV;
 if (!$infile || $Options{'help'}) {
 	usage();
+	exit(1);
+}
+
+if (!read_config("read_file.conf")) {
 	exit(1);
 }
 
