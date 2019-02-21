@@ -15,9 +15,17 @@ int usage() {
 	return 1;
 }
 
+int add_comment(char *first, char* sec) {
+	printf("Adding comment: %s endchar: %s\n", first, sec);
+}
+
+int add_string(char *first, char* sec) {
+	printf("Adding string: %s endchar: %s\n", first, sec);
+}
+
 int read_config(char *filename) {
 	FILE *infile;
-	char *buffer;
+	char *buffer, *first, *sec;
 	size_t bufsize = 4048;  /* Way bigger than a line should need to be */
 	size_t characters;
 	int c = 0;
@@ -39,9 +47,15 @@ int read_config(char *filename) {
 		c = c + 1;
 		if (buffer[0] == '#') {
 		} else if (strncmp(buffer,"comment,",8) == 0) {
-			/* XXX need to fill this in */
+			first = strtok(buffer,","); /* skip comment */
+			first = strtok(NULL, ",");
+			sec = strtok(NULL, ",");
+			add_comment(first,sec);
 		} else if (strncmp(buffer,"string,",7) == 0) {
-			/* XXX need to fill this in */
+			first = strtok(buffer,","); /* skip string */
+			first = strtok(NULL, ",");
+			sec = strtok(NULL, ",");
+			add_string(first,sec);
 		} else {
 			printf("Error, line %d: %s\n", c, buffer);
 		}

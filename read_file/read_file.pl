@@ -203,28 +203,33 @@ sub get_next_name {
 	return "";
 }
 
-GetOptions(\%Options, "debug", "help");
+sub main {
+	GetOptions(\%Options, "debug", "help");
+	my ($infile) = @ARGV;
+	my ($newfile);
 
-my ($infile) = @ARGV;
-if (!$infile || $Options{'help'}) {
-	usage();
-	exit(1);
+	if (!$infile || $Options{'help'}) {
+		usage();
+		exit(1);
+	}
+
+	if (!read_config("read_file.conf")) {
+		exit(1);
+	}
+
+	if (!read_input($infile)) {
+		exit(1);
+	}
+
+	$newfile = get_new_name($infile);
+	if (!write_input($newfile)) {
+		exit(1);
+	}
+
+	$newfile = get_next_name($infile);
+	if (!write_next_input($newfile)){
+		exit(1);
+	}
 }
 
-if (!read_config("read_file.conf")) {
-	exit(1);
-}
-
-if (!read_input($infile)) {
-	exit(1);
-}
-
-my $newfile = get_new_name($infile);
-if (!write_input($newfile)) {
-	exit(1);
-}
-
-$newfile = get_next_name($infile);
-if (!write_next_input($newfile)){
-	exit(1);
-}
+main();
