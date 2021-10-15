@@ -1,0 +1,27 @@
+# This is a simple example program
+
+int x
+string name
+char c
+
+print "What is your name?"
+get name
+
+print "Welcome to Greyhawk " + name + "!\n\n"
+print "Randomly chosing your stats, this may take some time.\n"
+
+age = rand(15) + 1
+x = 0
+while x < age {
+	x = x + 1
+	print "Working! "
+}
+
+print "Done!\n"
+print "Would you like to quit now?(Y|N)"
+get c
+if c == "N" || c == "n" {
+	print "Sorry this is the end of the game!\n"
+}
+
+print "Goodbye.\n"

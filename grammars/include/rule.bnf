@@ -1,0 +1,8 @@
+include "ident.bnf";
+include "misc.bnf";
+
+Rule ::= Optionalws Ident Optionalws "::=" Optionalws Rsh Optionalws ";" ;
+
+Rsh ::= Ident Rsh ;
+Rsh ::= Terminal Rsh ;
+Rsh ::= "" ;

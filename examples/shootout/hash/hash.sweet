@@ -1,0 +1,30 @@
+#!/usr/bin/sweet
+# http://www.bagley.org/~doug/shootout/
+
+# this program is modified from:
+#   http:#cm.bell-labs.com/cm/cs/who/bwk/interps/pap.html
+# Timing Trials, or, the Trials of Timing: Experiments with Scripting
+# and User-Interface Languages</a> by Brian W. Kernighan and
+# Christopher J. Van Wyk.
+
+int main() {
+	hash X;
+	int c, t, MAX;
+
+	MAX = argv[0];
+	if (!MAX) {
+		MAX = 1;
+	}
+
+	while (t < MAX) {
+		t = t + 1;
+		X[t] = t;
+	}
+	while (t > 0) {
+		if (exists(X[t])) {
+			t = t - 1;
+			c = c + 1;
+		}
+	}
+	write(c . "\n");
+}

@@ -1,0 +1,418 @@
+inherit option "/std/options";
+inherit backend "/std/backend";
+inherit "/std/tests";
+
+void check_start_comments() {
+	backend::buf_clear();
+	backend::buf_push("/*");
+	is("/* starts a comment", 1, "YY_start_comment");
+
+	backend::buf_clear();
+	backend::buf_push("/* test */");
+	is("/* starts a comment2", 1, "YY_start_comment");
+
+	backend::buf_clear();
+	backend::buf_push("#");
+	is("# starts a comment", 1, "YY_start_comment");
+
+	backend::buf_clear();
+	backend::buf_push("# Test");
+	is("# starts a comment 2", 1, "YY_start_comment");
+
+	backend::buf_clear();
+	backend::buf_push("//");
+	is("// starts a comment", 1, "YY_start_comment");
+
+	backend::buf_clear();
+	backend::buf_push("// Test");
+	is("// starts a comment 2", 1, "YY_start_comment");
+
+	backend::buf_clear();
+	backend::buf_push("f");
+	is("f does not start a comment", 0, "YY_start_comment");
+	backend::buf_clear();
+}
+
+void check_start_whitespace() {
+	backend::buf_clear();
+	backend::buf_push("\n");
+	is("\\n starts whitespace", 1, "YY_start_whitespace");
+
+	backend::buf_clear();
+	backend::buf_push("\nTest");
+	is("\\n starts whitespace 2", 1, "YY_start_whitespace");
+
+	backend::buf_clear();
+	backend::buf_push("\t");
+	is("\\t starts whitespace", 1, "YY_start_whitespace");
+
+	backend::buf_clear();
+	backend::buf_push("\ttest");
+	is("\\t starts whitespace 2", 1, "YY_start_whitespace");
+
+	backend::buf_clear();
+	backend::buf_push(" ");
+	is("SPACE starts whitespace", 1, "YY_start_whitespace");
+
+	backend::buf_clear();
+	backend::buf_push(" test");
+	is("SPACE starts whitespace 2", 1, "YY_start_whitespace");
+
+	backend::buf_clear();
+	backend::buf_push("\r");
+	is("\\r starts whitespace", 1, "YY_start_whitespace");
+
+	backend::buf_clear();
+	backend::buf_push("\rtest");
+	is("\\r starts whitespace 2", 1, "YY_start_whitespace");
+
+	backend::buf_clear();
+	backend::buf_push("f");
+	is("f does not start whitespace", 0, "YY_start_whitespace");
+	backend::buf_clear();
+}
+
+void test_start_string() {
+	backend::buf_clear();
+	backend::buf_push("'");
+	is("' starts a string", 1, "YY_start_string");
+
+	backend::buf_clear();
+	backend::buf_push("'test'");
+	is("' starts a string 2", 1, "YY_start_string");
+
+	backend::buf_clear();
+	backend::buf_push("\"");
+	is("\" starts a string", 1, "YY_start_string");
+
+	backend::buf_clear();
+	backend::buf_push("\"test\"");
+	is("\" starts a string 2", 1, "YY_start_string");
+	
+	backend::buf_clear();
+	backend::buf_push("f");
+	is("f does not start a string", 0, "YY_start_string");
+	backend::buf_clear();
+}
+
+void test_start_html() {
+	backend::buf_clear();
+	backend::buf_push("&#");
+	is("&# starts a html", 1, "YY_start_html");
+
+	backend::buf_clear();
+	backend::buf_push("&#334");
+	is("&# starts a html 2", 1, "YY_start_html");
+	
+	backend::buf_clear();
+	backend::buf_push("f");
+	is("f does not start a html", 0, "YY_start_html");
+	backend::buf_clear();
+}
+
+void test_start_number() {
+	int x;
+	string tmp;
+
+	x = 0;
+	while (x < 10) {
+		backend::buf_clear();
+		tmp = (string)x;
+		backend::buf_push(tmp);
+		is(tmp + " starts a number", 1, "YY_start_num");
+		x = x + 1;
+	}
+	backend::buf_clear();
+	backend::buf_push("003.45");
+	is("0 starts a number 2", 1, "YY_start_num");
+	
+	backend::buf_clear();
+	backend::buf_push("f");
+	is("f does not start a number", 0, "YY_start_num");
+	backend::buf_clear();
+}
+
+void test_start_ident() {
+	string *letters;
+	int i, max;
+
+	letters = ({"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", 
+		"L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W",
+		"X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", 
+		"j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u",
+		"v", "w", "x", "y", "z"});
+	max = sizeof(letters);
+	i = 0;
+	while (i < max) {
+		backend::buf_clear();
+		backend::buf_push(letters[i]);
+		is(letters[i] + " starts an ident", 1, "YY_start_ident");
+		i = i + 1;
+	}
+
+	backend::buf_clear();
+	backend::buf_push("cat");
+	is("cat starts an ident", 1, "YY_start_ident");
+
+	backend::buf_clear();
+	backend::buf_push("0");
+	is("0 does not start an ident", 0, "YY_start_ident");
+	backend::buf_clear();
+}
+
+/* Test start an operator */
+void test_start_operator() {
+	string *ops;
+	int i, max;
+
+	ops = ({"|", "-", "!", "$", "%", "&", "(", ")", "*", "+", ",",
+			"-", ".", "/", ":", ";", "<", "=", ">", "?", "@", "[", "]",
+			"^", "`", "{", "}", "~", "\\"});
+	i = 0;
+	max = sizeof(ops);
+	while (i < max) {
+		backend::buf_clear();
+		backend::buf_push(ops[i]);
+		is(ops[i] + " starts an operator", 1, "YY_start_op");
+		i = i + 1;
+	}
+
+	backend::buf_clear();
+	backend::buf_push("+5345");
+	is("+5345 starts an operator", 1, "YY_start_op");
+	
+	backend::buf_clear();
+	backend::buf_push("f");
+	is("f does not start an operator", 0, "YY_start_op");
+	backend::buf_clear();
+}
+
+void test_YY_get_comment() {
+	backend::buf_clear();
+	backend::buf_push("# Woo");
+	is("A # comment returns 1 inside YY_get_comment", 1, "YY_get_comment");
+	is("A # comment has correct value", "# Woo", "last_token", "value");
+	is("A # comment has correct type", "comment", "last_token", "type");
+	
+	backend::buf_clear();
+	backend::buf_push("// Woo");
+	is("A // comment returns 1 inside YY_get_comment", 1, "YY_get_comment");
+	is("A // comment has correct value", "// Woo", "last_token", "value");
+	is("A // comment has correct type", "comment", "last_token", "type");
+
+	backend::buf_clear();
+	backend::buf_push("/* Woo\n  */");
+	is("A multi line comment returns 1 inside YY_get_comment", 1, "YY_get_comment");
+	is("A multi line comment has correct value", "/* Woo\n  */","last_token", "value");
+	is("A multi line comment has correct type", "comment", "last_token", "type");
+
+	backend::buf_clear();
+	backend::buf_push("funtime");
+	is("An ident returns 0 inside YY_get_comment", 0, "YY_get_comment");
+	backend::buf_clear();
+}
+
+void test_YY_get_whitespace() {
+	backend::buf_clear();
+	backend::buf_push("    ");
+	is("SPACES returns 1 inside YY_get_whitespace", 1, "YY_get_whitespace");
+	is("SPACES has correct value from YY_get_whitespace", "    ", "last_token", "value");
+	is("SPACES has correct type from YY_get_whitespace", "whitespace", "last_token", "type");
+
+	backend::buf_clear();
+	backend::buf_push("\n");
+	is("\n returns 1 inside YY_get_whitespace", 1, "YY_get_whitespace");
+	is("SPACES has correct value from YY_get_whitespace", "\n", "last_token", "value");
+	is("\n has correct type from YY_get_whitespace", "whitespace", "last_token", "type");
+	backend::buf_show();
+
+	backend::buf_clear();
+	backend::buf_push("\t");
+	is("\t returns 1 inside YY_get_whitespace", 1, "YY_get_whitespace");
+	is("\t has correct value from YY_get_whitespace", "\t", "last_token", "value");
+	is("\t has correct type from YY_get_whitespace", "whitespace", "last_token", "type");
+
+	backend::buf_clear();
+	backend::buf_push("\r");
+	is("\r returns 1 inside YY_get_whitespace", 1, "YY_get_whitespace");
+	is("\r has correct value from YY_get_whitespace", "\r", "last_token", "value");
+	is("\r has correct type from YY_get_whitespace", "whitespace", "last_token", "type");
+	
+	backend::buf_clear();
+	backend::buf_push("w");
+	is("YY_get_whitespace Fails with non whitespace char", 0, "YY_get_whitespace");
+	backend::buf_clear();
+}
+
+void test_YY_get_ident() {
+	backend::buf_clear();
+	backend::buf_push("_woo");
+	is("_woo returns 1 inside YY_get_ident", 1, "YY_get_ident");
+	is("_woo has correct value from YY_get_ident", "_woo", "last_token", "value");
+	is("_woo has correct type from YY_get_ident", "ident", "last_token", "type");
+	backend::buf_clear();
+	
+	backend::buf_clear();
+	backend::buf_push("woo3");
+	is("woo3 returns 1 inside YY_get_ident", 1, "YY_get_ident");
+	is("woo3 has correct value from YY_get_ident", "woo3", "last_token", "value");
+	is("woo3 has correct type from YY_get_ident", "ident", "last_token", "type");
+	
+	backend::buf_clear();
+	backend::buf_push("Woo");
+	is("Woo returns 1 inside YY_get_ident", 1, "YY_get_ident");
+	is("Woo has correct value from YY_get_ident", "Woo", "last_token", "value");
+	is("Woo has correct type from YY_get_ident", "ident", "last_token", "type");
+
+	backend::buf_clear();
+	backend::buf_push("3W");
+	is("3W returns 0 inside YY_get_ident", 0 , "YY_get_ident");
+	backend::buf_clear();
+}
+
+void test_YY_get_string() {
+	backend::buf_clear();
+	backend::buf_push("\"Test string\"");
+	is("\"Test string\" returns 1 inside YY_get_string", 1, "YY_get_string");
+	is("\"Test string\" has correct value from YY_get_string", "Test string", "last_token", "value");
+	is("\"Test string\" has correct type from YY_get_string", "string", "last_token", "type");
+
+	backend::buf_clear();
+	backend::buf_push("'Test string'");
+	is("'Test string' returns 1 inside YY_get_string", 1, "YY_get_string");
+	is("'Test string' has correct value from YY_get_string", "Test string", "last_token", "value");
+	is("'Test string' has correct type from YY_get_string", "string", "last_token", "type");
+
+	backend::buf_clear();
+	backend::buf_push("5");
+	is("5 returns 0 inside YY_get_string", 0, "YY_get_string");
+	backend::buf_clear();
+}
+
+void test_YY_get_html() {
+	backend::buf_clear();
+	backend::buf_push("&#003;");
+	is("&#003; returns 1 inside YY_get_html", 1, "YY_get_html");
+	is("&#003; has correct value from YY_get_html", "&#003;", "last_token", "value");
+	is("&#003; has correct type from YY_get_html", "html", "last_token", "type");
+	
+	backend::buf_clear();
+	backend::buf_push("#00A;");
+	is("#00A; returns 0 inside YY_get_html", 0, "YY_get_html");
+	backend::buf_clear();
+
+	backend::buf_push(";");
+	is("; returns 0 inside YY_get_html", 0, "YY_get_html");
+	backend::buf_clear();
+}
+
+void test_YY_get_hex() {
+	backend::buf_clear();
+	backend::buf_push("0x03");
+	is("0x03 returns 1 inside YY_get_hex", 1, "YY_get_hex");
+	is("0x03 has correct value from YY_get_hex", "0x03", "last_token", "value");
+	is("0x03 has correct type from YY_get_hex", "hex", "last_token", "type");
+	
+	backend::buf_clear();
+	backend::buf_push("0xA3");
+	is("0xA3 returns 1 inside YY_get_hex", 1, "YY_get_hex");
+	is("0xA3 has correct value from YY_get_hex", "0xA3", "last_token", "value");
+	is("0xA3 has correct type from YY_get_hex", "hex", "last_token", "type");
+	
+	backend::buf_clear();
+	backend::buf_push("0xZ3");
+	is("0xZ3 returns 0 inside YY_get_hex", 0, "YY_get_hex");
+	backend::buf_clear();
+}
+
+void test_YY_get_num() {
+	backend::buf_clear();
+	backend::buf_push("03");
+	is("03 returns 1 inside YY_get_num", 1, "YY_get_num");
+	is("03 has correct value from YY_get_num", "03", "last_token", "value");
+	is("03 has correct type from YY_get_num", "int", "last_token", "type");
+	
+	backend::buf_clear();
+	backend::buf_push("03.03");
+	is("03.03 returns 1 inside YY_get_num", 1, "YY_get_num");
+	is("03.03 has correct value from YY_get_num", "03.03", "last_token", "value");
+	is("03.03 has correct type from YY_get_num", "float", "last_token", "type");
+	
+	backend::buf_clear();
+	backend::buf_push("03.03.03");
+	is("03.03.03 returns 1 inside YY_get_num", 1, "YY_get_num");
+	is("03.03 has correct value from YY_get_num", "03.03", "last_token", "value");
+	is("03.03 has correct type from YY_get_num", "float", "last_token", "type");
+
+	backend::buf_clear();
+	backend::buf_push("A");
+	is("A returns 0 inside YY_get_num", 0, "YY_get_num");
+	backend::buf_clear();
+}
+
+void test_YY_get_op() {
+	/* XXX todo change this to all ops not just this one.. */
+	backend::buf_clear();
+	backend::buf_push("|");
+	is("| returns 1 inside YY_get_op", 1, "YY_get_op");
+	is("| has correct value from YY_get_op", "|", "last_token", "value");
+	is("| has correct type from YY_get_op", "op", "last_token", "type");
+	
+	backend::buf_clear();
+	backend::buf_push("(");
+	is("( returns 1 inside YY_get_op", 1, "YY_get_op");
+	is("( has correct value from YY_get_op", "(", "last_token", "value");
+	is("( has correct type from YY_get_op", "op", "last_token", "type");
+
+	backend::buf_clear();
+	backend::buf_push("_");
+	is("_ returns 1 inside YY_get_op", 0, "YY_get_op");
+	backend::buf_clear();
+
+	/* XXX should check ||||| and make sure it has the right value */
+}
+
+int run_tests(string str) {
+	add_option("debug", "Enable debugging mode.", "");
+	add_option("help", "Print this usage message.", "");
+	add_option("names", "Use ident names in stats not just the word ident.", "");
+	add_option("output", "Set the output file.", "FILE");
+
+	set_eof("^F");
+	init_backend(keywords);
+
+	str = parse_options(str);
+
+	check_start_comments();
+	check_start_whitespace();
+	test_start_string();
+	test_start_html();
+	test_start_number();
+	test_start_ident();
+	test_start_operator();
+
+	test_YY_get_comment();
+	test_YY_get_whitespace();
+	test_YY_get_ident();
+	test_YY_get_string();
+	test_YY_get_html();
+	test_YY_get_hex();
+	test_YY_get_num();
+	test_YY_get_op();
+
+	return 1;
+}
+
+void setup(void) {
+	set_id("tester");
+	set_gettable(1);
+
+	add_action("run_tests", "run_tests");
+	set_short("An options tester");
+	set_long("Give it a try if you dare.  Type run_tests");
+	set_weight(1);
+	set_value(1);
+
+	init_tests();
+}
+

@@ -1,0 +1,130 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+use lib "./SWGetopt/lib";
+use lib "../lib/perl";
+
+use SWGetopt;
+
+my (%Options);
+
+# Need to work on this but this will be a crude
+# implementation of a package manager for our program.
+# Right now it's just a test of the getopt module.
+
+GetOptions(\%Options, "length=i", "file=s", "verbose")
+        or die("Error in command line arguments\n");
+
+if (exists($Options{"verbose"})) {
+        print "Woo\n";
+}
+
+# Options baseing it off aptitude, pip, and cpanm
+# update (package)
+# Show what is out of date???
+# Need to be able to set remote site
+# Need to be able to set destination dir 
+#	keep in mind may have (user vs system)
+# Need to handle versions
+# Need to create/maintain an archive
+
+=head1 EXAMPLES
+
+Basic usage:
+
+=over 8
+
+=item
+spm install getopt            Install the getopt module.
+
+=item
+spm remove getopt             Uninstall the getopt module.
+
+=item
+spm info getopt               Display information about a module.
+
+=item
+spm list                      List Available modules.
+
+=item
+spm list get                  List Available modules that contain get.
+
+=back
+
+=cut
+
+sub do_install {
+	my ($package) = @_;
+
+	if (!$package || $package eq "") {
+		print "You must supply a package name.\n";
+		print "To list available packages try $0 list\n";
+		return 0;
+	}
+
+}
+
+sub do_remove {
+	my ($package) = @_;
+
+	if (!$package || $package eq "") {
+		print "You must supply a package name.\n";
+		print "To list available packages try $0 list\n";
+		return 0;
+	}
+
+	return 1;
+}
+
+sub do_show {
+	my ($package) = @_;
+
+	if (!$package || $package eq "") {
+		print "You must supply a package name.\n";
+		print "To list available packages try $0 list\n";
+		return 0;
+	}
+
+	return 1;
+}
+
+sub do_search {
+	my ($package) = @_;
+
+	return 1;
+}
+
+sub do_list {
+	my ($package) = @_;
+
+	return 1;
+}
+
+sub do_update {
+	my ($package) = @_;
+
+	return 1;
+}
+
+my ($command, $package) = @_;
+
+if (!$command || ($command eq "")) {
+	usage();
+	exit 0;
+} elsif ($command eq "install") {
+	do_install($package);
+} elsif ($command eq "remove") {
+	do_remove($package);
+} elsif ($command eq "search") {
+	do_search($package);
+} elsif ($command eq "list") {
+	do_list($package);
+} elsif (($command eq "info") || ($command eq "show")) {
+	do_show($package);
+} elsif ($command eq "update") {
+	do_update($package);
+} else {
+	print "Invalid command \"" . $command . "\"\n";
+	exit 0;
+}

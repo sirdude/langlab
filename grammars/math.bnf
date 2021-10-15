@@ -1,0 +1,62 @@
+# Should look at java or c lang def for complete version but here is a simple one...
+#
+#Basic math....
+# 
+AddSub   = MulDiv addop AddSub
+AddSub   = MulDiv
+
+MulDiv   = Brackets mulop MulDiv
+MulDiv   = Brackets
+
+addop = "+"
+addop = "-"
+
+mulop = "*"
+mulop = "/"
+
+Brackets = "(" AddSub ")"
+Brackets = Decimal
+
+Decimal  = Integer "." Integer
+Decimal  = Integer
+
+Integer  = Digit Integer
+Integer  = Digit
+
+Digit    = [0-9]
+
+# 
+# Crenshaw's version from tutor6:
+# 
+
+bexpression = bterm [orop bterm]*
+
+bterm = notfactor [AND notfactor]*
+
+notfactor = [NOT] bfactor
+
+bfactor = bliteral
+bfactor = bvariable
+bfactor = relation
+
+relation = | expression [relop expression]
+
+expression = term [addop term]*
+term = signedfactor [mulop factor]*
+
+orop = "|" # XXX Check this.... might be different...
+AND = "&"
+NOT = "!"
+
+addop = "+"
+addop = "-"
+
+mulop = "/"
+mulop = "*"
+
+signedfactor = addop factor
+signedfactor = factor
+
+factor = integer 
+factor = variable 
+factor = "(" bexpression ")"

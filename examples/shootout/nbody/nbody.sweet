@@ -1,0 +1,23 @@
+#!/usr/bin/sweet
+object *bodies;
+float SOLAR_MASS, DAYS_PER_YEAR;
+
+int setup {
+	SOLAR_MASS =
+	DAYS_PER_YEAR =;
+        bodies['sun'] = new(object);
+	bodies['sun']['x'] = 0;
+	bodies['sun']['y'] = 0;
+	bodies['sun']['z'] = 0;
+	bodies['sun']['vx'] = 0;
+	bodies['sun']['vy'] = 0;
+	bodies['sun']['vz'] = 0;
+	bodies['sun']['mass'] = SOLAR_MASS;
+        bodies['jupiter'] = new(object);
+	bodies['jupiter']['x'] = 4.84143144246472090e+00;
+	bodies['jupiter']['y'] = 
+	bodies['jupiter']['z'] = 
+	bodies['jupiter']['vx'] = 
+	bodies['jupiter']['vy'] = 
+	bodies['jupiter']['vz'] = 
+	bodies['jupiter']['mass'] = 

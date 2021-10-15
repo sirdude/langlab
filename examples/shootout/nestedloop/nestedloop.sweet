@@ -1,0 +1,33 @@
+#!/usr/bin/sweet
+# http://www.bagley.org/~doug/shootout/
+
+int main() {
+	int n, x, a, b, c, d, e, f;
+
+	n = argv[0];
+	if (n < 1) {
+		n = 1;
+	}
+
+	while (a < n) {
+		while (b < n) {
+			while (c < n) {
+				while (d < n) {
+					while (e < n) {
+						while (f < n) {
+							x = x + 1;
+							f = f + 1;
+						}
+						e = e + 1;
+					}
+					d = d + 1;
+				}
+				c = c + 1;
+			}
+			b = b + 1;
+		}
+		a = a + 1;
+	}
+
+	write(x + "\n");
+}

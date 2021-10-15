@@ -1,0 +1,86 @@
+Using lc3 assembly it's simple!!!  use this can expand later if needed...
+https://www.cs.utexas.edu/users/fussell/courses/cs310h/lectures/Lecture_10-310h.pdf
+http://people.cs.georgetown.edu/~squier/Teaching/HardwareFundamentals/LC3-trunk/docs/LC3-AssemblyManualAndExamples.pdf
+
+16 bit addresses
+registers: R0-R7, PC, condition codes
+
+15 opcodes:
+ADD dst src1 src2
+AND dst src1 src2
+NOT dst src 		; dst can be same as src
+
+Extensions:   added by me
+SUB dst src1 src2
+MUL dst src1 src2
+DIV dst src1 src2
+
+; load memory to register
+LD  Dest PCoffset 	; pc relative mode
+LDI Dest PCoffset       ; indirect mode
+LDR Dest Base offset    ; base + offset mode
+; load effective address save in register
+LEA Dest PCoffset       ; immediate mode does not access memory
+
+; store write data from register to memory
+ST Src PCoffset    ; pc relative mode
+STR Src Base offset   ; base+offset mode
+STI Src PCoffset           ; indirect mode
+
+; Condition codes N = negative, z = zero, P=positive (>0) 
+; set by any instruction that writes a value to a reg
+; only one will be set at any time.
+
+; branching if set bit is specified jump otherwise continue
+BR(n|z|p|) PCoffset     ; Branch on condition to offset 
+	; missing(nzp) means all
+JMP Base            ; Jump to base  (set PC to Base)
+TRAP trapvect       ; calls a service routine
+JSR PCoffset       ; save PC+1 to R7 & set PC to offset
+JSRR BaseR         ; put PC+1 to R7 & set PC to address in BaseR
+RET                ; return PCgoto contents of R7 inst following subroutine call
+RTI 		   ; Pop two values off of stack, PC and PSR if in superviser mode
+	  	   ; else error
+some optcodes set/clear condition codes, based on result:
+	N = negative, z = zero, P=positive (>0)
+
+Serivce codes:
+x20 GETC         Read a single character from the keyboard. The character is not echoed onto the
+                 console. Its ASCII code is copied into R0. The high eight bits of R0 are cleared.
+x21 OUT          Write a character in R0[7:0] to the console display.
+x22 PUTS         Write a string of ASCII characters to the console display. The characters are contained
+                 in consecutive memory locations, one character per memory location, starting with
+                 the address specified in R0. Writing terminates with the occurrence of x0000 in a
+                 memory location.
+x23 IN           Print a prompt on the screen and read a single character from the keyboard. The
+                 character is echoed onto the console monitor, and its ASCII code is copied into R0.
+                 The high eight bits of R0 are cleared.
+x24 PUTSP        Write a string of ASCII characters to the console. The characters are contained in
+                 consecutive memory locations, two characters per memory location, starting with the
+                 address specified in R0. The ASCII code contained in bits [7:0] of a memory location
+                 is written to the console first. Then the ASCII code contained in bits [15:8] of that
+                 memory location is written to the console. (A character string consisting of an odd
+                 number of characters to be written will have x00 in bits [15:8] of the memory
+                 location containing the last character to be written.) Writing terminates with the
+                 occurrence of x0000 in a memory location.
+x25 HALT         Halt execution and print a message on the console.
+
+Device reg assigngments
+xFE00 Keyboard status register Also known as KBSR. The ready bit (bit [15]) indicates if
+the keyboard has received a new character.
+xFE02 Keyboard data register Also known as KBDR. Bits [7:0] contain the last
+character typed on the keyboard.
+xFE04 Display status register Also known as DSR. The ready bit (bit [15]) indicates if
+the display device is ready to receive another character
+to print on the screen.
+xFE06 Display data register Also known as DDR. A character written in the low byte
+of this register will be displayed on the screen.
+xFFFE Machine control register Also known as MCR. Bit [15] is the clock enable bit.
+When cleared, instruction processing stops.
+
+Pseudo-ops
+.ORIG #  ; start address of code
+.FILL #  ; place valeu # at that code line
+.BLKW #  ; reserve # memory locations for data at that line of code
+.STRINGZ "<string>"   ; place a null terminated string <string> at that location
+.END

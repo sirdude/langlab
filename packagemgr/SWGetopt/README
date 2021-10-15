@@ -1,0 +1,38 @@
+Kent Mein version 0.01
+====================================
+
+OVERVIEW
+
+The SWGetopt module is maybe a bit too ambituous, the general idea 
+behind this, is to provide a tool to create a command line interface
+for an application, and at the same time make it self documenting.
+It is based off of GNU C getopt/getopt_long ideas.
+
+Goals:
+	Simple clean interface builder for commandline option parsing.
+	Documenting the interface is built in.
+	This documentation includes: --help as well as manual docs.
+
+INSTALLATION
+
+To install this module type the following:
+
+perl Makefile.PL
+make
+make test
+make install
+
+DEPENDENCIES
+
+This module requires these other modules and libraries:
+
+	Currently there are no external dependencies.
+
+COPYRIGHT AND LICENSE
+
+Copyright (C) 2016 by Kent Mein
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.18.2 or,
+at your otion, any later version of Perl 5 you may have available.
+

@@ -1,0 +1,69 @@
+-- Taken from http://bnfc.digitalgrammars.com/LBNF-report.pdf
+<Grammar> ::= <ListDef>
+<ListDef> ::= EMPTY
+	| <Def> ; <ListDef>
+<ListItem> ::= | <Item> <ListItem>
+<Def> ::= <Label> . <Cat> ::= <ListItem>
+| comment <String>
+| comment <String> <String>
+| internal <Label> . <Cat> ::= <ListItem>
+| token <Ident> <Reg>
+| position token <Ident> <Reg>
+| entrypoints <ListIdent>
+| separator <MinimumSize> <Cat> <String>
+| terminator <MinimumSize> <Cat> <String>
+| coercions <Ident> <Integer>
+| rules <Ident> ::= <ListRHS>
+| layout <ListString>
+| layout stop <ListString>
+| layout toplevel
+<Item> ::= <String>
+| <Cat>
+<Cat> ::= [ <Cat> ]
+| <Ident>
+<Label> ::= <LabelId>
+| <LabelId> <ListProfItem>
+| <LabelId> <LabelId> <ListProfItem>
+<LabelId> ::= <Ident>
+|
+| [ ]
+| ( : )
+| ( : [ ] )
+<ProfItem> ::= ( [ <ListIntList> ] , [ <ListInteger> ] )
+<IntList> ::= [ <ListInteger> ]
+<ListInteger> ::= EMPTY
+| <Integer>
+| <Integer> , <ListInteger>
+<ListIntList> ::= | <IntList>
+| <IntList> , <ListIntList>
+<ListProfItem> ::= <ProfItem>
+| <ProfItem> <ListProfItem>
+<ListString> ::= <String>
+| <String> , <ListString>
+<ListRHS> ::= <RHS>
+| <RHS> | <ListRHS>
+<RHS> ::= <ListItem>
+<MinimumSize> ::= nonempty
+| EMPTY
+<Reg2> ::= <Reg2> <Reg3>
+| <Reg3>
+<Reg1> ::= <Reg1> | <Reg2>
+| <Reg2> - <Reg2>
+| <Reg2>
+<Reg3> ::= <Reg3> *
+| <Reg3> +
+| <Reg3> ?
+| eps
+| <Char>
+| [ <String> ]
+| { <String> }
+| digit
+| letter
+| upper
+| lower
+| char
+| ( <Reg> )
+<Reg> ::= <Reg1>
+<ListIdent> ::= <Ident>
+| <Ident> , <ListIdent>
+

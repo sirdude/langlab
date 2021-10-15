@@ -1,0 +1,179 @@
+# This is our simple grammar we are going to use as a base
+# It basically says we have the following:
+#      simple comments that start with -- or # and end at the end of a line
+#      Multiline comments start with /* and end with */
+#      Rules which have an Ident on the lefthand side and
+#            on the Righthandside have one or more Idents or terminals ending
+#            in a ;
+#      Terminals are inclosed in "" or ''
+#      "" is used as empty
+#      The following escape chars are supported
+#      \n   newline
+#      \t   tab
+#      \\   escaped \
+#      a single \ is only allowed in comments.
+entry Program ;
+
+comment "#" ;
+comment "--" ;
+comment "/*" "*/" ;
+
+whitespace " " ;
+whitespace "\t" ;
+
+Program ::= Entryline Program ;
+Program ::= Commentline Program ;
+Program ::= Whitespaceline Program ;
+Program ::= Rule Program ;
+Program ::= Comment Program ;
+Program ::= "" ;
+
+Entryline ::= "entry" Ident ";" ;
+
+Commentline ::= "comment" Terminal ";" ;
+Commentline ::= "comment" Terminal Terminal ";" ;
+
+Whitespaceline ::= "whitespace" Terminal ";" ;
+
+Comment ::= "#" Notendofline Endofline ;
+
+Notendofline ::= Letter Notendofline ;
+Notendofline ::= Digit Notendofline ;
+Notendofline ::= Symbol Notendofline ;
+Notendofline ::= Ws Notendofline ;
+Notendofline ::= "\" Notendofline ;
+Notendofline ::= "" ;
+
+Endofline ::= "\n" ;
+
+Rule ::= Optionalws Ident Optionalws "::=" Optionalws Rsh Optionalws ";" ;
+
+Rsh ::= Ident Rsh ;
+Rsh ::= Terminal Rsh ;
+Rsh ::= "" ;
+
+Ws ::= " " Optionalws ;
+Ws ::= "\t" Optionalws ;
+
+Optionalws ::= Ws ;
+Optionalws ::= "" ;
+
+Ident ::= Letter Letterlist ;
+Terminal ::= '"' Text1 '"' ;
+Terminal ::= "'" Text2 "'" ;
+
+Text1 ::= Letter Text1 ;
+Text1 ::= Digit Text1 ;
+Text1 ::= Symbol Text1 ;
+Text1 ::= "'" Text1 ;
+Text1 ::= "" ;
+
+Text2 ::= Letter Text2 ;
+Text2 ::= Digit Text2 ;
+Text2 ::= Symbol Text2 ;
+Text2 ::= '"' Text2 ;
+Text2 ::= "" ;
+
+Letterlist ::= Letter Letterlist ;
+Letterlist ::= Digit Letterlist ;
+Letterlist ::= "." Letterlist ;
+Letterlist ::= "" ;
+
+Letter ::= Lowercase ;
+Letter ::= Uppercase ;
+
+Digit ::= "0" ;
+Digit ::= "1" ;
+Digit ::= "2" ;
+Digit ::= "3" ;
+Digit ::= "4" ;
+Digit ::= "5" ;
+Digit ::= "6" ;
+Digit ::= "7" ;
+Digit ::= "8" ;
+Digit ::= "9" ;
+
+Lowercase ::= "a" ;
+Lowercase ::= "b" ;
+Lowercase ::= "c" ;
+Lowercase ::= "d" ;
+Lowercase ::= "e" ;
+Lowercase ::= "f" ;
+Lowercase ::= "g" ;
+Lowercase ::= "h" ;
+Lowercase ::= "i" ;
+Lowercase ::= "j" ;
+Lowercase ::= "k" ;
+Lowercase ::= "l" ;
+Lowercase ::= "m" ;
+Lowercase ::= "n" ;
+Lowercase ::= "o" ;
+Lowercase ::= "p" ;
+Lowercase ::= "q" ;
+Lowercase ::= "r" ;
+Lowercase ::= "s" ;
+Lowercase ::= "t" ;
+Lowercase ::= "u" ;
+Lowercase ::= "v" ;
+Lowercase ::= "w" ;
+Lowercase ::= "x" ;
+Lowercase ::= "y" ;
+Lowercase ::= "z" ;
+
+Uppercase ::= "A" ;
+Uppercase ::= "B" ;
+Uppercase ::= "C" ;
+Uppercase ::= "D" ;
+Uppercase ::= "E" ;
+Uppercase ::= "F" ;
+Uppercase ::= "G" ;
+Uppercase ::= "H" ;
+Uppercase ::= "I" ;
+Uppercase ::= "J" ;
+Uppercase ::= "K" ;
+Uppercase ::= "L" ;
+Uppercase ::= "M" ;
+Uppercase ::= "N" ;
+Uppercase ::= "O" ;
+Uppercase ::= "P" ;
+Uppercase ::= "Q" ;
+Uppercase ::= "R" ;
+Uppercase ::= "S" ;
+Uppercase ::= "T" ;
+Uppercase ::= "U" ;
+Uppercase ::= "V" ;
+Uppercase ::= "W" ;
+Uppercase ::= "X" ;
+Uppercase ::= "Y" ;
+Uppercase ::= "Z" ;
+
+Symbol ::= "|" ;
+Symbol ::= "-" ;
+Symbol ::= "!" ;
+Symbol ::= "#" ;
+Symbol ::= "$" ;
+Symbol ::= "%" ;
+Symbol ::= "&" ;
+Symbol ::= "(" ;
+Symbol ::= ")" ;
+Symbol ::= "*" ;
+Symbol ::= "+" ;
+Symbol ::= "," ;
+Symbol ::= "." ;
+Symbol ::= "/" ;
+Symbol ::= ":" ;
+Symbol ::= ";" ;
+Symbol ::= "<" ;
+Symbol ::= "=" ;
+Symbol ::= ">" ;
+Symbol ::= "?" ;
+Symbol ::= "@" ;
+Symbol ::= "[" ;
+Symbol ::= "\\" ;
+Symbol ::= "]" ;
+Symbol ::= "^" ;
+Symbol ::= "_" ;
+Symbol ::= "`" ;
+Symbol ::= "{" ;
+Symbol ::= "}" ;
+Symbol ::= "~" ;

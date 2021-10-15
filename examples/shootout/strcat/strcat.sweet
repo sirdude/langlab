@@ -1,0 +1,17 @@
+#!/usr/bin/sweet
+# http://www.bagley.org/~doug/shootout/
+
+int main() {
+	int NUM, x;
+	string str;
+
+	NUM = ARGV[0];
+	if (NUM < 1) { 
+		NUM = 1;
+	}
+
+	foreach x (1,NUM) {
+		str = str . "hello\n";
+	}
+	write(length(str) . "\n");
+}

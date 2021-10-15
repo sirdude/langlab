@@ -1,0 +1,14 @@
+-- taken from http://fileformats.archiveteam.org/wiki/CSV
+<CSVFile> ::= <Record>*
+
+<Record> ::= { <Field> (<Delimiter> <Field>)* } <EOL>
+
+<Field> ::= <SimpleField> <QuotedField>
+
+<SimpleField> :== AlphaNum*  ; Any sequence of alpha-numeric characters
+
+<QuotedField> :== <QuoteChar> <Anychar>* <QuoteChar>  ; See below for quite how flexible <anychar> is
+
+<QuoteChar> :== " | '  ;but note that they generally must match
+
+<Delimiter> :== ","

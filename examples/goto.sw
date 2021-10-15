@@ -1,0 +1,3 @@
+int fun() {
+	goto(TEST);
+}

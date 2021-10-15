@@ -1,0 +1,10 @@
+oprhaned idents: ident is not on rhs and not entrypoint
+undefined idents: ident is not on lhs
+overlaping keywords for vs foreach
+lhs = rhs
+duplicate rules
+lhs = 1 literal (can probably remove it)
+subsets that overlap: 0-9 vs hex (0-9,a-f,A-F), hex should be num | a-f | A-F?
+no entrypoint? (Default is first rule?)
+lhs not a single ident
+

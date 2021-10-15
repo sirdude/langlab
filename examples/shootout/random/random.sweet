@@ -1,0 +1,38 @@
+#!/usr/bin/sweet
+#  http://shootout.alioth.debian.org/
+
+int IM, IA, IC, last;
+
+float gen_random(float max) {
+	last = (last * IA + IC) % IM;
+	return( max * last / IM );
+}
+
+
+int main() {
+	int N, MAX;
+
+	IM = 139968;
+	IA = 3877;
+	IC = 29573;
+	last = 42;
+
+	N = argv[0];
+	MAX = argv[1];
+
+	if (!MAX) {
+		MAX = 100.0;
+	}
+
+	if (!N) {
+		N = 1;
+	}
+
+	while (N > 0) {
+		gen_random(MAX);
+		N = N -1;
+	}
+
+	write("%.9f\n", gen_random(MAX));
+}
+

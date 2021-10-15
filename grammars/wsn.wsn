@@ -1,0 +1,21 @@
+-- taken from https://en.wikipedia.org/wiki/Wirth_syntax_notation
+-- The equals sign indicates a production. The element on the left is 
+-- defined to be the combination of elements on the right. 
+-- A production is terminated by a full stop (period).
+-- Repetition is denoted by curly brackets, e.g., {a} stands for 
+--                    ε | a | aa | aaa  ...
+-- Optionality is expressed by square brackets, e.g., [a]b stands for ab | b.
+-- Parenthesis serve for groupings, e.g., (a|b)c stands for ac | bc.
+
+ SYNTAX     = { PRODUCTION } .
+ PRODUCTION = IDENTIFIER "=" EXPRESSION "." .
+ EXPRESSION = TERM { "|" TERM } .
+ TERM       = FACTOR { FACTOR } .
+ FACTOR     = IDENTIFIER
+            | LITERAL
+            | "[" EXPRESSION "]"
+            | "(" EXPRESSION ")"
+            | "{" EXPRESSION "}" .
+ IDENTIFIER = letter { letter } .
+ LITERAL    = """" character { character } """" .
+

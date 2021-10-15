@@ -1,0 +1,12 @@
+#!/usr/bin/mein
+
+string infile, outfile;
+
+use AST;
+use prompt;
+
+if (!infile) {
+	infile = prompt("Infile: ");
+}
+
+read_text(infile);

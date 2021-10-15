@@ -1,0 +1,18 @@
+# This rule says get a char and make a node out of it giving it a base type.
+# Need to rely on is_letter, is_symbol, is_digit or add them here....
+do_work() {
+	object node;
+	value = get_char();
+
+	if (is_letter(value)) {
+		node = make_node("letter", value);
+	} else if (is_digit(value){
+		node = make_node("digit", value);
+	} else if (is_symbol(value) {
+		node = make_node("symbol", value);
+	} else {
+		node = make_node("unknown", value);
+	}
+
+	return node;
+}

@@ -1,0 +1,33 @@
+Kent Mein version 0.01
+====================================
+
+OVERVIEW
+
+XXX Put something here....
+
+INSTALLATION
+
+To install this module type the following:
+
+perl Makefile.PL
+make
+make test
+make install
+
+DEPENDENCIES
+
+This module requires these other modules and libraries:
+
+   XXX
+
+COPYRIGHT AND LICENSE
+
+XXX we have thrown in a boilerplate statement,
+review this and change it if you want something else here.
+
+Copyright (C) 2016 by Kent Mein
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.18.2 or,
+at your otion, any later version of Perl 5 you may have available.
+

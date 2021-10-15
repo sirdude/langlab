@@ -1,0 +1,27 @@
+Pod commands:
+	=pod
+	=head1 Heading Text
+	=head2 Heading Text
+	=head3 Heading Text
+	=head4 Heading Text
+	=over indentlevel
+	=item stuff
+	=back
+	=begin format
+	=end format
+	=for format text...
+	=encoding type
+	=cut
+
+start with =pod and end with =cut have blank lines before and after = lines...
+
+Formatting codes:
+	be I<careful!>	makes careful! italic
+	B<text>		bold text.
+	C<code>		code is formated as code.
+	L<name>		a hyperlink
+	E<lt>		E stands for escape. This example makes a less than sign 
+	F<filename>	used for filenames.
+	S<text>		do not break text up for word wrapping.
+	X<text>		Create a label "text" doesn't print out.
+	Z<>		do not format this text NZ<<>3 is N<3

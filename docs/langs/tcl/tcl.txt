@@ -1,0 +1,43 @@
+Basic commands
+The most important commands that refer to program execution and data operations are:
+
+set writes a new value to a variable (creates a variable if did not exist). If used only with one argument,
+	it returns the value of the given variable (it must exist in this case).
+proc defines a new command, whose execution results in executing a given Tcl script,
+	written as a set of commands. return can be used to immediately return control to the caller.
+
+The usual execution control commands are:
+
+if executes given script body (second argument), if the condition (first argument) is satisfied.
+	 It can be followed by additional arguments starting from elseif with the alternative condition and body, or else with the complementary block.
+while repeats executing given script body, as long as the condition (first argument) remains satisfied
+foreach executes given body where the control variable is assigned list elements one by one.
+for shortcut for initializing the control variable, condition (as in while) and the additional
+	 "next iteration" statement (command executed after executing the body)
+Those above looping commands can be additionally controlled by the following commands:
+
+break interrupts the body execution and returns from the looping command
+continue interrupts the body execution, but the control is still given back to the looping command.
+	 For while it means to loop again, for for and foreach, pick up the next iteration.
+return interrupts the execution of the current body no matter how deep inside a procedure,
+	until reaching the procedure boundary, and returns given value to the caller.
+
+Advanced commands
+expr passes the argument to a separate expression interpreter and returns the evaluated value.
+	Note that the same interpreter is used also for "conditional" expression for if and looping commands.
+list creates a list comprising all the arguments, or an empty string if no argument is specified.
+	The lindex command may be used on the result to re-extract the original arguments.
+array manipulates array variables.
+dict manipulates dictionary (since 8.5), which are lists with an even number of elements where every two
+	elements are interpreted as a key/value pair.
+regexp matches a regular expression against a string.
+regsub Performs substitutions based on regular expression pattern matching.
+uplevel is a command that allows a command script to be executed in a scope other than the current innermost
+	scope on the stack.
+upvar creates a link to variable in a different stack frame.
+namespace lets you create, access, and destroy separate contexts for commands and variables.
+apply applies an anonymous function (since 8.6).
+coroutine, yield, and yieldto create and produce values from coroutines (since 8.6).
+try lets you trap and process errors and exceptions.
+catch lets you trap exceptional returns.
+zlib provides access to the compression and checksumming facilities of the Zlib library (since 8.6).

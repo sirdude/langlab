@@ -1,0 +1,66 @@
+# Perl treats '' as no parse and "" as parse
+# can do q// or qq// or q() or qq() instead as well...
+# 
+#Seq.  Code Point  ASCII   Cntrl   Description.
+#      Dec   Hex
+  \a     7     07    BEL    \cG    alarm or bell
+  \b     8     08     BS    \cH    backspace [1]
+  \e    27     1B    ESC    \c[    escape character
+  \f    12     0C     FF    \cL    form feed
+  \n    10     0A     LF    \cJ    line feed [2]
+  \r    13     0D     CR    \cM    carriage return
+  \t     9     09    TAB    \cI    tab
+
+\N{}         Named or numbered Unicode char or sequence.
+\o{}         Octal escape sequence...
+
+
+AsCII table has this:
+Dec	Hex	Oct	HTML	Chr
+32	0x20	040	&#32;	Space
+48	0x30	060	&#48;	0
+
+So lets assum dec, 0x denotes hex, &#(NUM); denotes html, and actuall letter as well.
+Need functions to convert between the given values as well.
+
+I think drop control provide a way for each of the above...
+dec,hex, oct,html
+
+Control chars...   chr(0) = \c@ chr(1) = \cA so could do with just ascii???
+ chr   ord   8859-1    0037    1047 && POSIX-BC
+ -----------------------------------------------------------------------
+ \c@     0   <NUL>     <NUL>        <NUL>
+ \cA     1   <SOH>     <SOH>        <SOH>
+ \cB     2   <STX>     <STX>        <STX>
+ \cC     3   <ETX>     <ETX>        <ETX>
+ \cD     4   <EOT>     <ST>         <ST>
+ \cE     5   <ENQ>     <HT>         <HT>
+ \cF     6   <ACK>     <SSA>        <SSA>
+ \cG     7   <BEL>     <DEL>        <DEL>
+ \cH     8   <BS>      <EPA>        <EPA>
+ \cI     9   <HT>      <RI>         <RI>
+ \cJ    10   <LF>      <SS2>        <SS2>
+ \cK    11   <VT>      <VT>         <VT>
+ \cL    12   <FF>      <FF>         <FF>
+ \cM    13   <CR>      <CR>         <CR>
+ \cN    14   <SO>      <SO>         <SO>
+ \cO    15   <SI>      <SI>         <SI>
+ \cP    16   <DLE>     <DLE>        <DLE>
+ \cQ    17   <DC1>     <DC1>        <DC1>
+ \cR    18   <DC2>     <DC2>        <DC2>
+ \cS    19   <DC3>     <DC3>        <DC3>
+ \cT    20   <DC4>     <OSC>        <OSC>
+ \cU    21   <NAK>     <NEL>        <LF>              **
+ \cV    22   <SYN>     <BS>         <BS>
+ \cW    23   <ETB>     <ESA>        <ESA>
+ \cX    24   <CAN>     <CAN>        <CAN>
+ \cY    25   <EOM>     <EOM>        <EOM>
+ \cZ    26   <SUB>     <PU2>        <PU2>
+ \c[    27   <ESC>     <SS3>        <SS3>
+ \c\X   28   <FS>X     <FS>X        <FS>X
+ \c]    29   <GS>      <GS>         <GS>
+ \c^    30   <RS>      <RS>         <RS>
+ \c_    31   <US>      <US>         <US>
+ \c?    *    <DEL>     <APC>        <APC>
+
+

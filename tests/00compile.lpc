@@ -1,0 +1,88 @@
+inherit backend "/std/backend";
+inherit "/std/tests";
+
+string testdir;
+
+void test_get_char(void) {
+	is("open_compfile(" + testdir + "/getchar.txt)", 1, "open_compfile",
+		testdir + "/getchar.txt");
+	is("Read values with getchar: #", "#", "get_char");
+	is("Read values with getchar: \\n", "\\n", "get_char");
+	is("Read values with getchar: \\\\", "\\\\", "get_char");
+	is("Read values with getchar: n", "n", "get_char");
+	is("Read values with getchar: \\n", "\\n", "get_char");
+	is("Read values with getchar: \\\\", "\\\\", "get_char");
+	is("Read values with getchar: r", "r", "get_char");
+	is("Read values with getchar: \\n", "\\n", "get_char");
+	is("Read values with getchar: ' '", " ", "get_char");
+	is("Read values with getchar: \\n", "\\n", "get_char");
+	is("Read values with getchar: \\\\", "\\\\", "get_char");
+	is("Read values with getchar: \\\\", "\\\\", "get_char");
+	is("Read values with getchar: \\n", "\n", "get_char");
+	is("Read values with getchar: ^F", "^F", "get_char");
+	is("close_compfile()", 1, "close_compfile");
+}
+
+void test_symbol_table(void) {
+	is("Insert variable x=10(int) into symbol table.", 1, "insert_symbol",
+		"x", "int", 10);
+	is("Insert samy symbol twice.", 0, "insert_symbol", "x", "int", 10);
+
+	is("See if invalid entry is in symbol table.", 0, "intable", "0");
+	is("See if variable x is in symbol table.", 1, "intable", "x");
+
+	is("Lookup value of invalid entry.", "", "lookup_value", "0");
+	is("Lookup value off variable x.", 10, "lookup_value", "x");
+
+	is("Lookup type of invalid entry.", "", "lookup_type", "0");
+	is("Lookup type of variable x.", "int", "lookup_type", "x");
+
+	/* Make sure still not in the table after the other checks. */
+	is("Intable correctly identifies 0 not in symbol table.", 0,
+		"intable", "0");
+
+	/* XXX Need to fix this
+	test_file("$testdir/empty.sw");
+	*/
+}
+
+int run_tests(string str) {
+	add_option("debug", "Enable debugging mode.", "");
+	add_option("help", "Print this usage message.", "");
+	add_option("names", "Use ident names in stats not just the word ident.",
+		"");
+	add_option("output", "Set the output file.", "FILE");
+
+	str = parse_options(str);
+
+	if (file_exists("./examples") == -1) {
+		testdir = "./examples";
+		is("Test loading a backend file.", 1, "load_backend",
+			"my_bnf.pl");
+	} else {
+		testdir = "../examples";
+		is("Test loading a backend file.", 1, "load_backend",
+			"../my_bnf.pl");
+	}
+
+	is("Test setting EOF.", "^F", "set_eof", "^F");
+	backend::init_backend(keywords);
+
+	test_get_char();
+	test_symbol_table();
+
+	test_summary();
+	return 1;
+}
+
+void setup(void) {
+	set_id("tester");
+	set_gettable(1);
+
+	add_action("run_tests", "run_tests");
+	set_short("An backend tester");
+	set_long("Give it a try if you dare.  Type run_tests");
+	set_weight(1);
+	set_value(1);
+	init_tests();
+}

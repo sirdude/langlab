@@ -1,0 +1,24 @@
+include "letter.bnf";
+include "digit.bnf";
+include "symbol.bnf";
+
+Ident ::= Letter Letterlist ;
+Terminal ::= '"' Text1 '"' ;
+Terminal ::= "'" Text2 "'" ;
+
+Text1 ::= Letter Text1 ;
+Text1 ::= Digit Text1 ;
+Text1 ::= Symbol Text1 ;
+Text1 ::= "'" Text1 ;
+Text1 ::= "" ;
+
+Text2 ::= Letter Text2 ;
+Text2 ::= Digit Text2 ;
+Text2 ::= Symbol Text2 ;
+Text2 ::= '"' Text2 ;
+Text2 ::= "" ;
+
+Letterlist ::= Letter Letterlist ;
+Letterlist ::= Digit Letterlist ;
+Letterlist ::= "." Letterlist ;
+Letterlist ::= "" ;

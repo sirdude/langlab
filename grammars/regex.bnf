@@ -1,0 +1,156 @@
+# Taken from: https://stackoverflow.com/questions/1435411/what-is-the-bnf-for-a-regex-in-order-to-write-a-full-or-partial-parser
+#
+# [book: see also: Bucknall, Julian - the Tomes of Delphi: Algorithms 
+# and Datastructures - p. 37 - 'Using regular expressions' - 
+# http://www.amazon.com/exec/obidos/tg/detail/1556227361/qid=1065748783/sr=1-1/ref=sr_1_1/002-0122962-7851254?v=glance&s=books]
+# Compiler: Grammar: Expression: Regular: Which grammar defines set of all regular expressions? [BNF]
+# http://www.faqts.com/knowledge_base/view.phtml/aid/25950/fid/1263
+#
+# Perl Regular Expression: Quick Reference 1.05
+# http://www.erudil.com/preqr.pdf
+#
+# Top: Computers: Programming: Languages: Regular Expressions: Perl
+# http://dmoz.org/Computers/Programming/Languages/Regular_Expressions/Perl/
+#
+
+regex_expression = regex_term
+regex_expression = regex_term "|" regex_expression
+
+regex_term = regex_factor
+regex_term = regex_factor regex_term
+
+regex_factor = regex_atom
+regex_factor = regex_atom regex_metacharacter
+
+regex_atom = regex_character
+regex_atom = "."
+regex_atom = "(" regex_expression ")"
+regex_atom = "[" regex_characterclass "]"
+regex_atom = "[" "^" regex_characterclass "]"
+regex_atom = "{" regex_min "}"
+regex_atom = "{" regex_min ","  "}"
+regex_atom = "{" regex_min "," regex_max "}"
+
+regex_characterclass = regex_characterrange
+regex_characterclass = regex_characterrange regex_characterclass
+
+regex_characterrange = regex_begincharacter
+regex_characterrange = regex_begincharacter "-" regex_endcharacter
+
+regex_begincharacter = regex_character
+regex_endcharacter = regex_character
+
+# XXX Need to define these two better...
+regex_character = regex_anycharacterexceptmetacharacters
+regex_character = "\" regex_anycharacterexceptspecialcharacters
+
+# optional
+regex_metacharacter = "?"
+# zero or more, greedy
+regex_metacharacter = "*"
+# zero or more, non greedy
+regex_metacharacter = "*?"
+# one ore more, greedy
+regex_metacharacter = "+"
+# one ore more, non-greedy
+regex_metacharacter = "+?"
+# begin of line
+regex_metacharacter = "^"
+# end of line
+regex_metacharacter = "$"
+# characters to the left of the match
+regex_metacharacter = "$`"
+# characters to the right of the match
+regex_metacharacter = "$'"
+# characters that are matched
+regex_metacharacter = "$&"
+# tab
+regex_metacharacter = "\t"
+# newline
+regex_metacharacter = "\n"
+# carrage return
+regex_metacharacter = "\r"
+# form feed
+regex_metacharacter = "\f"
+# control character CTRL-X   where X is any char? XXX
+regex_metacharacter = "\cX"
+# characters in the Nth tag (if on match side) where N is a digit XXX
+regex_metacharacter = "\N" 
+# characters in the Nth tag (if not on match side) where N is a digit XXX
+regex_metacharacter = "$N"
+# octal code for character where N is a digit XXX 
+regex_metacharacter = \NNN
+# match a word boundary
+regex_metacharacter = "\b"
+# match a non word boundary
+regex_metacharacter = "\B"
+# a digit
+regex_metacharacter = "\d"
+# not a digit
+regex_metacharacter = "\D"
+# whitespace [ \t\n\r\f]
+regex_metacharacter = "\s"
+# not whitespace [^ \t\n\r\f]
+regex_metacharacter = "\S"
+# 'word' character, [a-zA-Z0-9_]
+regex_metacharacter = "\w" 
+# not a 'word' character, [^a-zA-Z0-9_]
+regex_metacharacter = "\W"
+# put a quote (de-meta) on characters, until \E
+regex_metacharacter = "\Q"
+# change characters to uppercase, until \E
+regex_metacharacter = "\U"
+# convert characters to lowercase, until \E
+regex_metacharacter = "\L"
+
+regex_min = regex_integer
+regex_max = regex_integer
+
+regex_integer = digit
+regex_integer = digit regex_integer
+
+regex_anycharacter = digit
+regex_anycharacter = letter
+regex_anycharacter = symbol
+regex_anycharacter = quotes
+
+digit = [0-9]
+
+letter = [A-Z]
+letter = [a-z]
+
+# Could convert this to a range...
+symbol = "!" 
+symbol = "#"
+symbol = "$" 
+symbol = "%"
+symbol = "&"
+symbol = "("
+symbol = ")"
+symbol = "*"
+symbol = "+"
+symbol = ","
+symbol = "-"
+symbol = "."
+symbol = "/"
+symbol = ":"
+symbol = ";"
+symbol = "<"
+symbol = "="
+symbol = ">"
+symbol = "?"
+symbol = "@"
+symbol = "["
+symbol = '\'
+symbol = "]"
+symbol = "^"
+symbol = "_"
+symbol = "`"
+symbol = "{"
+symbol = "|"
+symbol = "}"
+symbol = "~"
+
+quotes = '"' 
+quotes = "'"
+

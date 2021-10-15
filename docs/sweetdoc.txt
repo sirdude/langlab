@@ -1,0 +1,14 @@
+Utility like perldoc
+	Works on pakcages, functions, variables, types, keywords
+
+Basically it searches for an item and then finds any documentation attached
+	to that item and displays it.
+
+Possible search order:
+	Keywords
+	Types
+	Basic functions
+	Packages	(looks for variables/functions)
+	Code (looks for variables/functions)
+
+On the last two list files it found it in and position along with documentation.

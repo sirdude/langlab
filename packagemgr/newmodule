@@ -1,0 +1,293 @@
+#!/usr/bin/perl
+# Similar to h2xs -X -n name in perl....
+
+use strict;
+use warnings;
+
+our $VERSION = '0.01';
+
+# Defaults for our template
+my $TEMPLATEVERSION = '0.01';
+my $AUTHOR_NAME = get_user();
+my $AUTHOR_EMAIL = get_email();
+my $YEAR = get_year();
+
+sub usage {
+	print "Usage: $0 (name)\n";
+	print "Creates a template for a new module.\n";
+
+	return 1;
+}
+
+sub valid_modulename {
+	my ($mname) = @_;
+
+	chomp $mname;
+
+	if (!$mname || $mname eq "") {
+		return 0;
+	}
+
+	if ( $mname =~ m{^ [A-Z] (\w|\-)* $}x ) {
+		return 1;
+	}
+
+	return 0;
+}
+
+sub get_user {
+	my @values = getpwuid($>);
+	if ($#values > 6) {
+		my $name = $values[6];
+		if ($name) {
+			return $name;
+		}
+	}
+	return "XXXYOURNAMEHERE";
+}
+
+sub get_email {
+	return "XXXYOUREMAILHERE";
+}
+
+sub get_year {
+	my @values = localtime(time);
+	my $year = $values[5] + 1900;
+
+	return $year;
+}
+
+sub write_manifest {
+	my ($mname) = @_;
+	my $fname = "$mname/MANIFEST";
+	my ($fh);
+	open($fh, ">", $fname) or die "Unable to open $fname\n";
+
+	if (!$fh) {
+		return 0;
+	}
+
+	print $fh "Changes\n";
+	print $fh "Makefile.PL\n";
+	print $fh "MANIFEST\n";
+	print $fh "README\n";
+	print $fh "t/$mname.t\n";
+	print $fh "lib/$mname.pm\n";
+
+	close($fh);
+
+	return 1;
+}
+
+sub write_readme {
+	my ($mname) = @_;
+	my $fname = "$mname/README";
+	my ($fh);
+
+	open($fh, ">", $fname) or die "Unable to open $fname\n";
+
+	if (!$fh) {
+		return 0;
+	}
+
+	print $fh "$AUTHOR_NAME version $TEMPLATEVERSION\n";
+	print $fh "====================================\n\n";
+	print $fh "OVERVIEW\n\n";
+	print $fh "XXX Put something here....\n\n";
+	print $fh "INSTALLATION\n\n";
+	print $fh "To install this module type the following:\n\n";
+	print $fh "perl Makefile.PL\n";
+	print $fh "make\n";
+	print $fh "make test\n";
+	print $fh "make install\n\n";
+	print $fh "DEPENDENCIES\n\n";
+	print $fh "This module requires these other modules and libraries:\n\n";
+	print $fh "   XXX\n\n";
+	print $fh "COPYRIGHT AND LICENSE\n\n";
+	print $fh "XXX we have thrown in a boilerplate statement,\n";
+	print $fh "review this and change it if you want something else " .
+		"here.\n\n";
+	print $fh "Copyright (C) $YEAR by $AUTHOR_NAME\n\n";
+	print $fh "This library is free software; you can redistribute it " .
+		"and/or modify\n";
+	print $fh "it under the same terms as Perl itself, either Perl " .
+		"version 5.18.2 or,\n";
+	print $fh "at your otion, any later version of Perl 5 you may have " .
+		"available.\n\n";
+
+	close($fh);
+
+	return 1;
+}
+
+sub write_test {
+	my ($mname) = @_;
+	my $fname = "$mname/t/$mname.t";
+	my ($fh);
+
+	open($fh, ">", $fname) or die "Unable to open $fname\n";
+
+	if (!$fh) {
+		return 0;
+	}
+
+	print $fh "# Before 'make install' is preformed this script shoud " .
+		"be runnable with\n";
+	print $fh "# 'make test'.  After 'make install' it should work as " .
+		"'perl $mname.t'\n\n";
+	print $fh "####################\n\n";
+	print $fh "# change 'tests => 1' to 'tests => last_test_to_print';\n\n";
+	print $fh "use strict;\n";
+	print $fh "use warnings;\n";
+	print $fh "use Test::More tests=> 1;;\n\n";
+	print $fh "BEGIN { use_ok('$mname') };\n\n";
+	print $fh "####################\n\n";
+	print $fh "# Insert your test code below, the Test::More module " .
+		"is used here so read\n";
+	print $fh "# its man page ( perldoc Test::More ) for help writing " .
+		"this test script.\n";
+
+	close($fh);
+
+	return 1;
+}
+
+sub write_module {
+	my ($mname) = @_;
+	my $fname = "$mname/lib/$mname.pm";
+	my ($fh);
+
+	open($fh, ">", $fname) or die "Unable to open $fname\n";
+	if (!$fh) {
+		return 0;
+	}
+
+	print $fh "package $mname;\n\n";
+	print $fh "use strict;\n";
+	print $fh "use warnings;\n";
+	print $fh "use base 'Exporter';\n\n";
+	print $fh "our \$VERSION = '$TEMPLATEVERSION';\n\n";
+	print $fh "# Below is the template documenation for your module you " .
+		"need to edit this.\n\n";
+	print $fh "=head1 NAME\n\n";
+	print $fh "$mname - A module for XXX\n\n";
+	print $fh "=head1 SYNOPSIS\n\n";
+	print $fh "use $mname;\n";
+	print $fh "XXX;\n\n";
+	print $fh "=head1 DESCRIPTION\n\n";
+
+	print $fh "Stub documentation for $mname.  It looks like the author\n";
+	print $fh "of the textension was negligent enough to leave the stub\n";
+	print $fh "uneditied.\n\n";
+	print $fh "XXX\n\n";
+
+	print $fh "=head1 SEE ALSO\n\n";
+	print $fh "XXX Mention other useful documentation, related modules, " .
+		"man pages,\n";
+	print $fh "RFCs or standards.\n\n";
+	print $fh "If you have a mailing list set up for your module, " .
+		"put it here.\n\n";
+	print $fh "If you have a web site  set up for your module, " .
+		"put it here.\n\n";
+	print $fh "=head1 AUTHOR\n\n";
+	print $fh "$AUTHOR_NAME <$AUTHOR_EMAIL>\n\n";
+	print $fh "=head1 COPYRIGHT AND LICENSE\n\n";
+	print $fh "Copyright (C) $YEAR by $AUTHOR_NAME\n\n";
+	print $fh "This library is free software; you can redistribute it " .
+		"and/or modify\n";
+	print $fh "it under the same terms as Perl itself, either Perl " .
+		"version 5.18.2 or,\n";
+	print $fh "at your option, any later version of Perl 5 you may have " .
+		"available.\n\n";
+
+	print $fh "=cut\n";
+
+	close($fh);
+
+	return 1;
+}
+
+sub write_changes {
+	my ($mname) = @_;
+	my $fname = "$mname/Changes";
+	my ($fh);
+
+	open($fh, ">", $fname) or die "Unable to open $fname\n";
+	if (!$fh) {
+		return 0;
+	}
+
+	print $fh "Revision history for Perl extension $mname.\n\n";
+	print $fh "$TEMPLATEVERSION " . localtime(time()) . "\n";
+	print $fh "\t- original version; created by $AUTHOR_NAME with $0\n";
+
+	close($fh);
+
+	return 1;
+}
+
+sub write_makefile {
+	my ($mname) = @_;
+	my $fname = "$mname/Makefile.PL";
+	my ($fh);
+
+# XXX Need to work on this, need to install it where we want not on the system.
+	open($fh, ">", $fname) or die "Unable to open $fname\n";
+	if (!$fh) {
+		return 0;
+	}
+
+	print $fh "use ExtUtils::MakeMaker;\n";
+	print $fh "# See lib/ExtUtils/MakeMaker.pm for details of how " .
+		"to influence\n";
+	print $fh "# the contents of the Makefile that is written.\n";
+	print $fh "WriteMakefile(\n";
+	print $fh "    NAME              => '$mname',\n";
+	print $fh "    VERSION_FROM      => 'lib/$mname.pm', " .
+		"# finds $TEMPLATEVERSION\n";
+	print $fh "    PREREQ_PM         => {}, # e.g., " .
+		"Module::Name => 1.1\n";
+	print $fh "    ($] >= 5.005 ?     " .
+		"## Add these new keywords supported since 5.005\n";
+	print $fh "      (ABSTRACT_FROM  => 'lib/$mname.pm', " .
+		"# retrieve abstract from module\n";
+	print $fh "       AUTHOR         => '$AUTHOR_NAME " .
+		"<$AUTHOR_EMAIL>') : ()),\n";
+	print $fh ");\n";
+
+	close($fh);
+
+	return 1;
+}
+
+
+my ($modulename) = @ARGV;
+
+if (!$modulename || ($modulename eq "")) {
+	usage();
+	exit 1;
+}
+
+if (!valid_modulename($modulename)) {
+	print "Invalid modulename: $modulename\n";
+	print "Name should start with an uppercase letter, with no spaces.\n";
+	exit 1;
+}
+
+# Make our directory structure
+if (-d $modulename) {
+	print "subdirectory $modulename already exists.\n";
+	exit 1;
+} else {
+	mkdir($modulename);
+	mkdir("$modulename/lib");
+	mkdir("$modulename/t");
+}
+
+write_readme($modulename);
+write_module($modulename);
+write_manifest($modulename);
+write_makefile($modulename);
+write_changes($modulename);
+write_test($modulename);
+

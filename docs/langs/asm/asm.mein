@@ -1,0 +1,63 @@
+# assuming open, getline are defined
+
+int process_opt(string optcode, string rest) {
+}
+
+string strip_leadingwhite_andcomments(string line) {
+	string stripwhite, stripcomment, tmp;
+
+	stripwhite = '\n+(.*)';
+	stripcomment = '(.*)#(.*)';
+
+	tmp = regex(stripwhite, line);
+
+	if (tmp) {
+		line = tmp;
+	}
+
+	tmp = regex(stripcomment, line);
+
+	if (tmp) {
+		return tmp;
+	}
+
+	return line;
+}
+
+int main(infile string) {
+	bool done bool
+	string line, line2
+	int x 
+	file fp
+	
+	if (open(fp, READ, infile)) {
+		done = 0
+		x = 0
+		while (!done) {
+			x = x + 1
+
+			if (line = getline(fp)) {
+				line2 = strip_leadingwhite_andcomments(line)
+
+				if (sizeof(line2) > 0) {
+					(opcode, rest) = getopt(line2)
+					if (!process_opt(optcode, rest)) {
+						print "Error Line " + x + ":" + line
+	
+						close(fp)
+						exit(1)
+					}
+				}
+			} else {
+				close(fp)
+				done = 1
+			}
+		}
+	} else {
+		print "unable to open " + infile + "\n"
+		return 0
+	}
+	return 1
+}	
+
+main("example.mein")

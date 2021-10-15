@@ -1,0 +1,36 @@
+character
+%b      an integer in binary   10 -> 1010
+%c      character from ASCII number 97 -> a
+%d, %i	integer number (base 10)
+%e	exponential floating-point number 10.1 -> 1.010000e+01
+%E      sames as %e but uppercase
+%f	floating-point number
+%o	octal number (base 8) 10 -> 12
+%s	a string of characters
+%u	unsigned decimal (integer) number
+%x	number in hexadecimal (base 16)
+%X      hex uppercase
+%%	print a percent sign
+\%	print a percent sign
+
+%3d   means print int with minimal width of 3 spaces right justified
+%-3d  means same with left justified
+%-03d means same but pading with zeros.
+%+d  means print int with a plus sign for non negative numbers...
+%-+d means the same but left justified...
+
+%.5f means print a float with 5 digits after the .
+%8.2f means 8 wide, two positions after the decimal
+
+\a bell
+\b backspace
+\f form feed
+\n newline or linefeed
+\r carriage return
+\t tab
+\v vertical tab
+\\ backslash
+\"  to print "
+\'  to print '
+
+

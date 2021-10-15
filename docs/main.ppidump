@@ -1,0 +1,449 @@
+                    PPI::Document
+[    1,   1,   1 ]   PPI::Token::Comment  	'#!/usr/bin/perl\n'
+[    2,   1,   1 ]   PPI::Token::Comment  	'# Our program is broken up into 3 parts \n'
+[    3,   1,   1 ]   PPI::Token::Comment  	'# this file         handles the commandline options\t(GUI)\n'
+[    4,   1,   1 ]   PPI::Token::Comment  	'# backend.pm        has lowlevel functions that are generic\n'
+[    5,   1,   1 ]   PPI::Token::Comment  	'# my_bnf.pl         has our language specific code, loaded by load_backend\n'
+[    6,   1,   1 ]   PPI::Token::Whitespace  	'\n'
+                      PPI::Statement::Include
+[    7,   1,   1 ]     PPI::Token::Word  	'use'
+[    7,   4,   4 ]     PPI::Token::Whitespace  	' '
+[    7,   5,   5 ]     PPI::Token::Word  	'strict'
+[    7,  11,  11 ]     PPI::Token::Structure  	';'
+[    7,  12,  12 ]   PPI::Token::Whitespace  	'\n'
+                      PPI::Statement::Include
+[    8,   1,   1 ]     PPI::Token::Word  	'use'
+[    8,   4,   4 ]     PPI::Token::Whitespace  	' '
+[    8,   5,   5 ]     PPI::Token::Word  	'warnings'
+[    8,  13,  13 ]     PPI::Token::Structure  	';'
+[    8,  14,  14 ]   PPI::Token::Whitespace  	'\n'
+[    9,   1,   1 ]   PPI::Token::Whitespace  	'\n'
+                      PPI::Statement::Include
+[   10,   1,   1 ]     PPI::Token::Word  	'use'
+[   10,   4,   4 ]     PPI::Token::Whitespace  	' '
+[   10,   5,   5 ]     PPI::Token::Word  	'lib'
+[   10,   8,   8 ]     PPI::Token::Whitespace  	' '
+                        PPI::Structure::List  	( ... )
+                          PPI::Statement::Expression
+[   10,  10,  10 ]         PPI::Token::Quote::Single  	''.''
+[   10,  14,  14 ]     PPI::Token::Structure  	';'
+[   10,  15,  15 ]   PPI::Token::Whitespace  	'\n'
+                      PPI::Statement::Include
+[   11,   1,   1 ]     PPI::Token::Word  	'use'
+[   11,   4,   4 ]     PPI::Token::Whitespace  	' '
+[   11,   5,   5 ]     PPI::Token::Word  	'backend'
+[   11,  12,  12 ]     PPI::Token::Structure  	';'
+[   11,  13,  13 ]   PPI::Token::Whitespace  	'\n'
+                      PPI::Statement::Include
+[   12,   1,   1 ]     PPI::Token::Word  	'use'
+[   12,   4,   4 ]     PPI::Token::Whitespace  	' '
+[   12,   5,   5 ]     PPI::Token::Word  	'options'
+[   12,  12,  12 ]     PPI::Token::Structure  	';'
+[   12,  13,  13 ]   PPI::Token::Whitespace  	'\n'
+[   13,   1,   1 ]   PPI::Token::Whitespace  	'\n'
+                      PPI::Statement
+[   14,   1,   1 ]     PPI::Token::Word  	'load_backend'
+                        PPI::Structure::List  	( ... )
+                          PPI::Statement::Expression
+[   14,  14,  14 ]         PPI::Token::Quote::Single  	''my_bnf.pl''
+[   14,  26,  26 ]     PPI::Token::Structure  	';'
+[   14,  27,  27 ]   PPI::Token::Whitespace  	'\n'
+[   15,   1,   1 ]   PPI::Token::Whitespace  	'\n'
+                      PPI::Statement::Sub
+[   16,   1,   1 ]     PPI::Token::Word  	'sub'
+[   16,   4,   4 ]     PPI::Token::Whitespace  	' '
+[   16,   5,   5 ]     PPI::Token::Word  	'usage'
+[   16,  10,  10 ]     PPI::Token::Whitespace  	' '
+                        PPI::Structure::Block  	{ ... }
+[   16,  12,  12 ]       PPI::Token::Whitespace  	'\n'
+[   17,   1,   1 ]       PPI::Token::Whitespace  	'\t'
+                          PPI::Statement
+[   17,   2,   2 ]         PPI::Token::Word  	'print'
+[   17,   7,   7 ]         PPI::Token::Whitespace  	' '
+[   17,   8,   8 ]         PPI::Token::Quote::Double  	'"\tusage: $0 [Options] [FILENAME]\n\n"'
+[   17,  46,  46 ]         PPI::Token::Structure  	';'
+[   17,  47,  47 ]       PPI::Token::Whitespace  	'\n'
+[   18,   1,   1 ]       PPI::Token::Whitespace  	'\t'
+                          PPI::Statement
+[   18,   2,   2 ]         PPI::Token::Word  	'print'
+[   18,   7,   7 ]         PPI::Token::Whitespace  	' '
+[   18,   8,   8 ]         PPI::Token::Quote::Double  	'"This application uses our reusable compiler code to build "'
+[   18,  68,  68 ]         PPI::Token::Structure  	';'
+[   18,  69,  69 ]       PPI::Token::Whitespace  	'\n'
+[   19,   1,   1 ]       PPI::Token::Whitespace  	'\t'
+                          PPI::Statement
+[   19,   2,   2 ]         PPI::Token::Word  	'print'
+[   19,   7,   7 ]         PPI::Token::Whitespace  	' '
+[   19,   8,   8 ]         PPI::Token::Quote::Double  	'"a translator from\n"'
+[   19,  29,  29 ]         PPI::Token::Structure  	';'
+[   19,  30,  30 ]       PPI::Token::Whitespace  	'\n'
+[   20,   1,   1 ]       PPI::Token::Whitespace  	'\t'
+                          PPI::Statement
+[   20,   2,   2 ]         PPI::Token::Word  	'print'
+[   20,   7,   7 ]         PPI::Token::Whitespace  	' '
+[   20,   8,   8 ]         PPI::Token::Quote::Double  	'"standard bnf to the syntax we use internally."'
+[   20,  55,  55 ]         PPI::Token::Structure  	';'
+[   20,  56,  56 ]       PPI::Token::Whitespace  	'\n'
+[   21,   1,   1 ]       PPI::Token::Whitespace  	'\t'
+                          PPI::Statement
+[   21,   2,   2 ]         PPI::Token::Word  	'print'
+[   21,   7,   7 ]         PPI::Token::Whitespace  	' '
+[   21,   8,   8 ]         PPI::Token::Quote::Double  	'"  our second application will\n"'
+[   21,  41,  41 ]         PPI::Token::Structure  	';'
+[   21,  42,  42 ]       PPI::Token::Whitespace  	'\n'
+[   22,   1,   1 ]       PPI::Token::Whitespace  	'\t'
+                          PPI::Statement
+[   22,   2,   2 ]         PPI::Token::Word  	'print'
+[   22,   7,   7 ]         PPI::Token::Whitespace  	' '
+[   22,   8,   8 ]         PPI::Token::Quote::Double  	'"translate the other direction.\n"'
+[   22,  42,  42 ]         PPI::Token::Structure  	';'
+[   22,  43,  43 ]       PPI::Token::Whitespace  	'\n'
+[   23,   1,   1 ]       PPI::Token::Whitespace  	'\t'
+                          PPI::Statement
+[   23,   2,   2 ]         PPI::Token::Word  	'print'
+[   23,   7,   7 ]         PPI::Token::Whitespace  	' '
+[   23,   8,   8 ]         PPI::Token::Quote::Double  	'"\n"'
+[   23,  12,  12 ]         PPI::Token::Structure  	';'
+[   23,  13,  13 ]       PPI::Token::Whitespace  	'\n'
+[   24,   1,   1 ]       PPI::Token::Whitespace  	'\t'
+                          PPI::Statement
+[   24,   2,   2 ]         PPI::Token::Word  	'print'
+[   24,   7,   7 ]         PPI::Token::Whitespace  	' '
+[   24,   8,   8 ]         PPI::Token::Quote::Double  	'"If filename is present load that file and parse it.  If not,\n"'
+[   24,  72,  72 ]         PPI::Token::Structure  	';'
+[   24,  73,  73 ]       PPI::Token::Whitespace  	'\n'
+[   25,   1,   1 ]       PPI::Token::Whitespace  	'\t'
+                          PPI::Statement
+[   25,   2,   2 ]         PPI::Token::Word  	'print'
+[   25,   7,   7 ]         PPI::Token::Whitespace  	' '
+[   25,   8,   8 ]         PPI::Token::Quote::Double  	'"start excepting input from stdin, use ^F to exit.\n\n"'
+[   25,  63,  63 ]         PPI::Token::Structure  	';'
+[   25,  64,  64 ]       PPI::Token::Whitespace  	'\n'
+[   26,   1,   1 ]       PPI::Token::Whitespace  	'\t'
+                          PPI::Statement
+[   26,   2,   2 ]         PPI::Token::Word  	'print'
+[   26,   7,   7 ]         PPI::Token::Whitespace  	' '
+[   26,   8,   8 ]         PPI::Token::Quote::Double  	'"Options:\n"'
+[   26,  20,  20 ]         PPI::Token::Structure  	';'
+[   26,  21,  21 ]       PPI::Token::Whitespace  	'\n'
+[   27,   1,   1 ]       PPI::Token::Whitespace  	'\t'
+                          PPI::Statement
+[   27,   2,   2 ]         PPI::Token::Word  	'print_options'
+                            PPI::Structure::List  	( ... )
+[   27,  17,  17 ]         PPI::Token::Structure  	';'
+[   27,  18,  18 ]       PPI::Token::Whitespace  	'\n'
+[   28,   1,   1 ]       PPI::Token::Whitespace  	'\n\t'
+                          PPI::Statement::Break
+[   29,   2,   2 ]         PPI::Token::Word  	'return'
+[   29,   8,   8 ]         PPI::Token::Whitespace  	' '
+[   29,   9,   9 ]         PPI::Token::Number  	'0'
+[   29,  10,  10 ]         PPI::Token::Structure  	';'
+[   29,  11,  11 ]       PPI::Token::Whitespace  	'\n'
+[   30,   2,   2 ]   PPI::Token::Whitespace  	'\n'
+[   31,   1,   1 ]   PPI::Token::Whitespace  	'\n'
+                      PPI::Statement::Sub
+[   32,   1,   1 ]     PPI::Token::Word  	'sub'
+[   32,   4,   4 ]     PPI::Token::Whitespace  	' '
+[   32,   5,   5 ]     PPI::Token::Word  	'main'
+[   32,   9,   9 ]     PPI::Token::Whitespace  	' '
+                        PPI::Structure::Block  	{ ... }
+[   32,  11,  11 ]       PPI::Token::Whitespace  	'\n'
+[   33,   1,   1 ]       PPI::Token::Whitespace  	'\t'
+                          PPI::Statement::Variable
+[   33,   2,   2 ]         PPI::Token::Word  	'my'
+[   33,   4,   4 ]         PPI::Token::Whitespace  	' '
+[   33,   5,   5 ]         PPI::Token::Symbol  	'$done'
+[   33,  10,  10 ]         PPI::Token::Whitespace  	' '
+[   33,  11,  11 ]         PPI::Token::Operator  	'='
+[   33,  12,  12 ]         PPI::Token::Whitespace  	' '
+[   33,  13,  13 ]         PPI::Token::Number  	'0'
+[   33,  14,  14 ]         PPI::Token::Structure  	';'
+[   33,  15,  15 ]       PPI::Token::Whitespace  	'\n'
+[   34,   1,   1 ]       PPI::Token::Whitespace  	'\n\t'
+                          PPI::Statement
+[   35,   2,   2 ]         PPI::Token::Word  	'add_option'
+                            PPI::Structure::List  	( ... )
+                              PPI::Statement::Expression
+[   35,  13,  13 ]             PPI::Token::Quote::Double  	'"debug"'
+[   35,  20,  20 ]             PPI::Token::Operator  	','
+[   35,  21,  21 ]             PPI::Token::Whitespace  	' '
+[   35,  22,  22 ]             PPI::Token::Quote::Double  	'"Enable debugging mode."'
+[   35,  47,  47 ]         PPI::Token::Structure  	';'
+[   35,  48,  48 ]       PPI::Token::Whitespace  	'\n'
+[   36,   1,   1 ]       PPI::Token::Whitespace  	'\t'
+                          PPI::Statement
+[   36,   2,   2 ]         PPI::Token::Word  	'add_option'
+                            PPI::Structure::List  	( ... )
+                              PPI::Statement::Expression
+[   36,  13,  13 ]             PPI::Token::Quote::Double  	'"help"'
+[   36,  19,  19 ]             PPI::Token::Operator  	','
+[   36,  20,  20 ]             PPI::Token::Whitespace  	' '
+[   36,  21,  21 ]             PPI::Token::Quote::Double  	'"Print this usage message."'
+[   36,  49,  49 ]         PPI::Token::Structure  	';'
+[   36,  50,  50 ]       PPI::Token::Whitespace  	'\n'
+[   37,   1,   1 ]       PPI::Token::Whitespace  	'\t'
+                          PPI::Statement
+[   37,   2,   2 ]         PPI::Token::Word  	'add_option'
+                            PPI::Structure::List  	( ... )
+                              PPI::Statement::Expression
+[   37,  13,  13 ]             PPI::Token::Quote::Double  	'"names"'
+[   37,  20,  20 ]             PPI::Token::Operator  	','
+[   37,  21,  21 ]             PPI::Token::Whitespace  	' '
+[   37,  22,  22 ]             PPI::Token::Quote::Double  	'"Use ident names in stats not just the word ident."'
+[   37,  74,  74 ]         PPI::Token::Structure  	';'
+[   37,  75,  75 ]       PPI::Token::Whitespace  	'\n'
+[   38,   1,   1 ]       PPI::Token::Whitespace  	'\t'
+                          PPI::Statement
+[   38,   2,   2 ]         PPI::Token::Word  	'add_option'
+                            PPI::Structure::List  	( ... )
+                              PPI::Statement::Expression
+[   38,  13,  13 ]             PPI::Token::Quote::Double  	'"output"'
+[   38,  21,  21 ]             PPI::Token::Operator  	','
+[   38,  22,  22 ]             PPI::Token::Whitespace  	' '
+[   38,  23,  23 ]             PPI::Token::Quote::Double  	'"Set the output file."'
+[   38,  45,  45 ]             PPI::Token::Operator  	','
+[   38,  46,  46 ]             PPI::Token::Whitespace  	' '
+[   38,  47,  47 ]             PPI::Token::Quote::Double  	'"FILE"'
+[   38,  54,  54 ]         PPI::Token::Structure  	';'
+[   38,  55,  55 ]       PPI::Token::Whitespace  	'\n'
+[   39,   1,   1 ]       PPI::Token::Whitespace  	'\n\t'
+                          PPI::Statement
+[   40,   2,   2 ]         PPI::Token::Word  	'set_eof'
+                            PPI::Structure::List  	( ... )
+                              PPI::Statement::Expression
+[   40,  10,  10 ]             PPI::Token::Quote::Single  	''''
+[   40,  14,  14 ]         PPI::Token::Structure  	';'
+[   40,  15,  15 ]       PPI::Token::Whitespace  	'\n'
+[   41,   1,   1 ]       PPI::Token::Whitespace  	'\n\t'
+                          PPI::Statement
+[   42,   2,   2 ]         PPI::Token::Symbol  	'@ARGV'
+[   42,   7,   7 ]         PPI::Token::Whitespace  	' '
+[   42,   8,   8 ]         PPI::Token::Operator  	'='
+[   42,   9,   9 ]         PPI::Token::Whitespace  	' '
+[   42,  10,  10 ]         PPI::Token::Word  	'parse_options'
+                            PPI::Structure::List  	( ... )
+                              PPI::Statement::Expression
+[   42,  24,  24 ]             PPI::Token::Symbol  	'@ARGV'
+[   42,  30,  30 ]         PPI::Token::Structure  	';'
+[   42,  31,  31 ]       PPI::Token::Whitespace  	'\n'
+[   43,   1,   1 ]       PPI::Token::Whitespace  	'\n\t'
+                          PPI::Statement::Compound
+[   44,   2,   2 ]         PPI::Token::Word  	'if'
+[   44,   4,   4 ]         PPI::Token::Whitespace  	' '
+                            PPI::Structure::Condition  	( ... )
+                              PPI::Statement::Expression
+[   44,   6,   6 ]             PPI::Token::Word  	'query_option'
+                                PPI::Structure::List  	( ... )
+                                  PPI::Statement::Expression
+[   44,  19,  19 ]                 PPI::Token::Quote::Single  	''debug''
+[   44,  28,  28 ]         PPI::Token::Whitespace  	' '
+                            PPI::Structure::Block  	{ ... }
+[   44,  30,  30 ]           PPI::Token::Whitespace  	'\n'
+[   45,   1,   1 ]           PPI::Token::Whitespace  	'\t\t'
+                              PPI::Statement
+[   45,   3,   3 ]             PPI::Token::Word  	'set_debug'
+                                PPI::Structure::List  	( ... )
+                                  PPI::Statement::Expression
+[   45,  13,  13 ]                 PPI::Token::Number  	'1'
+[   45,  15,  15 ]             PPI::Token::Structure  	';'
+[   45,  16,  16 ]           PPI::Token::Whitespace  	'\n'
+[   46,   1,   1 ]           PPI::Token::Whitespace  	'\t'
+[   46,   3,   3 ]       PPI::Token::Whitespace  	'\n'
+[   47,   1,   1 ]       PPI::Token::Whitespace  	'\n\t'
+                          PPI::Statement::Compound
+[   48,   2,   2 ]         PPI::Token::Word  	'if'
+[   48,   4,   4 ]         PPI::Token::Whitespace  	' '
+                            PPI::Structure::Condition  	( ... )
+                              PPI::Statement::Expression
+[   48,   6,   6 ]             PPI::Token::Word  	'query_option'
+                                PPI::Structure::List  	( ... )
+                                  PPI::Statement::Expression
+[   48,  19,  19 ]                 PPI::Token::Quote::Single  	''help''
+[   48,  27,  27 ]         PPI::Token::Whitespace  	' '
+                            PPI::Structure::Block  	{ ... }
+[   48,  29,  29 ]           PPI::Token::Whitespace  	'\n'
+[   49,   1,   1 ]           PPI::Token::Whitespace  	'\t\t'
+                              PPI::Statement::Break
+[   49,   3,   3 ]             PPI::Token::Word  	'return'
+[   49,   9,   9 ]             PPI::Token::Whitespace  	' '
+[   49,  10,  10 ]             PPI::Token::Word  	'usage'
+                                PPI::Structure::List  	( ... )
+[   49,  17,  17 ]             PPI::Token::Structure  	';'
+[   49,  18,  18 ]           PPI::Token::Whitespace  	'\n'
+[   50,   1,   1 ]           PPI::Token::Whitespace  	'\t'
+[   50,   3,   3 ]       PPI::Token::Whitespace  	'\n'
+[   51,   1,   1 ]       PPI::Token::Whitespace  	'\n\t'
+                          PPI::Statement::Compound
+[   52,   2,   2 ]         PPI::Token::Word  	'if'
+[   52,   4,   4 ]         PPI::Token::Whitespace  	' '
+                            PPI::Structure::Condition  	( ... )
+                              PPI::Statement::Expression
+[   52,   6,   6 ]             PPI::Token::Word  	'query_option'
+                                PPI::Structure::List  	( ... )
+                                  PPI::Statement::Expression
+[   52,  19,  19 ]                 PPI::Token::Quote::Single  	''output''
+[   52,  29,  29 ]         PPI::Token::Whitespace  	' '
+                            PPI::Structure::Block  	{ ... }
+[   52,  31,  31 ]           PPI::Token::Whitespace  	'\n'
+[   53,   1,   1 ]           PPI::Token::Whitespace  	'\t\t'
+                              PPI::Statement
+[   53,   3,   3 ]             PPI::Token::Word  	'open_output'
+                                PPI::Structure::List  	( ... )
+                                  PPI::Statement::Expression
+[   53,  15,  15 ]                 PPI::Token::Word  	'query_options'
+                                    PPI::Structure::List  	( ... )
+                                      PPI::Statement::Expression
+[   53,  29,  29 ]                     PPI::Token::Quote::Single  	''output''
+[   53,  39,  39 ]             PPI::Token::Structure  	';'
+[   53,  40,  40 ]           PPI::Token::Whitespace  	'\n'
+[   54,   1,   1 ]           PPI::Token::Whitespace  	'\t'
+[   54,   3,   3 ]         PPI::Token::Whitespace  	' '
+[   54,   4,   4 ]         PPI::Token::Word  	'else'
+[   54,   8,   8 ]         PPI::Token::Whitespace  	' '
+                            PPI::Structure::Block  	{ ... }
+[   54,  10,  10 ]           PPI::Token::Whitespace  	'\n'
+[   55,   1,   1 ]           PPI::Token::Whitespace  	'\t\t'
+                              PPI::Statement
+[   55,   3,   3 ]             PPI::Token::Word  	'open_output'
+                                PPI::Structure::List  	( ... )
+                                  PPI::Statement::Expression
+[   55,  15,  15 ]                 PPI::Token::Quote::Single  	''a.out.c''
+[   55,  25,  25 ]             PPI::Token::Structure  	';'
+[   55,  26,  26 ]           PPI::Token::Whitespace  	'\n'
+[   56,   1,   1 ]           PPI::Token::Whitespace  	'\t'
+[   56,   3,   3 ]       PPI::Token::Whitespace  	'\n'
+[   57,   1,   1 ]       PPI::Token::Whitespace  	'\n\t'
+                          PPI::Statement
+[   58,   2,   2 ]         PPI::Token::Word  	'init_backend'
+                            PPI::Structure::List  	( ... )
+                              PPI::Statement::Expression
+[   58,  15,  15 ]             PPI::Token::Symbol  	'@keywords'
+[   58,  25,  25 ]         PPI::Token::Structure  	';'
+[   58,  26,  26 ]       PPI::Token::Whitespace  	'\n'
+[   59,   1,   1 ]       PPI::Token::Whitespace  	'\n\t'
+                          PPI::Statement
+[   60,   2,   2 ]         PPI::Token::Word  	'debug'
+                            PPI::Structure::List  	( ... )
+                              PPI::Statement::Expression
+[   60,   8,   8 ]             PPI::Token::Quote::Single  	''Begin Parsing.''
+[   60,  25,  25 ]         PPI::Token::Structure  	';'
+[   60,  26,  26 ]       PPI::Token::Whitespace  	'\n'
+[   61,   1,   1 ]       PPI::Token::Whitespace  	'\n\t'
+                          PPI::Statement::Compound
+[   62,   2,   2 ]         PPI::Token::Word  	'foreach'
+[   62,   9,   9 ]         PPI::Token::Whitespace  	' '
+[   62,  10,  10 ]         PPI::Token::Word  	'my'
+[   62,  12,  12 ]         PPI::Token::Whitespace  	' '
+[   62,  13,  13 ]         PPI::Token::Symbol  	'$tfile'
+[   62,  19,  19 ]         PPI::Token::Whitespace  	' '
+                            PPI::Structure::List  	( ... )
+                              PPI::Statement
+[   62,  21,  21 ]             PPI::Token::Symbol  	'@ARGV'
+[   62,  27,  27 ]         PPI::Token::Whitespace  	' '
+                            PPI::Structure::Block  	{ ... }
+[   62,  29,  29 ]           PPI::Token::Whitespace  	'\n'
+[   63,   1,   1 ]           PPI::Token::Whitespace  	'\t\t'
+                              PPI::Statement
+[   63,   3,   3 ]             PPI::Token::Word  	'print'
+[   63,   8,   8 ]             PPI::Token::Whitespace  	' '
+[   63,   9,   9 ]             PPI::Token::Quote::Double  	'"Reading $tfile\n"'
+[   63,  27,  27 ]             PPI::Token::Structure  	';'
+[   63,  28,  28 ]           PPI::Token::Whitespace  	'\n'
+[   64,   1,   1 ]           PPI::Token::Whitespace  	'\t\t'
+                              PPI::Statement
+[   64,   3,   3 ]             PPI::Token::Word  	'read_compfile'
+                                PPI::Structure::List  	( ... )
+                                  PPI::Statement::Expression
+[   64,  17,  17 ]                 PPI::Token::Symbol  	'$tfile'
+[   64,  24,  24 ]             PPI::Token::Structure  	';'
+[   64,  25,  25 ]           PPI::Token::Whitespace  	'\n'
+[   65,   1,   1 ]           PPI::Token::Whitespace  	'\t\t'
+                              PPI::Statement
+[   65,   3,   3 ]             PPI::Token::Symbol  	'$done'
+[   65,   8,   8 ]             PPI::Token::Whitespace  	' '
+[   65,   9,   9 ]             PPI::Token::Operator  	'='
+[   65,  10,  10 ]             PPI::Token::Whitespace  	' '
+[   65,  11,  11 ]             PPI::Token::Number  	'1'
+[   65,  12,  12 ]             PPI::Token::Structure  	';'
+[   65,  13,  13 ]           PPI::Token::Whitespace  	'\n'
+[   66,   1,   1 ]           PPI::Token::Whitespace  	'\t'
+[   66,   3,   3 ]       PPI::Token::Whitespace  	'\n'
+[   67,   1,   1 ]       PPI::Token::Whitespace  	'\n\t'
+                          PPI::Statement::Compound
+[   68,   2,   2 ]         PPI::Token::Word  	'if'
+[   68,   4,   4 ]         PPI::Token::Whitespace  	' '
+                            PPI::Structure::Condition  	( ... )
+                              PPI::Statement::Expression
+[   68,   6,   6 ]             PPI::Token::Operator  	'!'
+[   68,   7,   7 ]             PPI::Token::Symbol  	'$done'
+[   68,  13,  13 ]         PPI::Token::Whitespace  	' '
+                            PPI::Structure::Block  	{ ... }
+[   68,  15,  15 ]           PPI::Token::Whitespace  	'\n'
+[   69,   1,   1 ]           PPI::Token::Whitespace  	'\t\t'
+                              PPI::Statement
+[   69,   3,   3 ]             PPI::Token::Word  	'print'
+[   69,   8,   8 ]             PPI::Token::Whitespace  	' '
+[   69,   9,   9 ]             PPI::Token::Quote::Single  	''Entering interactive mode.Use ''
+[   69,  41,  41 ]             PPI::Token::Whitespace  	' '
+[   69,  42,  42 ]             PPI::Token::Operator  	'.'
+[   69,  43,  43 ]             PPI::Token::Whitespace  	' '
+[   69,  44,  44 ]             PPI::Token::Word  	'get_eof'
+                                PPI::Structure::List  	( ... )
+[   69,  53,  53 ]             PPI::Token::Whitespace  	' '
+[   69,  54,  54 ]             PPI::Token::Operator  	'.'
+[   69,  55,  55 ]             PPI::Token::Whitespace  	' '
+[   69,  56,  56 ]             PPI::Token::Quote::Double  	'" to end.\n"'
+[   69,  68,  68 ]             PPI::Token::Structure  	';'
+[   69,  69,  69 ]           PPI::Token::Whitespace  	'\n'
+[   70,   1,   1 ]           PPI::Token::Whitespace  	'\t\t'
+                              PPI::Statement
+[   70,   3,   3 ]             PPI::Token::Word  	'read_compfile'
+                                PPI::Structure::List  	( ... )
+                                  PPI::Statement::Expression
+[   70,  17,  17 ]                 PPI::Token::Quote::Single  	''''
+[   70,  20,  20 ]             PPI::Token::Structure  	';'
+[   70,  21,  21 ]           PPI::Token::Whitespace  	'\n'
+[   71,   1,   1 ]           PPI::Token::Whitespace  	'\t'
+[   71,   3,   3 ]       PPI::Token::Whitespace  	'\n'
+[   72,   1,   1 ]       PPI::Token::Whitespace  	'\n\t'
+                          PPI::Statement
+[   73,   2,   2 ]         PPI::Token::Word  	'close_output'
+                            PPI::Structure::List  	( ... )
+[   73,  16,  16 ]         PPI::Token::Structure  	';'
+[   73,  17,  17 ]       PPI::Token::Whitespace  	'\n'
+[   74,   1,   1 ]       PPI::Token::Whitespace  	'\n\t'
+                          PPI::Statement
+[   75,   2,   2 ]         PPI::Token::Word  	'debug'
+                            PPI::Structure::List  	( ... )
+                              PPI::Statement::Expression
+[   75,   8,   8 ]             PPI::Token::Quote::Single  	''End Parsing.''
+[   75,  23,  23 ]         PPI::Token::Structure  	';'
+[   75,  24,  24 ]       PPI::Token::Whitespace  	'\n'
+[   76,   1,   1 ]       PPI::Token::Whitespace  	'\n\t'
+                          PPI::Statement
+[   77,   2,   2 ]         PPI::Token::Word  	'print_tokens'
+                            PPI::Structure::List  	( ... )
+[   77,  16,  16 ]         PPI::Token::Structure  	';'
+[   77,  17,  17 ]       PPI::Token::Whitespace  	'\n'
+[   78,   1,   1 ]       PPI::Token::Whitespace  	'\t'
+                          PPI::Statement
+[   78,   2,   2 ]         PPI::Token::Word  	'write_stats'
+                            PPI::Structure::List  	( ... )
+                              PPI::Statement::Expression
+[   78,  14,  14 ]             PPI::Token::Quote::Single  	''stats.txt''
+[   78,  26,  26 ]         PPI::Token::Structure  	';'
+[   78,  27,  27 ]       PPI::Token::Whitespace  	'\n'
+[   79,   1,   1 ]       PPI::Token::Whitespace  	'\n\t'
+                          PPI::Statement::Break
+[   80,   2,   2 ]         PPI::Token::Word  	'return'
+[   80,   8,   8 ]         PPI::Token::Whitespace  	' '
+[   80,   9,   9 ]         PPI::Token::Number  	'1'
+[   80,  10,  10 ]         PPI::Token::Structure  	';'
+[   80,  11,  11 ]       PPI::Token::Whitespace  	'\n'
+[   81,   2,   2 ]   PPI::Token::Whitespace  	'\n'
+[   82,   1,   1 ]   PPI::Token::Whitespace  	'\n'
+                      PPI::Statement
+[   83,   1,   1 ]     PPI::Token::Word  	'main'
+                        PPI::Structure::List  	( ... )
+[   83,   7,   7 ]     PPI::Token::Structure  	';'
+[   83,   8,   8 ]   PPI::Token::Whitespace  	'\n'

@@ -1,0 +1,44 @@
+# This is our mini language we are going to work with first and expand later...
+# Has the concepts but needs fleshing out...
+
+Program ::= statements
+
+statements ::= statement statements
+statements ::= statement
+
+statement ::= declaration
+statement ::= assignment
+statement ::= output
+statement ::= branches
+statement ::= comment
+statement ::= ''
+
+declaration ::= type ident
+
+assignment ::= ident = expression
+
+output ::= "write" expression
+
+branches ::= 'if' '(' expression ')' block
+
+comment ::=  '#' (!'\n')* '\n'
+
+type ::= 'int'
+
+ident ::= ident_comp ident
+
+ident_comp ::= letter
+ident_comp ::= digit
+ident_comp ::= '_'
+ident_comp ::= '-'
+
+expression ::=
+expression ::=
+
+block ::= '{' statements '}'
+
+letter ::=  "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" |
+"R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z" | "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" |
+"l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z"
+
+digit ::= '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'

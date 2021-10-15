@@ -1,0 +1,208 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use lib "./SWGetopt/lib";
+use lib "../lib/perl";
+
+use SWGetopt;
+use DBI;
+use File::Copy;
+use IO::Prompter;
+
+my $SRC = "/export/scratch/mein/compliers/newlang/swrepository";
+my $VERSION = "0.01";
+
+my (%Options, $dbh);
+
+# Need to work on this but this will be a crude
+# implementation of a package manager admin for our program.
+# Right now it's just a test of the getopt module.
+
+sub db_connect {
+	my ($root) = @_;
+
+	$dbh = DBI->connect("dbi:CSV:f_dir=$root/db") or 
+		die "Cannot connect: " . $DBI::errstr;
+	return 1;
+}
+
+sub db_leave {
+	return $dbh->disconnect();
+}
+
+sub get_user {
+	my @values = getpwuid($>);
+
+	if ($values[6]) {
+		return $values[6];
+	}
+
+	return "unknown";
+}
+
+sub valid_packagename { 
+	my ($name) = @_;
+
+	return 1;
+}
+
+sub get_packagename {
+	my ($filename) = @_;
+
+}
+
+sub valid_prepackage {
+	my ($filename) = @_;
+	my $packagename = get_packagename($filename);
+
+	if (!valid_packagename($packagename)) {
+		return 0;
+	}
+
+	my $tmpfile = "$SRC/tmp/$packagename";
+
+	if (!-f $filename) {
+		print "Package does not exist: $filename\n";
+		return 0;
+	}
+	if (copy($filename, $tmpfile)) {
+		print "Error trying to copy $filename to $tmpfile\n";
+		return 0;
+	}
+
+	eval("cd $SRC/tmp; tar xfz $packagename");
+
+	if ($@) {
+		return 0;
+	}
+}
+
+sub add_package {
+	my ($package) = @_;
+	my ($tmpfile);
+	my ($version, $description, $user, $date, $tmp, $ans);
+
+	if (!valid_prepackage($package)) {
+		return 0;
+	}
+
+	$tmpfile = get_temp($package);
+	copy($package, $tmpfile);
+
+	$ans = "";
+
+	$user = get_user();
+	$date = localtime(time());
+
+	while ($ans eq "") {
+
+		$version = prompt "Version: [0.01]", -stdio;
+		if (!$version || $version eq "") {
+			$version = "0.01";
+		}
+
+		$tmp = prompt "Description [$description]: ", -stdio;
+		if ($tmp ne "") {
+			$description = $tmp;
+		}
+	
+		print "Package: $package\n";
+		print "Description: $description\n";
+		print "Version: $version\n";
+		print "User: $user\n";
+		print "Date: $date\n";
+
+# XXX need to add dependencies.
+
+		$ans = prompt "Add it? [Y/N]";
+	}
+	if (($ans eq "y") || ($ans eq "Y")) {
+		db_connect("$SRC/db");
+#		$dbh->do("insert into 
+		db_leave();
+	}
+}
+
+sub get_package {
+	my ($pack) = @_;
+
+	return "$SRC/packages/$pack";
+}
+
+sub remove_package {
+	my ($package) = @_;
+	my $packagefile = get_package($package);
+
+	my @versions = get_versions($packagefile);
+}
+
+sub update_package {
+	my ($package) = @_;
+
+}
+
+sub make_tables {
+	$dbh->do("drop table if exists entries");
+	$dbh->do("create table entries(package char(255), " .
+		"version char(255), description char(255), " .
+		"admin char(255), date char(255))") or return 0;
+	$dbh->do("drop table if exists dependencies");
+
+	$dbh->do("create table dependencies(package char(255), " .
+		"version char(255), deppackage char(255))") or return 0;
+	$dbh->do("drop table if exists defversions");
+	$dbh->do("create table defversions(package char(255), " .
+		"version char(255))") or return 0;
+
+	return 1;
+}
+
+sub init_repository {
+	my ($dir) = @_;
+	my ($fh);
+
+	if (-d $dir) {
+		print "$dir already exists.\n";
+		return 0;
+	}
+
+	mkdir($dir);
+	mkdir("$dir/db");
+	mkdir("$dir/bin");
+	mkdir("$dir/packages");
+	mkdir("$dir/archive");
+	mkdir("$dir/tmp");
+
+	db_connect($dir);
+	make_tables();
+	db_leave();
+
+	open($fh, ">", "$dir/README") or die "Unable to open $dir/README " .
+		"for writing.\n";
+	print $fh "SWEET Package repository created with swpadmin $VERSION\n";
+	print $fh "XXX More info to come later.\n";
+	close($fh);
+
+	copy("./$0", "$dir/bin/") or return 0;
+	copy("./spm", "$dir/bin/") or return 0;
+
+	return 1;
+}
+
+my ($command, $args) = @ARGV;
+
+if (!$command) {
+	usage();
+} elsif ($command eq "add") {
+	add_package($args);
+} elsif ($command eq "remove") {
+	remove_package($args);
+} elsif ($command eq "update") {
+	update_package($args);
+} elsif ($command eq "init") {
+	init_repository($args);
+} else {
+	usage();
+}

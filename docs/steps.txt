@@ -1,0 +1,20 @@
+Determine language scope
+	Highlevel, easy to use, small, extensable,
+	provide extras(critic,prettyprint,debugger)
+	allow you to do lowlevel stuff in a high level way?
+		lc3-ASM, basic, scheme 
+Document language
+write language in our language
+write bootstrapper in perl for our language
+	determine minimal language for bootstraping our language
+continue development in our language and add features
+
+read file one char at a time convert to AST
+walk AST and convert to symbols
+Datadumper: walk AST and print to JSON 
+read AST from json
+Walk AST and convert to Structures
+compiler: walk AST and convert to C 
+walk AST and conver to ourlanguage
+
+Need way to define walkers and actions

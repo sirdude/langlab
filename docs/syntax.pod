@@ -1,0 +1,751 @@
+=head1 Why SWEET?
+
+SWEET is a new programming language based off of a number of languages.
+Trying to make a small well defined language that is easy to use/learn
+and something that can grow.  SWEET builds on ideas I have learned through 
+experience and tries to incorporate tools that I think are essential to a
+programming language.  Many of these are surprisingly missing from lots
+of languages.  What kind of tools are we talking about?
+	A pretty printer
+	A Static code analyzer
+	A built in style guide (that is extendible).
+	A config file to modify various search paths.
+	A test suite
+	Syntax highlighter for various editors
+	A compiler and an interpreter.
+	Built in examples & Documentation.
+
+This is obviously a lot of work and will take some time to accomplish.
+If your reading this document I encourage you to get involved and help
+me accomplish these goals.
+
+=head1 Basic structure
+
+Programming languages have a basic structure.  Our programming language
+follows the basic structure of C, but is a little more complicated.
+It goes something like this:
+The basic building block of our language is an object.
+Each file you write or execute is it's own object.
+A object is a program.
+Objects can talk to each other but have to talk in certain ways.
+A Program is a set of function definitions and variable definitions.
+A function is a set of statements.
+There are a number of different types of statements, which are basically an 
+instruction for the computer to follow.  We will take a closer look at
+statements later, but many times a statement can be broken into bits called
+expressions.  An expression is similar to a mathematical formula.
+
+Many times this structure of a programming language is defined in a 
+format called ebnf.  You can find the ebnf for our language here:
+src/SWEET_formal.cf  We are using this as input to a tool called "bnfc",
+if you want to learn more about the file format, or bnfc head on over to
+the bnfc website: http://bnfc.digitalgrammars.com/ 
+
+=head1 File Types
+
+In our language there are 5 types of files, none of them have strict
+extension requirements but we recommend you use them as noted here below:
+
+=over 8
+
+=item Include files
+
+Extension: .h 
+These files can be included in other files with a line similar
+to the following:
+	include "myconfig.h";
+They in general are used to contain variables and other
+data structures that you want to share across multiple files.
+In general you want to avoid putting functions in an include
+file and instead use inheritables for that.
+
+Include files will be searched for in the following order:
+	The default include path, which is defined in our 
+	configuration file, you you can use --include=DIR
+	to add a directory to the search path,  you can also
+	use the INCLUDE_DIR_LPC environment variable, 
+	or specify the full path to the include file.
+
+=item Inheritables
+
+Extension: .swl
+These are basically meta objects.  They are not meant to be
+used directly, but are building blocks that other programs can
+use to simplify coding and create a library of reusable
+functions.  You inherit them with a line like this:
+inherit "/std/lib/object.l";
+
+Inheritable files will be searched for in the following order:
+	The default Library path, which is defined in our 
+	configuration file, you you can use --lib=DIR
+	to add a directory to the search path,  you can also
+	use the LIB_DIR_LPC environment variable, 
+	or specify the full path to the inheritable file.
+
+=item source code
+
+Extension: .sw
+Source code builds on includes and inheritables and allows
+you to bind them together to make useful objects.  If you
+want to convert a source file to compiled code, you use the
+--output=FILENAME option to create a machine code executable.
+
+When you execute a source file, you can use the standard
+UNIX shell convention #!PATHTOINTERPRETER to execute the file.
+EXAMPLE: #!/usr/local/bin/sweet
+
+When source code is executed it automatically calls the main()
+function if it exists.
+
+If you want to reference other objects within this object,
+you will need to clone them and keep a reference to them.  When you are 
+done with a clone, you should destroy it to free up memory.
+
+=item Compiled code 
+
+Extension: none or .swo   depending on usage.
+XXX Need to look at how dgd separates this and data files
+This is source code that has been run through are compiler and
+converted to machine code.  If they are stand alone executables
+they have no extension, if they are only part of a program they
+have a .o extension.
+
+=item Data files
+
+Extension: .dat
+Files that contain configuration information for a 
+cloned object, or provide other data for an object.
+
+=back
+
+=head1 The details
+
+Now that you have the general overview of how things look lets start
+in on the details.  Were going to start small and work our way
+up.
+
+=head1 Comments
+
+Comments in a programming language are use for a number of reasons.
+Many times they are used to explain a hairy piece of code, or to document
+hidden features of a function, or to provide a summary of how a function works.
+They are also used quite frequently to disable certain blocks of code.
+
+Many programs today support two types of comments, commenting out a line
+to the end of a line, or commenting a block of multiple lines.  The idea behind
+our language is that comments that add value to a piece of code, a function,
+variable, or code block will be a part of the syntax of the language.
+
+This will hopefully eliminate the majority of comments in code.  We will
+still support comments for blocking out code, and or adding comments to
+other locations.  To keep this simple and hopefully avoid errors we are
+choosing to only support single line comments with a #
+So on a given line anything after a '#' and before a newline is considered
+a comment.
+
+=head1 Types
+
+Types are used by a computer language to aid the computer in reading and
+validating code.  We use them to define variables, functions and other more
+complex data structures.  If you are new to computer languages, we'll talk
+about variables functions, and types later.
+
+In the case of variables, types are used by the language to reserve 
+space for a variable, and define how the language works with that variable.  
+In general a string takes up more space than an integer.  If I call
+a function to add two variables together, it will more than
+likely behave differently if our variables are strings or integers.
+So we need to tell the computer what type of thing it is working with.
+
+For functions types are used to define what the return value(s) of a 
+function will look like, as well as what types of things we will pass
+into that function.
+
+=head2 Basic types
+
+Our programming language supports the following basic types:
+
+=over 8
+
+=item int	default value 0
+
+int is short for integer, it's a whole number positive or negative.
+
+=item float	default value 0.0
+
+A float is a decimal number.
+
+=item string	default value ""
+
+=item object	set to nil when not defined.
+
+=item mapping	set to ({ });  (an empty mapping) when undefined.
+
+=item void
+
+The void type is a keyword for things that have no type.
+
+=item mixed
+
+The mixed type is used when something takes multiple types as input/
+output and basically disables type checking.
+
+=back
+
+=head2 Arrays
+
+In addition to basic types you can also create an array out of any of the
+basic types.  An array is just a list of variables with the same type.
+To define an array prepend the variable name with a *.  Example:
+
+	int x;
+
+Becomes:
+
+	int *x;
+
+It's Okay to mix regular types and arrays in declarations:
+
+	int x, *y, z;	# Declares two int's x,z and an array of ints y
+
+Once we have defined an array, we can lookup values with an index number.
+Index numbers start with 0 and go up.
+x[0]   is the first element in the array x. x[1] is the second.
+Index numbers must be >= 0.  If a value has not been set, it will return
+the default value for the specified types.  If the specified type has no
+default value it will return nil;
+
+=head2 Type modifiers
+
+Type modifiers are used to alter the behavior of our program functions
+and or data structures.  Our programming language supports the following 
+type modifiers: atomic, nomask, private, static
+
+=over 8
+
+=item atomic
+
+The atomic type modifier is only valid for functions.  It makes it so that
+if an error occurs during the function call, things will roll back to
+before the function was called.  It is a safety net of sorts.  If it is
+modifying an object and has a problem half way through, the object will
+get reset to it's known good state before the function call.  Atomic functions
+have a few drawbacks.  They are forbidden from working with files in
+any way(renaming, writing, reading, etc...).  They are also more expensive
+to call compared to non atomic functions.
+
+=item nomask
+
+The nomask modifier insures that a user cannot overwrite the specified
+function.  It makes it so you are unable to redefine a function (or mask it).
+
+=item private
+
+When a variable or function is marked as private, they become only accessible
+by the object in which they are defined.  Not even child objects that 
+inherit this object will be able to access them.  You can use this to protect
+internal code that you do not want others to have access to.
+
+=item static
+
+The static type modifier behaves differently for variables and functions.
+
+For variables, the variable will be defined globally for that object
+and it will not be saved when save_object is called.
+
+For functions that are declared as static, the function will only be available
+to the object and it's children.
+
+=back
+
+=head2 Variables
+
+In our language a variable must be declared at the top of a code block,
+before other code is defined, it should have a type, a description and it
+is initialized to the default value.  We do not allow you to set the value
+of a variable when you are declaring it.  Many languages allow you to do
+this, but we have chosen to not allow this to make code cleaner and simpler.
+A declaration of a variable has the following format:
+
+	[TYPE MODIFIERS] TYPE NAME DESCRIPTION;
+
+NAME must start with a letter, _ or - and can only include:
+
+	letters numbers _  -
+
+The DESCRIPTION is a string that describes what the variable will be used for.
+Here are some simple examples of variable declarations:
+
+	int x "Our Counter";
+	private float value "The value of our product";
+
+=head2 Statements
+
+Once we have defined or declared various data structures like variables,
+or arrays we need to start using them to do useful things.  We do this
+with statements.  Statements are basically instructions to the computer
+to do something.  There are lots of different types of statements.  Some
+deal with math, others provide feedback to the user and others allow the
+computer to make decisions.  We'll talk about the various statements later.
+Here are some example statements:
+
+	x = x + 5; 	    # Look up the current value of the variable x 
+                            #      add 5 to it and set x to the new value
+	x = do_something(); # Call the function do_something and set x to
+			    #      whatever is returned from our function call
+	write("Hello");     # Print the word Hello
+
+=head2 Expressions
+
+Expressions are generally parts of a statement.  They are basically
+mathematical bits that evaluate to a value. Expressions consist of
+explicit values, constants, variables, operators, and functions and result
+in a numerical value.  In general they are not statements because on their 
+own they would not do anything.  Here are some examples of expressions:
+
+	x + 5
+	do_something() + 5
+	x < 3
+
+=head3 Operators
+
+There are a number of operators in our language, you have seen quite a few
+of them in this document already.  Here is a summary of the operators and
+what they do/mean.
+
+=over 8
+
+=item ()
+
+() are used to group expressions and change the precedence. For more 
+information on precedence, see the table below this section.
+(3 * 5) + 4 is not the same as 3 * (5 + 4), to make code clear, you should
+not depend on precedence when writing expressions and should use ()'s to
+clarify what you want.  If you do not do this, our language will warn you
+that you have potential problems.
+
+=item []
+
+Used to reference an element in an array. x[3] gives you the 4th address
+in the array x.
+
+=item ->
+
+Used to reference a variable or a function inside of an object.  X->get_name();
+Calls the function get_name from inside of object X.  XXX Should talk about
+call_other and what is the difference, is there a difference?
+
+=item {}
+
+Used to reference an element in a mapping. x{3} gives you the value
+associated with the key 3 in the mapping x. XXX should this really be
+distinct from Arrays?  Maybe we just don't use arrays at all, have mappings
+only?
+
+=item ::
+
+Used to look for a variable or a function at a higher scope.  If your not sure
+what variable or function scope is at this point continue reading and it will
+become clear.  We have examples of :: usage when we talk about scope.
+
+=item !
+
+Logical negation (Not). !X  if X is 0 evaluate to 1, otherwise evaluate to 0.
+
+=item E<052>
+
+Multiplication. 5 * 4; Evaluates to 20.
+
+=item /
+
+Division.  20 / 5; Evaluates to 4.
+
+=item +
+
+Addition. 5 + 4;  Evaluates to 9.
+
+=item -
+
+Subtraction. 5 - 4; Evaluates to 1.
+
+=item ==
+
+Test for equality.  X == 5; If x is 5 evaluate to 1, otherwise evaluate to 0.
+
+=item !=
+
+Test for inequality.  X != 5; If x is not 5 evaluates to 1, otherwise
+evaluates to 0.
+
+=item &&
+
+Logical And.  X && Y; Evaluates to 1 if X and Y both are not 0, otherwise
+evaluates to 0.
+
+=item ||
+
+Logical Or. X || Y; Evaluates to 1 if X or Y are not 0, otherwise 
+evaluates to 0.
+
+=item =
+
+Assignment. x = 5; Sets the variable x to 5.
+
+=item +=
+
+Assignment and addition. x += 5; Sets the variable x to the current value of
+x plus 5.
+
+=item -=
+
+Assignment and subtraction. x -= 5; Sets the variable x to the current value of
+x minus 5.
+
+=back
+
+Note: we are explicitly not including the following operators, if need be
+they can be implemented later via functions:
+	<<, >>, <<=, >>=, ^, &
+
+We are choosing not to implement them to reduce confusion and improve code
+readability.
+
+=head3 Operator precedence
+
+Expressions use the following Priority levels, Higher levels are given higher
+precedence and symbols at the same level are evaluated left to right.
+
+XXX Need to remove things were aren't using...
+
+1  () [] {} -> . ::	Function call, scope, array/member access
+2  ! ~ - + * & sizeof type cast ++x --x (most) unary operations, sizeof and type casts
+3  * / % mod		Multiplication, division, modulo
+4  + -			Addition and subtraction
+5  << >>		Bitwise shift left and right
+6  < <= > >=		Comparisons: less-than, ...
+7  == !=		Comparisons: equal and not equal
+8  &			Bitwise AND
+9  ^			Bitwise exclusive OR (XOR)
+10 |			Bitwise inclusive (normal) OR
+11 &&			Logical AND
+12 ||			Logical OR
+13 ?: = += -= *= /= %= &= |= ^= <<= >>=	Conditional expression (ternary) and assignment operators
+14 ,			Comma Operator
+
+
+So if we have an Expression that says 5 + 4 == 3 * 2
+	3 * 2 is evaluated first, then 5 + 4 and finally 
+	9 == 6   which would return: 0
+	because it's not true.  In our language you will also get
+	a warning because it wants you to use ()'s so the computer is not
+	using precedence to guess at what you want to do.
+
+We'll see more about where we make use of Expressions later.
+
+=head2 Functions
+
+Functions allow us to create a bunch of instructions for the computer
+and assign a name to them.  Once we have defined a function, we can use that
+function and the computer will perform that function every time we call it.
+Functions allow us to break a program down in to smaller pieces of code
+and allows us to reuse code to simplify repetitive tasks.
+
+Defining a function has the following syntax:
+
+	RETURNTYPE FUNCTIONNAME DESCRIPTION (INPUT_VARIABLES) {
+		STATEMENTS
+	}
+
+The RETURNTYPE defines what we will receive back from a call to our function.
+It can be one of the basic TYPES, optionally with TYPE MODIFIERS.
+The FUNCTIONNAME is similar to a variable NAME, it must start with a letter,
+- or _ and can only include: letters numbers _ -
+The DESCRIPTION is a string that describes the function.
+INPUT_VARIABLES is a comma separated list of variable definitions.
+Here are 2 example function definitions:
+
+	string name;
+
+	int set_name "Set the players name"
+		(string tmpname "The name we want to set") {
+		name = tmpname;
+
+		return 1;
+	}
+
+	string query_name "Get the players name" (void) {
+		return name;
+	}
+
+=head3 Scope
+
+Variables and functions are defined in specific locations, where a variable or
+function is defined is sometimes referred to as the scope of the function or
+variable.  Where the variable is defined determines where you can use it.
+If I have the following code:
+
+	int do_stuff(void) {
+		int x;
+
+		x = 5;
+	}
+	x = 6;
+
+The first assignment of x = 5; makes sense, however the second assignment,
+x = 6; does not, at that point x is unknown because x is only defined inside of
+the function do_stuff.
+
+You can redefine variables or functions unless they are defined with the
+nomask type modifier.  You can also use :: to look up the value of a function
+or variable at a higher level.  If I have the following code:
+
+	int x;
+
+	x = 5;
+	int do_stuff(void) {
+		int x;
+
+		x = 6;
+		write("x = " + x + "\n");
+
+		write("x = " + ::x + "\n");
+	}
+
+	write("x = " + x + "\n");
+	do_stuff();
+
+I will get the following output:
+
+	x = 6
+	x = 5;
+	x = 5;
+
+However if I change the first line from int x;
+to: nomask int x;
+I will get an error when I have the second int x definition.
+
+=head1 Flow control
+
+If you think of a programming language as a bunch of instructions for a
+computer, basic programs are like a recipe.  Once you start making more
+complicated programs you need to start looking at branching.  Calling
+different sections of code based on results of asking a question.
+There are numerous names for this, branching, conditionals, flow control, they
+all mean essentially the same thing.  To keep things simple we are going to
+call this flow control.
+
+Our programming language supports the following flow control statements:
+if, while, foreach, switch
+
+=head2 Statements: if (elseif, else)
+
+An if statement has the following syntax: 
+
+	if (EXPRESSION) {
+		STATEMENTS;
+	}
+
+EXPRESSION must evaluate to a number value.  if the result of 
+EXPRESSION is not equal to 0, STATEMENTS will be evaluated.
+
+Optionally it can be extended with elseif and else extensions.
+There can be any number of elseif extensions, there can only be one
+else extension at the very end,  Here is an example if statement with 2 
+elseif statements and and else:
+
+	if (EXPRESSION) {
+		STATEMENTS;
+	} elseif (EXPRESSION) {
+		STATEMENTS;
+	} elseif (EXPRESSION) {
+		STATEMENTS;
+	} else {
+		STATEMENTS;
+	}
+
+=head2 Statements: switch
+
+Switch statements are a cleaner syntax for more complicated if statements.
+They look like this:
+
+	switch (VARIABLE) {
+		case VALUE { 
+			STATEMENTS;
+		} case VALUE {
+			STATEMENTS;
+		} case VALUE {
+			STATEMENTS;
+		} else {
+			STATEMENTS;
+		}
+	}
+
+Notice the EXPRESSION from the if statements has become a VARIABLE, this
+is mandatory so that we can do type checking in a reasonable way.
+(XXX Is this really needed? We'll see)
+You can have any number of case statements, and the else is optional.
+In general though you will want at least one case statement and should have
+an else.
+
+=head2 Statements: while
+
+While statements are similar to simple if statements without the extensions,
+that get evaluated until the EXPRESSION is true.  They have the following
+syntax:
+
+	while (EXPRESSION) {
+		STATEMENTS;
+	}
+
+When coding with while statements you need to be extra careful and make sure
+you do a few things:
+	You need to initialize any variables you use in EXPRESSION to
+		reasonable values.  Our language initializes variables when
+		they are defined but you want to make sure variables are
+		what you think they should be.
+	You need to make sure that somewhere inside of STATEMENTS you have code
+		that modifies your EXPRESSION so it will eventually be true.
+	You need to keep your test EXPRESSION simple so that the code is
+		readable.
+
+=head2 Statements: foreach
+
+Foreach statements are similar to while statements but they work with a list
+of items.  They require a variable which is defined before the foreach
+statement, and it works on an array or mapping.  They have the following
+syntax:
+
+	foreach VAR LIST {
+		STATEMENTS
+	}
+
+If LIST is a mapping iterate over the keys in the mapping, if it's an array,
+iterate over the items in the array.
+
+=head1 A Basic object
+
+Each file in our programming language is an object.  Here is a simple
+object, person.sw:
+
+	#!/usr/local/bin/sweet
+
+	private string firstname, lastname;
+
+	int set_firstname(string name) {
+		firstname = name;
+		return 1;
+	}
+
+	int set_lastname(string name) {
+		lastname = name;
+		return 1;
+	}
+
+	string query_lastname(void) {
+		return lastname;
+	}
+
+	string query_name(void) {
+		return firstname + " " + lastname;
+	}
+
+	void create(void) {
+		set_firstname("Tom");
+		set_lastname("Jones");
+	}
+
+XXX Need to step through our first object in detail...
+
+
+You'll notice there is a lot of busy work in our example object,
+We have a standard object std/object.swl in our system library path
+that provides a lot of the basic stuff for objects.  For any variable 
+defined in an object it creates simple functions:
+
+	set_varname, query_varname
+
+So you do not need to do this.  If you want something more complicated though
+you can create them in your object and it will override the base functions.
+It also has a lot of other functionality built into it, we encourage you to
+take a look at it.
+
+=head2 Working with objects
+
+Once you have a number of objects defined, you need to know how
+our language combines objects.  There are a number of functions that
+operate on objects: 
+
+	clone_object, compile_object, destruct_object, file_name,
+	find_object, object_name, this_object
+
+=over 8
+
+=item Compile_object (Not implementing compile_library this is the same)
+
+This function is used to initially load an object from file into memory.
+
+=item Destruct_object
+
+This function is called on an object to clean it up once we are done with
+it.  Example:
+
+	object obj;
+
+	obj = find_object("sirdude");
+	destruct_object(obj);
+
+=item Clone_object
+
+This function is used to create a copy of an object.
+Example:
+
+=item File_name
+
+This function returns the file that was used to create this object.
+Example:
+
+=item Find_object
+
+This function searches the loaded objects looking for specified object.
+Example:
+
+	object obj;
+	string str;
+
+	str = "sirdude";
+	obj = find_object(str);
+	if (!obj) {
+		write("Unable to find " + str + "\n");
+	}
+
+
+=item Object_name
+
+This function returns the name of the given object.
+Example:
+
+=item This_object
+
+This function returns the current object.
+Example:
+
+	string str;
+
+	str = this_object()->query_name();
+
+	write("str = " + str + "\n");
+
+=back
+
+
+XXX Add more stuff here...  This last section should be at the very end.
+
+
+
+=head1 Full specification
+
+One of the best ways to look at the language specification is to look at
+the test suite, it's organized into sections and each test is setup to
+test a specific thing.  If you truly want to know all of the language look
+at the specs. Example: tests/string/strcmp.sw tests the strcmp function,
+and should explain exactly what it does.

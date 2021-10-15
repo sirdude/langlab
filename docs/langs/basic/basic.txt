@@ -1,0 +1,50 @@
+LIST         ; displays the full source code of current program
+NEW          ; Reset memory
+HOME         ; clear the screen
+LOAD         ; load a file
+
+PRINT N      ; displays a message N
+INPUT "prompt" var ; asks the user to input data prompt is optional
+TAB          ; used in PRINT to do spacing
+SPC #        ; prints out a number of spaces          
+GET var      ; Read a single key
+HTAB  position ; 
+VTAB  position ;
+INVERSE      ; set output mode to black-on-white
+FLASH        ; blinking mode
+NORMAL       ; white on black
+TEXT         ; set display to text mode
+GR           ; set display to graphics mode
+COLOR = ...  ; set color
+plot  X,y    ; puts color in a position
+hlin x1,x1 at y ; horizontal line
+vlin y1,y2 at x ; vertical line
+
+Math:
+ABS, ATN, COS, EXP, INT, LOG, RND, SIN, SQR, TAN
+
+REM          ; comment
+USR          ; transfers program control to a machine lanaguage in a data 
+CALL         ; same as USR
+TRON         ; Turns on line nums
+TROFF        ; Turns off line nums
+ASM          ; Allows you to add asembly to it?
+
+
+LET var = expr
+DIM var (size [, size, ...] )
+READ
+RESTORE
+IF ... THEN ... {ELSE}
+IF ... GOTO ...
+FOR ... TO ... STEP ... 
+NEXT        ; end loops
+WHILE ... WEND and REPEATE ... UNTIL
+DO ... LOOP {WHILE} or {UNTIL}
+GOTO  ...
+GOSUB ...  ; jumps back on RETURN
+RETURN    ; jumps back from a subroutine
+ON ... GOTO/GOSUB label
+DEF FN NAME(var) = AEXPR   ; DEF FND(x) = x*x
+END       ; terminate cleanly
+STOP      ; break as if an error 

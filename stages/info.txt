@@ -1,0 +1,46 @@
+input:    level 1
+readfile -> chars
+string -> chars
+cmdline -> chars
+
+tokenizer: level 2
+chars -> tokens
+json -> tokens
+xml -> tokens
+human -> tokens
+
+parser: level 3 
+tokens -> ast
+tokens -> json
+tokens -> xml
+tokens -> human
+
+level 4
+walkers: do not modify ast but like transform
+warn on nesting level > 5
+warn on args > 8
+warn on no return value
+
+level 5:
+transforms: ast -> ast2
+pretty printer
+remove trailing whitespace
+spaces -> tabs for nesting
+desugarize (remove whitespace, comments, docs)
+optimazaions
+num (+,-,/,*) num  => newnum
+
+output: level 6
+ast-> language file
+ast-> xml
+ast-> json
+ast-> human
+
+Need way to select input, output types and filenames?
+
+level 1: array of chars
+level 2: array of tokens
+level 3: walk tokens to output ast or files.
+level 4: walk ast and warn on issues or fix?
+level 5: walk ast and produce new ast. combine level 4 and 5?
+level 6: walk ast to output files

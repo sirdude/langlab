@@ -1,0 +1,10 @@
+-- Taken from https://en.wikipedia.org/wiki/Wirth_syntax_notation
+ syntax         = rule [ syntax ] .
+ rule           = opt-whitespace "<" rule-name ">" opt-whitespace "::=" 
+                  opt-whitespace expression line-end .
+ opt-whitespace = { " " } .
+ expression     = list [ "|" expression ] .
+ line-end       = opt-whitespace EOL | line-end line-end .
+ list           = term [ opt-whitespace list ] .
+ term           = literal | "<" rule-name ">" .
+ literal        = """" text """" | "'" text "'" .

@@ -1,0 +1,23 @@
+# This is our simple grammar we are going to use as a base
+# It basically says we have the following:
+#      simple comments that start with -- or # and end at \n
+#      Rules which have an Ident on the lefthand side and
+#            on the Righthandside have one or more Idents or terminals ending
+#            in a ;
+#      Terminals are inclosed in "" or ''
+#      "" is used as empty
+#      The following escape chars are supported
+#      \n   newline
+#      \t   tab
+#      \\   escaped \
+#      a single \ is only allowed in comments.
+# XXX   Need to add entry definition and include definition....
+
+include "rule.bnf";
+include "misc.bnf";
+
+entry Program ;
+
+Program ::= Rule Program ;
+Program ::= Comment Program ;
+Program ::= "" ;

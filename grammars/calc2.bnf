@@ -1,0 +1,6 @@
+-- taken from http://math.purduecal.edu/~rlkraft/cs31600-2012/chapter03/syntax-examples.html
+expr -> term [ ('+' | '-') term ]*
+term -> factor [ ('*' | '/') factor ]*
+factor -> base [ '^' exponent ]*
+base -> '(' expr ')' | identifier | number
+exponent -> '(' expr ')' | identifier | number

@@ -1,0 +1,26 @@
+Basics:
+
+Define policies
+
+Policies look something like this:
+	Name
+	Criticality  (A rank 1-5 or 1-10)  Higher the # the more likely it's
+		a real problem.
+	Package groups so you can enable/disable stuff.
+	Node types this policy affects.
+	violates function takes two arguments( current node, pointer to full
+		document);
+		The violates function checks to make sure were evaluating the
+		correct node type if not return.
+		Look at node and or surrounding nodes for issue.  If
+		there is an issue return problem otherwise return nothing.
+	Documentation for the policy (What is it and why?)
+
+
+Then what you do is this:
+	Load all polices you want based on criticality and packages.
+	Check all of the policies that apply to the entire document.
+	create node tree out of the code.
+	for each node in the tree,
+		Determine what policies apply to that node, 
+		if there is a violation, print the location and the violation.

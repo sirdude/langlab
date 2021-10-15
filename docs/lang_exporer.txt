@@ -1,0 +1,17 @@
+list of libraries referenced and number;
+	list of functions that reference it.
+	list of libraries this library references.
+	lines of code this library contains.
+list of variables and number of them.
+	name, type, documentation, if array size
+	file defined in and line#,
+	functions that use it
+	functions that modify it
+list of functions & number of them.
+	name, type, documentation
+	file defined in and line#,
+	list of local variables;
+	functions it references
+	variables it references
+	# of lines
+	# of indents

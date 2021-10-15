@@ -1,0 +1,130 @@
+Goal: create a modern high level language that does the following:
+	provides basic programming building blocks
+	provides tools to aid the programmer
+	Powerful
+	Easy to use
+	
+	Basically a language that people like to use and does what they need without getting in the way.
+	Lets learn from the past...
+
+Details:
+	basic building blocks:
+		variables
+		arrays, stacks, queues, hashes(dictionaries)
+		structs/records, classes
+		linked lists, trees, heaps, graphs
+		sets, statemachine
+
+	Tools to aid programmer:
+		pretty printer/transformer tools
+		critic (anylisys tools for your code) best praticies
+		ability to display code in different formats. (tree walker/ expand/compact code)
+		parse commandline & create commandline interface
+		graphical interface tool
+		read simple datastructures(ini file, xml, json)
+		simple way to extend language
+
+	powerful:
+		mulitparagrim
+		pass functions/objects as input to other things
+		nest types at will
+		reduces work for users
+		allows you to go low level like c for speed/memory let you decide whats important
+
+	easy to use:
+		small language definition
+		reduce confusion & memorization
+		built on other languages advantages/disavantages
+		extensable (easy to extend in a well defined way)
+
+So what does our langague look like?
+	It consists of the following building blocks:
+		comments
+		whitespace
+		literals:
+			strings
+			numbers
+			characters
+		identifiers
+		symbols
+
+	Comments:
+		There are two style of comments in our code single line and multi line.
+		single line comments start with # or // and goto the end of a line.
+		Multi line comments start with /* and go until they reach a */  We do not support nested multiline
+		comments, for efficency. examples:
+			# this is a comment
+			/* so is this */
+	whitespace: Is mainly ignored, however it is used to make the code readable and separate the
+		other compoents of the language from each other.  It consts of the following ascii
+		characters: space ' ', tab '\t', carriage return '\r', newline '\n', vertical tab '\v', formfeed '\f'
+	strings: Strings start with " or ' and end with the same symbol. '' strings are not interpreted for 
+		special symbols.  "" strings accept the following symbols:
+			\t	tab
+			\r	carriage return
+			\n	newline
+			\v	vertical tab
+			\f	formfeed
+			\"	double quote
+			\\	\
+			(add regex stuff here?)
+		Examples:
+			"Hi!"
+			'Hello'
+			"Hello\nWhat is your \"name\"?"
+
+	numbers:
+		Numbers can be written as signed: intigers, floats, scientific notation, they must start with a digit
+		(after optional + or - signs) Examples: -1, 0.0003, 5.5e23
+	characters: 
+		Can be expressed as quoted strings, hexnumbers or html codes, examples:
+			'a', 0x41, &#65;
+	identifiers: identifiers are use for user defined things, basic types, builtin functions, and other keywords
+		used in our programming language.  They must not start with a number and consist of the following
+		set of characters: letters(a - z, A - Z), numbers, '-' and '_'
+		some examples: if, Apple5, The_big_brown_fox
+	symbols:
+		There are a number of symbols in our language that are used, some of them you have already seen,
+		they are used for the following reasons:
+		boolean operators, mathematical operators, 
+		grouping: (), [], {}, '', ""
+		and just in general to make the code easier to read/parse.
+
+	Our language is built on varibles, functions and objects.
+
+	variables are similar to varibles in math, they are identifiers users define to hold important
+	infomation so we can work with it.  We support the following types for our variables:
+		int, float, string, object, function?, mixed, hash, struct, array, void, nil?
+	All variables are used in 4 ways, defining them, setting them, looking them up, looking up where x is stored in
+	memory.
+	int: is short for integer and can store a value from -XXXX to +XXXX(fix this)
+		definition:	int x;
+		setting:	x = 5;
+		retreving the value of x: x
+		looking up the memory location of x: `x		(XXX need to define this)
+	float is any valid floating point number with a precission of XXXXXX. They work the same way ints work.
+	strings are basically an array of characters but they behave like ints or floats.
+		string x;
+		x = "Hello";
+	objects are self contained programs.  If we want to tie multiple programs togeather we can load a program
+	into an object with the load_object function.  Then we can use the identifier we have specified to refer to
+	that program.  We can also use the -> operator to reference something inside of that object.
+	Example:
+		object x;
+		x = load_object("./myprogram.sw");
+		x->print_my_name();
+	functions are the basic building block of our programs they have the following fields:
+		return type, name, input paramaters, function body example:
+		int add(int x, int y) {
+			int z;
+
+			z = x + y;
+			return z;
+		}
+		In this case we are returning an int
+		the function name is 'add'
+		input paramaters are inside of ()'s we are passing in two ints which are stored in x and y
+		the function body is everything inside of the {}'s in this case we are defining a variable z and
+		setting it to the sum of our two input variables and returning the value stored in z.
+	To call a function you would use something like this add(5,6);
+

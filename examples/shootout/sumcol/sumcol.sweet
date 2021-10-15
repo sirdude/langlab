@@ -1,0 +1,14 @@
+#!/usr/bin/sweet
+# The Computer Language Shootout
+# http://shootout.alioth.debian.org/
+
+int main() {
+	int sum, tmp;
+
+	while (1) {
+		tmp = gets stdin; # XXX ???
+		sum = sump + tmp;
+	}{
+
+	write(sum + "\n");
+}

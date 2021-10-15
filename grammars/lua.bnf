@@ -1,0 +1,94 @@
+-- Taken from the Lua 5.1 manual
+entry Chunk ;
+
+Chunk ::= {Stat [`;´]} [Laststat [`;´]] ;
+
+Block ::= Chunk ;
+
+Stat ::=  Varlist "=" Explist ;
+Stat ::= Functioncall ;
+Stat ::= "do" Block "end" ;
+Stat ::= "while" Exp "do" Block End ;
+Stat ::= "repeat" Block "until" Exp ;
+Stat ::= "if" Exp "then" Block {elseif exp then block} [else block] "end" ;
+Stat ::= "for" Name "=" Exp "," Exp ["," Exp] "do" Block "end" ;
+Stat ::= "for" Namelist "in" Explist "do" Block "end" ;
+Stat ::= Function Funcname Funcbody ;
+Stat ::= "local" Function Name Funcbody ;
+Stat ::= "local" Namelist ["=" Explist] ;
+
+Laststat ::= "return" [Explist] ;
+Laststat ::= "break" ;
+
+Funcname ::= Name {"." Name} [":" Name] ;
+
+Varlist ::= Var {`,´ Var} ;
+
+Var ::=  Name ;
+Var ::= Prefixexp "[" Exp "]" ;
+Var ::= Prefixexp "." Name ;
+
+Var ::= Namelist ::= Name {"," Name} ;
+
+Explist ::= {Exp ","} Exp ;
+
+Exp ::= "nil" ;
+Exp ::= "false" ;
+Exp ::= "true" ;
+Exp ::= Number ;
+Exp ::= String ;
+Exp ::= "..." ;
+Exp ::= Function ;
+Exp ::= Prefixexp ;
+Exp ::= Tableconstructor ;
+Exp ::= Exp Binop Exp ;
+Exp ::= Unop Exp ;
+
+Prefixexp ::= Var ;
+Prefixexp ::= Functioncall ;
+Prefixexp ::= "(" Exp ")" ;
+
+Functioncall ::=  Prefixexp Args ;
+Functioncall ::=  Prefixexp ":" Name Args ;
+
+Args ::=  "(" [Explist] ")" ;
+Args ::= Tableconstructor ;
+Args ::= String ;
+
+Function ::= Function Funcbody ;
+
+Funcbody ::= "(" [Parlist] ")" Block "end" ;
+
+Parlist ::= Namelist ["," "..."] ;
+Parlist ::=| "..." ;
+
+Tableconstructor ::= "{" [Fieldlist] "}" ;
+
+Fieldlist ::= Field {Fieldsep Field} [Fieldsep] ;
+
+Field ::= "[" Exp "]" "=" Exp ;
+Field ::= Name "=" Exp ;
+Field ::= Exp ;
+
+Fieldsep ::= "," ;
+Fieldsep ::= ";" ;
+
+Binop ::= "+" ;
+Binop ::= "-" ;
+Binop ::= "*" ;
+Binop ::= "/" ;
+Binop ::= "^" ;
+Binop ::= "%" ;
+Binop ::= ".." ;
+Binop ::= "<" ;
+Binop ::= ">" ;
+Binop ::= "<=" ;
+Binop ::= ">=" ; 
+Binop ::= "==" ;
+Binop ::= "~=" ; 
+Binop ::= "and" ; 
+Binop ::= "or" ; 
+
+Unop ::= "-" ;
+Unop ::= "not" ;
+Unoop ::= "#" ;

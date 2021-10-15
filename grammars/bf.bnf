@@ -1,0 +1,5 @@
+-- Taken from: http://sabbatical-year.blogspot.com/2008/01/brainfuck-its-last-one-i-promise.html
+program     ::= instruction*
+instruction ::= loop | simple
+loop        ::= '[' instruction* ']'
+simple      ::= '+' | '-' | '<' | '>' | '.' | ','

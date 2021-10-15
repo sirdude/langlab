@@ -1,0 +1,24 @@
+(+ 5 10)
+(abs -4)
+(define (add x y) (+ x y))
+
+(x) is not the same as x
+() is the empty list
+Lists of lists: ((a b) (c d)) or ((fred) ((x)))
+Scheme lists can contain items of different types: (1 1.5 x (a) ((7)))
+Here are some important functions that operate on lists:
+length -- length of a list
+equal? -- test if two lists are equal (recursively)
+car -- first element of a list
+cdr -- rest of a list
+cons -- make a new list cell (a.k.a. cons cell)
+list -- make a list
+
+(define (my-max3 x y z)
+   (if (and (> x y) (> x z))
+       x
+       (if (> y z) 
+            y
+            z)))  
+
+

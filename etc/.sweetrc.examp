@@ -1,0 +1,11 @@
+# This is an example config file for sweet, rename it to .sweetrc and
+# Place it in SWEET_CONF_PATH and modify it to fit your environment.
+
+# Set some paths for our application
+SWEET_INC_PATH="./include:/usr/local/include/sweet"
+SWEET_LIB_PATH="./sweet/lib:/usr/local/lib/sweet"
+SWEET_CRITIC_PATH="./sweet/critic:/usr/local/lib/sweet/critic"
+
+# Valid values 0 - 5:   0 = no checks 5 = I'm a rule freak
+SWEET_CRITIC_LEVEL = 3;
+

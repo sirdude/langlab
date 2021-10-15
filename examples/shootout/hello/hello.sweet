@@ -1,0 +1,6 @@
+#!/usr/bin/sweet
+# http://www.bagley.org/~doug/shootout/
+
+int main() {
+	write "hello world\n";
+}

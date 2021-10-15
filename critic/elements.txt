@@ -1,0 +1,102 @@
+# This is taken from the PPI documentation for perl we should model this I think...
+#
+# Need a ppidump program, a document that talks about our internal structures
+# tokenizer -> tokens streams, lexer -> statements, ast-> internal representation(ppi?, IR) 
+# ast -> to outputfile...
+# critic walker 
+# Look at white space as individual tokens then combining them somewhat....
+# look at how we make this stuff make it easy to convert from one to the other...
+
+# example of using it:
+use PPI;
+my $doc = PPI::Document->new($filename);
+my $end = $doc->find_first('Statement::End');
+$end->delete if $end;
+$doc->prune('Token::Pod');
+$doc->prune('Token::Comment');
+$doc->save('newfilename');
+
+# Extra:
+# https://www.mindprod.com/project/scid.html   visual extensions to edit/view code
+# 
+# might be worth it to read in code directly from github get extra meta data...
+#         author of individual lines....
+# 
+# Add as much metadata as possible to a token....
+# 
+# associate comments with code warn on multipe global comment blocks?
+
+# Things that build up ppi
+element
+	node
+		document
+			documentfragement
+		statement
+			package
+			include
+			sub
+				scheduled
+			compound
+			break
+			given
+			when
+			data
+			end
+			expression
+				variable
+			null
+			unmatchedbrace
+			uknown
+		structure
+			block
+			subscript
+			constructor
+			condition
+			list
+			for
+			given
+			when
+			unknown
+	tokens
+		whitespace
+		comment
+		pod(documentation)
+		number
+			int
+			binary
+			octal
+			hex
+			float
+			nubmer_expression
+		word
+		dashedword
+		symbol
+			magic
+		arrayindex
+		operator
+		quote
+			quote-single
+			quote-dobule
+			quote-literal
+			quote-interpolate
+		quote-like
+			backtick
+			command
+			regex
+			words
+			readline
+		regex
+			regexmatch
+			regexsub
+			regextrans
+		heredoc
+		cast
+		structure
+		label
+		separator
+		data
+		end
+		prototype
+		attribute
+		unkown
+

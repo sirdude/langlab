@@ -1,0 +1,25 @@
+include "letter.bnf";
+include "digit.bnf";
+include "symbol.bnf";
+
+Comment ::= "--" Notendofline Endofline ;
+Comment ::= "#" Notendofline Endofline ;
+
+Notendofline ::= Letter Notendofline ;
+Notendofline ::= Digit Notendofline ;
+Notendofline ::= Symbol Notendofline ;
+Notendofline ::= Ws Notendofline ;
+Notendofline ::= "\" Notendofline ;
+Notendofline ::= "" ;
+
+Endofline ::= "\n" ;
+
+Ws ::= " " Optionalws ;
+Ws ::= "\t" Optionalws ;
+
+Optionalws ::= Ws ;
+Optionalws ::= "" ;
+
+Terminal ::= '"' Text1 '"' ;
+Terminal ::= "'" Text2 "'" ;
+

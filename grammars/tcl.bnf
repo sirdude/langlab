@@ -1,0 +1,15 @@
+/* taken from https://rosettacode.org/wiki/Category:Tcl */
+
+script     ::= command? (( "\n" | ";" ) script )
+command    ::= "#" characters "\n"        /* comment */
+             | word ( space word )*       /* sequence of space-separated words;
+                                           * first is command name */
+             |                            /* empty */
+word       ::= "{*}"? "{" characters "}"  /* braces must be balanced */
+             | "{*}"? """ charSubsts "\""  /* double-quotes must be balanced */
+             | "{*}"? charSubsts
+charSubsts ::= "[" script "]" charSubsts? /* brackets must be balanced */
+             | "$" varName charSubsts?
+             | "${" varName "}" charSubsts?
+             | "\\" escapeSequence charSubsts?
+             | ordinaryChar charSubsts?

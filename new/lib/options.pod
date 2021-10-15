@@ -1,0 +1,66 @@
+=head1 NAME
+
+Options
+
+=head1 SYNOPSIS
+
+inherit options;
+
+int usage() {
+	write("MYAPP OPTIONS\n\n");
+
+	write("Brief description of MYAPP\n");
+
+	print_options();
+
+	return 1;
+}
+
+int main(string str) {
+	string infile;
+
+	add_option("help", "Show usage of this application", "");
+	add_option("debug", "enable Debugging mode", "");
+	add_option("filename", "Sets the output file.", "FILE");
+
+	str = parse_options(str);	
+
+	if (query_options("debug")) {
+		write("Debugging mode enabled.\n");
+	}
+
+	if (query_options("help")) {
+		usage();
+	} else if (query_options("filename")) {
+		infile = query_options("filename");
+
+		... do the work on your file.
+	}
+}
+
+
+=head1 DESCRIPTION
+
+The options module allows you to quickly create command line options for an application.
+The options take one of the following formats:
+	--help
+	--filename=foo
+
+=item int add_option(string flag, string help, string setable);
+
+=item int set_option(string flag, mixed value);
+
+=item mixed query_options(string flag);
+
+=item string query_help-option(string flag);
+
+=item int print_options();
+
+=item string parse_options(string args);
+
+=head1 AUTHOR
+
+Kent Mein <mein@umn.edu>
+
+=head1 SEE ALSO
+	tests

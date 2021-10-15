@@ -1,0 +1,17 @@
+#!/usr/bin/sweet
+# http://www.bagley.org/~doug/shootout/
+mapping dict;
+
+main() {
+	open("Usr.Dict.Words");
+
+	while(getline()) {
+		dict[line] = true;
+	}
+
+	while(getstdin()) {
+		if (!dict[word]) {
+			write word + "\n";
+		}
+	}
+}

@@ -1,0 +1,5 @@
+include "lowercase.bnf";
+include "uppercase.bnf";
+
+Letter ::= Lowercase ;
+Letter ::= Uppercase ;

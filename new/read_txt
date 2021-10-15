@@ -1,0 +1,34 @@
+#!/usr/bin/mein
+
+use AST;
+use prompt;
+
+read_txt(string infile) {
+	file fh;
+	int x, line;
+	array object nodes;
+	object node;
+	
+	if (!infile) {
+		infile = prompt("Infile: ");
+	}
+
+	if (open(fh, infile, "read")) {
+		while(fh) {
+			value = get_char(fh);
+			if (value == "\n") {
+				x = 0;
+				line = line + 1;
+			} else {
+				x = x + 1;
+			}	
+			node = make_char_node(value, x, line);
+			end_push(nodes, node);
+		}
+		dump(nodes);
+	} else {
+		write "Error opening " + infile + "\n";
+	}
+}
+
+read_txt();

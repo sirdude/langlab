@@ -1,0 +1,5 @@
+-- taken from https://github.com/navstev0/nodebnf/blob/master/examples/calculator/calc.bnf
+<syntax> ::= <expression> | <expression> <_crlf> <syntax>
+<expression> ::= <number> <type> <number>
+<number> ::= <_digits>
+<type> ::= "+" | "-" | "*" | "/"

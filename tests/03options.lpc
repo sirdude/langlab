@@ -1,0 +1,51 @@
+inherit option "/std/options";
+inherit "/std/tests";
+
+int run_tests(string str) {
+	string args;
+
+	is("Add a help option", 1, "add_option", "help",
+		"Set a help message.", "");
+	is("Add option debugging levels(1,2,3,4,5)", 1, "add_option", "debug",
+		"Enable debugging levels(1,2,3,4,5)", "VALUE");
+	is("Add option filename=FILENAME", 1, "add_option", "filename",
+		"Set output filename to FILENAME", "FILENAME");
+
+	str = parse_options(str);
+
+	is("Set debug=5", 1, "set_option", "debug", 5);
+	is("Query debug=5", 5, "query_option", "debug");
+
+	is("Try to call parse_options with empty str", "", "parse_options",
+		"");
+	is("Try to call parse_options with no options", "wah", "parse_options",
+		"wah");
+	is("Try to add a non existant option", "0", "parse_options",
+		"--test");
+	is("Try --help when it's defined.", "", "parse_options",
+		"--help");
+	is("Parse multiple options", "wah", "parse_options",
+		"--help --debug=5 --filename=fun wah");
+
+	is("Check for non existant option.", 0, "query_option", "helper");
+	is("Check for added help option.", 1, "query_option", "help");
+	is("Check for debug=5 option.", "5", "query_option", "debug");
+	is("Check for filename=fun option.", "fun", "query_option", "filename");
+
+	test_summary();
+	return 1;
+}
+
+void setup(void) {
+	set_id("tester");
+	set_gettable(1);
+
+	add_action("run_tests", "run_tests");
+	set_short("An options tester");
+	set_long("Give it a try if you dare.  Type run_tests");
+	set_weight(1);
+	set_value(1);
+
+	init_tests();
+}
+

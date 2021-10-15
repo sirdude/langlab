@@ -1,0 +1,86 @@
+#Taken from crockford.com/mkckeeman.html
+# I simplified it a bit 
+# no singling out 0 from digits for numbers...
+# removing ws and make it implicit
+# Should allow comments???
+#
+# check out this for an application in c: github.com/douglascrockford/JSON-c
+# or a more complete bit at github.com/jehiah/json-c
+json = json_element
+
+json_element = json_object
+json_element = json_array
+json_element = json_string
+json_element = json_number
+json_element = "true"
+json_element = "false"
+json_element = "null"
+
+json_object = '{' json_members '}'
+
+json_members = ""
+json_members = json_member
+json_members = json_member ',' json_members
+
+json_member = json_string ':' json_element
+
+json_array = '[' ']'
+json_array = '[' json_elements ']'
+
+json_elements = json_element
+json_elements = json_element ',' json_elements
+
+json_string '"' json_characters '"'
+
+json_characters = ""
+json_characters = json_character json_characters
+
+# Should have a digit, letters, symbols without quotes then just add quote to it. etc...
+json_character = [^"]
+json_character = '\"'
+
+# These are only used inside of string's so currently not looking at them. probably should... XXX
+# json_escape = '"'
+# json_escape = '\'
+# json_escape = '/'
+# json_escape = 'b'
+# json_escape = 'f'
+# json_escape = 'n'
+# json_escape = 'r'
+# json_escape = 't'
+# json_escape = 'u' hex hex hex hex
+ 
+# json_hex = digit
+# json_hex = [A-F]
+# json_hex = [a-f]
+
+json_number = json_integer json_fraction json_exponent
+
+json_integer = json_digits
+json_integer = '-' json_digits
+
+json_digits = json_digit
+json_digits = json_digit json_digits
+
+json_digit = 0
+json_digit = 1
+json_digit = 2
+json_digit = 3
+json_digit = 4
+json_digit = 5
+json_digit = 6
+json_digit = 7
+json_digit = 8
+json_digit = 9
+
+json_fraction = ""
+json_fraction = '.' json_digits
+
+json_exponent = ""
+json_exponent = 'E' json_sign json_digits
+json_exponent = 'e' json_sign json_digits
+
+json_sign = ""
+json_sign = '+'
+json_sign = '-'
+

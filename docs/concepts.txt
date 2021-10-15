@@ -1,0 +1,106 @@
+read                   multiple types char, line, file
+write                  multiple types: write to stdout, write to a file, send a message?
+define function
+define varable
+set variable
+get variable
+call a function
+eval                   eval a string, a file
+
+functions, variables, objects, programs, processes, interperter, vm?
+
+everything is data
+basic types: string( and char?), num(worry about types later), array, hash, object, file?, process, vm?
+all types: char, string, enumeration, (bool, int, float, double, complex), mixed(void), 
+	array, struct, object, hash, union, variable, constant, typedef
+
+variable: set, get, type, sizeof?, free?
+string functions: set, get, append, substr, size
+is a string just a special array?
+arrays: frontpush,frontpop, rearpush, rearpop, index[0] or index[1-3], num elements, sizeof
+	sort, foreach
+hash: set, index['fred'], index['fred','george']? , delete key, add(1->many)?, exits, keys, values?
+function: define, call, free
+file: read, write, append, exists, delete, sizeof, permissions(rwx,set,get,owner,group(s))
+objects: define, free, (register & dereg? ), exists, send message, receive_message?, load, save, permissions, inherit
+process: same as object? what about spawn a copy?
+vm: new, load, save, eval?, permissions
+	is vm same as object?
+
+math: +,-,*,/
+compaireson: ==, !=, >, <, >=, <=
+logic: and, or, xor, not
+sets: union(A&B), diff(A-B), intersection(A,B), contains, !contains
+
+What is needed for a stack based vm?
+https://justinmeiners.github.io/lc3-vm/
+memory, registers, Hardware/IO, instruction set, load, save, execute
+
+For assembly you do the following loop: to excute
+	read one instruction
+	incrememt the pointer (pc)
+	look at the opcode to determine what instruction
+	preform instruction
+	
+Stack based:
+	new frame
+	push
+	pop
+
+
+What is a server:
+	register of objects,programs, processes, vm's?
+	access permissions
+	lines of communication and corrdination
+
+
+flowcontrol
+	functions
+	loops(while,do while, for, foreach)
+	if/else,switch
+	exit,return, goto, label, continue, break
+	states?: define, conditional path
+exceptions:
+	throw, handler(catch,try), assert, expect?
+
+ways to execute commands:
+	system,eval,exec
+
+Things to keep track of:
+	ENV, user,group,permissions, ARGV, $0(progname), registration info,
+
+
+block level scoping, first class functions, 
+
+paradimes: low-level, high-level, text-processing, efficent, saftey, easytolearn, small, extensable, 
+	support (dev,test,production), strong-types, weak-types, interactive, batch, high availability
+	regex, grammars
+
+Levels:
+	machinecode
+	Assembly
+	compiled
+	script
+	(graphical, building blocks)?
+
+support weak types and strong types, interpreter, compiler
+
+interpreter/devmode: live interaction, slower execution, save, load, edit, run
+	 enable/disable debugging, tracing, runtime checking
+	is a loop of writecode, load, run (optimize this and make it better for users)
+	how does this tie into version control?
+
+compiler: more static checks, suggest optimizations, lock in versions?
+
+symboltable & Scope:
+obj..name       global var name in object
+obj.doit.name   var name inside function doit inside object obj
+may want to expand for programs/processes/vms?
+symboltable stores: type, address inside scope, attributes(static, etc..)
+lookup parses current scope looks for defintion and up the stack...
+exists, read, write, handle indirect vs direct as well?
+store the names of all entities in a structured form at one place.
+verify if a variable has been declared.
+implement type checking, by verifying assignments and expressions in the source code are semantically correct.
+determine the scope of a name (scope resolution).
+stats(how many references to an item in the table, and where are the references?)

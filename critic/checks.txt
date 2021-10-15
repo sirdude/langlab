@@ -1,0 +1,30 @@
+Check for variable masking, function masking.  Have a way to 
+	flag it as ok via code. (type modifier redefineable?)
+
+Check for variables defined after code in a block.
+
+check for inheritable cloning, or inheriting non inheritable?
+Check inherit exists, also test inheritable : would need to create
+	a visited list, expand this so you can check a directory and only
+	check files once.
+
+check to make sure objects are not orphaned? (destroy them when your done)
+check that open things like files are closed when done.
+
+Warn if variables share the name of a variable at a higher scope.
+
+Warn if while statements check have no way of modifying their contents.
+Warn if switch/if statements have unreachable code.
+
+Have a way to printout variable name, scope where it is defined and 
+	current value.
+Have a way to given an object, print the variables defined in it with current
+	values, as well as functions defined in that object.
+
+Built-in test function for a function?  If so warn if no test function defined.
+	Also check for blah.test that doesn't have a function defined.
+	tests should cover all return statements & return values.
+	tests should also cover important edge cases.
+
+check for assignment in conditional:
+	if (X = 5) {
