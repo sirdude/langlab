@@ -12,5 +12,9 @@ Right now its still a little bit of a mess and needs some organization.
 There are a bunch of half done things and lots of notes.
 
 Need to merge current bin/lib with stages and new.
+bin/lib is old perl/lpc stuff
+stages was an attempt to moduleralize things.
+new is actually code in our new language.
+
 After that will probabably need to clean up the test suite.
 Then it will be time to work on new things.
