@@ -1,7 +1,19 @@
-input:    level 1
+The idea here is to make the grammar moduler.
+each grammar object has a number of functions associated with it to read,write and modify.
+programing a new langage consists of defining the language and then creating objects for
+each element of the grammar.
+
+Running a process on a grammar consists of loading the approprate objects and walking the tree.
+Walking a tree needs some working parts:
+two trees: input, output
+with nodes that have the following definitions: type, data, next as well as other node specific types
+each tree has the following pointers: head, current, newcurrent
+
+input:    level 1         convert the following things to a node tree.
 readfile -> chars
 string -> chars
 cmdline -> chars
+special chars: eof, eol, nul, \n
 
 tokenizer: level 2
 chars -> tokens
