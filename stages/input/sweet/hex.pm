@@ -57,4 +57,13 @@ sub get {
         return 1;
 }
 
+sub put {
+	my (%node) = @_;
+
+	if ($node->{'type'} ne 'hex') {
+		return "";
+	}
+	return $node->{"value"};
+}
+
 1;
