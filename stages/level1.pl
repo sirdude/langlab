@@ -43,8 +43,9 @@ sub print_nodes {
 
 	foreach my $i (@NODES) {
 		print "Node: $c\n";
-		print "\t" . $i->{'type'} . "\n";
-		print "\t" . $i->{'data'} . "\n";
+		foreach my $key (keys %{$i}) {
+			print "\t" . $key . ': ' . $i->{$key} . "\n";
+		}
 		$c = $c + 1;
 	}
 	return 1;
@@ -58,9 +59,12 @@ sub nodes_to_json {
 			$start = 1;
 		} else {
 			print ",\n";
-			print '{ ' . $i->{'type'} . ', ' .  $i->{'data'} . ' }';
 		}
-		
+		print '{ ';
+			foreach my $key (keys %{$i}) {
+				print "\t" . $key . ":" . $i->{$key} . ",\n";
+			}
+		print ' }';
 	}
 	if ($start) {
 		print "\n";
@@ -75,8 +79,9 @@ sub nodes_to_xml {
 	print "<nodes>\n";
 	foreach my $i (@NODES) {
 	print "\t<node>\n";
-	print "\t\t<type>" . $i->{'type'} . "</type>\n";
-	print "\t\t<data>" . $i->{'data'} . "</data\n";
+	foreach my $key (keys %{$i}) {
+		print "\t\t<$key>" . $i->{$key} . "</$key>\n";
+	}
 	print "\t</node>\n";
 	}
 	print "</nodes>\n";
