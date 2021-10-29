@@ -43,7 +43,7 @@ sub print_nodes {
 
 	foreach my $i (@NODES) {
 		print "Node: $c\n";
-		foreach my $key (keys %{$i}) {
+		foreach my $key (sort keys %{$i}) {
 			print "\t" . $key . ': ' . $i->{$key} . "\n";
 		}
 		$c = $c + 1;
@@ -61,7 +61,7 @@ sub nodes_to_json {
 			print ",\n";
 		}
 		print '{ ';
-			foreach my $key (keys %{$i}) {
+			foreach my $key (sort keys %{$i}) {
 				print "\t" . $key . ":" . $i->{$key} . ",\n";
 			}
 		print ' }';
@@ -79,7 +79,7 @@ sub nodes_to_xml {
 	print "<nodes>\n";
 	foreach my $i (@NODES) {
 	print "\t<node>\n";
-	foreach my $key (keys %{$i}) {
+	foreach my $key (sort keys %{$i}) {
 		print "\t\t<$key>" . $i->{$key} . "</$key>\n";
 	}
 	print "\t</node>\n";
