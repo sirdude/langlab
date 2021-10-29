@@ -84,19 +84,6 @@ sub nodes_to_xml {
 	return 1;
 }
 
-sub parse_string {
-	my ($string) = @_;
-
-	foreach my $i (split //, $string) {
-		if ($i eq "\n") {
-			add_node($EOL);
-		} else {
-			add_node($i);
-		}
-	}
-	return 1;
-}
-
 sub is_xml_file {
 	my ($infile) = @_;
 	my $end = length($infile);
@@ -126,6 +113,19 @@ sub read_xml_file {
 
 sub read_json_file {
 	my ($infile) = @_;
+}
+
+sub parse_string {
+	my ($string) = @_;
+
+	foreach my $i (split //, $string) {
+		if ($i eq "\n") {
+			add_node($EOL);
+		} else {
+			add_node($i);
+		}
+	}
+	return 1;
 }
 
 sub parse_file {
