@@ -13,7 +13,9 @@ input:    level 1         convert the following things to a node tree.
 readfile -> chars
 string -> chars
 cmdline -> chars
-special chars: eof, eol, nul, \n
+special chars: eof, eol, nul
+node->json
+node->xml
 
 tokenizer: level 2
 chars -> tokens

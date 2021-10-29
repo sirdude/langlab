@@ -45,6 +45,41 @@ sub print_nodes {
 	return 1;
 }
 
+sub nodes_to_json {
+	my $start = 0;
+	print "{ \"NODES\": [\n";
+	foreach my $i (@NODES) {
+		if (!$start) {
+			$start = 1;
+		} else {
+			print ",\n";
+			print '{ ' . $i->{'type'} . ', ' .
+				$i->{'data'} . ' }';	
+		}
+		
+	}
+	if ($start) {
+		print "\n";
+	}
+	print "] }\n";
+
+	return 1;
+}
+
+sub nodes_to_xml {
+	my $start = 0;
+	print "<nodes>\n";
+	foreach my $i (@NODES) {
+	print "\t<node>\n";
+	print "\t\t<type>" . $i->{'type'} . "</type>\n";
+	print "\t\t<data>" . $i->{'data'} . "</data\n";
+	print "\t</node>\n";
+	}
+	print "</nodes>\n";
+
+	return 1;
+}
+
 sub parse_string {
 	my ($string) = @_;
 
@@ -97,5 +132,7 @@ if (!@ARGV) {
 	usage();
 } else {
 	get_usage_type(@ARGV);
-	print_nodes();
+#	print_nodes();
+#	nodes_to_json();
+	nodes_to_xml();
 }
