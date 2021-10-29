@@ -112,12 +112,46 @@ sub is_json_file {
 	return 0;
 }
 
+sub get_xml_header {
+	my ($fhh) = @_;
+}
+
+sub get_xml_node {
+	my ($fhh) = @_;
+}
+
+sub get_xml_footer {
+	my ($fhh) = @_;
+}
+
 sub read_xml_file {
 	my ($infile) = @_;
+	my $fh;
+
+	if (open($fh, "<", $infile)) {
+		if (get_xml_header($fh)) {
+			while(get_xml_node($fh)) {
+			}
+			return get_xml_footer($fh);
+		}
+		close($fh);
+	}
+	return 0;
 }
 
 sub read_json_file {
 	my ($infile) = @_;
+	my $fh;
+
+	if (open($fh, "<", $infile)) {
+		if (get_json_header($fh)) {
+			while(get_json_node($fh)) {
+			}
+			return get_json_footer($fh);
+		}
+		close($fh);
+	}
+	return 0;
 }
 
 sub parse_string {
