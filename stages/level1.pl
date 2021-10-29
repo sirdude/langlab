@@ -93,9 +93,47 @@ sub parse_string {
 	return 1;
 }
 
+sub is_xml_file {
+	my ($infile) = @_;
+	my $end = length($infile);
+	my $start = $end - 4;
+	
+
+	if (($start > 0) && substr($infile, $start, $end) eq ".xml") {
+		return 1;
+	}
+	return 0;
+}
+
+sub is_json_file {
+	my ($infile) = @_;
+	my $end = length($infile);
+	my $start = $end - 5;
+
+	if (($start > 0) && substr($infile, $start, $end) eq ".json") {
+		return 1;
+	}
+	return 0;
+}
+
+sub read_xml_file {
+	my ($infile) = @_;
+}
+
+sub read_json_file {
+	my ($infile) = @_;
+}
+
 sub parse_file {
 	my ($fname) = @_;
 	my $fh;
+
+	if (is_xml_file($fname)) {
+		return read_xml_file($fname);
+	}
+	if (is_json_file($fname)) {
+		return read_json_file($fname);
+	}
 
 	if (open($fh, "<", $fname)) {
 		while (<$fh>) {
