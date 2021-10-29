@@ -16,18 +16,32 @@ sub usage {
 
 sub add_node {
 	my ($data) = @_;
-	my %node;
+	my $node = {};
 
 	if ($data eq $EOF) {
-		$node{'type'} = 'EOF';
+		$node->{'type'} = 'EOF';
+		$node->{'data'} = 'NIL';
 	} elsif ($data eq $EOL) {
-		$node{'type'} = 'EOL';
+		$node->{'type'} = 'EOL';
+		$node->{'data'} = 'NIL';
 	} else {
-		$node{'type'} = 'char';
-		$node{'data'} = $data;
+		$node->{'type'} = 'char';
+		$node->{'data'} = $data;
 	}
-	push(@NODES, %node);
+	push(@NODES, $node);
 
+	return 1;
+}
+
+sub print_nodes {
+	my $c = 0;
+
+	foreach my $i (@NODES) {
+		print "Node: $c\n";
+		print "\t" . $i->{'type'} . "\n";
+		print "\t" . $i->{'data'} . "\n";
+		$c = $c + 1;
+	}
 	return 1;
 }
 
@@ -41,7 +55,6 @@ sub parse_string {
 			add_node($i);
 		}
 	}
-	add_node($EOF);
 	return 1;
 }
 
@@ -51,12 +64,8 @@ sub parse_file {
 
 	if (open($fh, "<", $fname)) {
 		while (<$fh>) {
-			my $c = $_;
-			if ($c eq "\n") {
-				add_node($EOL);
-			} else {
-				add_node($c);
-			}
+			my $line = $_;
+			parse_string($line);
 		}
 		close($fh);
 		add_node($EOF);
@@ -88,4 +97,5 @@ if (!@ARGV) {
 	usage();
 } else {
 	get_usage_type(@ARGV);
+	print_nodes();
 }
