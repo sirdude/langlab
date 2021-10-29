@@ -2,14 +2,19 @@
 use strict;
 use warnings;
 
+use lib "../lib";
+use options;
+
 my @NODES;
 my $EOL = 111111111111111;
 my $EOF = 222222222222222;
 
 sub usage {
-	print "$0: [FILENAMES | STR]\n";
+	print "$0: [OPTIONS] [FILENAMES | STR]\n";
 	print "Parses the given list of files or considers input a string and parses that.\n";
 	print "\n";
+
+	print_options();
 
 	return 1;
 }
@@ -53,8 +58,7 @@ sub nodes_to_json {
 			$start = 1;
 		} else {
 			print ",\n";
-			print '{ ' . $i->{'type'} . ', ' .
-				$i->{'data'} . ' }';	
+			print '{ ' . $i->{'type'} . ', ' .  $i->{'data'} . ' }';
 		}
 		
 	}
@@ -148,7 +152,7 @@ sub parse_file {
 	}
 }
 
-sub get_usage_type {
+sub parse_file_or_string {
 	my @values = @_;
 	my $tmp = 1;
 
@@ -166,11 +170,32 @@ sub get_usage_type {
 	}
 }
 
-if (!@ARGV) {
-	usage();
-} else {
-	get_usage_type(@ARGV);
-#	print_nodes();
-#	nodes_to_json();
-	nodes_to_xml();
+sub main {
+	my @VALUES = @_;
+
+	add_option("help", "Print usage statement.");
+	add_option("debug", "Enable debugging mode.");
+	add_option("xml", "Use xml format for output.");
+	add_option("json", "Use json format for output.");
+
+	if (!@VALUES) {
+		return usage();
+	}
+
+	@VALUES = parse_options(@VALUES);
+	if (query_option('help')) {
+		return usage();
+	}
+
+	if (parse_file_or_string(@VALUES)) {
+		if (query_option('json')) {
+			return nodes_to_json();
+		} elsif (query_option('xml')) {
+			return nodes_to_xml();
+		} else {
+			return print_nodes();
+		}
+	}
 }
+
+main(@ARGV);
