@@ -8,6 +8,7 @@ use options;
 my @NODES;
 my $EOL = 111111111111111;
 my $EOF = 222222222222222;
+my $linenum;
 
 sub usage {
 	print "$0: [OPTIONS] [FILENAMES | STR]\n";
@@ -114,27 +115,67 @@ sub is_json_file {
 
 sub get_xml_header {
 	my ($fhh) = @_;
+
+	my $header = <$fhh>;
+	$linenum = 1;
+	chomp $header;
+	if ($header eq "<nodes>") {
+		return 1;
+	}
+
+	return 0;
 }
 
 sub get_xml_node {
 	my ($fhh) = @_;
-}
+	my $node = {};
 
-sub get_xml_footer {
-	my ($fhh) = @_;
+	my $row = <$fhh>;
+	chomp $row;
+	$linenum += 1;
+	if ($row =~ /\t<node>/) {
+		$row = <$fhh>;
+		chomp $row;
+		$linenum += 1;
+		while ($row  ne "\t</node>") {
+			if ($row =~ /<(.*)>(.*)<\/(.*)>/) {
+				my $tag = $1;
+				my $value = $2;
+				$node->{$tag} = $value;
+				$row = <$fhh>;
+				chomp $row;
+				$linenum += 1;
+			} else {
+				print "Error reading line $linenum: $row\n";
+				return 0;
+			}
+		}
+		if ($row eq "\t</node>") {
+			push(@NODES, $node);
+			return 1;
+		}
+		
+	} elsif ($row eq "</nodes>") {
+		return 2;
+	}
+	return 0;
 }
 
 sub read_xml_file {
 	my ($infile) = @_;
-	my $fh;
+	my ($fh, $done);
 
 	if (open($fh, "<", $infile)) {
 		if (get_xml_header($fh)) {
-			while(get_xml_node($fh)) {
+			$done = 1;
+			while($done == 1) {
+				$done = get_xml_node($fh);
 			}
-			return get_xml_footer($fh);
+			close($fh);
+			if ($done == 2) {
+				return 1;
+			}
 		}
-		close($fh);
 	}
 	return 0;
 }
