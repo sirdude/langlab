@@ -175,22 +175,82 @@ sub read_xml_file {
 			if ($done == 2) {
 				return 1;
 			}
+		} else {
+			close($fh);
 		}
+	}
+	return 0;
+}
+
+sub get_json_header {
+	my ($fhh) = @_;
+
+	my $header = <$fhh>;
+	$linenum = 1;
+	chomp $header;
+	if ($header eq "{ \"NODES\": [") {
+		return 1;
+	}
+
+	return 0;
+}
+
+sub get_json_node {
+	my ($fhh) = @_;
+	my $node = {};
+
+	my $row = <$fhh>;
+	chomp $row;
+	$linenum += 1;
+	if ($row =~ /{\w+(.*):(.*),/) {
+		while (($row  ne "}") && ($row ne "},")) {
+			if ($row =~ /\w+(.*):(.*),/) {
+				my $tag = $1;
+				my $value = $2;
+				$node->{$tag} = $value;
+				$row = <$fhh>;
+				chomp $row;
+				$linenum += 1;
+			} elsif ($row =~/\w+(.*):(.*)/) {
+				my $tag = $1;
+				my $value = $2;
+				$node->{$tag} = $value;
+				$row = <$fhh>;
+				chomp $row;
+				$linenum += 1;
+			} else {
+				print "Error reading line $linenum: $row\n";
+				return 0;
+			}
+		}
+		if (($row eq "}") || ($row eq "},")) {
+			push(@NODES, $node);
+			return 1;
+		}
+		
+	} elsif ($row eq "] }") {
+		return 2;
 	}
 	return 0;
 }
 
 sub read_json_file {
 	my ($infile) = @_;
-	my $fh;
+	my ($fh, $done);
 
 	if (open($fh, "<", $infile)) {
 		if (get_json_header($fh)) {
-			while(get_json_node($fh)) {
+			$done = 1;
+			while($done == 1) {
+				$done = get_json_node($fh);
 			}
-			return get_json_footer($fh);
+			close($fh);
+			if ($done == 2) {
+				return 1;
+			}
+		} else {
+			close($fh);
 		}
-		close($fh);
 	}
 	return 0;
 }
