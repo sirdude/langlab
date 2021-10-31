@@ -202,16 +202,9 @@ sub get_json_node {
 	my $row = <$fhh>;
 	chomp $row;
 	$linenum += 1;
-	if ($row =~ /{\w+(.*):(.*),/) {
-		while (($row  ne "}") && ($row ne "},")) {
-			if ($row =~ /\w+(.*):(.*),/) {
-				my $tag = $1;
-				my $value = $2;
-				$node->{$tag} = $value;
-				$row = <$fhh>;
-				chomp $row;
-				$linenum += 1;
-			} elsif ($row =~/\w+(.*):(.*)/) {
+	if ($row =~ /{\s+(.*):(.*),/) {
+		while (($row  !~ /\s*}(,?)/)) {
+			if ($row =~ /\s+(.*):(.*)(,?)/) {
 				my $tag = $1;
 				my $value = $2;
 				$node->{$tag} = $value;
@@ -223,7 +216,7 @@ sub get_json_node {
 				return 0;
 			}
 		}
-		if (($row eq "}") || ($row eq "},")) {
+		if (($row  =~ /\s*}(,?)/)) {
 			push(@NODES, $node);
 			return 1;
 		}
