@@ -13,6 +13,7 @@ my $linenum;
 sub usage {
 	print "$0: [OPTIONS] [FILENAMES | STR]\n";
 	print "Parses the given list of files or considers input a string and parses that.\n";
+	print "Converts input to a tree of nodes of characters and computes stats for the inputs as well.\n";
 	print "\n";
 
 	print_options();
@@ -202,8 +203,8 @@ sub get_json_node {
 	my $row = <$fhh>;
 	chomp $row;
 	$linenum += 1;
-	if ($row =~ /{\s+(.*):(.*),/) {
-		while (($row  !~ /\s*}(,?)/)) {
+	if ($row =~ /^{\s+(.*):(.*),/) {
+		while (($row  !~ /^\s*}(,?)/)) {
 			if ($row =~ /\s+(.*):(.*)(,?)/) {
 				my $tag = $1;
 				my $value = $2;
@@ -216,7 +217,7 @@ sub get_json_node {
 				return 0;
 			}
 		}
-		if (($row  =~ /\s*}(,?)/)) {
+		if (($row  =~ /^\s*}(,?)/)) {
 			push(@NODES, $node);
 			return 1;
 		}
