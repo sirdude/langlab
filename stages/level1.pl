@@ -5,7 +5,7 @@ use warnings;
 use lib "../lib";
 use options;
 
-my @NODES;
+my (@NODES, %STATS);
 my $EOL = 111111111111111;
 my $EOF = 222222222222222;
 my $linenum;
@@ -28,13 +28,17 @@ sub add_node {
 	if ($data eq $EOF) {
 		$node->{'type'} = 'EOF';
 		$node->{'data'} = 'NIL';
+		$STATS{'EOF'} += 1;
 	} elsif ($data eq $EOL) {
 		$node->{'type'} = 'EOL';
 		$node->{'data'} = 'NIL';
+		$STATS{'EOL'} += 1;
 	} else {
 		$node->{'type'} = 'char';
 		$node->{'data'} = $data;
+		$STATS{$data} += 1;
 	}
+	$STATS{'totalchars'} += 1;
 	push(@NODES, $node);
 
 	return 1;
@@ -204,7 +208,7 @@ sub get_json_node {
 	chomp $row;
 	$linenum += 1;
 	if ($row =~ /^{\s+(.*):(.*),/) {
-		while (($row  !~ /^\s*}(,?)/)) {
+		while ($row !~ /^\s*}(,?)/) {
 			if ($row =~ /\s+(.*):(.*)(,?)/) {
 				my $tag = $1;
 				my $value = $2;
@@ -304,8 +308,25 @@ sub parse_file_or_string {
 	}
 }
 
+sub write_stats {
+	my ($statfile) = @_;
+	my ($sfh);
+
+	open($sfh,">>", $statfile) or die
+		"Unable to open stats file: $statfile\n";
+	if ($sfh) {
+		foreach my $i (sort keys %STATS) {
+                   print $sfh "$i:" . $STATS{$i} . "\n";
+                }
+                close ($sfh);
+                return 1;
+        }
+        return 0;
+}
+
 sub main {
 	my @VALUES = @_;
+	my $ret = 0;
 
 	add_option("help", "Print usage statement.");
 	add_option("debug", "Enable debugging mode.");
@@ -323,13 +344,15 @@ sub main {
 
 	if (parse_file_or_string(@VALUES)) {
 		if (query_option('json')) {
-			return nodes_to_json();
+			$ret = nodes_to_json();
 		} elsif (query_option('xml')) {
-			return nodes_to_xml();
+			$ret = nodes_to_xml();
 		} else {
-			return print_nodes();
+			$ret = print_nodes();
 		}
+		write_stats("char_stats.txt");
 	}
+	return $ret;
 }
 
 main(@ARGV);
