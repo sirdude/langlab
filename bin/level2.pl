@@ -7,7 +7,7 @@ use options;
 use ast;
 
 # Language specific modules...
-use lib "./sweet";
+use lib "../lib/sweet";
 use comment;
 # use whitespace;
 # use ident;

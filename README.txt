@@ -11,9 +11,3 @@ I've combined all of the stuff from my other projects into this one repository.
 Right now its still a little bit of a mess and needs some organization.
 There are a bunch of half done things and lots of notes.
 
-Need to merge current bin/lib with stages.
-bin/lib is old perl/lpc stuff
-stages was an attempt to moduleralize things.
-
-After that will probabably need to clean up the test suite.
-Then it will be time to work on new things.
