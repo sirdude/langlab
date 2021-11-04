@@ -4,11 +4,12 @@ use strict;
 use warnings;
 use base 'Exporter';
 
-our @EXPORT = qw(starts valid get);
+our @EXPORT = qw(start valid get);
 
-sub starts {
+sub start {
+	my ($ast) = @_;
 	debug("html::starts");
-	if (match('&#')) {
+	if ($ast->match('&#')) {
 		return 1;
 	}
 	return 0;

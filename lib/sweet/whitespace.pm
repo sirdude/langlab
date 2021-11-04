@@ -4,11 +4,12 @@ use strict;
 use warnings;
 use base 'Exporter';
 
-our @EXPORT = qw(starts valid get);
+our @EXPORT = qw(start valid get);
 
-sub starts {
+sub start {
+	my ($ast) = @_;
 	debug("whitespace::starts");
-	if (match("\n") || match("\t") || match(' ') || match("\r")) {
+	if ($ast->match("\n") || $ast->match("\t") || $ast->match(' ') || $ast->match("\r")) {
 		return 1;
 	}
 	return 0;

@@ -23,6 +23,10 @@ sub peek {
 	return $ast->{'data'}[$ast->{'current'}];
 }
 
+sub match {
+	my ($str) = @_;
+}
+
 sub add_node {
 	my ($data) = @_;
 

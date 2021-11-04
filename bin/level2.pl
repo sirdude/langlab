@@ -17,7 +17,7 @@ use comment;
 # use num;
 # use op;
 
-my (@NODES, %STATS, $ast);
+my (@NODES, %STATS, $charast, $tokast);
 my $EOL = 111111111111111;
 my $EOF = 222222222222222;
 my $linenum;
@@ -270,7 +270,7 @@ sub parse_string {
 
 	foreach my $i (split //, $string) {
 		if ($i eq "\n") {
-			add_node($EOL);
+			$charast->add_node($EOL);
 		} else {
 			add_node($i);
 		}
@@ -340,26 +340,26 @@ sub convert_to_tokens {
 	my $done = 0;
 
 	while (!$done) {
-		if (match($EOF)) {
+		if ($charast->match($EOF)) {
 		$done = 1;
-		} elsif (comment::start($ast)) {
-			comment::get($ast);
-		} elsif (whitespace::start($ast)) {
-			whitespace::get($ast);
-		} elsif (ident::start($ast)) {
-			ident::get($ast);
-		} elsif (string::start($ast)) {
-			string::get($ast);
-		} elsif (html::start($ast)) {
-			html::get();
-		} elsif (hex::start($ast)) {
-			hex::get($ast);
-		} elsif (num::start($ast)) {
-			num::get($ast);
-		} elsif (op::start($ast)) {
-			op::get($ast);
+		} elsif (comment::start($charast)) {
+			comment::get($charast, $tokast);
+		} elsif (whitespace::start($charast)) {
+			whitespace::get($charast, $tokast);
+		} elsif (ident::start($charast)) {
+			ident::get($charast, $tokast);
+		} elsif (string::start($charast)) {
+			string::get($charast, $tokast);
+		} elsif (html::start($charast)) {
+			html::get($charast, $tokast);
+		} elsif (hex::start($charast)) {
+			hex::get($charast, $tokast);
+		} elsif (num::start($charast)) {
+			num::get($charast, $tokast);
+		} elsif (op::start($charast)) {
+			op::get($charast, $tokast);
 		} else {
-			my $value = $ast->peek();
+			my $value = $charast->peek();
 			my $ascii = ord($value);
 			error("convert_to_tokens: invalid input: '" . $value .
 				"' ascii: '" . $ascii . "'");
@@ -385,8 +385,8 @@ sub main {
 		return usage();
 	}
 
-	$ast = {};
-	$ast->{'data'} = ();
+	$charast->new();
+	$tokast->new();
 
 	if (parse_file_or_string(@VALUES)) {
 		if (query_option('json')) {

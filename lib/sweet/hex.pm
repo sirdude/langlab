@@ -4,10 +4,12 @@ use strict;
 use warnings;
 use base 'Exporter';
 
-our @EXPORT = qw(starts valid get);
+our @EXPORT = qw(start valid get);
 
-sub starts {
-        if (match('0x')) {
+sub start {
+	my ($ast) = @_;
+
+        if ($ast->match('0x')) {
                 return 1;
         }
         return 0;

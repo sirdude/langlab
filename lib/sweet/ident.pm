@@ -4,9 +4,10 @@ use strict;
 use warnings;
 use base 'Exporter';
 
-our @EXPORT = qw(starts valid get);
+our @EXPORT = qw(start valid get);
 
-sub starts {
+sub start {
+	my ($ast) = @_;
 	# A-Z, a-z, _
 	my @values = ("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K",
 		"L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W",
@@ -16,7 +17,7 @@ sub starts {
 
 	debug("ident::starts");
 	foreach my $i (@values) {
-		if (match($i)) {
+		if ($ast->match($i)) {
 			return 1;
 		}
 	}
@@ -24,9 +25,10 @@ sub starts {
 }
 
 sub starts_num {
+	my ($ast) = @_;
 	my @values = ("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
 	foreach my $i (@values) {
-		if (match($i)) {
+		if ($ast->match($i)) {
 			return 1;
 		}
 	}
@@ -37,6 +39,7 @@ sub valid {
 }
 
 sub get {
+	my ($ast) = @_;
 	my ($p, $l) = ($stats{'columnnum'}, $stats{'linenum'});
 	my $word;
 
@@ -48,7 +51,7 @@ sub get {
 
 	debug("ident::get: start = '$word'");
 	$SPACES = $SPACES + 1;
-	while (starts_num() || starts()) {
+	while (starts_num($ast) || starts($ast)) {
 		$word = $word . get_char();
 	}
 	debug("ident::get: '$word'");

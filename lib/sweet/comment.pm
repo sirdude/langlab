@@ -4,11 +4,12 @@ use strict;
 use warnings;
 use base 'Exporter';
 
-our @EXPORT = qw(starts valid get);
+our @EXPORT = qw(start valid get);
 
-sub starts {
+sub start {
+	my ($ast) = @_;
 	debug("comment::starts");
-	if (match('/*') || match('#') || match('//')) {
+	if ($ast->match('/*') || $ast->match('#') || $ast->match('//')) {
 		return 1;
 	}
 	return 0;

@@ -4,11 +4,13 @@ use strict;
 use warnings;
 use base 'Exporter';
 
-our @EXPORT = qw(starts valid get);
+our @EXPORT = qw(start valid get);
 
-sub starts {
-	debug("num::starts");
+sub start {
+	my ($ast) = @_;
 	my @values = ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+
+	debug("num::starts");
 	foreach my $i (@values) {
 		if (match($i)) {
 			return 1;
