@@ -47,7 +47,15 @@ sub add_node {
 		add_stat('char', $data, 1);
 	}
 	add_stat('stats', 'totalchars', 1);
+	$node->{'linenum'} = query_stat('stats', 'linenum');
+	$node->{'columnnum'} = query_stat('stats','columnnum');
 	push(@NODES, $node);
+	if (($data eq $EOL) ) {
+		add_stat('stats', 'linenum', 1);
+		set_stat('stats', 'columnnum', 1);
+	} else {
+		add_stat('stats', 'columnnum');
+	}
 
 	return 1;
 }
@@ -393,6 +401,8 @@ sub main {
 	}
 
 	if (parse_file_or_string(@VALUES)) {
+		add_stat('stats', 'linenum', 1);
+		add_stat('stats', 'columnnum', 1);
 		if (query_option('json')) {
 			$ret = nodes_to_json();
 		} elsif (query_option('xml')) {

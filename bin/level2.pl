@@ -9,13 +9,13 @@ use ast;
 # Language specific modules...
 use lib "../lib/sweet";
 use comment;
-# use whitespace;
-# use ident;
-# use string;
-# use html;
-# use hex;
-# use num;
-# use op;
+use whitespace;
+use ident;
+use string;
+use html;
+use hex;
+use num;
+use op;
 
 my (@NODES, %STATS, $charast, $tokast);
 my $EOL = 111111111111111;
@@ -58,8 +58,16 @@ sub add_node {
 		$node->{'data'} = $data;
 		add_stat('char', $data, 1);
 	}
+	$node->{'linenum'} = query_stat('stats', 'linenum');
+        $node->{'columnnum'} = query_stat('stats','columnnum');
 	add_stat('stats', 'totalchars', 1);
 	push(@NODES, $node);
+	if (($data eq $EOL) ) {
+		add_stat('stats', 'linenum', 1);
+		set_stat('stats', 'columnnum', 1);
+	} else {
+		add_stat('stats', 'columnnum');
+	}
 
 	return 1;
 }
@@ -448,6 +456,8 @@ sub main {
 	$tokast->new();
 
 	if (parse_file_or_string(@VALUES)) {
+		add_stat('stats', 'linenum', 1);
+                add_stat('stats', 'columnnum', 1);
 		if (query_option('json')) {
 			$ret = $ast->nodes_to_json();
 		} elsif (query_option('xml')) {
