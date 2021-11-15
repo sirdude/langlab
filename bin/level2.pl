@@ -333,15 +333,19 @@ sub write_stats {
                 close ($sfh);
                 return 1;
         }
+	close($sfh);
         return 0;
 }
 
 sub clear_stats {
-	%STATS = ():
+	%STATS = ();
+
+	return 1;
 }
 
 sub convert_to_tokens {
 	my $done = 0;
+	my $numerrors = 0;
 
 	while (!$done) {
 		if ($charast->match($EOF)) {
@@ -367,8 +371,14 @@ sub convert_to_tokens {
 			my $ascii = ord($value);
 			error("convert_to_tokens: invalid input: '" . $value .
 				"' ascii: '" . $ascii . "'");
+			$numerrors += 1;
 		}
 	}
+	if ($numerrors > 0) {
+		print "Number of errors in input: $numerrors\n";
+		return 0;
+	}
+	return 1;
 }
 
 sub main {
