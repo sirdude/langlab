@@ -124,7 +124,7 @@ sub push_scope {
 
 sub pop_scope {
 	$SPACES -= 1;
-	return $SPACES:
+	return $SPACES;
 }
 
 # Misc functions
@@ -348,7 +348,7 @@ sub buf_show {
 sub _get_char {
 	my $char; 
 
-	push_scope():
+	push_scope();
 	if (!$stats{'filename'} || ($stats{'filename'} eq '<STDIN>') ||
 		($stats{'filename'} eq '')) {
 		if ($parsestring) {
@@ -385,7 +385,7 @@ sub _get_char {
 	}
 
 	debug('_get_char: returning ' . $char);
-	pop_scope():
+	pop_scope();
 	return $char;
 }
 
@@ -393,7 +393,7 @@ sub match {
 	my ($x) = @_;
 	my $size = length($x);
 
-	push_scope():
+	push_scope();
 
 	debug('match:');
 	if (query_option("debug")) {
@@ -409,7 +409,7 @@ sub match {
 		buf_push($tmp);
 	}
 
-	pop_scope():
+	pop_scope();
 	if (substr($buf, 0, $size) eq $x) {
 		return 1;
 	}

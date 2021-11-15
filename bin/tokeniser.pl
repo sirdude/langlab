@@ -7,11 +7,11 @@
 use strict;
 use warnings;
 
-use lib ('./lib');
+use lib ('../lib');
 use backend;
 use options;
 
-load_backend('./lib/simpletok.pl');
+load_backend('../lib/simpletok.pl');
 
 sub usage {
 	print "\tusage: $0 [Options] [FILENAME]\n\n";
