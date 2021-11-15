@@ -20,7 +20,7 @@ sub valid {
 
 sub get {
 	my ($com, $tmp) = ("", "");
-	my ($p, $l) = ($stats{'columnnum'}, $stats{'linenum'});
+	my ($p, $l) = (query_stat('columnnum'), query_stat('linenum'));
 
 	push_scope();
 	debug('comment::get Buf: ' . $buf);

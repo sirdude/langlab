@@ -21,6 +21,14 @@ sub usage {
 	return 1;
 }
 
+sub debug {
+	my ($info) = @_;
+
+	if (query_option('debug')) {
+		print "$info\n";
+	}
+}
+
 sub add_node {
 	my ($data) = @_;
 	my $node = {};
@@ -28,17 +36,17 @@ sub add_node {
 	if ($data eq $EOF) {
 		$node->{'type'} = 'EOF';
 		$node->{'data'} = 'NIL';
-		$STATS{'EOF'} += 1;
+		add_stat('char','EOF', 1);
 	} elsif ($data eq $EOL) {
 		$node->{'type'} = 'EOL';
 		$node->{'data'} = 'NIL';
-		$STATS{'EOL'} += 1;
+		add_stat('char', 'EOL', 1);
 	} else {
 		$node->{'type'} = 'char';
 		$node->{'data'} = $data;
-		$STATS{$data} += 1;
+		add_stat('char', $data, 1);
 	}
-	$STATS{'totalchars'} += 1;
+	add_stat('stats', 'totalchars', 1);
 	push(@NODES, $node);
 
 	return 1;
@@ -142,7 +150,7 @@ sub get_xml_node {
 		$row = <$fhh>;
 		chomp $row;
 		$linenum += 1;
-		while ($row  ne "\t</node>") {
+		while ($row ne "\t</node>") {
 			if ($row =~ /<(.*)>(.*)<\/(.*)>/) {
 				my $tag = $1;
 				my $value = $2;
@@ -221,7 +229,7 @@ sub get_json_node {
 				return 0;
 			}
 		}
-		if (($row  =~ /^\s*}(,?)/)) {
+		if (($row =~ /^\s*}(,?)/)) {
 			push(@NODES, $node);
 			return 1;
 		}
@@ -312,17 +320,58 @@ sub write_stats {
 	my ($statfile) = @_;
 	my ($sfh);
 
+	debug("write_stats");
 	open($sfh,">>", $statfile) or die
 		"Unable to open stats file: $statfile\n";
 	if ($sfh) {
 		foreach my $i (sort keys %STATS) {
-                   print $sfh "$i:" . $STATS{$i} . "\n";
-                }
-                close($sfh);
-                return 1;
-        }
-	close($sfh);
-        return 0;
+			if ($i eq "whitespace:\n") {
+				print $sfh "whitespace:\\n:" . $STATS{$i} . "\n";
+			} elsif ($i eq "whitespace:\r") {
+				print $sfh "whitespace:\\r:" . $STATS{$i} . "\n";
+			} elsif ($i eq "whitespace:\t") {
+				print $sfh "whitespace:\\t:" . $STATS{$i} . "\n";
+			} else {
+				print $sfh "$i:" . $STATS{$i} . "\n";
+			}
+		}
+		close ($sfh);
+		return 1;
+	}
+	return 0;
+}
+
+sub add_stat {
+	my ($stype, $skey, $svalue) = @_;
+
+	debug("add_stat: $stype: $skey: $svalue");
+	my $tmp = $stype . ":" . $skey;
+	if (exists($STATS{$tmp})) {
+		$STATS{$tmp} = $STATS{$tmp} + $svalue;
+	} else {
+		$STATS{$tmp} = $svalue;
+	}
+	return 1;
+}
+
+sub set_stat {
+	my ($stype, $skey, $svalue) = @_;
+
+	debug("add_stat: $stype: $skey: $svalue");
+	my $tmp = $stype . ":" . $skey;
+	$STATS{$tmp} = $svalue;
+	return 1;
+}
+
+sub query_stat {
+	my ($stype, $name) = @_;
+
+	my $tmp = $stype . ":" . $name;
+	return $STATS{$tmp};
+}
+
+sub clear_stats {
+	%STATS = ();
 }
 
 sub main {
