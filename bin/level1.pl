@@ -318,9 +318,10 @@ sub write_stats {
 		foreach my $i (sort keys %STATS) {
                    print $sfh "$i:" . $STATS{$i} . "\n";
                 }
-                close ($sfh);
+                close($sfh);
                 return 1;
         }
+	close($sfh);
         return 0;
 }
 

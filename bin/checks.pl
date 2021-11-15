@@ -117,6 +117,7 @@ sub init_values {
 			}
 		}
 	}
+	close($fh);
 
 	foreach my $i (@builtin) {
 		push (@functionnames, $i);
