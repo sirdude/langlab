@@ -336,6 +336,10 @@ sub write_stats {
         return 0;
 }
 
+sub clear_stats {
+	%STATS = ():
+}
+
 sub convert_to_tokens {
 	my $done = 0;
 
@@ -397,9 +401,11 @@ sub main {
 			$ret = $ast->print_nodes();
 		}
 		write_stats("char_stats.txt");
+		clear_stats();
 	}
 
 	convert_to_tokens($ast);
+	write_stats("token_stats.txt");
 	return $ret;
 }
 
