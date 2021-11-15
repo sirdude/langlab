@@ -50,7 +50,7 @@ sub get {
 	$word = get_char();
 
 	debug("ident::get: start = '$word'");
-	$SPACES = $SPACES + 1;
+	push_scope();
 	while (starts_num($ast) || starts($ast)) {
 		$word = $word . get_char();
 	}
@@ -65,7 +65,7 @@ sub get {
 		}
 	}
 	add_token("ident", $word, $p, $l);
-	$SPACES = $SPACES - 1;
+	pop_scope();
 	return 1;
 }
 

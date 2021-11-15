@@ -17,36 +17,30 @@ my @operator_starts = ('=', '|');
 # is a function to get the next thing need to make sure there are no
 # overlaps.... XXX if ident allows _wah _ can't be an operator...
 sub nexttoken {
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug('nexttoken: look: ' . $look);
 
 	if ($look eq $EOF) {
 		$token = $EOF;
-		$SPACES = $SPACES - 1;
 	} elsif (in_set($look, @comment_starts)) {
 		get_comment();
-		$SPACES = $SPACES - 1;
 		nexttoken(); # This is a token we want to skip...
 	} elsif (in_set($look, @whitespace)) {
 		YY_get_whitespace();
-		$SPACES = $SPACES - 1;
 		nexttoken(); # This is a token we want to skip...
 	} elsif (YY_is_alpha($look)) {
 		YY_get_ident();
-		$SPACES = $SPACES - 1;
 	} elsif (YY_is_digit($look)) {
 		YY_get_num();
-		$SPACES = $SPACES - 1;
 	} elsif (YY_isquotes($look)) {
 		YY_get_quotes($look);
 	} elsif (in_set($look, @operator_starts)) {
 		YY_get_op();
-		$SPACES = $SPACES - 1;
 	} else {
 		error('nexttoken: invalid input: ' . $look);
-		$SPACES = $SPACES - 1;
 	}
 
+	pop_scope():
 	return $token;
 }
 
@@ -93,7 +87,7 @@ sub parser {
 }
 
 sub YY_get_comment {
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug('YY_get_comment: Look: ' . $look);
 	$value = "";
 
@@ -138,13 +132,13 @@ sub YY_get_comment {
 		}
 	}
 	emit($value);
-	$SPACES = $SPACES - 1;
+	pop_scope();
 	return $value;
 }
 
 sub YY_get_whitespace {
 	$value = "";
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug('YY_get_whitespace: Look: ' . $look);
 
 	while(in_set($look, @whitespace)) {
@@ -155,7 +149,7 @@ sub YY_get_whitespace {
 
 	debug('YY_get_whitespace: Token: ' . $token . ' Value: ' . $value);
 	emit($value);
-	$SPACES = $SPACES - 1;
+	pop_scope();
 	return $value;
 }
 
@@ -299,28 +293,28 @@ sub YY_is_string {
 }
 
 sub YY_get_return {
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug('YY_get_return: Token:' . $token . ' Value: ' . $value . 
 		' Look: ' . $look);
 	nexttoken();
 	matchstring('(');
 	YY_get_num();
 	matchstring(')');
-	$SPACES = $SPACES - 1;
+	pop_scope();
 }
 
 sub YY_get_type {
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug('YY_get_type: Token:' . $token . ' Value: ' . $value . 
 		' Look: ' . $look);
 	if (!YY_is_type($token)) {
 		error("Expected type got $token line $linenum\n");
 	}
-	$SPACES = $SPACES - 1;
+	pop_scope();
 }
 
 sub YY_get_block {
-	$SPACES = $SPACES + 1;
+	push_scope();
 	$tab = $tab + 1;
 	if ($maxtab < $tab) {
 		$maxtab = $tab;
@@ -341,7 +335,7 @@ sub YY_get_block {
 	matchstring('}');
 	$tab = $tab - 1;
 	debug('YY_get_block: Returning with Tabs: ' . $tab . ' Token: ' . $token);
-	$SPACES = $SPACES - 1;
+	pop_scope();
 }
 
 # XXX This needs to be fleshed out...
@@ -357,7 +351,7 @@ sub YY_get_def {
 sub YY_get_include {
 	my ($incfile, $searchpath, $tmpfile, @dirs);
 
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug('YY_get_include: look: ' . $look);
 
 	# XXX Should call getstring here not nexttoken...
@@ -390,7 +384,7 @@ sub YY_get_include {
 			read_compfile($tmpfile);
 
 			popfileinfo();
-			$SPACES = $SPACES - 1;
+			pop_scope();
 			return 1;
 		} else {
 			debug('getinclude: looking at ' . $tmpfile);
@@ -398,12 +392,12 @@ sub YY_get_include {
 	}
 
 	error('Unable to find ' . $incfile . ' in searchpath: ' . $searchpath);
-	$SPACES = $SPACES - 1;
+	pop_scope();
 	return 0;
 }
 
 sub YY_get_ident {
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug('YY_get_ident: Look: ' . $look);
 
 	if (YY_is_alpha($look)) {
@@ -427,20 +421,20 @@ sub YY_get_ident {
 
 		debug('YY_get_ident: Found Token: ' . $token . ' Value: ' . $value);
 		emitln($value);
-		$SPACES = $SPACES - 1;
+		pop_scope();
 
 		return $value;
 	} else {
 		error('Expected Name, got Token: ' . $token . ' Value: ' .  $value);
 	}
 
-	$SPACES = $SPACES - 1;
+	pop_scope();
 
 	return '';
 }
 
 sub YY_get_num {
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug('YY_get_num: Look: ' . $look);
 
 	my $dec = 0;
@@ -467,19 +461,19 @@ sub YY_get_num {
 
 		debug('YY_get_num: Token: ' . $token . ' Value: ' . $value);
 		emitln($value);
-		$SPACES = $SPACES - 1;
+		pop_scope();
 
 		return $value; # XXX Do we need to convert to number here?
 	} else {
 		error('Expected Integer, got Token: ' . $token . ' Value: ' . $value);
 	}
 
-	$SPACES = $SPACES - 1;
+	pop_scope();
 	return 0;
 }
 
 sub YY_get_op {
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug('YY_get_op: Look: ' . $look);
 
 	$token = $look;
@@ -514,14 +508,14 @@ sub YY_get_op {
 		nexttoken();
 	}
 
-	$SPACES = $SPACES - 1;
+	pop_scope();
 	return $value;
 }
 
 sub YY_get_multicomment {
 	my $lastlook = '';
 
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug('YY_get_multicomment: Look: ' . $look);
 
 	$value = '/*';
@@ -539,7 +533,7 @@ sub YY_get_multicomment {
 	$token = 'multicomment';
 	debug('YY_get_multicomment: Token: ' . $token . ' Value: ' . $value);
 	emitln($value);
-	$SPACES = $SPACES - 1;
+	pop_scope();
 
 	return $value;
 }
@@ -550,7 +544,7 @@ sub YY_get_quotes {
 	my $lastlook = "";
 	my $done = 0;
 
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug('YY_get_quotes: Look: ' . $look);
 
 	get_char(); # Eat the quote
@@ -571,7 +565,7 @@ sub YY_get_quotes {
 
 	$token = 'string';
 	debug('YY_get_quotes: Token: ' . $token . ' Value: ' . $value);
-	$SPACES = $SPACES - 1;
+	pop_scope();
 
 	return $value;
 }

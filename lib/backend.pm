@@ -7,6 +7,7 @@ use base 'Exporter';
 our @EXPORT = qw(get_char insert_symbol debug open_output close_output
 	init_backend read_compfile open_compfile close_compfile set_debug
 	set_eof get_eof test_rule load_backend write_stats print_tokens
+	push_scope pop_scope
 	last_token @keywords %stats);
 
 our $SPACES = 0;       # Indentation for debugging.
@@ -85,9 +86,7 @@ sub set_debug {
 sub set_eof {
 	($EOF) = @_;
 
-	$SPACES = $SPACES + 1;
 	debug('set_eof: EOF = ' . $EOF);
-	$SPACES = $SPACES - 1;
 
 	return $EOF;
 }
@@ -117,6 +116,17 @@ sub emitln {
 	return emit($msg . "\n");
 }
 
+# These two functions are used to change indentation
+sub push_scope {
+	$SPACES += 1;
+	return $SPACES;
+}
+
+sub pop_scope {
+	$SPACES -= 1;
+	return $SPACES:
+}
+
 # Misc functions
 sub in_set {
 	my ($in, @setlist) = @_;
@@ -132,7 +142,7 @@ sub in_set {
 sub pushfileinfo {
 	my %fileinfo;
 
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug('pushfileinfo:');
 
 	$fileinfo{'infile'} = $infile;
@@ -150,14 +160,14 @@ sub pushfileinfo {
 			debug("\t" . $i . ' = ' . $fileinfo{$i});
 		}
 	}
-	$SPACES = $SPACES - 1;
+	pop_scope();
 	return 1;
 }
 
 sub popfileinfo {
 	my ($fileinfo) = pop(@filesinfo);
 
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug('popfileinfo:');
 
 	$infile = $fileinfo->{'infile'};
@@ -176,7 +186,7 @@ sub popfileinfo {
 		print "\tmaxtab = " . $stats{'maxtab'} . "\n";
 		print "\tcasetype = " . $stats{'casetype'} . "\n";
 	}
-	$SPACES = $SPACES - 1;
+	pop_scope();
 	return 1;
 }
 
@@ -220,13 +230,13 @@ sub insert_symbol {
 	my ($sym, $type, $val) = @_;
 	my %tmp;
 
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug('insert_symbol: Sym: ' . $sym . ' Type: ' .
 		$type . ' Val: ' . $val);
 
 	if (intable($sym)) {
 		error('Duplicate entry: ' . $sym);
-		$SPACES = $SPACES - 1;
+		pop_scope();
 		return 0;
 	}
 
@@ -235,7 +245,7 @@ sub insert_symbol {
 	$symcount{$sym} = 1;
 	$symtable{$sym} = \%tmp;
 
-	$SPACES = $SPACES - 1;
+	pop_scope();
 	return 1;
 }
 
@@ -338,7 +348,7 @@ sub buf_show {
 sub _get_char {
 	my $char; 
 
-	$SPACES = $SPACES + 1;
+	push_scope():
 	if (!$stats{'filename'} || ($stats{'filename'} eq '<STDIN>') ||
 		($stats{'filename'} eq '')) {
 		if ($parsestring) {
@@ -375,7 +385,7 @@ sub _get_char {
 	}
 
 	debug('_get_char: returning ' . $char);
-	$SPACES = $SPACES - 1;
+	pop_scope():
 	return $char;
 }
 
@@ -383,7 +393,7 @@ sub match {
 	my ($x) = @_;
 	my $size = length($x);
 
-	$SPACES = $SPACES + 1;
+	push_scope():
 
 	debug('match:');
 	if (query_option("debug")) {
@@ -399,7 +409,7 @@ sub match {
 		buf_push($tmp);
 	}
 
-	$SPACES = $SPACES - 1;
+	pop_scope():
 	if (substr($buf, 0, $size) eq $x) {
 		return 1;
 	}
@@ -409,10 +419,10 @@ sub match {
 
 sub get_comma {
 	if (match(',')) {
-		$SPACES = $SPACES + 1;
+		push_scope();
 		debug('comma: consumed comma');
 		nextchar();
-		$SPACES = $SPACES - 1;
+		pop_scope();
 		return 1;
 	}
 	return 0;
@@ -420,10 +430,10 @@ sub get_comma {
 
 sub get_semi {
 	if (match(';')) {
-		$SPACES = $SPACES + 1;
+		push_scope();
 		debug('semi: consumed ;');
 		nextchar();
-		$SPACES = $SPACES - 1;
+		pop_scope();
 		return 1;
 	}
 
@@ -433,20 +443,20 @@ sub get_semi {
 sub open_output {
 	my ($tfile) = @_;
 
-	$SPACES = $SPACES + 1;
+	push_scope();
 
 	debug('open_output: outfile = ' . $tfile);
 
 	open($ofile, '>', $tfile) or die "Unable to write to $tfile.\n";
-	$SPACES = $SPACES - 1;
+	pop_scope();
 	return 1;
 }
 
 sub close_output {
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug('close_output:');
 
-	$SPACES = $SPACES - 1;
+	pop_scope();
 	if ($ofile) {
 		return close($ofile);
 	}
@@ -457,7 +467,7 @@ sub close_output {
 sub open_compfile {
 	my ($filename) = @_;
 
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug('open_compfile:' . $filename);
 
 	$stats{'linenum'} = 0;
@@ -470,20 +480,20 @@ sub open_compfile {
 		open($infile,'<', $filename) or
 			die "Unable to open $filename\n";
 	}
-	$SPACES = $SPACES - 1;
+	pop_scope();
 	return 1;
 }
 
 sub close_compfile {
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug('close_compfile:');
 
 	if ($infile) {
-		$SPACES = $SPACES - 1;
+		pop_scope();
 		return close($infile);
 	}
 
-	$SPACES = $SPACES - 1;
+	pop_scope();
 	return 1;
 }
 
@@ -491,7 +501,7 @@ sub read_compfile {
 	my ($tfile) = @_;
 	my $x = 0;
 
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug('read_compfile: reading file: ' . $tfile);
 
 	open_compfile($tfile);
@@ -506,7 +516,7 @@ sub read_compfile {
 	parser();
 
 	close_compfile();
-	$SPACES = $SPACES - 1;
+	pop_scope();
 
 	return 1;
 }
@@ -514,7 +524,7 @@ sub read_compfile {
 sub init_backend {
 	my @keyw = @_;
 
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug('init_backend: setting defaults');
 
 	%symtable = ();
@@ -549,7 +559,7 @@ sub init_backend {
 	$last_tok_type = "";
 	$last_tok_value = "";
 
-	$SPACES = $SPACES - 1;
+	pop_scope();
 
 	return 1;
 }

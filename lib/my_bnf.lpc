@@ -20,6 +20,8 @@ int match(string str);
 int add_stat(string type, string name, int x);
 int add_token(string type, string name, int x, int y);
 string get_eof();
+void push_scope();
+void pop_scope();
 
 int test_rule(string rule, string input) {
 	object obj;
@@ -119,7 +121,7 @@ int is_keyword(string in) {
 }
 
 int parser() {
-	SPACES = SPACES + 1;
+	push_scope();
 	debug("parser:");
 
 	while(!match(get_eof())) {
@@ -129,7 +131,7 @@ int parser() {
 			which is defined in our bnf... */
 		/* YY_get_syntax(); */
 	}
-	SPACES = SPACES - 1;
+	pop_scope();
 
 	return 1;
 }
@@ -292,7 +294,7 @@ int YY_get_comment() {
 	string com, tmp, lastchar;
 	int p, l;
 
-	SPACES = SPACES + 1;
+	push_scope();
 	debug("YY_get_comment");
 
 	if (!YY_start_comment()) {
@@ -321,7 +323,7 @@ int YY_get_comment() {
 		add_stat("comment", "singleline", 1);
 		add_token("comment", com, p, l);
 
-		SPACES = SPACES - 1;
+		pop_scope();
 		return 1;
 	} else { /* get multiline comment */
 		while (!match("*/") && !match(get_eof())) {
@@ -339,10 +341,10 @@ int YY_get_comment() {
 		add_stat("comment", "multiline", 1);
 		add_token("comment", com, p, l);
 
-		SPACES = SPACES - 1;
+		pop_scope();
 		return 1;
 	}
-	SPACES = SPACES - 1;
+	pop_scope();
 	return 0;
 }
 
@@ -350,10 +352,11 @@ int YY_get_whitespace() {
 	string tmp, word;
 	int p, l;
 
-	SPACES = SPACES + 1;
+	push_scope();
 	debug("YY_get_whitespace:");
 
 	if (!YY_start_whitespace()) {
+		pop_scope();
 		return 0;
 	}
 
@@ -389,7 +392,7 @@ int YY_get_whitespace() {
 	add_token("whitespace", word, p, l);
 	debug("YY_get_whitespace: added '" + tmp + "' length:" + strlen(tmp) +
 		"\n");
-	SPACES = SPACES -1;
+	pop_scope();
 
 	return 1;
 }
@@ -399,10 +402,11 @@ int YY_get_string() {
 	int p, l;
 
 	type = get_char();
-	SPACES = SPACES + 1;
+	push_scope();
 	debug("YY_get_string:" + type);
 
 	if (!YY_start_string()) {
+		pop_scope();
 		return 0;
 	}
 
@@ -433,6 +437,8 @@ int YY_get_string() {
 	/* eat the end of string token */
 	tmp = get_char();
 
+	pop_scope();
+
 	return 1;
 }
 
@@ -440,10 +446,11 @@ int YY_get_html() {
 	string tmp, word;
 	int p, l;
 
-	SPACES = SPACES + 1;
+	push_scope();
 	debug("YY_get_html:");
 
 	if (!YY_start_html()) {
+		pop_scope();
 		return 0;
 	}
 
@@ -468,11 +475,11 @@ int YY_get_html() {
 		debug("YY_get_html found: " + word);
 		add_stat("literal", "html", 1);
 		add_token("html", word, p, l);
-		SPACES = SPACES - 1;
+		pop_scope();
 		return 1;
 	}
 	error("YY_get_html: " + word + ", expected: &#DDDD;");
-	SPACES = SPACES - 1;
+	pop_scope();
 	return 0;
 }
 
@@ -480,10 +487,11 @@ int YY_get_hex() {
 	string word;
 	int p, l;
 
-	SPACES = SPACES + 1;
+	push_scope();
 	debug("YY_get_hex:");
 
 	if (!YY_start_hex()) {
+		pop_scope();
 		return 0;
 	}
 
@@ -514,7 +522,7 @@ int YY_get_hex() {
 	debug("YY_get_hex: " + word);
 	add_stat("literal", "hex", 1);
 	add_token("hex", word, p, l);
-	SPACES = SPACES - 1;
+	pop_scope();
 	return 1;
 }
 
@@ -522,10 +530,11 @@ int YY_get_num() {
 	string word;
 	int p, l;
 
-	SPACES = SPACES + 1;
+	push_scope();
 	debug("YY_get_num:");
 
 	if (!YY_start_num()) {
+		pop_scope();
 		return 0;
 	}
 
@@ -558,13 +567,13 @@ int YY_get_num() {
 		debug("YY_get_num " + word);
 		add_stat("num", "float", 1);
 		add_token("float", word, p, l);
-		SPACES = SPACES - 1;
+		pop_scope();
 		return 1;
 	}
 	debug("YY_get num " + word);
 	add_stat("num", "int", 1);
 	add_token("int", word, p, l);
-	SPACES = SPACES - 1;
+	pop_scope();
 	return 1;
 }
 
@@ -572,10 +581,11 @@ int YY_get_ident() {
 	string word;
 	int p, l;
 
+	push_scope();
 	debug("YY_get_ident: ");
-	SPACES = SPACES + 1;
 
 	if (!YY_start_ident()) {
+		pop_scope();
 		return 0;
 	}
 
@@ -607,7 +617,7 @@ int YY_get_ident() {
 		}
 	}
 	add_token("ident", word, p, l);
-	SPACES = SPACES - 1;
+	pop_scope();
 	return 1;
 }
 
@@ -621,10 +631,11 @@ int YY_get_op() {
 		"+=", "-=", "*=", "/=", "%=", "&=", "|=", "^=", "?:", "->",
 		"::", "<-", "!!", "=~", "=~", ".."});
 
-	SPACES = SPACES + 1;
+	push_scope();
 	debug("YY_get_op:");
 
 	if (!YY_start_op()) {
+		pop_scope();
 		return 0;
 	}
 
@@ -661,18 +672,18 @@ int YY_get_op() {
 	debug("YY_get_op: " + op);
 	add_token("op", op, p, l);
 	add_stat("opp", op, 1);
-	SPACES = SPACES - 1;
+	pop_scope();
 	return 1;
 }
 
 /*
 void YY_get_syntax() {
-	SPACES = SPACES + 1;
+	push_scope();
 	debug("YY_get_syntax: Buf: " . buf[0]);
 	while(token == "ident") {
 		YY_get_rule();
 	}
-	SPACES = SPACES - 1;
+	pop_scope();
 }
 */
 
@@ -680,7 +691,7 @@ void YY_get_syntax() {
  * is a function to get the next thing need to make sure there are no
  * overlaps.... (if ident allows _wah _ can't be an operator...) */
 int nextchar() {
-	SPACES = SPACES + 1;
+	push_scope();
 	debug("nextchar:");
 
 	if (match(EOF)) {
@@ -704,7 +715,7 @@ int nextchar() {
 		error("nextchar: invalid input: " + buf[0]);
 		return 0;
 	}
-	SPACES = SPACES -1;
+	pop_scope();
 
 	return 1;
 }

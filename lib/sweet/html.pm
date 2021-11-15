@@ -23,7 +23,7 @@ sub get {
 	my ($p, $l) = ($stats{'columnnum'}, $stats{'linenum'});
 	my $tmp;
 
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug("html::get");
 
 	if (!starts()) {
@@ -41,11 +41,11 @@ sub get {
 		debug("html::get found: $word");
 		add_stat("literal", "html", 1);
 		add_token("html", $word, $p, $l);
-		$SPACES = $SPACES - 1;
+		pop_scope();
 		return 1;
 	}
 	error("html::get: " . $word . ", expected: &#DDDD;");
-	$SPACES = $SPACES - 1;
+	pop_scope();
 	return 0;
 }
 

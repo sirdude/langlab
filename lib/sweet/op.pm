@@ -35,10 +35,11 @@ sub get {
 		"-=", "*=", "/=", "%=", "&=", "|=", "^=", "?:", "->", "::", "<-",
 		"!!", "=~", "=~", "..");
 
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug("op::get");
 
 	if (!starts()) {
+		pop_scope();
 		return 0;
 	}
 
@@ -59,7 +60,7 @@ sub get {
 	add_token("op", $op, $p, $l);
 	add_stat("op", $op, 1);
 
-	$SPACES = $SPACES - 1;
+	pop_scope();
 	return 1;
 }
 

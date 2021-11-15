@@ -26,10 +26,11 @@ sub get {
 	my $lastchr = "";
 	my $word = "";
 
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug("string::get: ");
 
 	if (!starts()) {
+		pop_scope();
 		return 0;
 	}
 
@@ -50,7 +51,7 @@ sub get {
 	# eat the end of string token...
 	$tmp = get_char();
 
-	$SPACES = $SPACES - 1;
+	pop_scope();
 
 	return 1;
 }

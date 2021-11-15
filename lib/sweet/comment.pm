@@ -22,7 +22,7 @@ sub get {
 	my ($com, $tmp) = ("", "");
 	my ($p, $l) = ($stats{'columnnum'}, $stats{'linenum'});
 
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug('comment::get Buf: ' . $buf);
 
 	if (!starts()) {
@@ -39,7 +39,7 @@ sub get {
 		add_stat("comment","singleline", 1);
 		add_token("comment", $com, $p, $l);
 
-		$SPACES = $SPACES - 1;
+		pop_scope();
 		return 1;
 	} else { # get /* */
 		while (!match("*/") && !match(get_eof())) {
@@ -57,10 +57,10 @@ sub get {
 		add_stat("comment", "multiline", 1);
 		add_token("comment", $com, $p, $l);
 
-		$SPACES = $SPACES - 1;
+		pop_scope();
 		return 1;
 	}
-	$SPACES = $SPACES - 1;
+	pop_scope();
 	return 0;
 }
 

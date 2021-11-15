@@ -32,10 +32,11 @@ sub get {
         my ($p, $l) = ($stats{'columnnum'}, $stats{'linenum'});
         my $word;
 
-        $SPACES = $SPACES - 1;
+	push_scope();
         debug("hex::get");
 
         if (!starts()) {
+		pop_scope();
                 return 0;
         }
 
@@ -43,19 +44,21 @@ sub get {
         if (valid()) {
                 $word = $word . get_char();
         } else {
+		pop_scope();
                 return 0;
         }
 
         if (valid()) {
                 $word = $word . get_char();
         } else {
+		pop_scope();
                 return 0;
         }
 
         debug("hex::get: $word");
         add_stat("literal", "hex", 1);
         add_token("hex", $word, $p, $l);
-        $SPACES = $SPACES - 1;
+	pop_scope();
         return 1;
 }
 

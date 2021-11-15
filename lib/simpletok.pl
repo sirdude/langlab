@@ -93,7 +93,7 @@ sub is_keyword {
 }
 
 sub parser {
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug('parser:');
 
 	while(!match(get_eof())) {
@@ -103,7 +103,7 @@ sub parser {
 		# which is defined in our bnf...
 		# YY_get_syntax();
 	}
-	$SPACES = $SPACES - 1;
+	pop_scope();
 
 	return 1;
 }
@@ -207,10 +207,11 @@ sub YY_get_comment {
 	my ($com, $tmp) = ("", "");
 	my ($p, $l) = ($stats{'columnnum'}, $stats{'linenum'});
 
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug('YY_getcomment: Buf: ' . $buf);
 
 	if (!YY_start_comment()) {
+		pop_scope();
 		return 0;
 	}
 
@@ -224,7 +225,7 @@ sub YY_get_comment {
 		add_stat("comment","singleline", 1);
 		add_token("comment", $com, $p, $l);
 
-		$SPACES = $SPACES - 1;
+		pop_scope();
 		return 1;
 	} else { # get /* */
 		while (!match("*/") && !match(get_eof())) {
@@ -242,19 +243,20 @@ sub YY_get_comment {
 		add_stat("comment", "multiline", 1);
 		add_token("comment", $com, $p, $l);
 
-		$SPACES = $SPACES - 1;
+		pop_scope();
 		return 1;
 	}
-	$SPACES = $SPACES - 1;
+	pop_scope();
 	return 0;
 }
 
 sub YY_get_whitespace {
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug("YY_get_whitespace");
 	my ($p, $l) = ($stats{'columnnum'}, $stats{'linenum'});
 
 	if (!YY_start_whitespace()) {
+		pop_scope();
 		return 0;
 	}
 
@@ -279,7 +281,7 @@ sub YY_get_whitespace {
 	}
 	add_token("whitespace", $word, $p, $l);
 	debug("YY_get_whitespace: added '$tmp\' length:" . length($tmp) . "\n");
-	$SPACES = $SPACES - 1;
+	pop_scope();
 	return 1;
 }
 
@@ -291,10 +293,11 @@ sub YY_get_string {
 	my $lastchr = "";
 	my $word = "";
 
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug("YY_get_string: ");
 
 	if (!YY_start_string()) {
+		pop_scope();
 		return 0;
 	}
 
@@ -315,7 +318,7 @@ sub YY_get_string {
 	# eat the end of string token...
 	$tmp = get_char();
 
-	$SPACES = $SPACES - 1;
+	pop_scope();
 
 	return 1;
 }
@@ -326,10 +329,11 @@ sub YY_get_html {
 	my ($p, $l) = ($stats{'columnnum'}, $stats{'linenum'});
 	my $tmp;
 
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug("YY_get_html");
 
 	if (!YY_start_html()) {
+		pop_scope();
 		return 0;
 	}
 
@@ -344,11 +348,11 @@ sub YY_get_html {
 		debug("YY_get_html found: $word");
 		add_stat("literal", "html", 1);
 		add_token("html", $word, $p, $l);
-		$SPACES = $SPACES - 1;
+		pop_scope();
 		return 1;
 	}
 	error("YY_get_html: " . $word . ", expected: &#DDDD;");
-	$SPACES = $SPACES - 1;
+	pop_scope();
 	return 0;
 }
 
@@ -356,10 +360,11 @@ sub YY_get_hex {
 	my ($p, $l) = ($stats{'columnnum'}, $stats{'linenum'});
 	my $word;
 
-	$SPACES = $SPACES - 1;
+	push_scope();
 	debug("YY_get_hex:");
 
 	if (!YY_start_hex()) {
+		pop_scope();
 		return 0;
 	}
 
@@ -367,19 +372,23 @@ sub YY_get_hex {
 	if (YY_valid_hex()) {
 		$word = $word . get_char();
 	} else {
+		pop_scope();
 		return 0;
 	}
 
 	if (YY_valid_hex()) {
 		$word = $word . get_char();
 	} else {
+		pop_scope();
 		return 0;
 	}
 
 	debug("YY_get_hex: $word");
 	add_stat("literal", "hex", 1);
 	add_token("hex", $word, $p, $l);
-	$SPACES = $SPACES - 1;
+
+	pop_scope();
+
 	return 1;
 }
 
@@ -387,10 +396,11 @@ sub YY_get_num {
 	my ($p, $l) = ($stats{'columnnum'}, $stats{'linenum'});
 	my $word;
 
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug("YY_get_num:");
 
 	if (!YY_start_num()) {
+		pop_scope();
 		return 0;
 	}
 
@@ -402,7 +412,7 @@ sub YY_get_num {
 		debug("YY_get_num $word");
 		add_stat("num", "int", 1);
 		add_token("int", $word, $p, $l);
-		$SPACES = $SPACES - 1;
+		pop_scope();
 		return 1;
 	} elsif (match(".")) {
 		$word = $word . get_char();
@@ -412,13 +422,13 @@ sub YY_get_num {
 		debug("YY_get_num $word");
 		add_stat("num", "float", 1);
 		add_token("float", $word, $p, $l);
-		$SPACES = $SPACES - 1;
+		pop_scope();
 		return 1;
 	}
 	debug("YY_get_num $word");
 	add_stat("num", "int", 1);
 	add_token("int", $word, $p, $l);
-	$SPACES = $SPACES - 1;
+	pop_scope();
 	return 1;
 }
 
@@ -432,8 +442,10 @@ sub YY_get_ident {
 
 	$word = get_char();
 
+	push_scope();
+
 	debug("YY_get_ident: start = '$word'");
-	$SPACES = $SPACES + 1;
+
 	while (YY_start_num() || YY_start_ident()) {
 		$word = $word . get_char();
 	}
@@ -448,7 +460,7 @@ sub YY_get_ident {
 		}
 	}
 	add_token("ident", $word, $p, $l);
-	$SPACES = $SPACES - 1;
+	pop_scope();
 	return 1;
 }
 
@@ -463,10 +475,11 @@ sub YY_get_op {
 		"-=", "*=", "/=", "%=", "&=", "|=", "^=", "?:", "->", "::", "<-",
 		"!!", "=~", "=~", "..");
 
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug("YY_get_op:");
 
 	if (!YY_start_op()) {
+		pop_scope();
 		return 0;
 	}
 
@@ -487,7 +500,7 @@ sub YY_get_op {
 	add_token("op", $op, $p, $l);
 	add_stat("op", $op, 1);
 
-	$SPACES = $SPACES - 1;
+	pop_scope();
 	return 1;
 }
 
@@ -503,7 +516,7 @@ sub eat_whitespace_comment {
 }
 
 sub YY_get_syntax {
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug('YY_get_syntax:');
 	my $x = 0;
 	$maxx = sizeof(@tokens);
@@ -523,14 +536,14 @@ sub YY_get_syntax {
 		}
 
 	}
-	$SPACES = $SPACES - 1;
+	pop_scope();
 }
 
 # This defines the major things that will show up in our code and
 # is a function to get the next thing need to make sure there are no
 # overlaps.... (if ident allows _wah _ can't be an operator...)
 sub nextchar {
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug('nextchar:');
 
 	if (match($EOF)) {
@@ -556,7 +569,7 @@ sub nextchar {
 		error("nextchar: invalid input: '" . substr($buf, 0, 1) .
 			"' ascii: '" . $ascii . "'");
 	}
-	$SPACES = $SPACES - 1;
+	pop_scope();
 
 	return $token;
 }

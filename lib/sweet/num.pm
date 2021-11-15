@@ -26,10 +26,11 @@ sub get {
 	my ($p, $l) = ($stats{'columnnum'}, $stats{'linenum'});
 	my $word;
 
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug("num::get:");
 
 	if (!starts()) {
+		pop_scope();
 		return 0;
 	}
 
@@ -41,7 +42,7 @@ sub get {
 		debug("num::get $word");
 		add_stat("num", "int", 1);
 		add_token("int", $word, $p, $l);
-		$SPACES = $SPACES - 1;
+		pop_scope();
 		return 1;
 	} elsif (match(".")) {
 		$word = $word . get_char();
@@ -51,13 +52,13 @@ sub get {
 		debug("num::get $word");
 		add_stat("num", "float", 1);
 		add_token("float", $word, $p, $l);
-		$SPACES = $SPACES - 1;
+		pop_scope();
 		return 1;
 	}
 	debug("num::get $word");
 	add_stat("num", "int", 1);
 	add_token("int", $word, $p, $l);
-	$SPACES = $SPACES - 1;
+	pop_scope();
 	return 1;
 }
 

@@ -19,11 +19,12 @@ sub valid {
 }
 
 sub get {
-	$SPACES = $SPACES + 1;
+	push_scope();
 	debug("whitespace::get");
 	my ($p, $l) = ($stats{'columnnum'}, $stats{'linenum'});
 
 	if (!starts()) {
+		pop_scope();
 		return 0;
 	}
 
@@ -48,14 +49,9 @@ sub get {
 	}
 	add_token("whitespace", $word, $p, $l);
 	debug("whitespace::get added '$tmp\' length:" . length($tmp) . "\n");
-	$SPACES = $SPACES - 1;
-	return 1;
-}
 
-	if ($node->{"type"} eq "whitespace") {
-		return 1;
-	}
-	return 0;
+	pop_scope();
+	return 1;
 }
 
 sub put {
