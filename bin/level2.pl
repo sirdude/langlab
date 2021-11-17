@@ -97,8 +97,13 @@ sub main {
 		return usage();
 	}
 
-	$charast = ast::new();
-	$tokast = ast::new();
+	$charast = ast->new();
+	$tokast = ast->new();
+
+	if (query_option('debug')) {
+		$charast->set_debug(1);
+		$tokast->set_debug(1);
+	}
 
 	if ($charast->parse_file_or_string(@VALUES)) {
 		$charast->add_stat('stats', 'linenum', 1);

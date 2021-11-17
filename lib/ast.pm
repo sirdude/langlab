@@ -1,28 +1,31 @@
 package ast;
 
-use strict;
-use warnings;
-use base 'Exporter';
-
-our @EXPORT = qw(new add_node parse_file_or_string $EOL $EOF);
-
-our $EOL = '__YY_EOL___';
-our $EOF = '__YY_EOF___';
-my $linenum;                        # Used for xml and json reading/debugging messages.
-
 sub new {
 	my $class = shift;
-	my $self = {
-		'size' => 0,
-		'head' => 0,
-		'current' => 0,
-		'tmp' => 0,
-		'data' => (),
-		'status' => ()
-	};
+	my $self = {};
 		
 	bless $self, $class;
 	return $self;
+}
+
+our $EOL = '__YY_EOL___';
+our $EOF = '__YY_EOF___';
+my ($linenum, $debug);                        # Used for xml and json reading/debugging messages.
+
+sub set_debug {
+	($debug) = @_;
+
+	return $debug;
+}
+
+sub debug {
+	my ($info) = @_;
+
+	if ($debug) {
+		print "$info\n";
+		return 1;
+	}
+	return 0;
 }
 
 sub peek {
@@ -380,8 +383,8 @@ sub parse_file {
 }
 
 sub parse_file_or_string {
+	my $self = shift;
 	my @values = @_;
-	my $self = unshift(@values);
 	my $tmp = 1;
 
 	if (-f $values[0]) {
