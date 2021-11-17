@@ -24,7 +24,9 @@ sub debug {
 
 	if (query_option('debug')) {
 		print "$info\n";
+		return 1;
 	}
+	return 0;
 }
 
 sub main {
