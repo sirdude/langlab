@@ -19,11 +19,12 @@ sub valid {
 }
 
 sub get {
+	my ($ast) = @_;
 	my ($com, $tmp) = ("", "");
 	my ($p, $l) = (query_stat('columnnum'), query_stat('linenum'));
 
 	push_scope();
-	debug('comment::get Buf: ' . $buf);
+	debug('comment::get Buf: ' . $ast->peek());
 
 	if (!starts()) {
 		return 0;
@@ -65,7 +66,7 @@ sub get {
 }
 
 sub put {
-	my (%node) = @_;
+	my ($node) = @_;
 
 	if (($node->{'type'} eq 'comment') ||
 		($node->{'type'} eq 'multicomment')) {

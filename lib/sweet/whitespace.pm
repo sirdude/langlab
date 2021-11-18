@@ -19,9 +19,11 @@ sub valid {
 }
 
 sub get {
+	my ($ast) = @_;
+	my ($p, $l) = (query_stat('columnnum'), query_stat('linenum'));
+
 	push_scope();
 	debug("whitespace::get");
-	my ($p, $l) = ($stats{'columnnum'}, $stats{'linenum'});
 
 	if (!starts()) {
 		pop_scope();
@@ -55,9 +57,9 @@ sub get {
 }
 
 sub put {
-	my (%node) = @_;
+	my ($node) = @_;
 
-	if (!valid(%node))) {
+	if (!valid($node)) {
 		return $node->{"value"};
 	}
 	return "";

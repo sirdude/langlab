@@ -6,6 +6,9 @@ use lib "../lib";
 use options;
 use ast;
 
+# XXX This is defined in lib/ast.pm
+our $EOF = '__YY_EOF___';
+
 # Language specific modules...
 use lib "../lib/sweet";
 use comment;
@@ -119,7 +122,7 @@ sub main {
 		$charast->clear_stats();
 	}
 
-	convert_to_tokens($ast);
+	convert_to_tokens($charast);
 	$charast->write_stats("token_stats.txt");
 	return $ret;
 }

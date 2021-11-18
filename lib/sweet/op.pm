@@ -25,7 +25,7 @@ sub valid {
 }
 
 sub get {
-	my ($p, $l) = ($stats{'columnnum'}, $stats{'linenum'});
+	my ($p, $l) = (query_stat('columnnum'), query_stat('linenum'));
 	my $op = "";
 	my $doneop;
 
@@ -65,7 +65,7 @@ sub get {
 }
 
 sub put {
-	my (%node) = @_;
+	my ($node) = @_;
 
 	if ($node->{'type'} eq 'op') {
 		return $node->{"value"};

@@ -40,7 +40,7 @@ sub valid {
 
 sub get {
 	my ($ast) = @_;
-	my ($p, $l) = ($stats{'columnnum'}, $stats{'linenum'});
+	my ($p, $l) = (query_stat('columnnum'), query_stat('linenum'));
 	my $word;
 
 	if (!starts()) {
@@ -70,7 +70,7 @@ sub get {
 }
 
 sub put {
-	my (%node) = @_;
+	my ($node) = @_;
 
 	if ($node->{'type'} eq 'ident') {
 		return $node->{"value"};
