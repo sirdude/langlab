@@ -46,25 +46,25 @@ sub add_node {
 	if ($data eq $EOF) {
 		$node->{'type'} = 'EOF';
 		$node->{'data'} = 'NIL';
-		add_stat('char', 'EOF', 1);
+		$self->add_stat('char', 'EOF', 1);
 	} elsif ($data eq $EOL) {
 		$node->{'type'} = 'EOL';
 		$node->{'data'} = 'NIL';
-		add_stat('char', 'EOL', 1);
+		$self->add_stat('char', 'EOL', 1);
 	} else {
 		$node->{'type'} = 'char';
 		$node->{'data'} = $data;
-		add_stat('char', $data, 1);
+		$self->add_stat('char', $data, 1);
 	}
-	$node->{'linenum'} = query_stat('stats', 'linenum');
-	$node->{'columnnum'} = query_stat('stats','columnnum');
-	add_stat('stats', 'totalchars', 1);
+	$node->{'linenum'} = $self->query_stat('stats', 'linenum');
+	$node->{'columnnum'} = $self->query_stat('stats','columnnum');
+	$self->add_stat('stats', 'totalchars', 1);
 	push(@{$self->{'data'}}, $node);
 	if (($data eq $EOL) ) {
-		add_stat('stats', 'linenum', 1);
-		set_stat('stats', 'columnnum', 1);
+		$self->add_stat('stats', 'linenum', 1);
+		$self->set_stat('stats', 'columnnum', 1);
 	} else {
-		add_stat('stats', 'columnnum');
+		$self->add_stat('stats', 'columnnum');
 	}
 
 	return 1;
