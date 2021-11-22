@@ -335,6 +335,10 @@ sub write_stats {
 				print $sfh "whitespace:\\r:" . $self->{'stats'}->{$i} . "\n";
 			} elsif ($i eq "whitespace:\t") {
 				print $sfh "whitespace:\\t:" . $self->{'stats'}->{$i} . "\n";
+			} elsif ($i eq "char:\t") {
+				print $sfh "char:TAB(\\t):" . $self->{'stats'}->{$i} . "\n";
+			} elsif ($i eq "char: ") {
+				print $sfh "char:SPACE:" . $self->{'stats'}->{$i} . "\n";
 			} else {
 				print $sfh "$i:" . $self->{'stats'}->{$i} . "\n";
 			}
