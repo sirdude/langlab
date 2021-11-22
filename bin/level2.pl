@@ -6,9 +6,6 @@ use lib "../lib";
 use options;
 use ast;
 
-# XXX This is defined in lib/ast.pm
-our $EOF = '__YY_EOF___';
-
 # Language specific modules...
 use lib "../lib/sweet";
 use comment;
@@ -49,7 +46,7 @@ sub convert_to_tokens {
 	my $numerrors = 0;
 
 	while (!$done) {
-		if ($charast->match($EOF)) {
+		if ($charast->eof()) {
 		$done = 1;
 		} elsif (comment::start($charast)) {
 			comment::get($charast, $tokast);

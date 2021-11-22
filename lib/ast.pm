@@ -28,13 +28,34 @@ sub debug {
 	return 0;
 }
 
+# Look at just the next token
 sub peek {
 	my ($self) = @_;
 
 	return $self->{'data'}[$self->{'current'}];
 }
 
+sub eof {
+	my ($self) = @_;
+
+	if ($self->{'current'} > $self->{'size'}) {
+		return 1;
+	}
+
+	if ($self->{'data'}[$self->{'current'}] eq $EOF) {
+		return 1;
+	}
+
+	return 0;
+}
+
+# See if STR is a match to the next few tokens.
 sub match {
+	my ($self, $str) = @_;
+}
+
+# Get the next token, if STR consume tokens until STR is fully consumed.  IF not error.
+sub get_tot {
 	my ($self, $str) = @_;
 }
 
