@@ -10,9 +10,9 @@ sub start {
 	my ($ast) = @_;
 	my @values = ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
 
-	debug("num::starts");
+	$ast->debug("num::starts");
 	foreach my $i (@values) {
-		if (match($i)) {
+		if ($ast->match($i)) {
 			return 1;
 		}
 	}
@@ -23,11 +23,12 @@ sub valid {
 }
 
 sub get {
-	my ($p, $l) = (query_stat('columnnum'), query_stat('linenum'));
+	my ($ast) = @_;
+	my ($p, $l) = ($ast->query_stat('columnnum'), $ast->query_stat('linenum'));
 	my $word;
 
 	push_scope();
-	debug("num::get:");
+	$ast->debug("num::get:");
 
 	if (!starts()) {
 		pop_scope();
@@ -38,25 +39,25 @@ sub get {
 	while (starts()) {
 		$word = $word . get_char();
 	}
-	if (match("..")) {
-		debug("num::get $word");
-		add_stat("num", "int", 1);
+	if ($ast->match("..")) {
+		$ast->debug("num::get $word");
+		$ast->add_stat("num", "int", 1);
 		add_token("int", $word, $p, $l);
 		pop_scope();
 		return 1;
-	} elsif (match(".")) {
+	} elsif ($ast->match(".")) {
 		$word = $word . get_char();
 		while (starts()) {
 			$word = $word . get_char();
 		}
-		debug("num::get $word");
-		add_stat("num", "float", 1);
+		$ast->debug("num::get $word");
+		$ast->add_stat("num", "float", 1);
 		add_token("float", $word, $p, $l);
 		pop_scope();
 		return 1;
 	}
-	debug("num::get $word");
-	add_stat("num", "int", 1);
+	$ast->debug("num::get $word");
+	$ast->add_stat("num", "int", 1);
 	add_token("int", $word, $p, $l);
 	pop_scope();
 	return 1;

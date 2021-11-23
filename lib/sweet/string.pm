@@ -8,8 +8,8 @@ our @EXPORT = qw(start valid get);
 
 sub start {
 	my ($ast) = @_;
-	debug("string::starts");
-	if (match('"') || match("'")) {
+	$ast->debug("string::starts");
+	if ($ast->match('"') || $ast->match("'")) {
 		return 1;
 	}
 	return 0;
@@ -19,7 +19,8 @@ sub valid {
 }
 
 sub get {
-	my ($p, $l) = (query_stat('columnnum'), query_stat('linenum'));
+	my ($ast) = @_;
+	my ($p, $l) = ($ast->query_stat('columnnum'), $ast->query_stat('linenum'));
 	my $type;
 
 	my $tmp = "";
@@ -27,7 +28,7 @@ sub get {
 	my $word = "";
 
 	push_scope();
-	debug("string::get: ");
+	$ast->debug("string::get: ");
 
 	if (!starts()) {
 		pop_scope();
@@ -36,7 +37,7 @@ sub get {
 
 	$type = get_char();
 
-	while (!match(get_eof()) && !match($type)) {
+	while (!$ast->match(get_eof()) && !$ast->match($type)) {
 		$tmp = get_char();
 		if ($tmp eq "\\") { # We have an escape read the next char as
 					# well and treat it as one symbol...
@@ -45,8 +46,8 @@ sub get {
 		$word = $word . $tmp;
 		$lastchr = $tmp;
 	}
-	debug("string::get: string = $word");
-	add_stat("string", $type, 1);
+	$ast->debug("string::get: string = $word");
+	$ast->add_stat("string", $type, 1);
 	add_token("string", $word, $p, $l);
 	# eat the end of string token...
 	$tmp = get_char();

@@ -12,9 +12,9 @@ sub start {
 		",", "-", ".", "/", ":", ";", "<", "=", ">", "?", "\@", "[", "]",
 		"^", "`", "{", "|", "}", "~", "\\");
 
-	debug("op::starts");
+	$ast->debug("op::starts");
 	foreach my $i (@values) {
-		if ( match($i)) {
+		if ($ast->match($i)) {
 			return 1;
 		}
 	}
@@ -25,7 +25,8 @@ sub valid {
 }
 
 sub get {
-	my ($p, $l) = (query_stat('columnnum'), query_stat('linenum'));
+	my ($ast) = @_;
+	my ($p, $l) = ($ast->query_stat('columnnum'), $ast->query_stat('linenum'));
 	my $op = "";
 	my $doneop;
 
@@ -36,7 +37,7 @@ sub get {
 		"!!", "=~", "=~", "..");
 
 	push_scope();
-	debug("op::get");
+	$ast->debug("op::get");
 
 	if (!starts()) {
 		pop_scope();
@@ -44,7 +45,7 @@ sub get {
 	}
 
 	foreach my $i (@multiop) {
-		if (match($i)) {
+		if ($ast->match($i)) {
 			my $x = 0;
 			while ($x < length($i)) {
 				$op = $op . get_char();
@@ -56,9 +57,9 @@ sub get {
 	if (!$doneop) {
 		$op = get_char();
 	}
-	debug("op::get: $op");
+	$ast->debug("op::get: $op");
 	add_token("op", $op, $p, $l);
-	add_stat("op", $op, 1);
+	$ast->add_stat("op", $op, 1);
 
 	pop_scope();
 	return 1;

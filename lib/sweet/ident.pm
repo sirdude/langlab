@@ -15,7 +15,7 @@ sub start {
 		"j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u",
 		"v", "w", "x", "y", "z", "_");
 
-	debug("ident::starts");
+	$ast->debug("ident::starts");
 	foreach my $i (@values) {
 		if ($ast->match($i)) {
 			return 1;
@@ -40,7 +40,7 @@ sub valid {
 
 sub get {
 	my ($ast) = @_;
-	my ($p, $l) = (query_stat('columnnum'), query_stat('linenum'));
+	my ($p, $l) = ($ast->query_stat('columnnum'), $ast->query_stat('linenum'));
 	my $word;
 
 	if (!starts()) {
@@ -49,19 +49,19 @@ sub get {
 
 	$word = get_char();
 
-	debug("ident::get: start = '$word'");
+	$ast->debug("ident::get: start = '$word'");
 	push_scope();
 	while (starts_num($ast) || starts($ast)) {
 		$word = $word . get_char();
 	}
-	debug("ident::get: '$word'");
+	$ast->debug("ident::get: '$word'");
 	if (is_keyword($word)) {
-		add_stat("keyword", $word, 1);
+		$ast->add_stat("keyword", $word, 1);
 	} else {
 		if (query_option('names')) {
-			add_stat("ident", $word, 1);
+			$ast->add_stat("ident", $word, 1);
 		} else {
-			add_stat("ident", "ident", 1);
+			$ast->add_stat("ident", "ident", 1);
 		}
 	}
 	add_token("ident", $word, $p, $l);

@@ -8,7 +8,7 @@ our @EXPORT = qw(start valid get);
 
 sub start {
 	my ($ast) = @_;
-	debug("whitespace::starts");
+	$ast->debug("whitespace::starts");
 	if ($ast->match("\n") || $ast->match("\t") || $ast->match(' ') || $ast->match("\r")) {
 		return 1;
 	}
@@ -20,10 +20,10 @@ sub valid {
 
 sub get {
 	my ($ast) = @_;
-	my ($p, $l) = (query_stat('columnnum'), query_stat('linenum'));
+	my ($p, $l) = ($ast->query_stat('columnnum'), $ast->query_stat('linenum'));
 
 	push_scope();
-	debug("whitespace::get");
+	$ast->debug("whitespace::get");
 
 	if (!starts()) {
 		pop_scope();
@@ -34,23 +34,23 @@ sub get {
 	my $word = $tmp;
 
 	if ($tmp eq " ") {
-		add_stat("whitespace", 'SPACE', 1);
+		$ast->add_stat("whitespace", 'SPACE', 1);
 	} else {
-		add_stat("whitespace", $tmp, 1);
+		$ast->add_stat("whitespace", $tmp, 1);
 	}
 
-	while(match(" ") || match("\t") || match("\n") || match("\r")) {
+	while($ast->match(" ") || $ast->match("\t") || $ast->match("\n") || $ast->match("\r")) {
 		$tmp = get_char();
 		$word = $word . $tmp;
 
 		if ($tmp eq " ") {
-			add_stat("whitespace", 'SPACE', 1);
+			$ast->add_stat("whitespace", 'SPACE', 1);
 		} else {
-			add_stat("whitespace", $tmp, 1);
+			$ast->add_stat("whitespace", $tmp, 1);
 		}
 	}
 	add_token("whitespace", $word, $p, $l);
-	debug("whitespace::get added '$tmp\' length:" . length($tmp) . "\n");
+	$ast->debug("whitespace::get added '$tmp\' length:" . length($tmp) . "\n");
 
 	pop_scope();
 	return 1;

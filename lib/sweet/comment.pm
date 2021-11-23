@@ -8,7 +8,7 @@ our @EXPORT = qw(start valid get);
 
 sub start {
 	my ($ast) = @_;
-	debug("comment::starts");
+	$ast->debug("comment::starts");
 	if ($ast->match('/*') || $ast->match('#') || $ast->match('//')) {
 		return 1;
 	}
@@ -21,41 +21,41 @@ sub valid {
 sub get {
 	my ($ast) = @_;
 	my ($com, $tmp) = ("", "");
-	my ($p, $l) = (query_stat('columnnum'), query_stat('linenum'));
+	my ($p, $l) = ($ast->query_stat('columnnum'), $ast->query_stat('linenum'));
 
 	push_scope();
-	debug('comment::get Buf: ' . $ast->peek());
+	$ast->debug('comment::get Buf: ' . $ast->peek());
 
 	if (!starts()) {
 		return 0;
 	}
 
-	if (match("//") || match("#")) {
-		while (!match("\n") && !match(get_eof())) {
+	if ($ast->match("//") || $ast->match("#")) {
+		while (!$ast->match("\n") && !$ast->match(get_eof())) {
 			$tmp = get_char();
 			$com = $com . $tmp;
 		}
 
-		debug("single comment = '$com'");
-		add_stat("comment","singleline", 1);
+		$ast->debug("single comment = '$com'");
+		$ast->add_stat("comment","singleline", 1);
 		add_token("comment", $com, $p, $l);
 
 		pop_scope();
 		return 1;
 	} else { # get /* */
-		while (!match("*/") && !match(get_eof())) {
+		while (!$ast->match("*/") && !$ast->match(get_eof())) {
 			$tmp = get_char();
 			$com = $com . $tmp;
 		}
 
-		if (!match(get_eof())) { # Eat the end of comment '*/'
+		if (!$ast->match(get_eof())) { # Eat the end of comment '*/'
 			$tmp = get_char();
 			$com = $com . $tmp;
 			$tmp = get_char();
 			$com = $com . $tmp;
 		}
-		debug("double comment = '$com'");
-		add_stat("comment", "multiline", 1);
+		$ast->debug("double comment = '$com'");
+		$ast->add_stat("comment", "multiline", 1);
 		add_token("comment", $com, $p, $l);
 
 		pop_scope();

@@ -8,7 +8,7 @@ our @EXPORT = qw(start valid get);
 
 sub start {
 	my ($ast) = @_;
-	debug("html::starts");
+	$ast->debug("html::starts");
 	if ($ast->match('&#')) {
 		return 1;
 	}
@@ -19,18 +19,19 @@ sub valid {
 }
 
 sub get {
+	my ($ast) = @_;
 	my $word = "";
-	my ($p, $l) = (query_stat('columnnum'), query_stat('linenum'));
+	my ($p, $l) = ($ast->query_stat('columnnum'), $ast->query_stat('linenum'));
 	my $tmp;
 
 	push_scope();
-	debug("html::get");
+	$ast->debug("html::get");
 
 	if (!starts()) {
 		return 0;
 	}
 
-	while (!match(get_eof()) && (!match(";"))) {
+	while (!$ast->match(get_eof()) && (!$ast->match(";"))) {
 		$tmp = get_char();
 		$word = $word . $tmp;
 	}
@@ -38,8 +39,8 @@ sub get {
 	$word = $word . $tmp;
 
 	if ($word =~ /&#\d+;/) {
-		debug("html::get found: $word");
-		add_stat("literal", "html", 1);
+		$ast->debug("html::get found: $word");
+		$ast->add_stat("literal", "html", 1);
 		add_token("html", $word, $p, $l);
 		pop_scope();
 		return 1;
