@@ -30,10 +30,14 @@ sub debug {
 
 sub push_scope {
 	$scope += 1;
+
+	return $scope;
 }
 
 sub pop_scope {
 	$scope -= 1;
+
+	return $scope;
 }
 
 sub query_scope {
