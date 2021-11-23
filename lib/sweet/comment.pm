@@ -23,10 +23,10 @@ sub get {
 	my ($com, $tmp) = ("", "");
 	my ($p, $l) = ($ast->query_stat('columnnum'), $ast->query_stat('linenum'));
 
-	push_scope();
+	$ast->push_scope();
 	$ast->debug('comment::get Buf: ' . $ast->peek());
 
-	if (!starts()) {
+	if (!start($ast)) {
 		return 0;
 	}
 
@@ -40,7 +40,7 @@ sub get {
 		$ast->add_stat("comment","singleline", 1);
 		add_token("comment", $com, $p, $l);
 
-		pop_scope();
+		$ast->pop_scope();
 		return 1;
 	} else { # get /* */
 		while (!$ast->match("*/") && !$ast->match(get_eof())) {
@@ -58,10 +58,10 @@ sub get {
 		$ast->add_stat("comment", "multiline", 1);
 		add_token("comment", $com, $p, $l);
 
-		pop_scope();
+		$ast->pop_scope();
 		return 1;
 	}
-	pop_scope();
+	$ast->pop_scope();
 	return 0;
 }
 

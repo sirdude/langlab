@@ -22,11 +22,11 @@ sub get {
 	my ($ast) = @_;
 	my ($p, $l) = ($ast->query_stat('columnnum'), $ast->query_stat('linenum'));
 
-	push_scope();
+	$ast->push_scope();
 	$ast->debug("whitespace::get");
 
-	if (!starts()) {
-		pop_scope();
+	if (!start($ast)) {
+		$ast->pop_scope();
 		return 0;
 	}
 
@@ -52,7 +52,7 @@ sub get {
 	add_token("whitespace", $word, $p, $l);
 	$ast->debug("whitespace::get added '$tmp\' length:" . length($tmp) . "\n");
 
-	pop_scope();
+	$ast->pop_scope();
 	return 1;
 }
 

@@ -27,23 +27,23 @@ sub get {
 	my ($p, $l) = ($ast->query_stat('columnnum'), $ast->query_stat('linenum'));
 	my $word;
 
-	push_scope();
+	$ast->push_scope();
 	$ast->debug("num::get:");
 
-	if (!starts()) {
-		pop_scope();
+	if (!start($ast)) {
+		$ast->pop_scope();
 		return 0;
 	}
 
 	$word = get_char();
-	while (starts()) {
+	while (start()) {
 		$word = $word . get_char();
 	}
 	if ($ast->match("..")) {
 		$ast->debug("num::get $word");
 		$ast->add_stat("num", "int", 1);
 		add_token("int", $word, $p, $l);
-		pop_scope();
+		$ast->pop_scope();
 		return 1;
 	} elsif ($ast->match(".")) {
 		$word = $word . get_char();
@@ -53,13 +53,13 @@ sub get {
 		$ast->debug("num::get $word");
 		$ast->add_stat("num", "float", 1);
 		add_token("float", $word, $p, $l);
-		pop_scope();
+		$ast->pop_scope();
 		return 1;
 	}
 	$ast->debug("num::get $word");
 	$ast->add_stat("num", "int", 1);
 	add_token("int", $word, $p, $l);
-	pop_scope();
+	$ast->pop_scope();
 	return 1;
 }
 

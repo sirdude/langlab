@@ -24,10 +24,10 @@ sub get {
 	my ($p, $l) = ($ast->query_stat('columnnum'), $ast->query_stat('linenum'));
 	my $tmp;
 
-	push_scope();
+	$ast->push_scope();
 	$ast->debug("html::get");
 
-	if (!starts()) {
+	if (!start($ast)) {
 		return 0;
 	}
 
@@ -42,11 +42,11 @@ sub get {
 		$ast->debug("html::get found: $word");
 		$ast->add_stat("literal", "html", 1);
 		add_token("html", $word, $p, $l);
-		pop_scope();
+		$ast->pop_scope();
 		return 1;
 	}
 	error("html::get: " . $word . ", expected: &#DDDD;");
-	pop_scope();
+	$ast->pop_scope();
 	return 0;
 }
 

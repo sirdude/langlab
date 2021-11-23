@@ -36,11 +36,11 @@ sub get {
 		"-=", "*=", "/=", "%=", "&=", "|=", "^=", "?:", "->", "::", "<-",
 		"!!", "=~", "=~", "..");
 
-	push_scope();
+	$ast->push_scope();
 	$ast->debug("op::get");
 
-	if (!starts()) {
-		pop_scope();
+	if (!start($ast)) {
+		$ast->pop_scope();
 		return 0;
 	}
 
@@ -61,7 +61,7 @@ sub get {
 	add_token("op", $op, $p, $l);
 	$ast->add_stat("op", $op, 1);
 
-	pop_scope();
+	$ast->pop_scope();
 	return 1;
 }
 

@@ -34,11 +34,11 @@ sub get {
 	my ($p, $l) = ($ast->query_stat('columnnum'), $ast->query_stat('linenum'));
         my $word;
 
-	push_scope();
+	$ast->push_scope();
         $ast->debug("hex::get");
 
-        if (!starts()) {
-		pop_scope();
+        if (!start($ast)) {
+		$ast->pop_scope();
                 return 0;
         }
 
@@ -46,21 +46,21 @@ sub get {
         if (valid()) {
                 $word = $word . get_char();
         } else {
-		pop_scope();
+		$ast->pop_scope();
                 return 0;
         }
 
         if (valid()) {
                 $word = $word . get_char();
         } else {
-		pop_scope();
+		$ast->pop_scope();
                 return 0;
         }
 
         $ast->debug("hex::get: $word");
         $ast->add_stat("literal", "hex", 1);
         add_token("hex", $word, $p, $l);
-	pop_scope();
+	$ast->pop_scope();
         return 1;
 }
 

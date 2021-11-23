@@ -50,8 +50,8 @@ sub get {
 	$word = get_char();
 
 	$ast->debug("ident::get: start = '$word'");
-	push_scope();
-	while (starts_num($ast) || starts($ast)) {
+	$ast->push_scope();
+	while (starts_num($ast) || start($ast)) {
 		$word = $word . get_char();
 	}
 	$ast->debug("ident::get: '$word'");
@@ -65,7 +65,7 @@ sub get {
 		}
 	}
 	add_token("ident", $word, $p, $l);
-	pop_scope();
+	$ast->pop_scope();
 	return 1;
 }
 

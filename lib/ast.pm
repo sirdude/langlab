@@ -10,7 +10,7 @@ sub new {
 
 our $EOL = '__YY_EOL___';
 our $EOF = '__YY_EOF___';
-my ($linenum, $debug);                        # Used for xml and json reading/debugging messages.
+my ($linenum, $debug, $scope);  # linenum used for xml and json reading/debugging messages.
 
 sub set_debug {
 	($debug) = @_;
@@ -26,6 +26,18 @@ sub debug {
 		return 1;
 	}
 	return 0;
+}
+
+sub push_scope {
+	$scope += 1;
+}
+
+sub pop_scope {
+	$scope -= 1;
+}
+
+sub query_scope {
+	return $scope;
 }
 
 # Look at just the next token

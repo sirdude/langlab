@@ -27,11 +27,11 @@ sub get {
 	my $lastchr = "";
 	my $word = "";
 
-	push_scope();
+	$ast->push_scope();
 	$ast->debug("string::get: ");
 
-	if (!starts()) {
-		pop_scope();
+	if (!start($ast)) {
+		$ast->pop_scope();
 		return 0;
 	}
 
@@ -52,7 +52,7 @@ sub get {
 	# eat the end of string token...
 	$tmp = get_char();
 
-	pop_scope();
+	$ast->pop_scope();
 
 	return 1;
 }
