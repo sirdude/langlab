@@ -21,13 +21,13 @@ numbers
 	int, float, bool, percision vs storage?
 
 
-
 constants/typedefs/includes/inherits/modules/libraries...
 Our langage supports the following Types:
 void	For functions that do not have a return value
 mixed 	Signal to turn off type checking or if want to use week types/autoconversion
 
-char 	Single characture can use numbers to represent in different formats see below dec assumes ascii
+char 	Single characture can use numbers to represent in different formats see
+	below dec assumes ascii
 string 	Array of chars?
 alias   Set an ident to a specific value should use before code?
 enumeration Make a set of specific values (Don't like...)
@@ -59,13 +59,14 @@ searches: depth first, breadth first, a*, quicksort, bubblesort, etc.
 statemancines, fuzzy logic, message passing, agents
 
 
-
 Others:
 buitlin types:
 lpc: nil, string, int, float, object, array, mapping, mixed
-c: int, long, char, float, double, long double, array  (and various versions of long, int), struct
+c: int, long, char, float, double, long double, array, struct
+	 (and various versions of long, int)
 fortran: int, real, complex(imaginary numbers), boolean, string(character)
-java: boolean, char, byte, short, int, long, float and double, classes, interfaces, arrays
+java: boolean, char, byte, short, int, long, float and double, classes, interfaces,
+	arrays
 haskell: bool, string, char, lists, tuples, function, Io, unit,class, monad
 ocaml: int, float, boolean, characters, string, tupple, array, list, records, variants
 	functions can be passed around so they are kind of a type...
@@ -73,16 +74,20 @@ perl: scarlar, array, hash,
 	handles numbers as: integer, float, complex, hex, octal automatically
 	handles strings as "" or ''
 	additional: enum, module, package, grammar, 
-python: str, int, float, complex, list, tuple, range, dict(hash), set, bool, bytes, bytearray
+python: str, int, float, complex, list, tuple, range, dict(hash), set, bool, bytes,
+	bytearray
 ruby: numbers, boolean, strings, hashes, arrays, symbols(char)
-rust: int, flata, boolean, string, tupple, array, has utfstring(can't index a utfstring)
-go: bool, string, int(various flavors), byte, float, complex, array, struct, pointers, slices, maps, functions,
-	channels(unlocked bydirectional stream), also has interface(similar to mixed in dgd,
-		assumes its like an undefined class?)
+rust: int, flata, boolean, string, tupple, array,
+	has utfstring(can't index a utfstring)
+go: bool, string, int(various flavors), byte, float, complex, array, struct, pointers,
+	slices, maps, functions, channels(unlocked bydirectional stream),
+	also has interface(similar to mixed in dgd,
+	assumes its like an undefined class?)
 lua: nil, boolean, number, string, userdata, function, thread and table
 swift: int, double, float, bool, string, array, set, dictionary, tuple, optional
 
-extra thoughts: machine data types, c will let you do int64 and the compiler will adjust based on system
+extra thoughts: machine data types, c will let you do int64 and the compiler will
+	adjust based on system
 		bignum  allows you to create values beyond limits but it costs
 		linked list, queue, stack, heap, tree, pointers, references, graph
 		pointers, references in java...
@@ -99,7 +104,8 @@ perl's string functions:
 	char(NUMBER) returns ascii code for a number char(65) = 'A'; reverse is ord...
 	ord(CHAR) returns the ascii number for a letter
         crypt(string1, string2);
-	index(strin, substr, postion)  returns first occuerrence of substring postion is optional...
+	index(strin, substr, postion)  returns first occuerrence of substring postion
+		is optional...
 	rindex(string,substring,postion)
 	join(string, array)
 	lc(string)
@@ -124,11 +130,13 @@ java boolean ops:
 
 sizeof, length, exists, defined, typeof, isint, ...
 	push, pop, append, prepend, clone, 
-hash: values, keys, foreach, each( returns key & value for each item), delete, sorting...
+hash: values, keys, foreach, each( returns key & value for each item), delete, sorting
 set operators: union, intersection, difference, inanotb, boolean ops...
 	members, numbermembers, inset, notinset, test for empty
 
-regex functinos: match, search(returns index vs matching), replace, split, test(test for match don't return match)
+regex functinos: match, search(returns index vs matching), replace, split,
+	test(test for match don't return match)
+
 	does the string match?
 	how many matches are there?
 	what is the first match?

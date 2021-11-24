@@ -63,4 +63,3 @@ Control chars...   chr(0) = \c@ chr(1) = \cA so could do with just ascii???
  \c_    31   <US>      <US>         <US>
  \c?    *    <DEL>     <APC>        <APC>
 
-

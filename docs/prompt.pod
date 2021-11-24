@@ -16,8 +16,8 @@ if (var eq "Y") {
 
 =head1 DESCRIPTION
 
-The prompt function allows you to simplify prompting the user for input.  It displays a prompt which is passed in
-then returns the value input.
+The prompt function allows you to simplify prompting the user for input.
+It displays a prompt which is passed in then returns the value input.
 
 =head1 RETURN VALUE
 

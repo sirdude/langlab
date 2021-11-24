@@ -41,8 +41,8 @@ int main(string str) {
 
 =head1 DESCRIPTION
 
-The options module allows you to quickly create command line options for an application.
-The options take one of the following formats:
+The options module allows you to quickly create command line options for an
+application.  The options take one of the following formats:
 	--help
 	--filename=foo
 
