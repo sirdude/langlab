@@ -42,7 +42,7 @@ sub pop_scope {
 	return $scope;
 }
 
-sub query_scope {
+sub get_scope {
 	return $scope;
 }
 
