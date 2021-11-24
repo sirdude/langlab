@@ -53,7 +53,7 @@ sub peek {
 	return $self->{'data'}[$self->{'current'}];
 }
 
-sub query_eof {
+sub get_eof {
 	return $EOF;
 }
 
