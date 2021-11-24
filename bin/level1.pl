@@ -43,7 +43,7 @@ sub main {
 	}
 
 	@VALUES = parse_options(@VALUES);
-	if (query_option('help')) {
+	if (query_option('help') || !@VALUES) {
 		return usage();
 	}
 
