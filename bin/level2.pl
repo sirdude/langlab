@@ -46,7 +46,7 @@ sub convert_to_tokens {
 	my $numerrors = 0;
 
 	while (!$done) {
-		if ($charast->eof()) {
+		if ($charast->at_eof()) {
 		$done = 1;
 		} elsif (comment::start($charast)) {
 			comment::get($charast, $tokast);

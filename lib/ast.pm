@@ -51,7 +51,11 @@ sub peek {
 	return $self->{'data'}[$self->{'current'}];
 }
 
-sub eof {
+sub query_eof {
+	return $EOF;
+}
+
+sub at_eof {
 	my ($self) = @_;
 
 	if ($self->{'current'} > $self->{'size'}) {
