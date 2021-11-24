@@ -10,7 +10,9 @@ sub new {
 
 our $EOL = '__YY_EOL___';
 our $EOF = '__YY_EOF___';
-my ($linenum, $debug, $scope);  # linenum used for xml and json reading/debugging messages.
+# linenum used for xml and json reading/debugging messages.
+# scope is used for indentation on output.
+my ($linenum, $debug, $scope);
 
 sub set_debug {
 	($debug) = @_;
@@ -371,15 +373,20 @@ sub write_stats {
 	if ($sfh) {
 		foreach my $i (sort keys %{$self->{'stats'}}) {
 			if ($i eq "whitespace:\n") {
-				print $sfh "whitespace:\\n:" . $self->{'stats'}->{$i} . "\n";
+				print $sfh "whitespace:\\n:" .
+					$self->{'stats'}->{$i} . "\n";
 			} elsif ($i eq "whitespace:\r") {
-				print $sfh "whitespace:\\r:" . $self->{'stats'}->{$i} . "\n";
+				print $sfh "whitespace:\\r:" .
+					$self->{'stats'}->{$i} . "\n";
 			} elsif ($i eq "whitespace:\t") {
-				print $sfh "whitespace:\\t:" . $self->{'stats'}->{$i} . "\n";
+				print $sfh "whitespace:\\t:" .
+					$self->{'stats'}->{$i} . "\n";
 			} elsif ($i eq "char:\t") {
-				print $sfh "char:TAB(\\t):" . $self->{'stats'}->{$i} . "\n";
+				print $sfh "char:TAB(\\t):" .
+					$self->{'stats'}->{$i} . "\n";
 			} elsif ($i eq "char: ") {
-				print $sfh "char:SPACE:" . $self->{'stats'}->{$i} . "\n";
+				print $sfh "char:SPACE:" .
+					$self->{'stats'}->{$i} . "\n";
 			} else {
 				print $sfh "$i:" . $self->{'stats'}->{$i} . "\n";
 			}

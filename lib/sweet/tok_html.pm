@@ -1,4 +1,4 @@
-package html;
+package tok_html;
 
 use strict;
 use warnings;

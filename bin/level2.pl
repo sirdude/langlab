@@ -8,21 +8,23 @@ use ast;
 
 # Language specific modules...
 use lib "../lib/sweet";
-use comment;
-use whitespace;
-use ident;
-use string;
-use html;
-use hex;
-use num;
-use op;
+use tok_comment;
+use tok_whitespace;
+use tok_ident;
+use tok_string;
+use tok_html;
+use tok_hex;
+use tok_num;
+use tok_op;
 
 my ($charast, $tokast);
 
 sub usage {
 	print "$0: [OPTIONS] [FILENAMES | STR]\n";
-	print "Parses the given list of files or considers input a string and parses that.\n";
-	print "Converts input to a tree of nodes of tokens and computes stats for the inputs as well.\n";
+	print "Parses the given list of files or considers input a string and " .
+		"parses that.\n";
+	print "Converts input to a tree of nodes of tokens and computes stats " .
+		"for the inputs as well.\n";
 	print "\n";
 
 	print_options();
@@ -48,22 +50,22 @@ sub convert_to_tokens {
 	while (!$done) {
 		if ($charast->at_eof()) {
 		$done = 1;
-		} elsif (comment::start($charast)) {
-			comment::get($charast, $tokast);
-		} elsif (whitespace::start($charast)) {
-			whitespace::get($charast, $tokast);
-		} elsif (ident::start($charast)) {
-			ident::get($charast, $tokast);
-		} elsif (string::start($charast)) {
-			string::get($charast, $tokast);
-		} elsif (html::start($charast)) {
-			html::get($charast, $tokast);
-		} elsif (hex::start($charast)) {
-			hex::get($charast, $tokast);
-		} elsif (num::start($charast)) {
-			num::get($charast, $tokast);
-		} elsif (op::start($charast)) {
-			op::get($charast, $tokast);
+		} elsif (tok_comment::start($charast)) {
+			tok_comment::get($charast, $tokast);
+		} elsif (tok_whitespace::start($charast)) {
+			tok_whitespace::get($charast, $tokast);
+		} elsif (tok_ident::start($charast)) {
+			tok_ident::get($charast, $tokast);
+		} elsif (tok_string::start($charast)) {
+			tok_string::get($charast, $tokast);
+		} elsif (tok_html::start($charast)) {
+			tok_html::get($charast, $tokast);
+		} elsif (tok_hex::start($charast)) {
+			tok_hex::get($charast, $tokast);
+		} elsif (tok_num::start($charast)) {
+			tok_num::get($charast, $tokast);
+		} elsif (tok_op::start($charast)) {
+			tok_op::get($charast, $tokast);
 		} else {
 			my $value = $charast->peek();
 			my $ascii = ord($value);

@@ -1,4 +1,4 @@
-package hex;
+package tok_hex;
 
 use strict;
 use warnings;

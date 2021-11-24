@@ -1,4 +1,4 @@
-package comment;
+package tok_comment;
 
 use strict;
 use warnings;

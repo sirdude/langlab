@@ -10,8 +10,10 @@ my ($charast);
 
 sub usage {
 	print "$0: [OPTIONS] [FILENAMES | STR]\n";
-	print "Parses the given list of files or considers input a string and parses that.\n";
-	print "Converts input to a tree of nodes of characters and computes stats for the inputs as well.\n";
+	print "Parses the given list of files or considers input a string and " .
+		"parses that.\n";
+	print "Converts input to a tree of nodes of characters and computes stats " .
+		"for the inputs as well.\n";
 	print "\n";
 
 	print_options();

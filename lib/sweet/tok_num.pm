@@ -1,4 +1,4 @@
-package num;
+package tok_num;
 
 use strict;
 use warnings;

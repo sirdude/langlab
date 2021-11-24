@@ -1,4 +1,4 @@
-package string;
+package tok_string;
 
 use strict;
 use warnings;

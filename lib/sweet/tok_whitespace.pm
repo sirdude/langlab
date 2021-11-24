@@ -1,4 +1,4 @@
-package whitespace;
+package tok_whitespace;
 
 use strict;
 use warnings;
@@ -9,7 +9,8 @@ our @EXPORT = qw(start valid get);
 sub start {
 	my ($ast) = @_;
 	$ast->debug("whitespace::starts");
-	if ($ast->match("\n") || $ast->match("\t") || $ast->match(' ') || $ast->match("\r")) {
+	if ($ast->match("\n") || $ast->match("\t") || $ast->match(' ') ||
+		$ast->match("\r")) {
 		return 1;
 	}
 	return 0;
@@ -39,7 +40,9 @@ sub get {
 		$ast->add_stat("whitespace", $tmp, 1);
 	}
 
-	while($ast->match(" ") || $ast->match("\t") || $ast->match("\n") || $ast->match("\r")) {
+	while($ast->match(" ") || $ast->match("\t") || $ast->match("\n") ||
+		$ast->match("\r")) {
+
 		$tmp = get_char();
 		$word = $word . $tmp;
 

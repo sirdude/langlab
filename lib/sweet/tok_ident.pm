@@ -1,4 +1,4 @@
-package ident;
+package tok_ident;
 
 use strict;
 use warnings;
