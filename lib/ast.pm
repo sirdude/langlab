@@ -48,9 +48,10 @@ sub get_scope {
 
 # Look at just the next token
 sub peek {
-	my ($self) = @_;
+	my ($self, $count) = @_;
 
-	return $self->{'data'}[$self->{'current'}];
+	$count += $self->{'current'};
+	return $self->{'data'}[$count];
 }
 
 sub get_eof {
