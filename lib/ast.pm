@@ -51,7 +51,13 @@ sub peek {
 	my ($self, $count) = @_;
 
 	$count += $self->{'current'};
-	return $self->{'data'}[$count];
+	if ($self->{'data'}[$count]->{'type'} eq 'EOF') {
+		return $EOF;
+	} elsif ($self->{'data'}[$count]->{'type'} eq 'EOL') {
+		return $EOL;
+	} else {
+		return $self->{'data'}[$count]->{'data'};
+	}
 }
 
 sub get_eof {
@@ -88,8 +94,15 @@ sub match {
 }
 
 # Get the next token, if STR consume tokens until STR is fully consumed.  IF not error.
-sub get_tot {
+sub consume {
 	my ($self, $str) = @_;
+	if (!$str || $str eq '') {
+		my $tmp = $self->{'current'};
+		$self->{'current'} = $tmp + 1;
+		return $self->{'data'}[$tmp];
+	} else {
+		# XXX Do more here...
+	}
 }
 
 sub add_node {
