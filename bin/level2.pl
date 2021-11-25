@@ -69,8 +69,8 @@ sub convert_to_tokens {
 		} else {
 			my $value = $charast->peek();
 			my $ascii = ord($value);
-			error("convert_to_tokens: invalid input: '" . $value .
-				"' ascii: '" . $ascii . "'");
+			print("convert_to_tokens: invalid input: '" . $value .
+				"' ascii: '" . $ascii . "'\n");
 			$numerrors += 1;
 		}
 	}

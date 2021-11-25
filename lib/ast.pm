@@ -75,6 +75,16 @@ sub at_eof {
 # See if STR is a match to the next few tokens.
 sub match {
 	my ($self, $str) = @_;
+	my $c = 1;
+	my $tmp = peek($self);
+        while (length($tmp) < length(str)) {
+		$tmp .= peek($self, $c);
+		$c += 1;
+	}
+	if ($tmp eq $str) {
+		return 1;
+	}
+	return 0;
 }
 
 # Get the next token, if STR consume tokens until STR is fully consumed.  IF not error.
