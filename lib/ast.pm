@@ -88,10 +88,8 @@ sub match {
 		$c += 1;
 	}
 	if ($tmp eq $str) {
-print "Bingo!\n";
 		return 1;
 	}
-print "Ouchie: $tmp ne $str\n";
 	return 0;
 }
 
