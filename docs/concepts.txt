@@ -1,3 +1,14 @@
+Determine language scope
+	Highlevel, easy to use, small, extensable,
+	provide extras(critic,prettyprint,debugger)
+	allow you to do lowlevel stuff in a high level way?
+		lc3-ASM, basic, scheme 
+Document language
+write language in our language
+write bootstrapper in perl for our language
+	determine minimal language for bootstraping our language
+continue development in our language and add features
+
 read                   multiple types char, line, file
 write                  multiple types: write to stdout, write to a file,
 			send a message?
