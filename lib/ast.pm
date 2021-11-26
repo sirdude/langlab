@@ -50,6 +50,7 @@ sub get_scope {
 sub peek {
 	my ($self, $count) = @_;
 
+	debug("ast::peek($count)\n");
 	$count += $self->{'current'};
 	if ($self->{'data'}[$count]->{'type'} eq 'EOF') {
 		return $EOF;
@@ -87,6 +88,7 @@ sub match {
 		$tmp .= peek($self, $c);
 		$c += 1;
 	}
+	debug("ast::match($str) tmp = $tmp\n");
 	if ($tmp eq $str) {
 		return 1;
 	}
@@ -99,6 +101,7 @@ sub consume {
 	if (!$str || $str eq '') {
 		my $pos = $self->{'current'};
 		$self->{'current'} = $pos + 1;
+		debug("ast::consume($str):" . $self->{'data'}[$pos] . "\n");
 		return $self->{'data'}[$pos];
 	} else {
 		my $pos = $self->{'current'};
@@ -108,6 +111,7 @@ sub consume {
 			$tmp += $self->{'data'}[$pos];
 		}
 		$self->{'current'} = $pos + 1;
+		debug("ast::consume($str):" . $tmp . "\n");
 		return $tmp;
 	}
 }
@@ -116,6 +120,7 @@ sub add_node {
 	my ($self, $data) = @_;
 	my $node = {};
 
+	debug("ast::add_node($data)\n");
 	$self->{'size'} += 1;
 	if ($data eq $EOF) {
 		$node->{'type'} = 'EOF';
@@ -384,12 +389,14 @@ sub query_stat {
 	my ($self, $stype, $name) = @_;
 
 	my $tmp = $stype . ":" . $name;
+	debug("query_stat($tmp) = " . $self->{'stats'}->{$tmp} . "\n");
 	return $self->{'stats'}->{$tmp};
 }
 
 sub clear_stats {
 	my ($self) = @_;
 
+	debug("ast::clear_stats()\n");
 	$self->{'stats'} = ();
 	return 1;
 }
