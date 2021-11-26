@@ -88,8 +88,10 @@ sub match {
 		$c += 1;
 	}
 	if ($tmp eq $str) {
+print "Bingo!\n";
 		return 1;
 	}
+print "Ouchie: $tmp ne $str\n";
 	return 0;
 }
 
@@ -97,11 +99,18 @@ sub match {
 sub consume {
 	my ($self, $str) = @_;
 	if (!$str || $str eq '') {
-		my $tmp = $self->{'current'};
-		$self->{'current'} = $tmp + 1;
-		return $self->{'data'}[$tmp];
+		my $pos = $self->{'current'};
+		$self->{'current'} = $pos + 1;
+		return $self->{'data'}[$pos];
 	} else {
-		# XXX Do more here...
+		my $pos = $self->{'current'};
+		my $tmp = $self->{'data'}[$pos];
+		while (length($tmp) < length($str)) {
+			$pos = $pos + 1;
+			$tmp += $self->{'data'}[$pos];
+		}
+		$self->{'current'} = $pos + 1;
+		return $tmp;
 	}
 }
 

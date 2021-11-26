@@ -35,9 +35,9 @@ sub get {
 		return 0;
 	}
 
-	$word = get_char();
+	$word = consume();
 	while (start()) {
-		$word = $word . get_char();
+		$word = $word . consume();
 	}
 	if ($ast->match("..")) {
 		$ast->debug("num::get $word");
@@ -46,9 +46,9 @@ sub get {
 		$ast->pop_scope();
 		return 1;
 	} elsif ($ast->match(".")) {
-		$word = $word . get_char();
+		$word = $word . consume();
 		while (starts()) {
-			$word = $word . get_char();
+			$word = $word . consume();
 		}
 		$ast->debug("num::get $word");
 		$ast->add_stat("num", "float", 1);

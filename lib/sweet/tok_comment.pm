@@ -32,7 +32,7 @@ sub get {
 
 	if ($ast->match("//") || $ast->match("#")) {
 		while (!$ast->match("\n") && !$ast->match(get_eof())) {
-			$tmp = get_char();
+			$tmp = consume();
 			$com = $com . $tmp;
 		}
 
@@ -44,14 +44,14 @@ sub get {
 		return 1;
 	} else { # get /* */
 		while (!$ast->match("*/") && !$ast->match(get_eof())) {
-			$tmp = get_char();
+			$tmp = consume();
 			$com = $com . $tmp;
 		}
 
 		if (!$ast->match(get_eof())) { # Eat the end of comment '*/'
-			$tmp = get_char();
+			$tmp = consume();
 			$com = $com . $tmp;
-			$tmp = get_char();
+			$tmp = consume();
 			$com = $com . $tmp;
 		}
 		$ast->debug("double comment = '$com'");

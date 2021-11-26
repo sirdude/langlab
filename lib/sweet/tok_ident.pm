@@ -15,7 +15,7 @@ sub start {
 		"j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u",
 		"v", "w", "x", "y", "z", "_");
 
-	$ast->debug("ident::starts");
+	$ast->debug("ident::start");
 	foreach my $i (@values) {
 		if ($ast->match($i)) {
 			return 1;
@@ -43,22 +43,23 @@ sub get {
 	my ($p, $l) = ($ast->query_stat('columnnum'), $ast->query_stat('linenum'));
 	my $word;
 
-	if (!starts()) {
+	if (!start()) {
 		return 0;
 	}
 
-	$word = get_char();
+	$ast->push_scope();
+
+	$word = consume();
 
 	$ast->debug("ident::get: start = '$word'");
-	$ast->push_scope();
 	while (starts_num($ast) || start($ast)) {
-		$word = $word . get_char();
+		$word = $word . consume();
 	}
 	$ast->debug("ident::get: '$word'");
 	if (is_keyword($word)) {
 		$ast->add_stat("keyword", $word, 1);
 	} else {
-		if (query_option('names')) {
+		if (query_option('names')) {                       # XXX Not used currently...
 			$ast->add_stat("ident", $word, 1);
 		} else {
 			$ast->add_stat("ident", "ident", 1);

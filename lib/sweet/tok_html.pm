@@ -32,10 +32,10 @@ sub get {
 	}
 
 	while (!$ast->match(get_eof()) && (!$ast->match(";"))) {
-		$tmp = get_char();
+		$tmp = consume();
 		$word = $word . $tmp;
 	}
-	$tmp = get_char();
+	$tmp = consume();
 	$word = $word . $tmp;
 
 	if ($word =~ /&#\d+;/) {
