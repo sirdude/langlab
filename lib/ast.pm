@@ -84,7 +84,7 @@ sub match {
 	my ($self, $str) = @_;
 	my $c = 1;
 	my $tmp = peek($self);
-        while (length($tmp) < length(str)) {
+        while (length($tmp) < length($str)) {
 		$tmp .= peek($self, $c);
 		$c += 1;
 	}

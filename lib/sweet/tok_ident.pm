@@ -15,12 +15,12 @@ sub start {
 		"j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u",
 		"v", "w", "x", "y", "z", "_");
 
-	$ast->debug("ident::start");
 	foreach my $i (@values) {
 		if ($ast->match($i)) {
 			return 1;
 		}
 	}
+
 	return 0;
 }
 
