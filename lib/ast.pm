@@ -1,8 +1,14 @@
 package ast;
 
+use strict;
+use warnings;
+
 sub new {
 	my $class = shift;
 	my $self = {};
+
+	$self->{'current'} = 0;
+	$self->{'size'} = 0;
 		
 	bless $self, $class;
 	return $self;
@@ -50,6 +56,9 @@ sub get_scope {
 sub peek {
 	my ($self, $count) = @_;
 
+	if (!$count || $count eq '') {
+		$count = 0;
+	}
 	debug("ast::peek($count)\n");
 	$count += $self->{'current'};
 	if ($self->{'data'}[$count]->{'type'} eq 'EOF') {
