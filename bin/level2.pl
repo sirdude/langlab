@@ -44,30 +44,31 @@ sub debug {
 }
 
 sub convert_to_tokens {
+	my ($inast, $outast) = @_;
 	my $done = 0;
 	my $numerrors = 0;
 
 	while (!$done) {
-		if ($charast->at_eof()) {
+		if ($inast->at_eof()) {
 		$done = 1;
-		} elsif (tok_comment::start($charast)) {
-			tok_comment::get($charast, $tokast);
-		} elsif (tok_whitespace::start($charast)) {
-			tok_whitespace::get($charast, $tokast);
-		} elsif (tok_ident::start($charast)) {
-			tok_ident::get($charast, $tokast);
-		} elsif (tok_string::start($charast)) {
-			tok_string::get($charast, $tokast);
-		} elsif (tok_html::start($charast)) {
-			tok_html::get($charast, $tokast);
-		} elsif (tok_hex::start($charast)) {
-			tok_hex::get($charast, $tokast);
-		} elsif (tok_num::start($charast)) {
-			tok_num::get($charast, $tokast);
-		} elsif (tok_op::start($charast)) {
-			tok_op::get($charast, $tokast);
+		} elsif (tok_comment::start($inast)) {
+			tok_comment::get($inast, $outast);
+		} elsif (tok_whitespace::start($inast)) {
+			tok_whitespace::get($inast, $outast);
+		} elsif (tok_ident::start($inast)) {
+			tok_ident::get($inast, $outast);
+		} elsif (tok_string::start($inast)) {
+			tok_string::get($inast, $outast);
+		} elsif (tok_html::start($inast)) {
+			tok_html::get($inast, $outast);
+		} elsif (tok_hex::start($inast)) {
+			tok_hex::get($inast, $outast);
+		} elsif (tok_num::start($inast)) {
+			tok_num::get($inast, $outast);
+		} elsif (tok_op::start($inast)) {
+			tok_op::get($inast, $outast);
 		} else {
-			my $value = $charast->peek();
+			my $value = $inast->peek();
 			my $ascii = ord($value);
 			print("convert_to_tokens: invalid input: '" . $value .
 				"' ascii: '" . $ascii . "'\n");
@@ -121,8 +122,8 @@ sub main {
 		$charast->clear_stats();
 	}
 
-	convert_to_tokens($charast);
-	$charast->write_stats("token_stats.txt");
+	convert_to_tokens($charast, $tokast);
+	$tokast->write_stats("token_stats.txt");
 	return $ret;
 }
 
