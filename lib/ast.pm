@@ -3,6 +3,12 @@ package ast;
 use strict;
 use warnings;
 
+our $EOL = '__YY_EOL___';
+our $EOF = '__YY_EOF___';
+# linenum used for xml and json reading/debugging messages.
+# scope is used for indentation on output.
+my ($linenum, $debug, $scope);
+
 sub new {
 	my $class = shift;
 	my $self = {};
@@ -13,12 +19,6 @@ sub new {
 	bless $self, $class;
 	return $self;
 }
-
-our $EOL = '__YY_EOL___';
-our $EOF = '__YY_EOF___';
-# linenum used for xml and json reading/debugging messages.
-# scope is used for indentation on output.
-my ($linenum, $debug, $scope);
 
 sub set_debug {
 	($debug) = @_;
