@@ -5,6 +5,8 @@ use warnings;
 
 our $EOL = '__YY_EOL___';
 our $EOF = '__YY_EOF___';
+
+# XXX Need to get rid of at least linenum???
 # linenum used for xml and json reading/debugging messages.
 # scope is used for indentation on output.
 my ($linenum, $debug, $scope);
