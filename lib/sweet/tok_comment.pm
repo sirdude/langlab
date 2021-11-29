@@ -26,7 +26,7 @@ sub get {
 	$ast->push_scope();
 	$ast->debug('comment::get Buf: ' . $ast->peek());
 
-	if (!start($ast)) {
+	if (!$ast->start()) {
 		return 0;
 	}
 

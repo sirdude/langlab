@@ -26,7 +26,7 @@ sub get {
 	$ast->push_scope();
 	$ast->debug('whitespace::get');
 
-	if (!start($ast)) {
+	if (!$ast->start()) {
 		$ast->pop_scope();
 		return 0;
 	}
@@ -60,10 +60,10 @@ sub get {
 }
 
 sub put {
-	my ($node) = @_;
+	my ($ast) = @_;
 
-	if (!valid($node)) {
-		return $node->{'value'};
+	if (!$ast->valid()) {
+		return $ast->{'value'};
 	}
 	return '';
 }

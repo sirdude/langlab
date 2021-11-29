@@ -27,7 +27,7 @@ sub get {
 	$ast->push_scope();
 	$ast->debug('html::get');
 
-	if (!start($ast)) {
+	if (!$ast->start()) {
 		return 0;
 	}
 

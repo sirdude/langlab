@@ -30,13 +30,13 @@ sub get {
 	$ast->push_scope();
 	$ast->debug('num::get:');
 
-	if (!start($ast)) {
+	if (!$ast->start()) {
 		$ast->pop_scope();
 		return 0;
 	}
 
 	$word = $ast->consume();
-	while (start()) {
+	while ($ast->start()) {
 		$word = $word . $ast->consume();
 	}
 	if ($ast->match('..')) {
@@ -47,7 +47,7 @@ sub get {
 		return 1;
 	} elsif ($ast->match('.')) {
 		$word = $word . $ast->consume();
-		while (starts()) {
+		while ($ast->starts()) {
 			$word = $word . $ast->consume();
 		}
 		$ast->debug("num::get $word");

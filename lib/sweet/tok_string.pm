@@ -30,7 +30,7 @@ sub get {
 	$ast->push_scope();
 	$ast->debug('string::get: ');
 
-	if (!start($ast)) {
+	if (!$ast->start()) {
 		$ast->pop_scope();
 		return 0;
 	}
