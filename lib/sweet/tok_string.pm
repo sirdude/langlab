@@ -47,9 +47,10 @@ sub get {
 		$lastchr = $tmp;
 	}
 	$ast->debug("string::get: string = $word");
+
 	$ast->add_stat('string', $type, 1);
-	# XXX Need to fix this...
 	$outast->add_node($outast, 'string', $word, $l, $p);
+
 	# eat the end of string token...
 	$tmp = $ast->consume();
 
