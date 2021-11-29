@@ -22,6 +22,7 @@ sub is_keyword {
 	foreach my $i (@keywords) {
 		if ($input eq $i) {
 			return 1;
+		}
 	}
 	return 0;
 }
