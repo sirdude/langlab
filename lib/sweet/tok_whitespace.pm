@@ -8,7 +8,7 @@ our @EXPORT = qw(start valid get);
 
 sub start {
 	my ($ast) = @_;
-	$ast->debug("whitespace::starts");
+	$ast->debug('whitespace::starts');
 	if ($ast->match("\n") || $ast->match("\t") || $ast->match(' ') ||
 		$ast->match("\r")) {
 		return 1;
@@ -24,7 +24,7 @@ sub get {
 	my ($p, $l) = $ast->get_loc();
 
 	$ast->push_scope();
-	$ast->debug("whitespace::get");
+	$ast->debug('whitespace::get');
 
 	if (!start($ast)) {
 		$ast->pop_scope();
@@ -34,25 +34,25 @@ sub get {
 	my $tmp = $ast->consume();
 	my $word = $tmp;
 
-	if ($tmp eq " ") {
-		$ast->add_stat("whitespace", 'SPACE', 1);
+	if ($tmp eq ' ') {
+		$ast->add_stat('whitespace', 'SPACE', 1);
 	} else {
-		$ast->add_stat("whitespace", $tmp, 1);
+		$ast->add_stat('whitespace', $tmp, 1);
 	}
 
-	while($ast->match(" ") || $ast->match("\t") || $ast->match("\n") ||
+	while($ast->match(' ') || $ast->match("\t") || $ast->match("\n") ||
 		$ast->match("\r")) {
 
 		$tmp = $ast->consume();
 		$word = $word . $tmp;
 
-		if ($tmp eq " ") {
-			$ast->add_stat("whitespace", 'SPACE', 1);
+		if ($tmp eq ' ') {
+			$ast->add_stat('whitespace', 'SPACE', 1);
 		} else {
-			$ast->add_stat("whitespace", $tmp, 1);
+			$ast->add_stat('whitespace', $tmp, 1);
 		}
 	}
-	$outast->add_node($outast, "whitespace", $word, $l, $p);
+	$outast->add_node($outast, 'whitespace', $word, $l, $p);
 	$ast->debug("whitespace::get added '$tmp\' length:" . length($tmp) . "\n");
 
 	$ast->pop_scope();
@@ -63,9 +63,9 @@ sub put {
 	my ($node) = @_;
 
 	if (!valid($node)) {
-		return $node->{"value"};
+		return $node->{'value'};
 	}
-	return "";
+	return '';
 }
 
 1;

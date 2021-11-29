@@ -8,7 +8,7 @@ our @EXPORT = qw(start valid get);
 
 sub start {
 	my ($ast) = @_;
-	$ast->debug("html::starts");
+	$ast->debug('html::starts');
 	if ($ast->match('&#')) {
 		return 1;
 	}
@@ -20,18 +20,18 @@ sub valid {
 
 sub get {
 	my ($ast, $outast) = @_;
-	my $word = "";
+	my $word = '';
 	my ($p, $l) = $ast->get_loc();
 	my $tmp;
 
 	$ast->push_scope();
-	$ast->debug("html::get");
+	$ast->debug('html::get');
 
 	if (!start($ast)) {
 		return 0;
 	}
 
-	while (!$ast->match($ast->get_eof()) && (!$ast->match(";"))) {
+	while (!$ast->match($ast->get_eof()) && (!$ast->match(';'))) {
 		$tmp = $ast->consume();
 		$word = $word . $tmp;
 	}
@@ -40,12 +40,12 @@ sub get {
 
 	if ($word =~ /&#\d+;/) {
 		$ast->debug("html::get found: $word");
-		$ast->add_stat("literal", "html", 1);
-		$outast->add_node($outast, "html", $word, $l, $p);
+		$ast->add_stat('literal', 'html', 1);
+		$outast->add_node($outast, 'html', $word, $l, $p);
 		$ast->pop_scope();
 		return 1;
 	}
-	error("html::get: " . $word . ", expected: &#DDDD;");
+	error('html::get: ' . $word . ', expected: &#DDDD;');
 	$ast->pop_scope();
 	return 0;
 }
@@ -54,9 +54,9 @@ sub put {
 	my ($node) = @_;
 
 	if ($node->{'type'} eq 'html') {
-		return $node->{"value"};
+		return $node->{'value'};
 	}
-	return "";
+	return '';
 }
 
 1;

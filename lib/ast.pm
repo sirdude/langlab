@@ -152,14 +152,6 @@ sub add_node {
 	$self->add_stat('stats', 'totalchars', 1);
 	push(@{$self->{'data'}}, $node);
 
-	# XXX Need to decide how to handle this differently...
-	if (($data eq $EOL) ) {
-		$self->add_stat('stats', 'linenum', 1);
-		$self->set_stat('stats', 'columnnum', 1);
-	} else {
-		$self->add_stat('stats', 'columnnum');
-	}
-
 	return 1;
 }
 
@@ -379,7 +371,7 @@ sub read_json_file {
 sub add_stat {
 	my ($self, $stype, $skey, $svalue) = @_;
 
-	debug("add_stat: $stype: $skey: $svalue");
+	debug("add_stat: $stype: $skey: $svalue\n");
 	my $tmp = $stype . ":" . $skey;
 	if (exists($self->{'stats'}->{$tmp})) {
 		$self->{'stats'}->{$tmp} = $self->{'stats'}->{$tmp} + $svalue;
@@ -392,7 +384,7 @@ sub add_stat {
 sub set_stat {
 	my ($self, $stype, $skey, $svalue) = @_;
 
-	debug("add_stat: $stype: $skey: $svalue");
+	debug("set_stat: $stype: $skey: $svalue");
 	my $tmp = $stype . ":" . $skey;
 	$self->{'stats'}->{$tmp} = $svalue;
 
@@ -485,6 +477,7 @@ sub parse_file {
 		close($fh);
 		$l = $l + 1;
 		add_node($self, 'EOF', $EOF, $l, 0);
+		add_stat($self, 'stats', 'linenum', $l);
 		return 1;
 	} else {
 		return 0;

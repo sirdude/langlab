@@ -8,7 +8,7 @@ our @EXPORT = qw(start valid get);
 
 sub start {
 	my ($ast) = @_;
-	$ast->debug("comment::starts");
+	$ast->debug('comment::starts');
 	if ($ast->match('/*') || $ast->match('#') || $ast->match('//')) {
 		return 1;
 	}
@@ -20,7 +20,7 @@ sub valid {
 
 sub get {
 	my ($ast, $outast) = @_;
-	my ($com, $tmp) = ("", "");
+	my ($com, $tmp) = ('', '');
 	my ($p, $l) = $ast->get_loc();
 
 	$ast->push_scope();
@@ -30,20 +30,20 @@ sub get {
 		return 0;
 	}
 
-	if ($ast->match("//") || $ast->match("#")) {
-		while (!$ast->match("\n") && !$ast->match($ast->get_eof())) {
+	if ($ast->match('//') || $ast->match('#')) {
+		while (!$ast->match('\n') && !$ast->match($ast->get_eof())) {
 			$tmp = $ast->consume();
 			$com = $com . $tmp;
 		}
 
 		$ast->debug("single comment = '$com'");
-		$ast->add_stat("comment","singleline", 1);
-		$outast->add_node($outast, "comment", $com, $l, $p);
+		$ast->add_stat('comment', 'singleline', 1);
+		$outast->add_node($outast, 'comment', $com, $l, $p);
 
 		$ast->pop_scope();
 		return 1;
 	} else { # get /* */
-		while (!$ast->match("*/") && !$ast->match($ast->get_eof())) {
+		while (!$ast->match('*/') && !$ast->match($ast->get_eof())) {
 			$tmp = $ast->consume();
 			$com = $com . $tmp;
 		}
@@ -55,8 +55,8 @@ sub get {
 			$com = $com . $tmp;
 		}
 		$ast->debug("double comment = '$com'");
-		$ast->add_stat("comment", "multiline", 1);
-		$outast->add_node($outast, "comment", $com, $l, $p);
+		$ast->add_stat('comment', 'multiline', 1);
+		$outast->add_node($outast, 'comment', $com, $l, $p);
 
 		$ast->pop_scope();
 		return 1;
@@ -70,9 +70,9 @@ sub put {
 
 	if (($node->{'type'} eq 'comment') ||
 		($node->{'type'} eq 'multicomment')) {
-		return $node->{"value"};
+		return $node->{'value'};
 	}
-	return "";
+	return '';
 }
 
 1;

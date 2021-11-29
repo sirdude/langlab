@@ -8,11 +8,11 @@ our @EXPORT = qw(start valid get);
 
 sub start {
 	my ($ast) = @_;
-	my @values = ("|", "-", "!", "#", "\$", "\%", "&", "(", ")", "*", "+",
-		",", "-", ".", "/", ":", ";", "<", "=", ">", "?", "\@", "[", "]",
-		"^", "`", "{", "|", "}", "~", "\\");
+	my @values = ('|', '-', '!', '#', '$', '%', '&', '(', ')', '*', '+',
+		',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']',
+		'^', '`', '{', '|', '}', '~', "\\");
 
-	$ast->debug("op::starts");
+	$ast->debug('op::starts');
 	foreach my $i (@values) {
 		if ($ast->match($i)) {
 			return 1;
@@ -31,13 +31,13 @@ sub get {
 	my $doneop;
 
 	# Make sure larger ops defined first
-	my @multiop = (">>=", "<<=",
-		"!=", "==", "||", ">=", "<=", "++", "--", "&&", ">>", "<<", "+=",
-		"-=", "*=", "/=", "%=", "&=", "|=", "^=", "?:", "->", "::", "<-",
-		"!!", "=~", "=~", "..");
+	my @multiop = ('>>=', '<<=',
+		'!=', '==', '||', '>=', '<=', '++', '--', '&&', '>>', '<<', '+=',
+		'-=', '*=', '/=', '%=', '&=', '|=', '^=', '?:', '->', '::', '<-',
+		'!!', '=~', '=~', '..');
 
 	$ast->push_scope();
-	$ast->debug("op::get");
+	$ast->debug('op::get');
 
 	if (!start($ast)) {
 		$ast->pop_scope();
@@ -58,8 +58,8 @@ sub get {
 		$op = $ast->consume();
 	}
 	$ast->debug("op::get: $op");
-	$outast->add_node($outast, "op", $op, $l, $p);
-	$ast->add_stat("op", $op, 1);
+	$outast->add_node($outast, 'op', $op, $l, $p);
+	$ast->add_stat('op', $op, 1);
 
 	$ast->pop_scope();
 	return 1;
@@ -69,9 +69,9 @@ sub put {
 	my ($node) = @_;
 
 	if ($node->{'type'} eq 'op') {
-		return $node->{"value"};
+		return $node->{'value'};
 	}
-	return "";
+	return '';
 }
 
 1;

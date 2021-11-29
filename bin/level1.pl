@@ -55,8 +55,6 @@ sub main {
 	}
 
 	if ($charast->parse_file_or_string(@VALUES)) {
-		$charast->add_stat('stats', 'linenum', 1);
-		$charast->add_stat('stats', 'columnnum', 1);
 		if (query_option('json')) {
 			$ret = $charast->nodes_to_json();
 		} elsif (query_option('xml')) {

@@ -20,7 +20,7 @@ sub valid {
         my @values = ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
                 'A', 'B', 'C', 'D', 'E', 'F', 'a', 'b', 'c', 'd', 'e', 'f');
 
-        $ast->debug("hex::valid");
+        $ast->debug('hex::valid');
         foreach my $i (@values) {
                 if ($ast->match($i)) {
                         return 1;
@@ -35,7 +35,7 @@ sub get {
         my $word;
 
 	$ast->push_scope();
-        $ast->debug("hex::get");
+        $ast->debug('hex::get');
 
         if (!start($ast)) {
 		$ast->pop_scope();
@@ -58,8 +58,8 @@ sub get {
         }
 
         $ast->debug("hex::get: $word");
-        $ast->add_stat("literal", "hex", 1);
-        $outast->add_node($outast, "hex", $word, $l, $p);
+        $ast->add_stat('literal', 'hex', 1);
+        $outast->add_node($outast, 'hex', $word, $l, $p);
 	$ast->pop_scope();
         return 1;
 }
@@ -70,7 +70,7 @@ sub put {
 	if ($node->{'type'} ne 'hex') {
 		return "";
 	}
-	return $node->{"value"};
+	return $node->{'value'};
 }
 
 1;

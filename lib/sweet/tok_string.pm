@@ -23,12 +23,12 @@ sub get {
 	my ($p, $l) = $ast->get_loc();
 	my $type;
 
-	my $tmp = "";
-	my $lastchr = "";
-	my $word = "";
+	my $tmp = '';
+	my $lastchr = '';
+	my $word = '';
 
 	$ast->push_scope();
-	$ast->debug("string::get: ");
+	$ast->debug('string::get: ');
 
 	if (!start($ast)) {
 		$ast->pop_scope();
@@ -47,9 +47,9 @@ sub get {
 		$lastchr = $tmp;
 	}
 	$ast->debug("string::get: string = $word");
-	$ast->add_stat("string", $type, 1);
+	$ast->add_stat('string', $type, 1);
 	# XXX Need to fix this...
-	$outast->add_node($outast, "string", $word, $l, $p);
+	$outast->add_node($outast, 'string', $word, $l, $p);
 	# eat the end of string token...
 	$tmp = $ast->consume();
 
@@ -62,9 +62,9 @@ sub put {
 	my ($node) = @_;
 
 	if ($node->{'type'} eq 'string') {
-		return $node->{"value"};
+		return $node->{'value'};
 	}
-	return "";
+	return '';
 }
 
 1;
