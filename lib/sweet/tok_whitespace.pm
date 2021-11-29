@@ -20,8 +20,8 @@ sub valid {
 }
 
 sub get {
-	my ($ast) = @_;
-	my ($p, $l) = ($ast->query_stat('columnnum'), $ast->query_stat('linenum'));
+	my ($ast, $outast) = @_;
+	my ($p, $l) = $ast->get_loc();
 
 	$ast->push_scope();
 	$ast->debug("whitespace::get");
@@ -52,7 +52,7 @@ sub get {
 			$ast->add_stat("whitespace", $tmp, 1);
 		}
 	}
-	add_token("whitespace", $word, $p, $l);
+	$outast->add_node($outast, "whitespace", $word, $l, $p);
 	$ast->debug("whitespace::get added '$tmp\' length:" . length($tmp) . "\n");
 
 	$ast->pop_scope();

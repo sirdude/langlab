@@ -39,8 +39,8 @@ sub valid {
 }
 
 sub get {
-	my ($ast) = @_;
-	my ($p, $l) = ($ast->query_stat('columnnum'), $ast->query_stat('linenum'));
+	my ($ast, $outast) = @_;
+	my ($p, $l) = $ast->get_loc();
 	my $word;
 
 	if (!start()) {
@@ -65,7 +65,7 @@ sub get {
 			$ast->add_stat("ident", "ident", 1);
 		}
 	}
-	add_token("ident", $word, $p, $l);
+	$outast->add_node($outast, "ident", $word, $l, $p);
 	$ast->pop_scope();
 	return 1;
 }

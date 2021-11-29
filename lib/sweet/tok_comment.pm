@@ -19,9 +19,9 @@ sub valid {
 }
 
 sub get {
-	my ($ast) = @_;
+	my ($ast, $outast) = @_;
 	my ($com, $tmp) = ("", "");
-	my ($p, $l) = ($ast->query_stat('columnnum'), $ast->query_stat('linenum'));
+	my ($p, $l) = $ast->get_loc();
 
 	$ast->push_scope();
 	$ast->debug('comment::get Buf: ' . $ast->peek());
@@ -38,7 +38,7 @@ sub get {
 
 		$ast->debug("single comment = '$com'");
 		$ast->add_stat("comment","singleline", 1);
-		add_token("comment", $com, $p, $l);
+		$outast->add_node($outast, "comment", $com, $l, $p);
 
 		$ast->pop_scope();
 		return 1;
@@ -56,7 +56,7 @@ sub get {
 		}
 		$ast->debug("double comment = '$com'");
 		$ast->add_stat("comment", "multiline", 1);
-		add_token("comment", $com, $p, $l);
+		$outast->add_node($outast, "comment", $com, $l, $p);
 
 		$ast->pop_scope();
 		return 1;

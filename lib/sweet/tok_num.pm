@@ -23,8 +23,8 @@ sub valid {
 }
 
 sub get {
-	my ($ast) = @_;
-	my ($p, $l) = ($ast->query_stat('columnnum'), $ast->query_stat('linenum'));
+	my ($ast, $outast) = @_;
+	my ($p, $l) = $ast->get_loc();
 	my $word;
 
 	$ast->push_scope();
@@ -42,7 +42,7 @@ sub get {
 	if ($ast->match("..")) {
 		$ast->debug("num::get $word");
 		$ast->add_stat("num", "int", 1);
-		add_token("int", $word, $p, $l);
+		$outast->add_node($outast, "int", $word, $l, $p);
 		$ast->pop_scope();
 		return 1;
 	} elsif ($ast->match(".")) {
@@ -52,13 +52,13 @@ sub get {
 		}
 		$ast->debug("num::get $word");
 		$ast->add_stat("num", "float", 1);
-		add_token("float", $word, $p, $l);
+		$outast->add_node($outast, "float", $word, $l, $p);
 		$ast->pop_scope();
 		return 1;
 	}
 	$ast->debug("num::get $word");
 	$ast->add_stat("num", "int", 1);
-	add_token("int", $word, $p, $l);
+	$outast->add_node($outast, "int", $word, $l, $p);
 	$ast->pop_scope();
 	return 1;
 }

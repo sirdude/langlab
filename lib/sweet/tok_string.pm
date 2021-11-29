@@ -19,8 +19,8 @@ sub valid {
 }
 
 sub get {
-	my ($ast) = @_;
-	my ($p, $l) = ($ast->query_stat('columnnum'), $ast->query_stat('linenum'));
+	my ($ast, $outast) = @_;
+	my ($p, $l) = $ast->get_loc();
 	my $type;
 
 	my $tmp = "";
@@ -49,7 +49,7 @@ sub get {
 	$ast->debug("string::get: string = $word");
 	$ast->add_stat("string", $type, 1);
 	# XXX Need to fix this...
-	add_token("string", $word, $p, $l);
+	$outast->add_node($outast, "string", $word, $l, $p);
 	# eat the end of string token...
 	$tmp = $ast->consume();
 

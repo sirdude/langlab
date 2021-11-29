@@ -19,9 +19,9 @@ sub valid {
 }
 
 sub get {
-	my ($ast) = @_;
+	my ($ast, $outast) = @_;
 	my $word = "";
-	my ($p, $l) = ($ast->query_stat('columnnum'), $ast->query_stat('linenum'));
+	my ($p, $l) = $ast->get_loc();
 	my $tmp;
 
 	$ast->push_scope();
@@ -41,7 +41,7 @@ sub get {
 	if ($word =~ /&#\d+;/) {
 		$ast->debug("html::get found: $word");
 		$ast->add_stat("literal", "html", 1);
-		add_token("html", $word, $p, $l);
+		$outast->add_node($outast, "html", $word, $l, $p);
 		$ast->pop_scope();
 		return 1;
 	}

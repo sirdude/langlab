@@ -25,8 +25,8 @@ sub valid {
 }
 
 sub get {
-	my ($ast) = @_;
-	my ($p, $l) = ($ast->query_stat('columnnum'), $ast->query_stat('linenum'));
+	my ($ast, $outast) = @_;
+	my ($p, $l) = $ast->get_loc();
 	my $op = "";
 	my $doneop;
 
@@ -58,7 +58,7 @@ sub get {
 		$op = $ast->consume();
 	}
 	$ast->debug("op::get: $op");
-	add_token("op", $op, $p, $l);
+	$outast->add_node($outast, "op", $op, $l, $p);
 	$ast->add_stat("op", $op, 1);
 
 	$ast->pop_scope();

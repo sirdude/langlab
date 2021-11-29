@@ -61,6 +61,12 @@ sub peek {
 	}
 }
 
+sub get_loc {
+	my ($self) = @_;
+	return ($self->{'data'}[$self->{'current'}]->{'linenum'},
+		$self->{'data'}[$self->{'current'}]->{'columnnum'});
+}
+
 sub get_eof {
 	return $EOF;
 }
@@ -117,28 +123,27 @@ sub consume {
 }
 
 sub add_node {
-	my ($self, $data) = @_;
+	my ($self, $type, $data, $line, $column) = @_;
 	my $node = {};
 
-	debug("ast::add_node($data)\n");
+	debug("ast::add_node($type, $data, $line, $column)\n");
 	$self->{'size'} += 1;
+	$node->{'type'} = $type;
+	$node->{'data'} = $data;
+	$node->{'linenum'} = $line;
+	$node->{'columnnum'} = $column;
+
 	if ($data eq $EOF) {
-		$node->{'type'} = 'EOF';
-		$node->{'data'} = 'NIL';
 		$self->add_stat('char', 'EOF', 1);
 	} elsif ($data eq $EOL) {
-		$node->{'type'} = 'EOL';
-		$node->{'data'} = 'NIL';
 		$self->add_stat('char', 'EOL', 1);
 	} else {
-		$node->{'type'} = 'char';
-		$node->{'data'} = $data;
-		$self->add_stat('char', $data, 1);
+		$self->add_stat($type, $data, 1);
 	}
-	$node->{'linenum'} = $self->query_stat('stats', 'linenum');
-	$node->{'columnnum'} = $self->query_stat('stats','columnnum');
 	$self->add_stat('stats', 'totalchars', 1);
 	push(@{$self->{'data'}}, $node);
+
+	# XXX Need to decide how to handle this differently...
 	if (($data eq $EOL) ) {
 		$self->add_stat('stats', 'linenum', 1);
 		$self->set_stat('stats', 'columnnum', 1);
@@ -436,13 +441,15 @@ sub write_stats {
 }
 
 sub parse_string {
-	my ($self, $string) = @_;
+	my ($self, $string, $linenum) = @_;
+	my $c = 0;
 
 	foreach my $i (split //, $string) {
+		$c = $c + 1;
 		if ($i eq "\n") {
-			add_node($self, $EOL);
+			add_node($self, 'EOL', $EOL, $linenum, $c);
 		} else {
-			add_node($self, $i);
+			add_node($self, 'char', $i, $linenum, $c);
 		}
 	}
 	return 1;
@@ -451,6 +458,7 @@ sub parse_string {
 sub parse_file {
 	my ($self, $fname) = @_;
 	my $fh;
+	my $l = 0;
 
 	if (is_xml_file($self, $fname)) {
 		return read_xml_file($self, $fname);
@@ -462,10 +470,12 @@ sub parse_file {
 	if (open($fh, "<", $fname)) {
 		while (<$fh>) {
 			my $line = $_;
-			parse_string($self, $line);
+			$l = $l + 1;
+			parse_string($self, $line, $l);
 		}
 		close($fh);
-		add_node($self, $EOF);
+		$l = $l + 1;
+		add_node($self, 'EOF', $EOF, $l, 0);
 		return 1;
 	} else {
 		return 0;

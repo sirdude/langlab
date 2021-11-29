@@ -30,8 +30,8 @@ sub valid {
 }
 
 sub get {
-	my ($ast) = @_;
-	my ($p, $l) = ($ast->query_stat('columnnum'), $ast->query_stat('linenum'));
+	my ($ast, $outast) = @_;
+	my ($p, $l) = $ast->get_loc();
         my $word;
 
 	$ast->push_scope();
@@ -59,7 +59,7 @@ sub get {
 
         $ast->debug("hex::get: $word");
         $ast->add_stat("literal", "hex", 1);
-        add_token("hex", $word, $p, $l);
+        $outast->add_node($outast, "hex", $word, $l, $p);
 	$ast->pop_scope();
         return 1;
 }
