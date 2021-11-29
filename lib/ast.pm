@@ -441,15 +441,15 @@ sub write_stats {
 }
 
 sub parse_string {
-	my ($self, $string, $linenum) = @_;
+	my ($self, $string, $lnum) = @_;
 	my $c = 0;
 
 	foreach my $i (split //, $string) {
 		$c = $c + 1;
 		if ($i eq "\n") {
-			add_node($self, 'EOL', $EOL, $linenum, $c);
+			add_node($self, 'EOL', $EOL, $lnum, $c);
 		} else {
-			add_node($self, 'char', $i, $linenum, $c);
+			add_node($self, 'char', $i, $lnum, $c);
 		}
 	}
 	return 1;
