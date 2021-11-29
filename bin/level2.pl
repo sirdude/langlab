@@ -117,7 +117,6 @@ sub main {
 			$ret = $charast->print_nodes();
 		}
 		$charast->write_stats("char_stats.txt");
-		$charast->clear_stats();
 	}
 
 	convert_to_tokens($charast, $tokast);
