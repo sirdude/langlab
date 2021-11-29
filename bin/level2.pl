@@ -56,7 +56,7 @@ sub convert_to_tokens {
 		} elsif (tok_whitespace::start($inast)) {
 			tok_whitespace::get($inast, $outast);
 		} elsif (tok_ident::start($inast)) {
-			tok_ident::get($inast, $outast);
+			tok_ident::get($inast, $outast, query_option('names'));
 		} elsif (tok_string::start($inast)) {
 			tok_string::get($inast, $outast);
 		} elsif (tok_html::start($inast)) {
@@ -86,10 +86,11 @@ sub main {
 	my @VALUES = @_;
 	my $ret = 0;
 
-	add_option("help", "Print usage statement.");
-	add_option("debug", "Enable debugging mode.");
-	add_option("xml", "Use xml format for output.");
-	add_option("json", "Use json format for output.");
+	add_option('help', 'Print usage statement.');
+	add_option('debug', 'Enable debugging mode.');
+	add_option('xml', 'Use xml format for output.');
+	add_option('json', 'Use json format for output.');
+	add_option('names', 'Used in stats to collect names of identifiers not just type.');
 
 	if (!@VALUES) {
 		return usage();
@@ -116,11 +117,11 @@ sub main {
 		} else {
 			$ret = $charast->print_nodes();
 		}
-		$charast->write_stats("char_stats.txt");
+		$charast->write_stats('char_stats.txt');
 	}
 
 	convert_to_tokens($charast, $tokast);
-	$tokast->write_stats("token_stats.txt");
+	$tokast->write_stats('token_stats.txt');
 	return $ret;
 }
 

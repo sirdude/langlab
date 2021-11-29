@@ -39,7 +39,7 @@ sub valid {
 }
 
 sub get {
-	my ($ast, $outast) = @_;
+	my ($ast, $outast, $flag) = @_;
 	my ($p, $l) = $ast->get_loc();
 	my $word;
 
@@ -56,10 +56,11 @@ sub get {
 		$word = $word . $ast->consume();
 	}
 	$ast->debug("ident::get: '$word'");
-	if ($ast->is_keyword($word)) {				# XXX Need to do this
+# XXX Need to implement is_keyword
+	if ($ast->is_keyword($word)) {
 		$ast->add_stat('keyword', $word, 1);
 	} else {
-		if (query_option('names')) {                    # XXX Not used currently...
+		if ($flag) {
 			$ast->add_stat('ident', $word, 1);
 		} else {
 			$ast->add_stat('ident', 'ident', 1);
