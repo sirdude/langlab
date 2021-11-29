@@ -6,6 +6,26 @@ use base 'Exporter';
 
 our @EXPORT = qw(start valid get);
 
+my @keywords = ('int', 'float', 'string', 'void', 'mixed', 'mapping', 'object',
+        'static', 'atomic', 'private', 'unsigned', 'nomask',
+        'include', 'inherit', 'for', 'while', 'if', 'else',
+        'switch', 'return', 'exit', 'break', 'case', 'default', 'continue', 'do',
+        'try', 'boolean', 'short', 'long', 'double', 'new', 'public', 'elseif',
+        'read', 'write', 'goto', 'nil', 'null', 'sizeof', 'foreach', 'keys',
+        'const', 'eval', 'catch', 'struct', 'class', 'array', 'declare','sub',
+        'define', 'var', 'throw', 'hash');
+
+
+sub is_keyword {
+	my ($input) = @_;
+
+	foreach my $i (@keywords) {
+		if ($input eq $i) {
+			return 1;
+	}
+	return 0;
+}
+
 sub start {
 	my ($ast) = @_;
 	# A-Z, a-z, _
@@ -56,8 +76,7 @@ sub get {
 		$word = $word . $ast->consume();
 	}
 	$ast->debug("ident::get: '$word'");
-# XXX Need to implement is_keyword
-	if ($ast->is_keyword($word)) {
+	if (is_keyword($word)) {
 		$ast->add_stat('keyword', $word, 1);
 	} else {
 		if ($flag) {
