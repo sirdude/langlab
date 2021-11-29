@@ -31,7 +31,7 @@ sub get {
 		return 0;
 	}
 
-	my $tmp = consume();
+	my $tmp = $ast->consume();
 	my $word = $tmp;
 
 	if ($tmp eq " ") {
@@ -43,7 +43,7 @@ sub get {
 	while($ast->match(" ") || $ast->match("\t") || $ast->match("\n") ||
 		$ast->match("\r")) {
 
-		$tmp = consume();
+		$tmp = $ast->consume();
 		$word = $word . $tmp;
 
 		if ($tmp eq " ") {

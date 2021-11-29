@@ -48,14 +48,14 @@ sub get {
 		if ($ast->match($i)) {
 			my $x = 0;
 			while ($x < length($i)) {
-				$op = $op . consume();
+				$op = $op . $ast->consume();
 				$x = $x + 1;
 				$doneop = 1;
 			}
 		}
 	}
 	if (!$doneop) {
-		$op = consume();
+		$op = $ast->consume();
 	}
 	$ast->debug("op::get: $op");
 	add_token("op", $op, $p, $l);

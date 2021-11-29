@@ -31,11 +31,11 @@ sub get {
 		return 0;
 	}
 
-	while (!$ast->match(get_eof()) && (!$ast->match(";"))) {
-		$tmp = consume();
+	while (!$ast->match($ast->get_eof()) && (!$ast->match(";"))) {
+		$tmp = $ast->consume();
 		$word = $word . $tmp;
 	}
-	$tmp = consume();
+	$tmp = $ast->consume();
 	$word = $word . $tmp;
 
 	if ($word =~ /&#\d+;/) {

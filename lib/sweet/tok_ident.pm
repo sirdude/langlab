@@ -49,11 +49,11 @@ sub get {
 
 	$ast->push_scope();
 
-	$word = consume();
+	$word = $ast->consume();
 
 	$ast->debug("ident::get: start = '$word'");
 	while (starts_num($ast) || start($ast)) {
-		$word = $word . consume();
+		$word = $word . $ast->consume();
 	}
 	$ast->debug("ident::get: '$word'");
 	if (is_keyword($word)) {

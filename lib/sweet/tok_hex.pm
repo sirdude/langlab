@@ -42,16 +42,16 @@ sub get {
                 return 0;
         }
 
-        $word = consume() . consume(); # grab the 0x
+        $word = $ast->consume() . $ast->consume(); # grab the 0x
         if (valid()) {
-                $word = $word . consume();
+                $word = $word . $ast->consume();
         } else {
 		$ast->pop_scope();
                 return 0;
         }
 
         if (valid()) {
-                $word = $word . consume();
+                $word = $word . $ast->consume();
         } else {
 		$ast->pop_scope();
                 return 0;

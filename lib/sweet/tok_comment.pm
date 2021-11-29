@@ -31,8 +31,8 @@ sub get {
 	}
 
 	if ($ast->match("//") || $ast->match("#")) {
-		while (!$ast->match("\n") && !$ast->match(get_eof())) {
-			$tmp = consume();
+		while (!$ast->match("\n") && !$ast->match($ast->get_eof())) {
+			$tmp = $ast->consume();
 			$com = $com . $tmp;
 		}
 
@@ -43,15 +43,15 @@ sub get {
 		$ast->pop_scope();
 		return 1;
 	} else { # get /* */
-		while (!$ast->match("*/") && !$ast->match(get_eof())) {
-			$tmp = consume();
+		while (!$ast->match("*/") && !$ast->match($ast->get_eof())) {
+			$tmp = $ast->consume();
 			$com = $com . $tmp;
 		}
 
-		if (!$ast->match(get_eof())) { # Eat the end of comment '*/'
-			$tmp = consume();
+		if (!$ast->match($ast->get_eof())) { # Eat the end of comment '*/'
+			$tmp = $ast->consume();
 			$com = $com . $tmp;
-			$tmp = consume();
+			$tmp = $ast->consume();
 			$com = $com . $tmp;
 		}
 		$ast->debug("double comment = '$com'");

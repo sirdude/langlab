@@ -35,13 +35,13 @@ sub get {
 		return 0;
 	}
 
-	$type = consume();
+	$type = $ast->consume();
 
-	while (!$ast->match(get_eof()) && !$ast->match($type)) {
-		$tmp = consume();
+	while (!$ast->match($ast->get_eof()) && !$ast->match($type)) {
+		$tmp = $ast->consume();
 		if ($tmp eq "\\") { # We have an escape read the next char as
 					# well and treat it as one symbol...
-			$tmp = $tmp . consume();
+			$tmp = $tmp . $ast->consume();
 		}
 		$word = $word . $tmp;
 		$lastchr = $tmp;
@@ -51,7 +51,7 @@ sub get {
 	# XXX Need to fix this...
 	add_token("string", $word, $p, $l);
 	# eat the end of string token...
-	$tmp = consume();
+	$tmp = $ast->consume();
 
 	$ast->pop_scope();
 
