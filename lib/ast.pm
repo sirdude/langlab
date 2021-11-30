@@ -456,9 +456,9 @@ sub parse_string {
 	foreach my $i (split //, $string) {
 		$c = $c + 1;
 		if ($i eq "\n") {
-			add_node($self, 'EOL', $EOL, $lnum, $c);
+			$self->add_node('EOL', $EOL, $lnum, $c);
 		} else {
-			add_node($self, 'char', $i, $lnum, $c);
+			$self->add_node('char', $i, $lnum, $c);
 		}
 	}
 	return 1;
@@ -484,8 +484,8 @@ sub parse_file {
 		}
 		close($fh);
 		$l = $l + 1;
-		add_node($self, 'EOF', $EOF, $l, 0);
-		add_stat($self, 'stats', 'linenum', $l);
+		$self->add_node('EOF', $EOF, $l, 0);
+		$self->add_stat('stats', 'linenum', $l);
 		return 1;
 	} else {
 		return 0;
