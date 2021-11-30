@@ -63,7 +63,8 @@ sub print_stats {
 	return $pc;
 }
 
-print "Read in : " . read_stats("stats.txt") . " stats.";
+my ($infile) = @ARGV;
+print "Read in : " . read_stats($infile) . " stats.";
 print "\tTotal composite stats:\n";
 
 print_stats();
