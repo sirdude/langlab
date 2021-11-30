@@ -8,7 +8,7 @@ our @EXPORT = qw(start valid get);
 
 sub start {
 	my ($ast) = @_;
-	$ast->debug('html::starts');
+	$ast->debug('html::start');
 	if ($ast->match('&#')) {
 		return 1;
 	}
@@ -27,7 +27,7 @@ sub get {
 	$ast->push_scope();
 	$ast->debug('html::get');
 
-	if (!$ast->start()) {
+	if (!start($ast)) {
 		return 0;
 	}
 
@@ -35,7 +35,7 @@ sub get {
 		$tmp = $ast->consume();
 		$word = $word . $tmp;
 	}
-	$tmp = $ast->consume();
+	$tmp = $ast->consume(';');
 	$word = $word . $tmp;
 
 	if ($word =~ /&#\d+;/) {

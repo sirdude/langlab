@@ -8,7 +8,7 @@ our @EXPORT = qw(start valid get);
 
 sub start {
 	my ($ast) = @_;
-	$ast->debug("string::starts");
+	$ast->debug('string::start');
 	if ($ast->match('"') || $ast->match("'")) {
 		return 1;
 	}
@@ -30,7 +30,7 @@ sub get {
 	$ast->push_scope();
 	$ast->debug('string::get: ');
 
-	if (!$ast->start()) {
+	if (!start($ast)) {
 		$ast->pop_scope();
 		return 0;
 	}

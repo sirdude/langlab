@@ -45,7 +45,7 @@ sub start {
 	return 0;
 }
 
-sub starts_num {
+sub start_num {
 	my ($ast) = @_;
 	my @values = ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
 	foreach my $i (@values) {
@@ -64,7 +64,7 @@ sub get {
 	my ($p, $l) = $ast->get_loc();
 	my $word;
 
-	if (!$ast->start()) {
+	if (start($ast)) {
 		return 0;
 	}
 
@@ -73,7 +73,7 @@ sub get {
 	$word = $ast->consume();
 
 	$ast->debug("ident::get: start = '$word'");
-	while ($ast->starts_num($ast) || $ast->start($ast)) {
+	while (start_num($ast) || start($ast)) {
 		$word = $word . $ast->consume();
 	}
 	$ast->debug("ident::get: '$word'");

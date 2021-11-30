@@ -8,7 +8,7 @@ our @EXPORT = qw(start valid get);
 
 sub start {
 	my ($ast) = @_;
-	$ast->debug('comment::starts');
+	$ast->debug('comment::start');
 	if ($ast->match('/*') || $ast->match('#') || $ast->match('//')) {
 		return 1;
 	}
@@ -26,7 +26,7 @@ sub get {
 	$ast->push_scope();
 	$ast->debug('comment::get Buf: ' . $ast->peek());
 
-	if (!$ast->start()) {
+	if (!start($ast)) {
 		return 0;
 	}
 

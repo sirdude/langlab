@@ -37,20 +37,14 @@ sub get {
 	$ast->push_scope();
         $ast->debug('hex::get');
 
-        if (!$ast->start()) {
+        if (!start($ast)) {
 		$ast->pop_scope();
                 return 0;
         }
 
-        $word = $ast->consume() . $ast->consume(); # grab the 0x
-        if ($ast->valid()) {
-                $word = $word . $ast->consume();
-        } else {
-		$ast->pop_scope();
-                return 0;
-        }
+        $word = $ast->consume('0x');
 
-        if ($ast->valid()) {
+        if (valid($ast)) {
                 $word = $word . $ast->consume();
         } else {
 		$ast->pop_scope();

@@ -8,7 +8,7 @@ our @EXPORT = qw(start valid get);
 
 sub start {
 	my ($ast) = @_;
-	$ast->debug('whitespace::starts');
+	$ast->debug('whitespace::start');
 	if ($ast->match("\n") || $ast->match("\t") || $ast->match(' ') ||
 		$ast->match("\r")) {
 		return 1;
@@ -26,7 +26,7 @@ sub get {
 	$ast->push_scope();
 	$ast->debug('whitespace::get');
 
-	if (!$ast->start()) {
+	if (!start($ast)) {
 		$ast->pop_scope();
 		return 0;
 	}

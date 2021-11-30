@@ -12,7 +12,7 @@ sub start {
 		',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']',
 		'^', '`', '{', '|', '}', '~', "\\");
 
-	$ast->debug('op::starts');
+	$ast->debug('op::start');
 	foreach my $i (@values) {
 		if ($ast->match($i)) {
 			return 1;
@@ -39,7 +39,7 @@ sub get {
 	$ast->push_scope();
 	$ast->debug('op::get');
 
-	if (!$ast->start()) {
+	if (!start($ast)) {
 		$ast->pop_scope();
 		return 0;
 	}
