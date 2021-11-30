@@ -9,6 +9,7 @@ our @EXPORT = qw(start valid get);
 sub start {
 	my ($ast) = @_;
 
+	$ast->debug('tok_hex::start');
         if ($ast->match('0x')) {
                 return 1;
         }

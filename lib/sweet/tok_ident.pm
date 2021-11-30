@@ -36,6 +36,7 @@ sub start {
 		'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
 		'v', 'w', 'x', 'y', 'z', '_');
 
+	$ast->debug('tok_ident::start');
 	foreach my $i (@values) {
 		if ($ast->match($i)) {
 			return 1;
@@ -48,6 +49,8 @@ sub start {
 sub start_num {
 	my ($ast) = @_;
 	my @values = ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+
+	$ast->debug('tok_ident::start_num');
 	foreach my $i (@values) {
 		if ($ast->match($i)) {
 			return 1;
@@ -64,11 +67,13 @@ sub get {
 	my ($p, $l) = $ast->get_loc();
 	my $word;
 
-	if (start($ast)) {
+	$ast->push_scope();
+	$ast->debug('tok_ident::get');
+
+	if (!start($ast)) {
+		$ast->pop_scope();
 		return 0;
 	}
-
-	$ast->push_scope();
 
 	$word = $ast->consume();
 

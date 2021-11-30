@@ -15,6 +15,7 @@ sub new {
 
 	$self->{'current'} = 0;
 	$self->{'size'} = 0;
+	$self->{'scope'} = 0;
 		
 	bless $self, $class;
 	return $self;
@@ -23,7 +24,7 @@ sub new {
 sub set_debug {
 	my ($self, $debug) = @_;
 
-        $self->{'debug'} - $debug;
+        $self->{'debug'} = $debug;
 	return $debug;
 }
 

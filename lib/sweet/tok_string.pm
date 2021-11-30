@@ -28,7 +28,7 @@ sub get {
 	my $word = '';
 
 	$ast->push_scope();
-	$ast->debug('string::get: ');
+	$ast->debug('string::get:');
 
 	if (!start($ast)) {
 		$ast->pop_scope();
