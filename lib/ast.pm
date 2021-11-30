@@ -95,7 +95,7 @@ sub at_eof {
 		return 1;
 	}
 
-	if ($self->{'data'}[$self->{'current'}]->{'type'} eq 'EOF') {
+	if ($self->{'data'}[$self->{'current'}]->{'data'} eq $EOF) {
 		return 1;
 	}
 
