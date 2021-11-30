@@ -24,7 +24,7 @@ sub new {
 sub set_debug {
 	my ($self, $debug) = @_;
 
-        $self->{'debug'} = $debug;
+	$self->{'debug'} = $debug;
 	return $debug;
 }
 
@@ -95,7 +95,7 @@ sub at_eof {
 		return 1;
 	}
 
-	if ($self->{'data'}[$self->{'current'}] eq $EOF) {
+	if ($self->{'data'}[$self->{'current'}]->{'type'} eq 'EOF') {
 		return 1;
 	}
 
@@ -106,10 +106,12 @@ sub at_eof {
 sub match {
 	my ($self, $str) = @_;
 	my $c = 1;
-	my $tmp = peek($self);
-        while (length($tmp) < length($str)) {
-		$tmp .= peek($self, $c);
-		$c += 1;
+	my $tmp = $self->peek();
+	if ($str) {
+		while (length($tmp) < length($str)) {
+			$tmp .= $self->peek($c);
+			$c += 1;
+		}
 	}
 	$self->debug("ast::match($str) tmp = $tmp");
 	if ($tmp eq $str) {
@@ -118,16 +120,18 @@ sub match {
 	return 0;
 }
 
-# Get the next token, if STR consume tokens until STR is fully consumed.  IF not error.
+# Get the next token, if STR consume tokens until STR is fully consumed.  If not error.
 sub consume {
 	my ($self, $str) = @_;
 	if (!$str || $str eq '') {
 		my $pos = $self->{'current'};
 		$self->{'current'} = $pos + 1;
+		$str = '';
 		$self->debug("ast::consume($str):" . $self->{'data'}[$pos]);
 		return $self->{'data'}[$pos];
 	} else {
 		my $pos = $self->{'current'};
+		$self->debug("ast::consume($str):" . $self->{'data'}[$pos]);
 		my $tmp = $self->{'data'}[$pos];
 		while (length($tmp) < length($str)) {
 			$pos = $pos + 1;
