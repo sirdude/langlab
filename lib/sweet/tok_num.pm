@@ -25,7 +25,7 @@ sub valid {
 sub get {
 	my ($ast, $outast) = @_;
 	my ($p, $l) = $ast->get_loc();
-	my $word;
+	my ($word, $tmp);
 
 	$ast->push_scope();
 	$ast->debug('num::get:');
@@ -35,9 +35,11 @@ sub get {
 		return 0;
 	}
 
-	$word = $ast->consume();
+	$tmp = $ast->consume();
+	$word .= $tmp->{'data'};
 	while (start($ast)) {
-		$word = $word . $ast->consume();
+		$tmp = $ast->consume();
+		$word .= $tmp->{'data'};
 	}
 	if ($ast->match('..')) {
 		$ast->debug("num::get $word");
@@ -46,9 +48,11 @@ sub get {
 		$ast->pop_scope();
 		return 1;
 	} elsif ($ast->match('.')) {
-		$word = $word . $ast->consume();
+		$tmp = $ast->consume();
+		$word .= $tmp->{'data'};
 		while (start($ast)) {
-			$word = $word . $ast->consume();
+			$tmp = $ast->consume();
+			$word .= $tmp->{'data'};
 		}
 		$ast->debug("num::get $word");
 		$ast->add_stat('num', 'float', 1);

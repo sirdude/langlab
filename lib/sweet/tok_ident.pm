@@ -66,7 +66,7 @@ sub valid {
 sub get {
 	my ($ast, $outast, $flag) = @_;
 	my ($p, $l) = $ast->get_loc();
-	my $word;
+	my ($word, $tmp);
 
 	$ast->push_scope();
 	$ast->debug('tok_ident::get');
@@ -76,11 +76,13 @@ sub get {
 		return 0;
 	}
 
-	$word = $ast->consume();
+	$tmp = $ast->consume();
+	$word = $tmp->{'data'};
 
 	$ast->debug("ident::get: start = '$word'");
 	while (start_num($ast) || start($ast)) {
-		$word = $word . $ast->consume();
+		$tmp = $ast->consume();
+		$word .= $tmp->{'data'};
 	}
 	$ast->debug("ident::get: '$word'");
 	if (is_keyword($word)) {

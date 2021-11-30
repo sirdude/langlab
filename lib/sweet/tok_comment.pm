@@ -33,8 +33,9 @@ sub get {
 	if ($ast->match('//') || $ast->match('#')) {
 		while (!$ast->match('\n') && !$ast->match($ast->get_eof())) {
 			$tmp = $ast->consume();
-			$com = $com . $tmp;
+			$com = $com . $tmp->{'data'};
 		}
+print "Woo\n";
 
 		$ast->debug("single comment = '$com'");
 		$ast->add_stat('comment', 'singleline', 1);
@@ -45,14 +46,14 @@ sub get {
 	} else { # get /* */
 		while (!$ast->match('*/') && !$ast->match($ast->get_eof())) {
 			$tmp = $ast->consume();
-			$com = $com . $tmp;
+			$com = $com . $tmp->{'data'};
 		}
 
 		if (!$ast->match($ast->get_eof())) { # Eat the end of comment '*/'
 			$tmp = $ast->consume();
-			$com = $com . $tmp;
+			$com = $com . $tmp->{'data'};
 			$tmp = $ast->consume();
-			$com = $com . $tmp;
+			$com = $com . $tmp->{'data'};
 		}
 		$ast->debug("double comment = '$com'");
 		$ast->add_stat('comment', 'multiline', 1);

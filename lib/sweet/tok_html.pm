@@ -33,10 +33,10 @@ sub get {
 
 	while (!$ast->match($ast->get_eof()) && (!$ast->match(';'))) {
 		$tmp = $ast->consume();
-		$word = $word . $tmp;
+		$word .= $tmp->{'data'};
 	}
-	$tmp = $ast->consume(';');
-	$word = $word . $tmp;
+	$tmp = $ast->consume();
+	$word .= $tmp->{'data'};
 
 	if ($word =~ /&#\d+;/) {
 		$ast->debug("html::get found: $word");

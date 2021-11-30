@@ -33,7 +33,7 @@ sub valid {
 sub get {
 	my ($ast, $outast) = @_;
 	my ($p, $l) = $ast->get_loc();
-        my $word;
+        my ($word, $tmp);
 
 	$ast->push_scope();
         $ast->debug('hex::get');
@@ -43,10 +43,14 @@ sub get {
                 return 0;
         }
 
-        $word = $ast->consume('0x');
+        $tmp = $ast->consume();
+	$word = $tmp->{'data'};
+        $tmp = $ast->consume();
+	$word .= $tmp->{'data'};
 
         if (valid($ast)) {
-                $word = $word . $ast->consume();
+		$tmp = $ast->consume();
+                $word .= $tmp->{'data'};
         } else {
 		$ast->pop_scope();
                 return 0;

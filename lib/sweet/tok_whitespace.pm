@@ -32,7 +32,7 @@ sub get {
 	}
 
 	my $tmp = $ast->consume();
-	my $word = $tmp;
+	my $word = $tmp->{'data'};
 
 	if ($tmp eq ' ') {
 		$ast->add_stat('whitespace', 'SPACE', 1);
@@ -44,7 +44,7 @@ sub get {
 		$ast->match("\r")) {
 
 		$tmp = $ast->consume();
-		$word = $word . $tmp;
+		$word = $word . $tmp->{'data'};
 
 		if ($tmp eq ' ') {
 			$ast->add_stat('whitespace', 'SPACE', 1);

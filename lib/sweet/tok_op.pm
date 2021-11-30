@@ -27,7 +27,7 @@ sub valid {
 sub get {
 	my ($ast, $outast) = @_;
 	my ($p, $l) = $ast->get_loc();
-	my $op = "";
+	my ($tmp, $op) = ('', '');
 	my $doneop;
 
 	# Make sure larger ops defined first
@@ -48,14 +48,16 @@ sub get {
 		if ($ast->match($i)) {
 			my $x = 0;
 			while ($x < length($i)) {
-				$op = $op . $ast->consume();
+				$tmp = $ast->consume();
+				$op .= $tmp->{'data'};
 				$x = $x + 1;
 				$doneop = 1;
 			}
 		}
 	}
 	if (!$doneop) {
-		$op = $ast->consume();
+		$tmp = $ast->consume();
+		$op = $tmp->{'data'};
 	}
 	$ast->debug("op::get: $op");
 	$outast->add_node($outast, 'op', $op, $l, $p);
