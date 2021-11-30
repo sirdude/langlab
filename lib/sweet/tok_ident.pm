@@ -6,15 +6,16 @@ use base 'Exporter';
 
 our @EXPORT = qw(start valid get);
 
+# Not all of these will be in our language but they are used in different
+# # languages this is more generic
 my @keywords = ('int', 'float', 'string', 'void', 'mixed', 'mapping', 'object',
         'static', 'atomic', 'private', 'unsigned', 'nomask',
         'include', 'inherit', 'for', 'while', 'if', 'else',
         'switch', 'return', 'exit', 'break', 'case', 'default', 'continue', 'do',
         'try', 'boolean', 'short', 'long', 'double', 'new', 'public', 'elseif',
         'read', 'write', 'goto', 'nil', 'null', 'sizeof', 'foreach', 'keys',
-        'const', 'eval', 'catch', 'struct', 'class', 'array', 'declare','sub',
+        'const', 'eval', 'catch', 'struct', 'class', 'array', 'declare', 'sub',
         'define', 'var', 'throw', 'hash');
-
 
 sub is_keyword {
 	my ($input) = @_;
