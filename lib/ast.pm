@@ -7,9 +7,7 @@ our $EOL = '__YY_EOL___';
 our $EOF = '__YY_EOF___';
 
 # XXX Need to get rid of at least linenum???
-# linenum used for xml and json reading/debugging messages.
-# scope is used for indentation on output.
-my ($linenum, $debug, $scope);
+my ($linenum);
 
 sub new {
 	my $class = shift;
@@ -23,15 +21,16 @@ sub new {
 }
 
 sub set_debug {
-	($debug) = @_;
+	my ($self, $debug) = @_;
 
+        $self->{'debug'} - $debug;
 	return $debug;
 }
 
 sub debug {
-	my ($info) = @_;
+	my ($self, $info) = @_;
 
-	if ($debug) {
+	if ($self->{'debug'}) {
 		print "$info\n";
 		return 1;
 	}
@@ -39,19 +38,25 @@ sub debug {
 }
 
 sub push_scope {
-	$scope += 1;
+	my ($self) = @_;
 
-	return $scope;
+	$self->{'scope'} = $self->{'scope'} + 1;
+
+	return $self->{'scope'};
 }
 
 sub pop_scope {
-	$scope -= 1;
+	my ($self) = @_;
 
-	return $scope;
+	$self->{'scope'} = $self->{'scope'} - 1;
+
+	return $self->{'scope'};
 }
 
 sub get_scope {
-	return $scope;
+	my ($self) = @_;
+
+	return $self->{'scope'};
 }
 
 # Look at just the next token
@@ -61,7 +66,7 @@ sub peek {
 	if (!$count || $count eq '') {
 		$count = 0;
 	}
-	debug("ast::peek($count)\n");
+	$self->debug("ast::peek($count)\n");
 	$count += $self->{'current'};
 	if ($self->{'data'}[$count]->{'type'} eq 'EOF') {
 		return $EOF;
@@ -105,7 +110,7 @@ sub match {
 		$tmp .= peek($self, $c);
 		$c += 1;
 	}
-	debug("ast::match($str) tmp = $tmp\n");
+	$self->debug("ast::match($str) tmp = $tmp");
 	if ($tmp eq $str) {
 		return 1;
 	}
@@ -118,7 +123,7 @@ sub consume {
 	if (!$str || $str eq '') {
 		my $pos = $self->{'current'};
 		$self->{'current'} = $pos + 1;
-		debug("ast::consume($str):" . $self->{'data'}[$pos] . "\n");
+		$self->debug("ast::consume($str):" . $self->{'data'}[$pos]);
 		return $self->{'data'}[$pos];
 	} else {
 		my $pos = $self->{'current'};
@@ -128,7 +133,7 @@ sub consume {
 			$tmp += $self->{'data'}[$pos];
 		}
 		$self->{'current'} = $pos + 1;
-		debug("ast::consume($str):" . $tmp . "\n");
+		$self->debug("ast::consume($str):" . $tmp);
 		return $tmp;
 	}
 }
@@ -137,7 +142,7 @@ sub add_node {
 	my ($self, $type, $data, $line, $column) = @_;
 	my $node = {};
 
-	debug("ast::add_node($type, $data, $line, $column)\n");
+	$self->debug("ast::add_node($type, $data, $line, $column)\n");
 	$self->{'size'} += 1;
 	$node->{'type'} = $type;
 	$node->{'data'} = $data;
@@ -373,7 +378,7 @@ sub read_json_file {
 sub add_stat {
 	my ($self, $stype, $skey, $svalue) = @_;
 
-	debug("add_stat: $stype: $skey: $svalue\n");
+	$self->debug("add_stat: $stype: $skey: $svalue");
 	my $tmp = $stype . ":" . $skey;
 	if (exists($self->{'stats'}->{$tmp})) {
 		$self->{'stats'}->{$tmp} = $self->{'stats'}->{$tmp} + $svalue;
@@ -386,7 +391,7 @@ sub add_stat {
 sub set_stat {
 	my ($self, $stype, $skey, $svalue) = @_;
 
-	debug("set_stat: $stype: $skey: $svalue");
+	$self->debug("set_stat: $stype: $skey: $svalue");
 	my $tmp = $stype . ":" . $skey;
 	$self->{'stats'}->{$tmp} = $svalue;
 
@@ -397,14 +402,14 @@ sub query_stat {
 	my ($self, $stype, $name) = @_;
 
 	my $tmp = $stype . ":" . $name;
-	debug("query_stat($tmp) = " . $self->{'stats'}->{$tmp} . "\n");
+	$self->debug("query_stat($tmp) = " . $self->{'stats'}->{$tmp});
 	return $self->{'stats'}->{$tmp};
 }
 
 sub clear_stats {
 	my ($self) = @_;
 
-	debug("ast::clear_stats()\n");
+	$self->debug("ast::clear_stats()");
 	$self->{'stats'} = ();
 	return 1;
 }
@@ -413,7 +418,7 @@ sub write_stats {
 	my ($self, $statfile) = @_;
 	my ($sfh);
 
-	debug("write_stats");
+	$self->debug("write_stats");
 	open($sfh,">>", $statfile) or die
 		"Unable to open stats file: $statfile\n";
 	if ($sfh) {
