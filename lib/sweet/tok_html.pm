@@ -45,7 +45,7 @@ sub get {
 		$ast->pop_scope();
 		return 1;
 	}
-	error('html::get: ' . $word . ', expected: &#DDDD;');
+	print("ERROR: html::get: got $word, expected: &#DDDD;\n");
 	$ast->pop_scope();
 	return 0;
 }
