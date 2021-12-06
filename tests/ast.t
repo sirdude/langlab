@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 28;
+use Test::More tests => 9;
 use Test::Exception;
 
 use lib "./lib";
@@ -44,7 +44,7 @@ sub test_node_basics {
 	$testast->add_node('char', 'c', 3, 0);
 	$testast->add_node('char', 'd', 4, 0);
 	is($testast->consume('a'), 'a', 'Testing consume(a).');
-	is($testast->consume('bc'), 'a', 'Testing consume(b).');
+	is($testast->consume('bc'), 'bc', 'Testing consume(b).');
 	is($testast->peek(), 'd', 'Testing peek() after consume.');
 }
 
