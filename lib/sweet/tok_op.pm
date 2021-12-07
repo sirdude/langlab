@@ -60,7 +60,7 @@ sub get {
 		$op = $tmp;
 	}
 	$ast->debug("op::get: $op");
-	$outast->add_node($outast, 'op', $op, $l, $p);
+	$outast->add_node('op', $op, $l, $p);
 	$ast->add_stat('op', $op, 1);
 
 	$ast->pop_scope();

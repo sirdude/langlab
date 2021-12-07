@@ -94,7 +94,7 @@ sub get {
 			$ast->add_stat('ident', 'ident', 1);
 		}
 	}
-	$outast->add_node($outast, 'ident', $word, $l, $p);
+	$outast->add_node('ident', $word, $l, $p);
 	$ast->pop_scope();
 	return 1;
 }

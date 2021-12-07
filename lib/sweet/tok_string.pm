@@ -53,7 +53,7 @@ sub get {
 	$ast->debug("string::get: string = $word");
 
 	$ast->add_stat('string', $type, 1);
-	$outast->add_node($outast, 'string', $word, $l, $p);
+	$outast->add_node('string', $word, $l, $p);
 
 	# eat the end of string token...
 	$tmp = $ast->consume();

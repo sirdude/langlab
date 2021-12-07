@@ -472,6 +472,8 @@ sub parse_string {
 	my ($self, $string, $lnum) = @_;
 	my $c = 0;
 
+	$self->debug("parse_string:: $string, $lnum");
+
 	foreach my $i (split //, $string) {
 		$c = $c + 1;
 		if ($i eq "\n") {
@@ -499,7 +501,7 @@ sub parse_file {
 		while (<$fh>) {
 			my $line = $_;
 			$l = $l + 1;
-			parse_string($self, $line, $l);
+			$self->parse_string($line, $l);
 		}
 		close($fh);
 		$l = $l + 1;
@@ -526,7 +528,7 @@ sub parse_file_or_string {
 		return $tmp;
 	} else {
 		my $str = join(' ', @values);
-		return parse_string($self, $str);
+		return $self->parse_string($str, 0);
 	}
 }
 

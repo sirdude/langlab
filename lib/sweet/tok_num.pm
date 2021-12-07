@@ -44,7 +44,7 @@ sub get {
 	if ($ast->match('..')) {
 		$ast->debug("num::get $word");
 		$ast->add_stat('num', 'int', 1);
-		$outast->add_node($outast, 'int', $word, $l, $p);
+		$outast->add_node('int', $word, $l, $p);
 		$ast->pop_scope();
 		return 1;
 	} elsif ($ast->match('.')) {
@@ -56,13 +56,13 @@ sub get {
 		}
 		$ast->debug("num::get $word");
 		$ast->add_stat('num', 'float', 1);
-		$outast->add_node($outast, 'float', $word, $l, $p);
+		$outast->add_node('float', $word, $l, $p);
 		$ast->pop_scope();
 		return 1;
 	}
 	$ast->debug("num::get $word");
 	$ast->add_stat('num', 'int', 1);
-	$outast->add_node($outast, 'int', $word, $l, $p);
+	$outast->add_node('int', $word, $l, $p);
 	$ast->pop_scope();
 	return 1;
 }

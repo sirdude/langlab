@@ -52,7 +52,7 @@ sub get {
 			$ast->add_stat('whitespace', $tmp, 1);
 		}
 	}
-	$outast->add_node($outast, 'whitespace', $word, $l, $p);
+	$outast->add_node('whitespace', $word, $l, $p);
 	$ast->debug("whitespace::get added '$tmp\' length:" . length($tmp) . "\n");
 
 	$ast->pop_scope();

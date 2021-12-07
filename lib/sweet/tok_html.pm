@@ -41,7 +41,7 @@ sub get {
 	if ($word =~ /&#\d+;/) {
 		$ast->debug("html::get found: $word");
 		$ast->add_stat('literal', 'html', 1);
-		$outast->add_node($outast, 'html', $word, $l, $p);
+		$outast->add_node('html', $word, $l, $p);
 		$ast->pop_scope();
 		return 1;
 	}

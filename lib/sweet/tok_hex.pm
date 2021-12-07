@@ -58,7 +58,7 @@ sub get {
 
         $ast->debug("hex::get: $word");
         $ast->add_stat('literal', 'hex', 1);
-        $outast->add_node($outast, 'hex', $word, $l, $p);
+        $outast->add_node('hex', $word, $l, $p);
 	$ast->pop_scope();
         return 1;
 }
