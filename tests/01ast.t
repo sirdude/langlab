@@ -2,28 +2,16 @@
 
 use strict;
 use warnings;
-use Test::More tests => 9;
-use Test::Exception;
+# use Test::More tests => 9;
+# use Test::Exception;
 
 use lib "./lib";
 use lib "../lib";
 
 use ast;
+use tests;
 
 my ($testdir, $testast);
-
-sub test_file {
-	my ($filename) = @_;
-
-	unlink($filename . '.o');
-	open_output($filename . '.o');
-
-	is(read_compfile($filename), 1, "Testing file :$filename");
-
-	close_compfile();
-	close_output();
-	return 1;
-}
 
 sub test_scope {
 
@@ -50,8 +38,10 @@ sub test_node_basics {
 
 sub main {
 	$testast = ast->new();
+	init_tests();
 	test_scope();
 	test_node_basics();
+	test_summary();
 }
 
 main();

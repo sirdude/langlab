@@ -29,24 +29,20 @@ sub total_success {
 }
 
 sub is {
-	my ($text, $return_value, $function, @args) = @_;
-	my ($value);
-
-	if (!defined($function)) {
-		print "Unable to find function: " . $function . "\n";
-		return 0;
-	}
-	$value = &$function(@args);
+	my ($functioncall, $expected, $text) = @_;
 
 	add_test();
 
-	if ($value == $return_value) {
+	if (!$functioncall && !$expected) {
 		add_success();
-		print "ok " . total_tests() . " - " . $text . "\n";
+		print "ok " . total_tests() . " - $text\n";
+		return 1;
+	} elsif ($functioncall eq $expected) {
+		add_success();
+		print "ok " . total_tests() . " - $text\n";
 		return 1;
 	} else {
-
-		print "notok " . total_tests() . " - " . $text . "\n";
+		print "notok " . total_tests() . " - $text\n";
 		print "\tgot: " . $value . "\n";
 		return 0;
 	}
