@@ -77,12 +77,12 @@ sub get {
 	}
 
 	$tmp = $ast->consume();
-	$word = $tmp->{'data'};
+	$word = $tmp;
 
 	$ast->debug("ident::get: start = '$word'");
 	while (start_num($ast) || start($ast)) {
 		$tmp = $ast->consume();
-		$word .= $tmp->{'data'};
+		$word .= $tmp;
 	}
 	$ast->debug("ident::get: '$word'");
 	if (is_keyword($word)) {

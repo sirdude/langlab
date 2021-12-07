@@ -36,18 +36,18 @@ sub get {
 	}
 
 	$tmp = $ast->consume();
-	$type = $tmp->{'data'};
+	$type = $tmp;
 
 	while (!$ast->match($ast->get_eof()) && !$ast->match($type)) {
 		$tmp = $ast->consume();
-		if ($tmp->{'data'} eq "\\") { # We have an escape read the next char as
+		if ($tmp eq "\\") { # We have an escape read the next char as
 					# well and treat it as one symbol...
-			$word .= $tmp->{'data'};
+			$word .= $tmp;
 			$tmp = $ast->consume();
-			$word .= $tmp->{'data'};
+			$word .= $tmp;
 		} else {
-			$word = $word . $tmp->{'data'};
-			$lastchr = $tmp->{'data'};
+			$word = $word . $tmp;
+			$lastchr = $tmp;
 		}
 	}
 	$ast->debug("string::get: string = $word");

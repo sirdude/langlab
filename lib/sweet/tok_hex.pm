@@ -44,13 +44,13 @@ sub get {
         }
 
         $tmp = $ast->consume();
-	$word = $tmp->{'data'};
+	$word = $tmp;
         $tmp = $ast->consume();
-	$word .= $tmp->{'data'};
+	$word .= $tmp;
 
         if (valid($ast)) {
 		$tmp = $ast->consume();
-                $word .= $tmp->{'data'};
+                $word .= $tmp;
         } else {
 		$ast->pop_scope();
                 return 0;

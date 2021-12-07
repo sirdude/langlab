@@ -97,6 +97,7 @@ sub at_eof {
 	if ($self->{'current'} > $self->{'size'}) {
 		return 1;
 	}
+print "current " . $self->{'current'} . ' size = ' . $self->{'size'} . "\n";
 
 	if ($self->{'data'}[$self->{'current'}]->{'data'} eq $EOF) {
 		return 1;

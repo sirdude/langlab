@@ -36,10 +36,10 @@ sub get {
 	}
 
 	$tmp = $ast->consume();
-	$word .= $tmp->{'data'};
+	$word .= $tmp;
 	while (start($ast)) {
 		$tmp = $ast->consume();
-		$word .= $tmp->{'data'};
+		$word .= $tmp;
 	}
 	if ($ast->match('..')) {
 		$ast->debug("num::get $word");
@@ -49,10 +49,10 @@ sub get {
 		return 1;
 	} elsif ($ast->match('.')) {
 		$tmp = $ast->consume();
-		$word .= $tmp->{'data'};
+		$word .= $tmp;
 		while (start($ast)) {
 			$tmp = $ast->consume();
-			$word .= $tmp->{'data'};
+			$word .= $tmp;
 		}
 		$ast->debug("num::get $word");
 		$ast->add_stat('num', 'float', 1);

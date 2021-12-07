@@ -49,7 +49,7 @@ sub get {
 			my $x = 0;
 			while ($x < length($i)) {
 				$tmp = $ast->consume();
-				$op .= $tmp->{'data'};
+				$op .= $tmp;
 				$x = $x + 1;
 				$doneop = 1;
 			}
@@ -57,7 +57,7 @@ sub get {
 	}
 	if (!$doneop) {
 		$tmp = $ast->consume();
-		$op = $tmp->{'data'};
+		$op = $tmp;
 	}
 	$ast->debug("op::get: $op");
 	$outast->add_node($outast, 'op', $op, $l, $p);
