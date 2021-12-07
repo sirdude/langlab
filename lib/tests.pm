@@ -1,10 +1,9 @@
 package tests;
 
-use strict;
 use warnings;
 use base 'Exporter';
 
-our EXPORT = qw(add_test add_success total_tests total_success is
+our @EXPORT = qw(add_test add_success total_tests total_success is
 	init_tests test_summary);
 
 my ($tests, $success);
@@ -30,14 +29,14 @@ sub total_success {
 }
 
 sub is {
-	my ($text, $return_value, $function, @args) = @_
-	my ($value, $argsstring);
+	my ($text, $return_value, $function, @args) = @_;
+	my ($value);
 
 	if (!defined($function)) {
 		print "Unable to find function: " . $function . "\n";
 		return 0;
 	}
-	$value =  $function(@args);
+	$value = &$function(@args);
 
 	add_test();
 
