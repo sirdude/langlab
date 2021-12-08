@@ -50,6 +50,9 @@ sub pop_scope {
 	my ($self) = @_;
 
 	$self->{'scope'} = $self->{'scope'} - 1;
+	if ($self->{'scope'} < 0) {
+		print "ERROR: Scope < 0\n";
+	}
 
 	return $self->{'scope'};
 }
