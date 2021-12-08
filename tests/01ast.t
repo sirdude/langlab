@@ -18,8 +18,13 @@ sub test_scope {
 	is($testast->get_scope(), 0, 'Check inital scope.');
 	$testast->push_scope();
 	is($testast->get_scope(), 1, 'Check inital scope +1.');
+	$testast->push_scope();
+	is($testast->get_scope(), 2, 'Check inital scope +2.');
 	$testast->pop_scope();
-	is($testast->get_scope(), 0, 'Check pop_scope.');
+	is($testast->get_scope(), 1, 'Check pop_scope.');
+	$testast->pop_scope();
+	$testast->pop_scope();
+	is($testast->get_scope(), -1, 'Check pop_scope to -1');
 
 }
 
@@ -36,11 +41,20 @@ sub test_node_basics {
 	is($testast->peek(), 'd', 'Testing peek() after consume.');
 }
 
+sub test_stats {
+	is($testast->query_stat('test', 'a'), 0, 'Testing empty stat');
+	is($testast->add_stat('test', 'a' , 1), 1, 'Testing empty stat');
+	is($testast->query_stat('test', 'a'), 1, 'Testing stat with 1');
+	is($testast->set_stat('test', 'a', 5), 1, 'Testing set stat');
+	is($testast->query_stat('test', 'a'), 5, 'Testing stat with 5');
+}
+
 sub main {
 	$testast = ast->new();
 	init_tests();
 	test_scope();
 	test_node_basics();
+	test_stats();
 	test_summary();
 }
 

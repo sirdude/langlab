@@ -117,10 +117,19 @@ sub match {
 		$done = 1;
 	}
 
+	if (($str eq '\n') && (($tmp eq 'EOL') || ($tmp eq $EOL))) {
+		return 1;
+	}
+
 	if ($str && !$done) {
 		my $l = length($str);
 		while (!$done && (length($tmp) < $l)) {
-			$tmp .= $self->peek($c);
+			my $p = $self->peek($c);
+			if ($p eq 'EOL' || $EOL) {
+				$tmp .= '\n';
+		        } else {
+				$tmp .= $self->peek($c);
+		        }
 			$c += 1;
 			if ($tmp eq get_eof()) {
 				$done = 1;
@@ -422,8 +431,13 @@ sub query_stat {
 	my ($self, $stype, $name) = @_;
 
 	my $tmp = $stype . ":" . $name;
-	$self->debug("query_stat($tmp) = " . $self->{'stats'}->{$tmp});
-	return $self->{'stats'}->{$tmp};
+	if (exists($self->{'stats'}->{$tmp})) {
+		$self->debug("query_stat($tmp) = " . $self->{'stats'}->{$tmp});
+		return $self->{'stats'}->{$tmp};
+	} else {
+		$self->debug("query_stat($tmp) = ''");
+		return '';
+	}
 }
 
 sub clear_stats {
