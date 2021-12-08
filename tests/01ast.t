@@ -11,7 +11,7 @@ use lib "../lib";
 use ast;
 use tests;
 
-my ($testdir, $testast);
+my ($testast);
 
 sub test_scope {
 
@@ -26,6 +26,7 @@ sub test_scope {
 	$testast->pop_scope();
 	is($testast->get_scope(), -1, 'Check pop_scope to -1');
 
+	return 1;
 }
 
 sub test_node_basics {
@@ -39,6 +40,8 @@ sub test_node_basics {
 	is($testast->consume('a'), 'a', 'Testing consume(a).');
 	is($testast->consume('bc'), 'bc', 'Testing consume(b).');
 	is($testast->peek(), 'd', 'Testing peek() after consume.');
+
+	return 1;
 }
 
 sub test_stats {
@@ -47,6 +50,8 @@ sub test_stats {
 	is($testast->query_stat('test', 'a'), 1, 'Testing stat with 1');
 	is($testast->set_stat('test', 'a', 5), 1, 'Testing set stat');
 	is($testast->query_stat('test', 'a'), 5, 'Testing stat with 5');
+
+	return 1;
 }
 
 sub main {
@@ -56,6 +61,8 @@ sub main {
 	test_node_basics();
 	test_stats();
 	test_summary();
+
+	return 1;
 }
 
 main();

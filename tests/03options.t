@@ -39,6 +39,8 @@ sub main {
 	is(query_option('debug'), "5", 'Check for debug=5 option.');
 	is(query_option('filename'), 'My Fun',
 		'Check for filename="My Fun" option.');
+
+	return 1;
 }
 
 main();
