@@ -18,13 +18,13 @@ my ($testast);
 
 sub test_tok_html_basics {
 	$testast->add_node('char', '&', 1, 0);
-	$testast->add_node('char', '#', 1, 0);
-	$testast->add_node('char', '9', 1, 0);
-	$testast->add_node('char', '8', 1, 0);
-	$testast->add_node('char', '7', 1, 0);
-	$testast->add_node('char', '6', 1, 0);
-	$testast->add_node('char', ';', 1, 0);
-	$testast->add_node('char', 'a', 1, 0);
+	$testast->add_node('char', '#', 2, 0);
+	$testast->add_node('char', '9', 3, 0);
+	$testast->add_node('char', '8', 4, 0);
+	$testast->add_node('char', '7', 5, 0);
+	$testast->add_node('char', '6', 6, 0);
+	$testast->add_node('char', ';', 7, 0);
+	$testast->add_node('char', 'a', 8, 0);
 
 	print 'Peek: ' . $testast->peek() . "\n";
 	print 'Peek: ' . $testast->peek(1) . "\n";
@@ -36,12 +36,12 @@ sub test_tok_html_basics {
 
 	$testast->consume(); # get rid of the 'a' so we can put something that looks like html in the queue.
 	$testast->add_node('char', '&', 1, 0);
-	$testast->add_node('char', '#', 1, 0);
-	$testast->add_node('char', '9', 1, 0);
-	$testast->add_node('char', '9', 1, 0);
-	$testast->add_node('char', '9', 1, 0);
-	$testast->add_node('char', '9', 1, 0);
-	$testast->add_node('char', 'a', 1, 0);
+	$testast->add_node('char', '#', 2, 0);
+	$testast->add_node('char', '9', 3, 0);
+	$testast->add_node('char', '9', 4, 0);
+	$testast->add_node('char', '9', 5, 0);
+	$testast->add_node('char', '9', 6, 0);
+	$testast->add_node('char', 'a', 7, 0);
 	is(tok_html::get($testast), 0, 'Testing if get fails on invalid html.');
 
 	return 1;

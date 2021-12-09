@@ -18,14 +18,14 @@ my ($testast);
 
 sub test_tok_singile_line_comment_basics {
 	$testast->add_node('char', '#', 1, 0);
-	$testast->add_node('char', 'x', 1, 0);
-	$testast->add_node('char', '9', 1, 0);
-	$testast->add_node('char', '8', 1, 0);
-	$testast->add_node('char', '7', 1, 0);
-	$testast->add_node('char', '6', 1, 0);
-	$testast->add_node('char', ';', 1, 0);
-	$testast->add_node('EOL', "\n", 1, 0);
-	$testast->add_node('char', 'a', 1, 0);
+	$testast->add_node('char', 'x', 2, 0);
+	$testast->add_node('char', '9', 3, 0);
+	$testast->add_node('char', '8', 4, 0);
+	$testast->add_node('char', '7', 5, 0);
+	$testast->add_node('char', '6', 6, 0);
+	$testast->add_node('char', ';', 7, 0);
+	$testast->add_node('EOL', "\n", 8, 0);
+	$testast->add_node('char', 'a', 9, 0);
 
 	print 'Peek: ' . $testast->peek() . "\n";
 	print 'Peek: ' . $testast->peek(1) . "\n";

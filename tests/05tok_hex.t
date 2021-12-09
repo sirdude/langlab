@@ -18,12 +18,12 @@ my ($testast);
 
 sub test_tok_hex_basics {
 	$testast->add_node('char', '0', 1, 0);
-	$testast->add_node('char', 'x', 1, 0);
-	$testast->add_node('char', '9', 1, 0);
-	$testast->add_node('char', '8', 1, 0);
-	$testast->add_node('char', '7', 1, 0);
-	$testast->add_node('char', '6', 1, 0);
-	$testast->add_node('char', ';', 1, 0);
+	$testast->add_node('char', 'x', 2, 0);
+	$testast->add_node('char', '9', 3, 0);
+	$testast->add_node('char', '8', 4, 0);
+	$testast->add_node('char', '7', 5, 0);
+	$testast->add_node('char', '6', 6, 0);
+	$testast->add_node('char', ';', 7, 0);
 
 	print 'Peek: ' . $testast->peek() . "\n";
 	print 'Peek: ' . $testast->peek(1) . "\n";
@@ -35,9 +35,9 @@ sub test_tok_hex_basics {
 
 	$testast->consume(); # get rid of the ';' so we can put something that looks like a hex in the queue.
 	$testast->add_node('char', '0', 1, 0);
-	$testast->add_node('char', 'x', 1, 0);
-	$testast->add_node('char', '9', 1, 0);
-	$testast->add_node('char', ';', 1, 0);
+	$testast->add_node('char', 'x', 2, 0);
+	$testast->add_node('char', '9', 3, 0);
+	$testast->add_node('char', ';', 4, 0);
 	is(tok_hex::get($testast), 0, 'Testing if get fails on invalid hex.');
 
 	return 1;
