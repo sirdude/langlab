@@ -40,6 +40,7 @@ sub test_tok_html_basics {
 	$testast->add_node('char', '9', 5, 0);
 	$testast->add_node('char', '9', 6, 0);
 	$testast->add_node('char', 'a', 7, 0);
+
 	is(tok_html::get($testast, $output), 0, 'Testing if get fails on invalid html.');
 
 	return 1;

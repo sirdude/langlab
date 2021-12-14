@@ -15,6 +15,18 @@ sub start {
 	return 0;
 }
 
+sub is_num {
+	my ($check) = @_;
+
+	my @values = ('1', '2', '3', '4', '5', '6', '7', '8', '9', '0');
+	foreach my $i (@values) {
+		if ($check eq $i) {
+			return 1;
+		}
+	}
+	return 0;
+}
+
 sub valid {
 }
 
@@ -31,14 +43,14 @@ sub get {
 		return 0;
 	}
 
-	while (!$ast->match($ast->get_eof()) && (!$ast->match(';'))) {
+	$tmp = $ast->consume('&#');
+	while (is_num($ast->peek())) {
 		$tmp = $ast->consume();
 		$word .= $tmp;
 	}
-	$tmp = $ast->consume();
-	$word .= $tmp;
-
-	if ($word =~ /&#\d+;/) {
+	if ($ast->match(';')) {
+		$tmp = $ast->consume();
+		$word .= $tmp;
 		$ast->debug("html::get found: $word");
 		$ast->add_stat('literal', 'html', 1);
 		$outast->add_node('html', $word, $l, $p);
