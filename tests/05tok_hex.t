@@ -25,16 +25,15 @@ sub test_tok_hex_basics {
 	$testast->add_node('char', '6', 6, 0);
 	$testast->add_node('char', ';', 7, 0);
 
-	is(tok_hex::start($testast), 1, 'Testing if we have the start of a hex num.');
-	is(tok_hex::get($testast, $output), 1, 'Testing if we have the start of a hex num.');
+	is(tok_hex::start($testast), 1, 'Testing if we have the start of a hex number.');
+	is(tok_hex::get($testast, $output), 1, 'Testing get a hex number.');
 
 	is($testast->peek(), ';', 'Testing to see if we are pointing at the next token.');
-	is(tok_hex::get($testast, $output), 0, 'Testing if get fails on non hex.');
+	is(tok_hex::get($testast, $output), 0, 'Testing if get fails on non hex number.');
 
 	$testast->consume(); # get rid of the ';' so we can put something that looks like a hex in the queue.
 	$testast->add_node('char', '0', 1, 0);
 	$testast->add_node('char', 'x', 2, 0);
-	$testast->add_node('char', '9', 3, 0);
 	$testast->add_node('char', ';', 4, 0);
 	is(tok_hex::get($testast, $output), 0, 'Testing if get fails on invalid hex.');
 

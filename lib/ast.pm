@@ -73,16 +73,22 @@ sub peek {
 	$self->debug("ast::peek($count)\n");
 	$count += $self->{'current'};
 
-	$self->debug("Node: $count numnodes: " . $self->{'size'} .
-		' Type ' . $self->{'data'}[$count]->{'type'} .
-		' data ' . $self->{'data'}[$count]->{'data'} . "\n");
-	if ($count > $self->{'size'}) {
+	if ($count >= $self->{'size'}) {
 		return $EOF;
 	} elsif ($self->{'data'}[$count]->{'type'} eq 'EOF') {
+		$self->debug("Node: $count numnodes: " . $self->{'size'} .
+			' Type ' . $self->{'data'}[$count]->{'type'} .
+			' data ' . $self->{'data'}[$count]->{'data'} . "\n");
 		return $EOF;
 	} elsif ($self->{'data'}[$count]->{'type'} eq 'EOL') {
+		$self->debug("Node: $count numnodes: " . $self->{'size'} .
+			' Type ' . $self->{'data'}[$count]->{'type'} .
+			' data ' . $self->{'data'}[$count]->{'data'} . "\n");
 		return $EOL;
 	} else {
+		$self->debug("Node: $count numnodes: " . $self->{'size'} .
+			' Type ' . $self->{'data'}[$count]->{'type'} .
+			' data ' . $self->{'data'}[$count]->{'data'} . "\n");
 		return $self->{'data'}[$count]->{'data'};
 	}
 }
