@@ -33,6 +33,11 @@ sub test_tok_html_basics {
 	is(tok_html::get($testast, $output), 0, 'Testing if get fails on non html.');
 
 	$testast->consume(); # get rid of the 'a' so we can put something that looks like html in the queue.
+
+	return 1;
+}
+
+sub test_invalid_html {
 	$testast->add_node('char', '&', 1, 0);
 	$testast->add_node('char', '#', 2, 0);
 	$testast->add_node('char', '9', 3, 0);
@@ -52,6 +57,7 @@ sub main {
 #	$testast->set_debug(1);
 	init_tests();
 	test_tok_html_basics();
+	test_invalid_html();
 	test_summary();
 
 	return 1;

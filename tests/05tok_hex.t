@@ -32,6 +32,11 @@ sub test_tok_hex_basics {
 	is(tok_hex::get($testast, $output), 0, 'Testing if get fails on non hex number.');
 
 	$testast->consume(); # get rid of the ';' so we can put something that looks like a hex in the queue.
+
+	return 1;
+}
+
+sub test_invalid_hex {
 	$testast->add_node('char', '0', 1, 0);
 	$testast->add_node('char', 'x', 2, 0);
 	$testast->add_node('char', ';', 4, 0);
@@ -46,6 +51,7 @@ sub main {
 #	$testast->set_debug(1);
 	init_tests();
 	test_tok_hex_basics();
+	test_invalid_hex();
 	test_summary();
 
 	return 1;
