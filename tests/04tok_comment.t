@@ -14,7 +14,7 @@ use ast;
 use tests;
 use tok_comment;
 
-my ($testast);
+my ($testast, $output);
 
 sub test_tok_singile_line_comment_basics {
 	$testast->add_node('char', '#', 1, 0);
@@ -30,16 +30,17 @@ sub test_tok_singile_line_comment_basics {
 	print 'Peek: ' . $testast->peek() . "\n";
 	print 'Peek: ' . $testast->peek(1) . "\n";
 	is(tok_comment::start($testast), 1, 'Testing if we have the start of a single line comment.');
-	is(tok_comment::get($testast), 1, 'Testing if we have the start of a single line comment.');
+	is(tok_comment::get($testast, $output), 1, 'Testing if we have the start of a single line comment.');
 
 	is($testast->peek(), 'a', 'Testing to see if we are pointing at the next token.');
-	is(tok_comment::get($testast), 0, 'Testing if get fails on non comment.');
+	is(tok_comment::get($testast, $output), 0, 'Testing if get fails on non comment.');
 
 	return 1;
 }
 
 sub main {
 	$testast = ast->new();
+	$output = ast->new();
 #	$testast->set_debug(1);
 	init_tests();
 	test_tok_singile_line_comment_basics();

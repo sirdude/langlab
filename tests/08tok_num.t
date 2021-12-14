@@ -14,7 +14,7 @@ use ast;
 use tests;
 use tok_num;
 
-my ($testast);
+my ($testast, $output);
 
 sub test_tok_num_basics {
 	$testast->add_node('char', '0', 1, 0);
@@ -27,10 +27,10 @@ sub test_tok_num_basics {
 	print 'Peek: ' . $testast->peek() . "\n";
 	print 'Peek: ' . $testast->peek(1) . "\n";
 	is(tok_num::start($testast), 1, 'Testing if we have the start of a num.');
-	is(tok_num::get($testast), 1, 'Testing if we have the start of a num.');
+	is(tok_num::get($testast, $output), 1, 'Testing if we have the start of a num.');
 
 	is($testast->peek(), ';', 'Testing to see if we are pointing at the next token.');
-	is(tok_num::get($testast), 0, 'Testing if get fails on non num.');
+	is(tok_num::get($testast, $output), 0, 'Testing if get fails on non num.');
 
 	$testast->consume(); # get rid of the ';' so we can put something that looks like a hex in the queue.
 
@@ -39,6 +39,7 @@ sub test_tok_num_basics {
 
 sub main {
 	$testast = ast->new();
+	$output = ast->new();
 #	$testast->set_debug(1);
 	init_tests();
 	test_tok_num_basics();
