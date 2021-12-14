@@ -16,7 +16,7 @@ use tok_whitespace;
 
 my ($testast, $output);
 
-sub test_tok_whitespace_basics {
+sub test_tok_whitespace_spaces {
 	$testast->add_node('char', ' ', 1, 0);
 	$testast->add_node('char', ';', 2, 0);
 
@@ -36,12 +36,38 @@ sub test_tok_whitespace_basics {
 	return 1;
 }
 
+sub test_tok_whitespace_tab {
+	$testast->add_node('char', "\t", 1, 0);
+	$testast->add_node('char', ';', 2, 0);
+
+	is(tok_whitespace::start($testast), 1, 'Testing if tab is the start of whitespace.');
+	is(tok_whitespace::get($testast, $output), 1, 'Get our tab whitespace.');
+
+	is($testast->peek(), ';', 'Testing to see if we are pointing at the next token.');
+
+	$testast->consume(); # get rid of the ';' so we can put something that looks like a hex in the queue.
+
+	$testast->add_node('char', "\t", 1, 0);
+	$testast->add_node('char', "\t", 2, 0);
+	$testast->add_node('char', " ", 2, 0);
+	$testast->add_node('char', ';', 3, 0);
+	is(tok_whitespace::get($testast, $output), 1, 'Testing get of multiple tabs, with a space.');
+	is($testast->peek(), ';', 'Testing to see if we are pointing at the next token.');
+	return 1;
+}
+
+sub test_tok_whitespace_eol {
+	return 1;
+}
+
 sub main {
 	$testast = ast->new();
 	$output = ast->new();
 #	$testast->set_debug(1);
 	init_tests();
-	test_tok_whitespace_basics();
+	test_tok_whitespace_spaces();
+	test_tok_whitespace_tab();
+	test_tok_whitespace_eol();
 	test_summary();
 
 	return 1;
