@@ -21,9 +21,6 @@ sub test_tok_op_basics {
 	$testast->add_node('char', '=', 2, 0);
 	$testast->add_node('char', 'a', 3, 0);
 
-
-	print 'Peek: ' . $testast->peek() . "\n";
-	print 'Peek: ' . $testast->peek(1) . "\n";
 	is(tok_op::start($testast), 1, 'Testing if we have the start of a operator.');
 	is(tok_op::get($testast, $output), 1, 'Testing if we have the start of a operator.');
 

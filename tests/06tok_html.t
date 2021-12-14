@@ -26,8 +26,6 @@ sub test_tok_html_basics {
 	$testast->add_node('char', ';', 7, 0);
 	$testast->add_node('char', 'a', 8, 0);
 
-	print 'Peek: ' . $testast->peek() . "\n";
-	print 'Peek: ' . $testast->peek(1) . "\n";
 	is(tok_html::start($testast), 1, 'Testing if we have the start of a html code.');
 	is(tok_html::get($testast, $output), 1, 'Try and get the html.');
 

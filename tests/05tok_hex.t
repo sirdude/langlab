@@ -25,8 +25,6 @@ sub test_tok_hex_basics {
 	$testast->add_node('char', '6', 6, 0);
 	$testast->add_node('char', ';', 7, 0);
 
-	print 'Peek: ' . $testast->peek() . "\n";
-	print 'Peek: ' . $testast->peek(1) . "\n";
 	is(tok_hex::start($testast), 1, 'Testing if we have the start of a hex num.');
 	is(tok_hex::get($testast, $output), 1, 'Testing if we have the start of a hex num.');
 

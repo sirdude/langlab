@@ -24,8 +24,6 @@ sub test_tok_num_basics {
 	$testast->add_node('char', '6', 5, 0);
 	$testast->add_node('char', ';', 6, 0);
 
-	print 'Peek: ' . $testast->peek() . "\n";
-	print 'Peek: ' . $testast->peek(1) . "\n";
 	is(tok_num::start($testast), 1, 'Testing if we have the start of a num.');
 	is(tok_num::get($testast, $output), 1, 'Testing if we have the start of a num.');
 

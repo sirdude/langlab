@@ -20,8 +20,6 @@ sub test_tok_whitespace_basics {
 	$testast->add_node('char', ' ', 1, 0);
 	$testast->add_node('char', ';', 2, 0);
 
-	print 'Peek: ' . $testast->peek() . "\n";
-	print 'Peek: ' . $testast->peek(1) . "\n";
 	is(tok_whitespace::start($testast), 1, 'Testing if we have the start of whitespace.');
 	is(tok_whitespace::get($testast, $output), 1, 'Get our whitespace.');
 
