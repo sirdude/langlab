@@ -73,6 +73,9 @@ sub peek {
 	$self->debug("ast::peek($count)\n");
 	$count += $self->{'current'};
 
+	$self->debug("Node: $count numnodes: " . $self->{'size'} .
+		' Type ' . $self->{'data'}[$count]->{'type'} .
+		' data ' . $self->{'data'}[$count]->{'data'} . "\n");
 	if ($count > $self->{'size'}) {
 		return $EOF;
 	} elsif ($self->{'data'}[$count]->{'type'} eq 'EOF') {
@@ -119,7 +122,7 @@ sub match {
 		$done = 1;
 	}
 
-	if (($str eq '\n') && (($tmp eq 'EOL') || ($tmp eq $EOL))) {
+	if (($str eq '\n') && (($tmp eq "\n") || ($tmp eq 'EOL') || ($tmp eq $EOL))) {
 		return 1;
 	}
 
@@ -128,7 +131,7 @@ sub match {
 		while (!$done && (length($tmp) < $l)) {
 			my $p = $self->peek($c);
 			if ($p eq 'EOL' || $EOL) {
-				$tmp .= '\n';
+				$tmp .= "\n";
 		        } else {
 				$tmp .= $self->peek($c);
 		        }
@@ -174,7 +177,6 @@ sub add_node {
 	my $node = {};
 
 	$self->debug("ast::add_node($type, $data, $line, $column)\n");
-	$self->{'size'} += 1;
 	$node->{'type'} = $type;
 	$node->{'data'} = $data;
 	$node->{'linenum'} = $line;
@@ -189,6 +191,7 @@ sub add_node {
 	}
 	$self->add_stat('stats', 'totalchars', 1);
 	push(@{$self->{'data'}}, $node);
+	$self->{'size'} += 1;
 
 	return 1;
 }

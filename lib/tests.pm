@@ -43,7 +43,7 @@ sub is {
 		return 1;
 	} else {
 		print "notok " . total_tests() . " - $text\n";
-		print "\tgot: " . $value . "\n";
+		print "\tgot: " . $functioncall .  " expected: $expected\n";
 		return 0;
 	}
 }
