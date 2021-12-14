@@ -22,28 +22,13 @@ sub valid {
 sub get {
 	my ($ast, $outast) = @_;
 	my ($p, $l) = $ast->get_loc();
+	my $word = '';
 
 	$ast->push_scope();
 	$ast->debug('whitespace::get');
 
-	if (!start($ast)) {
-		$ast->pop_scope();
-		return 0;
-	}
-
-	my $tmp = $ast->consume();
-	my $word = $tmp;
-
-	if ($tmp eq ' ') {
-		$ast->add_stat('whitespace', 'SPACE', 1);
-	} else {
-		$ast->add_stat('whitespace', $tmp, 1);
-	}
-
-	while($ast->match(' ') || $ast->match("\t") || $ast->match("\n") ||
-		$ast->match("\r")) {
-
-		$tmp = $ast->consume();
+	while(start($ast)) {
+		my $tmp = $ast->consume();
 		$word = $word . $tmp;
 
 		if ($tmp eq ' ') {
@@ -52,8 +37,13 @@ sub get {
 			$ast->add_stat('whitespace', $tmp, 1);
 		}
 	}
+	if ($word eq '') {
+		$ast->pop_scope();
+		return 0;
+	}
+
 	$outast->add_node('whitespace', $word, $l, $p);
-	$ast->debug("whitespace::get added '$tmp\' length:" . length($tmp) . "\n");
+	$ast->debug("whitespace::get added '$word\' length:" . length($word) . "\n");
 
 	$ast->pop_scope();
 	return 1;

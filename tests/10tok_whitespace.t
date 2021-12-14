@@ -30,7 +30,7 @@ sub test_tok_whitespace_basics {
 	$testast->add_node('char', ' ', 1, 0);
 	$testast->add_node('char', ' ', 2, 0);
 	$testast->add_node('char', ';', 3, 0);
-	is(tok_whitespace::get($testast, $output), 0, 'Testing get of multiple whitespaces.');
+	is(tok_whitespace::get($testast, $output), 1, 'Testing get of multiple whitespaces.');
 	is($testast->peek(), ';', 'Testing to see if we are pointing at the next token.');
 
 	return 1;
