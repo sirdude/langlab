@@ -35,6 +35,10 @@ sub test_node_basics {
 	$testast->add_node('char', 'b', 2, 0);
 	is($testast->peek(), 'a', 'Testing peek with two inserts.');
 	is($testast->peek(1), 'b', 'Testing peek(1) with two inserts.');
+	is($testast->match('a'), 1, 'Testing match("a").');
+	is($testast->match('ab'), 1, 'Testing match("ab").');
+	is($testast->match('ad'), 0, 'Testing match("ad").');
+	is($testast->match('d'), 0, 'Testing match("ad").');
 	$testast->add_node('char', 'c', 3, 0);
 	$testast->add_node('char', 'd', 4, 0);
 	is($testast->consume('a'), 'a', 'Testing consume(a).');

@@ -115,34 +115,22 @@ sub at_eof {
 sub match {
 	my ($self, $str) = @_;
 	my $done = 0;
-	my $c = 1;
-	my $tmp = $self->peek();
-
-	if ($tmp eq get_eof()) {
-		$done = 1;
-	}
-
-	if (($str eq '\n') && (($tmp eq "\n") || ($tmp eq 'EOL') || ($tmp eq $EOL))) {
-		return 1;
-	}
-
-	if ($str && !$done) {
-		my $l = length($str);
-		while (!$done && (length($tmp) < $l)) {
-			my $p = $self->peek($c);
-			if ($p eq 'EOL' || $EOL) {
-				$tmp .= "\n";
-		        } else {
-				$tmp .= $self->peek($c);
-		        }
-			$c += 1;
-			if ($tmp eq get_eof()) {
-				$done = 1;
-			}
+	my $c = 0;
+	my $l = length($str);
+	my $ans = '';
+	
+	while ($c < $l && !$done) {
+		my $tmp = $self->peek($c);
+		if ($tmp eq get_eof()) {
+			$done = 1;
+		} else {
+			$ans .= $tmp;
 		}
+		$c = $c + 1;
 	}
-	$self->debug("ast::match($str) tmp = $tmp");
-	if ($tmp eq $str) {
+
+	$self->debug("ast::match($str) tmp = $ans");
+	if ($str eq $ans) {
 		return 1;
 	}
 	return 0;
