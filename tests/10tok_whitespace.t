@@ -33,6 +33,7 @@ sub test_tok_whitespace_spaces {
 	is(tok_whitespace::get($testast, $output), 1, 'Testing get of multiple whitespaces.');
 	is($testast->peek(), ';', 'Testing to see if we are pointing at the next token.');
 
+	$testast->consume(); # get rid of the ';' so we can put something that looks like a hex in the queue.
 	return 1;
 }
 
@@ -53,10 +54,31 @@ sub test_tok_whitespace_tab {
 	$testast->add_node('char', ';', 3, 0);
 	is(tok_whitespace::get($testast, $output), 1, 'Testing get of multiple tabs, with a space.');
 	is($testast->peek(), ';', 'Testing to see if we are pointing at the next token.');
+
+	$testast->consume(); # get rid of the ';' so we can put something that looks like a hex in the queue.
 	return 1;
 }
 
 sub test_tok_whitespace_eol {
+	$testast->add_node('char', "\n", 1, 0);
+	$testast->add_node('char', ';', 2, 0);
+
+	is(tok_whitespace::start($testast), 1, 'Testing if newline is the start of whitespace.');
+	is(tok_whitespace::get($testast, $output), 1, 'Get our newline whitespace.');
+
+	is($testast->peek(), ';', 'Testing to see if we are pointing at the next token.');
+
+	$testast->consume(); # get rid of the ';' so we can put something that looks like a hex in the queue.
+
+	$testast->add_node('char', "\t", 1, 0);
+	$testast->add_node('char', "\n", 1, 0);
+	$testast->add_node('char', ';', 2, 0);
+
+	is(tok_whitespace::get($testast, $output), 1, 'Get tab and newline whitespace.');
+
+	is($testast->peek(), ';', 'Testing to see if we are pointing at the next token.');
+
+	$testast->consume(); # get rid of the ';' so we can put something that looks like a hex in the queue.
 	return 1;
 }
 

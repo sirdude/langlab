@@ -117,6 +117,21 @@ sub at_eof {
 	return 0;
 }
 
+sub show_invis {
+	my ($tok) = @_;
+	my %syms;
+
+	$syms{' '} = ' ';
+	$syms{"\t"} = '\t';
+	$syms{"\n"} = '\n';
+	$syms{"\r"} = '\r';
+
+	if (exists($syms{$tok})) {
+		return $syms{$tok};
+	}
+	return $tok;
+}
+
 # See if STR is a match to the next few tokens.
 sub match {
 	my ($self, $str) = @_;
@@ -135,7 +150,9 @@ sub match {
 		$c = $c + 1;
 	}
 
-	$self->debug("ast::match($str) tmp = $ans");
+	my $name = show_invis($str);
+	my $name2 = show_invis($ans);
+	$self->debug("ast::match($name) tmp = '$name2'");
 	if ($str eq $ans) {
 		return 1;
 	}
