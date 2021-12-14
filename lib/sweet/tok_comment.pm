@@ -31,7 +31,7 @@ sub get {
 	}
 
 	if ($ast->match('//') || $ast->match('#')) {
-		while (!$ast->match('\n') && !$ast->match($ast->get_eof())) {
+		while (!$ast->match("\n") && !$ast->match($ast->get_eof())) {
 			$tmp = $ast->consume();
 			$com = $com . $tmp;
 		}
@@ -43,6 +43,8 @@ sub get {
 		$ast->pop_scope();
 		return 1;
 	} else { # get /* */
+		$tmp = $ast->consume('/*');
+			$com = $com . $tmp;
 		while (!$ast->match('*/') && !$ast->match($ast->get_eof())) {
 			$tmp = $ast->consume();
 			$com = $com . $tmp;
