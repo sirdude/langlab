@@ -3,7 +3,7 @@ package ast;
 use strict;
 use warnings;
 
-our $EOL = '__YY_EOL___';
+our $EOL = "\n";
 our $EOF = '__YY_EOF___';
 
 # XXX Need to get rid of at least linenum???
