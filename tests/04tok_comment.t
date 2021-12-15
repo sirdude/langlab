@@ -2,8 +2,6 @@
 
 use strict;
 use warnings;
-# use Test::More tests => 9;
-# use Test::Exception;
 
 use lib "./lib";
 use lib "../lib";
@@ -69,12 +67,12 @@ sub test_tok_multi_line_comment_basics {
 	$testast->add_node('char', 'a', 1, 1);
 	$testast->add_node('char', '*', 2, 1);
 	$testast->add_node('char', '/', 3, 1);
-	$testast->add_node('EOL', "\n", 4, 2);
+	$testast->add_node('char', 'a', 3, 2);
 
 	is(tok_comment::start($testast), 1, 'Testing if we have the start of a multi line comment.');
 	is(tok_comment::get($testast, $output), 1, 'Get a multi comment.');
 
-	is($testast->peek(), "\n", 'Testing to see if we are pointing at the next token.');
+	is($testast->peek(), 'a', 'Testing to see if we are pointing at the next token a.');
 	$testast->consume(); # Empty our queue so we can run another test.
 
 	return 1;
