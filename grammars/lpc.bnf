@@ -1,0 +1,61 @@
+<program> :: = <comment> | <preprocesser> | <inherit> | <definition>
+
+<preprocesser> ::= # (.*)			Ignoring. using as comments.
+
+<comment> ::= ("//" [!<endofline>]* <endofline> ) | 
+	<startcomment> [!<endcomment>]* <endcomment>
+<startcomment> ::= "/*"
+<endcomment> ::= "*/"
+<endofline> ::= "\n"
+
+<inherit> ::= ("include" | "inherit") <string>
+<string> ::= <SINGLEQUOTE> [!<SINGLEQUOTE>]* <SINGLEQUOTE> |
+	<DOUBLEQUOTE> [!<DOUBLEQUOTE>]* <DOUBLEQUOTE>
+SINGLEQUOTE ::= "'"
+DOUBLEQUOTE ::= '"'
+
+<definition> ::= (<modifier>)* <type> (<functiondef> || <vardef>)
+<modifier> ::= "static" | "private" | "atomic" | "nomask"
+
+<type> ::= "int" | "float" | "string" | "void" | "object" | 
+	"mapping" | "mixed"
+
+<functiondef> ::= <ident> <params> <block>
+<params> ::= "(" <paramlist> ")"
+
+<vardef> ::= <identlist>
+
+<ident> ::= <letter> (<letter> | <num> | "_")*
+<letter> ::= "A" .. "Z" | "a" .. "z"
+<num> ::= "0" .. "9"
+
+<paramlist> ::= <type> <ident> ("," <type> <ident>)*
+<identlist> ::= <varname> ("," <varname>)*
+
+<varname> ::= <ident> | <ident> "[" <size> "]"
+<size> ::= <expression>
+<block> ::= "{" <statements> "}"
+
+<statements> ::= (<assignment> | <conditional> | <functioncall> | <jump> | EMPTY) [<statements>]*
+
+<conditional> ::= <if> | <while> | <switch> | <for>
+<jump> ::= <return> | <break> | <goto>
+
+<if> ::= "if" <bool> <block> ["else" <block>]
+<while> ::= <bool> <block>
+<switch> ::= "switch" <ident> "{" <switchbody> "}"
+<for> ::= "for" "(" <expression> ";" <expression> ";" <expression> ")" <block>
+
+<functioncall> ::= ident "(" <identlist> ")"
+<assignment> ::= ident "=" <expression>
+<switchbody> ::= <statements> | <case> | <default>
+
+<bool> ::= "(" ... ")"
+<expression> ::=
+<case> ::= case <value> ":"
+<default> ::= "default" ":"
+<break> ::= "break"
+<goto> ::= "goto" <ident>
+<return> ::= return <expression>
+<value> ::=
+

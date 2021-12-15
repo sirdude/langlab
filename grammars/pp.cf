@@ -1,0 +1,27 @@
+-- This is a bnf of the pre processor for C
+-- using it more as a sample than anything else.
+
+preprocessing_directive ::= control_line newline | if_section |
+	pp_token newline
+
+control_line ::= # include { < identifier > | " identifier " } |
+	#undef indentifer | # line pp_token | # error pp_token |
+	# pragma pp_token | 
+	# define identifier [identifer_list] [pp_token+]
+
+pp_token::= identifier | constant | string_literal | operator | punctuator |
+	pp_token ## pp_token | # identifer
+
+if_section ::= if_group [elif_group+] [ else_group] end_if_line
+
+if_group ::= # if const_integral_expr newline [ preprocessing_directive ] |
+	# ifdef identifer newline [ preprocessing_directive ] |
+	# ifndef identifer newline [ preprocessing_directive ]
+
+elif_group ::= #elif constant_expression newline [ preprocessing_directive ]
+
+else_group ::= #else newline [ preprocessing_directive ]
+
+end_if_line ::= # endif newline
+
+newline ::= '\n'
