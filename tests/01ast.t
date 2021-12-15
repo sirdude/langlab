@@ -39,9 +39,13 @@ sub test_node_basics {
 	is($testast->match('ab'), 1, 'Testing match("ab").');
 	is($testast->match('ad'), 0, 'Testing match("ad").');
 	is($testast->match('d'), 0, 'Testing match("ad").');
+	is($testast->match_type('char'), 1, 'Testing match_type("char").');
+	is($testast->match_type('int'), 0, 'Testing match_type("char").');
 	is($testast->consume('a'), 'a', 'Testing consume(a).');
 	is($testast->consume('bc'), 'bc', 'Testing consume(b).');
 	is($testast->peek(), 'd', 'Testing peek() after consume.');
+	$testast->consume(); # Get rid of d.
+	is($testast->match_type('EOF'), 1, 'Testing match("EOF").');
 
 	return 1;
 }

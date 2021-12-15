@@ -106,7 +106,7 @@ sub get_eof {
 sub at_eof {
 	my ($self) = @_;
 
-	if ($self->{'current'} > $self->{'size'}) {
+	if ($self->{'current'} >= $self->{'size'}) {
 		return 1;
 	}
 
@@ -158,6 +158,22 @@ sub match {
 	my $name2 = show_invis($ans);
 	$self->debug("ast::match($name) tmp = '$name2'");
 	if ($str eq $ans) {
+		return 1;
+	}
+	return 0;
+}
+
+sub match_type {
+	my ($self, $type) = @_;
+
+	if ($self->at_eof()) {
+		if ($type eq 'EOF') {
+			return 1;
+		}
+		return 0;
+	}
+
+	if ($self->{'data'}[$self->{'current'}]->{'type'} eq $type) {
 		return 1;
 	}
 	return 0;
