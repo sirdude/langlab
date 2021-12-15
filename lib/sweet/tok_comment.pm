@@ -22,6 +22,7 @@ sub get {
 	my ($ast, $outast) = @_;
 	my ($com, $tmp) = ('', '');
 	my ($p, $l) = $ast->get_loc();
+	my $done = 0;
 
 	$ast->push_scope();
 	$ast->debug('comment::get Buf: ' . $ast->peek());
@@ -31,9 +32,15 @@ sub get {
 	}
 
 	if ($ast->match('//') || $ast->match('#')) {
-		while (!$ast->match("\n") && !$ast->match($ast->get_eof())) {
-			$tmp = $ast->consume();
-			$com = $com . $tmp;
+		while (!$done && !$ast->match("\n")) {
+		    if ($ast->match('EOF')) {
+			    $done = 1;
+			} else {
+				$com = $com . $ast->consume();
+			}
+		}
+		if ($ast->match("\n")) {
+			$com = $com . $ast->consume();
 		}
 
 		$ast->debug("single comment = '$com'");
@@ -44,13 +51,18 @@ sub get {
 		return 1;
 	} else { # get /* */
 		$tmp = $ast->consume('/*');
-			$com = $com . $tmp;
-		while (!$ast->match('*/') && !$ast->match($ast->get_eof())) {
+		$com = $com . $tmp;
+
+		while (!$done && !$ast->match('*/')) {
 			$tmp = $ast->consume();
-			$com = $com . $tmp;
+			if ($tmp eq 'EOF') {
+				$done = 1;
+			} else {
+				$com = $com . $tmp;
+			}
 		}
 
-		if (!$ast->match($ast->get_eof())) { # Eat the end of comment '*/'
+		if (!$ast->match('EOF')) { # Eat the end of comment '*/'
 			$tmp = $ast->consume();
 			$com = $com . $tmp;
 			$tmp = $ast->consume();

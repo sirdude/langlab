@@ -140,6 +140,10 @@ sub match {
 	my $l = length($str);
 	my $ans = '';
 	
+	if (($str eq 'EOF') && $self->at_eof()) {
+		return 1;
+	}
+
 	while ($c < $l && !$done) {
 		my $tmp = $self->peek($c);
 		if ($tmp eq get_eof()) {
@@ -162,6 +166,10 @@ sub match {
 # Get the next token, if STR consume tokens until STR is fully consumed.  If not error.
 sub consume {
 	my ($self, $str) = @_;
+
+	if ($self->at_eof()) {
+		return 'EOF';
+	}
 	if (!$str || $str eq '') {
 		my $pos = $self->{'current'};
 		$self->{'current'} = $pos + 1;

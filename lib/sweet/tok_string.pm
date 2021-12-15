@@ -38,7 +38,7 @@ sub get {
 	$tmp = $ast->consume();
 	$type = $tmp;
 
-	while (!$ast->match($ast->get_eof()) && !$ast->match($type)) {
+	while (!$ast->match('EOF') && !$ast->match($type)) {
 		$tmp = $ast->consume();
 		if ($tmp eq "\\") { # We have an escape read the next char as
 					# well and treat it as one symbol...
