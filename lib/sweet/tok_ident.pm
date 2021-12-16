@@ -8,19 +8,30 @@ our @EXPORT = qw(start valid get);
 
 # Not all of these will be in our language but they are used in different
 # # languages this is more generic
-my @keywords = ('int', 'float', 'string', 'void', 'mixed', 'mapping', 'object',
-	'static', 'atomic', 'private', 'unsigned', 'nomask',
-	'include', 'inherit', 'for', 'while', 'if', 'else',
-	'switch', 'return', 'exit', 'break', 'case', 'default', 'continue', 'do',
-	'try', 'boolean', 'short', 'long', 'double', 'new', 'public', 'elseif',
-	'read', 'write', 'goto', 'nil', 'null', 'sizeof', 'foreach', 'keys',
-	'const', 'eval', 'catch', 'struct', 'class', 'array', 'declare', 'sub',
-	'define', 'var', 'throw', 'hash');
+my %keywords = ('int' => 'type', 'float' => 'type', 'string' => 'type',
+	'void' => 'type', 'mixed' => 'type', 'mapping' => 'type', 'object' => 'type',
+	'boolean' => 'type', 'short' => 'type', 'long' => 'type', 'double' => 'type',
+	'nil' => 'type', 'null' => 'type', 'const' => 'type', 'array' => 'type',
+	'var' => 'type', 'hash' => 'type',
+	'static' => 'typemod', 'atomic' => 'typemod', 'private' => 'typemod',
+	'unsigned' => 'typemod', 'nomask' => 'typemod',
+	'include' =>'package', 'inherit' => 'package', 'lib' => 'package', 
+	'for' => 'statement', 'while' => 'statement', 'if' => 'statement',
+	'else' => 'statement', 'switch' => 'statement', 'return' => 'statement',
+	'exit' => 'statement', 'break' => 'statement', 'case' => 'statement',
+	'default' => 'statement', 'continue' => 'statement', 'do' => 'statement',
+	'try' => 'statement', 'new' => 'statement', 'public' => 'statement',
+	'elseif' => 'statement', 'read' => 'statement', 'write' => 'statement',
+	'goto' => 'statement', 'sizeof' => 'statement', 'foreach' => 'statement',
+	'keys' => 'statement',
+	'eval' => 'statement', 'catch' => 'statement', 'struct' => 'statement',
+	'class' => 'statement', 'declare' => 'statement', 'sub' => 'statement',
+	'define' => 'statement', 'throw' => 'statement');
 
 sub is_keyword {
 	my ($input) = @_;
 
-	foreach my $i (@keywords) {
+	foreach my $i (keys %keywords) {
 		if ($input eq $i) {
 			return 1;
 		}
@@ -87,7 +98,7 @@ sub get {
 
 	$ast->debug("ident::get: '$word'");
 	if (is_keyword($word)) {
-		$outast->add_node('keyword', $word, $l, $p);
+		$outast->add_node($keywords{$word}, $word, $l, $p);
 	} else {
 		$outast->add_node('ident', $word, $l, $p);
 	}
