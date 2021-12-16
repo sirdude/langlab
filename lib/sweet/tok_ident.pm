@@ -87,14 +87,10 @@ sub get {
 
 	$ast->debug("ident::get: '$word'");
 	if (is_keyword($word)) {
-		$ast->add_stat('keyword', $word, 1);
-	} elsif ($flag) {
-		$ast->add_stat('ident', $word, 1);
+		$outast->add_node('keyword', $word, $l, $p);
 	} else {
-		$ast->add_stat('ident', 'ident', 1);
+		$outast->add_node('ident', $word, $l, $p);
 	}
-
-	$outast->add_node('ident', $word, $l, $p);
 	$ast->pop_scope();
 	return 1;
 }
