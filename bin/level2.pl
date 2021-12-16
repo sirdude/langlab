@@ -82,14 +82,22 @@ sub convert_to_tokens {
 	return 1;
 }
 
+sub has_extension {
+	my ($fname, $ext) = @_;
+
+	$fname = lc($fname);
+	if ($fname =~ /.*\.$ext/) {
+		return 1;
+	}
+	return 0;
+}
+
 sub main {
 	my @VALUES = @_;
 	my $ret = 0;
 
 	add_option('help', 'Print usage statement.');
 	add_option('debug', 'Enable debugging mode.');
-	add_option('xml', 'Use xml format for output.');
-	add_option('json', 'Use json format for output.');
 	add_option('expand-stats', 'Dig a little deeper not just reporting types for comments, strings, idents.');
 	add_option('output-char-file', 'Filename for output charaters.');
 	add_option('output-tok-file', 'Filename for output tokens.');
@@ -118,9 +126,9 @@ sub main {
 	if ($charast->parse_file_or_string(@VALUES)) {
 		my $filename = query_option('output-char-file');
 		if ($filename) {
-			if (query_option('json')) {
+			if (has_extension($filename, 'json')) {
 				$ret = $charast->nodes_to_json($filename);
-			} elsif (query_option('xml')) {
+			} elsif (has_extension($filename, 'xml')) {
 				$ret = $charast->nodes_to_xml($filename);
 			} else {
 				$ret = $charast->print_nodes($filename);
@@ -132,9 +140,9 @@ sub main {
 	convert_to_tokens($charast, $tokast);
 	my $filename = query_option('output-tok-file');
 	if ($filename) {
-		if (query_option('json')) {
+		if (has_extension($filename, 'json')) {
 			$ret = $tokast->nodes_to_json($filename);
-		} elsif (query_option('xml')) {
+		} elsif (has_extension($filename, 'xml')) {
 			$ret = $tokast->nodes_to_xml($filename);
 		} else {
 			$ret = $tokast->print_nodes($filename);
