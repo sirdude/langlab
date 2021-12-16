@@ -56,7 +56,7 @@ sub convert_to_tokens {
 		} elsif (tok_whitespace::start($inast)) {
 			tok_whitespace::get($inast, $outast);
 		} elsif (tok_ident::start($inast)) {
-			tok_ident::get($inast, $outast, query_option('names'));
+			tok_ident::get($inast, $outast, query_option('expand-stats'));
 		} elsif (tok_string::start($inast)) {
 			tok_string::get($inast, $outast);
 		} elsif (tok_html::start($inast)) {
@@ -90,7 +90,7 @@ sub main {
 	add_option('debug', 'Enable debugging mode.');
 	add_option('xml', 'Use xml format for output.');
 	add_option('json', 'Use json format for output.');
-	add_option('names', 'Used in stats to collect names of identifiers not just type.');
+	add_option('expand-stats', 'Dig a little deeper not just reporting types for comments, strings, idents.');
 	add_option('output-char-file', 'Filename for output charaters.');
 	add_option('output-tok-file', 'Filename for output tokens.');
 
@@ -105,6 +105,10 @@ sub main {
 
 	$charast = ast->new();
 	$tokast = ast->new();
+	if (query_option('expand-stats')) {
+		$charast->{'expand-stats'} = 1;
+		$tokast->{'expand-stats'} = 1;
+	}
 
 	if (query_option('debug')) {
 		$charast->set_debug(1);

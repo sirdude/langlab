@@ -69,6 +69,11 @@ sub test_ident_with_underscore {
 	return 1;
 }
 
+sub test_keyword {
+	is(tok_ident::is_keyword('if'), 1, 'Testing if if is a keyword.');
+	is(tok_ident::is_keyword('ifnot'), 0, 'Testing if ifnot is a keyword.');
+}
+
 sub main {
 	$testast = ast->new();
 	$output = ast->new();
@@ -77,6 +82,7 @@ sub main {
 	test_tok_ident_basics();
 	test_ident_with_num();
 	test_ident_with_underscore();
+	test_keyword();
 	test_summary();
 
 	return 1;

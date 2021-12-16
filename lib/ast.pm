@@ -222,7 +222,16 @@ sub add_node {
 	} elsif ($data eq $EOL) {
 		$self->add_stat('char', 'EOL', 1);
 	} else {
-		$self->add_stat($type, $data, 1);
+	    if (!$self->{'expand-stats'}) {
+			if (($type eq 'string') || ($type eq 'comment') ||
+				($type eq 'whitespace') || ($type eq 'ident')) {
+					$self->add_stat($type, $type, 1);
+				} else {
+					$self->add_stat($type, $data, 1);
+				}
+		} else {
+			$self->add_stat($type, $data, 1);
+		}
 	}
 	$self->add_stat('stats', 'totalchars', 1);
 	push(@{$self->{'data'}}, $node);
