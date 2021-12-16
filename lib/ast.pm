@@ -232,57 +232,105 @@ sub add_node {
 }
 
 sub print_nodes {
-	my ($self) = @_;
+	my ($self, $filename) = @_;
 	my $c = 0;
+	my $fh;
 
-	foreach my $i (@{$self->{'data'}}) {
-		print "Node: $c\n";
-		foreach my $key (sort keys %{$i}) {
-			print "\t" . $key . ': ' . $i->{$key} . "\n";
+	if (($filename eq '') || $filename eq 1) {
+		foreach my $i (@{$self->{'data'}}) {
+			print "Node: $c\n";
+			foreach my $key (sort keys %{$i}) {
+				print "\t" . $key . ': ' . $i->{$key} . "\n";
+			}
+			$c = $c + 1;
 		}
-		$c = $c + 1;
+	} else {
+		open($fh, ">", $filename) or die "Unable to open $filename\n";
+		foreach my $i (@{$self->{'data'}}) {
+			print $fh "Node: $c\n";
+			foreach my $key (sort keys %{$i}) {
+				print $fh "\t" . $key . ': ' . $i->{$key} . "\n";
+			}
+			$c = $c + 1;
+	}
 	}
 	return 1;
 }
 
 sub nodes_to_json {
-	my ($self) = @_;
+	my ($self, $filename) = @_;
 	my $start = 0;
+	my $fh;
 
-	print "{ \"NODES\": [\n";
-	foreach my $i (@{$self->{'data'}}) {
-		if (!$start) {
-			$start = 1;
-		} else {
-			print ",\n";
-		}
-		print '{ ';
-			foreach my $key (sort keys %{$i}) {
-				print "\t" . $key . ":" . $i->{$key} . ",\n";
+	if (($filename eq '') || $filename eq 1) {
+		print "{ \"NODES\": [\n";
+		foreach my $i (@{$self->{'data'}}) {
+			if (!$start) {
+				$start = 1;
+			} else {
+				print ",\n";
 			}
-		print ' }';
+			print '{ ';
+				foreach my $key (sort keys %{$i}) {
+					print "\t" . $key . ":" . $i->{$key} . ",\n";
+				}
+			print ' }';
+		}
+		if ($start) {
+			print "\n";
+		}
+		print "] }\n";
+	} else {
+		open($fh, ">", $filename) or die "Unable to open $filename\n";
+		print $fh "{ \"NODES\": [\n";
+		foreach my $i (@{$self->{'data'}}) {
+			if (!$start) {
+				$start = 1;
+			} else {
+				print $fh ",\n";
+			}
+			print $fh '{ ';
+				foreach my $key (sort keys %{$i}) {
+					print $fh "\t" . $key . ":" . $i->{$key} . ",\n";
+				}
+			print $fh ' }';
+		}
+		if ($start) {
+			print $fh "\n";
+		}
+		print $fh "] }\n";
 	}
-	if ($start) {
-		print "\n";
-	}
-	print "] }\n";
 
 	return 1;
 }
 
 sub nodes_to_xml {
-	my ($self) = @_;
+	my ($self, $filename) = @_;
 	my $start = 0;
+	my $fh;
 
-	print "<nodes>\n";
-	foreach my $i (@{$self->{'data'}}) {
-		print "\t<node>\n";
-		foreach my $key (sort keys %{$i}) {
-			print "\t\t<$key>" . $i->{$key} . "</$key>\n";
+	if (($filename eq '') || $filename eq 1) {
+		print "<nodes>\n";
+		foreach my $i (@{$self->{'data'}}) {
+			print "\t<node>\n";
+			foreach my $key (sort keys %{$i}) {
+				print "\t\t<$key>" . $i->{$key} . "</$key>\n";
+			}
+			print "\t</node>\n";
 		}
-		print "\t</node>\n";
+		print "</nodes>\n";
+	} else {
+		open($fh, ">", $filename) or die "Unable to open $filename\n";
+		print $fh "<nodes>\n";
+		foreach my $i (@{$self->{'data'}}) {
+			print $fh "\t<node>\n";
+			foreach my $key (sort keys %{$i}) {
+				print $fh "\t\t<$key>" . $i->{$key} . "</$key>\n";
+			}
+			print $fh "\t</node>\n";
+		}
+		print $fh "</nodes>\n";
 	}
-	print "</nodes>\n";
 
 	return 1;
 }

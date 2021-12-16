@@ -91,6 +91,8 @@ sub main {
 	add_option('xml', 'Use xml format for output.');
 	add_option('json', 'Use json format for output.');
 	add_option('names', 'Used in stats to collect names of identifiers not just type.');
+	add_option('output-char-file', 'Filename for output charaters.');
+	add_option('output-tok-file', 'Filename for output tokens.');
 
 	if (!@VALUES) {
 		return usage();
@@ -110,17 +112,30 @@ sub main {
 	}
 
 	if ($charast->parse_file_or_string(@VALUES)) {
-		if (query_option('json')) {
-			$ret = $charast->nodes_to_json();
-		} elsif (query_option('xml')) {
-			$ret = $charast->nodes_to_xml();
-		} else {
-			$ret = $charast->print_nodes();
+		my $filename = query_option('output-char-file');
+		if ($filename) {
+			if (query_option('json')) {
+				$ret = $charast->nodes_to_json($filename);
+			} elsif (query_option('xml')) {
+				$ret = $charast->nodes_to_xml($filename);
+			} else {
+				$ret = $charast->print_nodes($filename);
+			}
 		}
 		$charast->write_stats('char_stats.txt');
 	}
 
 	convert_to_tokens($charast, $tokast);
+	my $filename = query_option('output-tok-file');
+	if ($filename) {
+		if (query_option('json')) {
+			$ret = $tokast->nodes_to_json($filename);
+		} elsif (query_option('xml')) {
+			$ret = $tokast->nodes_to_xml($filename);
+		} else {
+			$ret = $tokast->print_nodes($filename);
+		}
+	}
 	$tokast->write_stats('token_stats.txt');
 	return $ret;
 }

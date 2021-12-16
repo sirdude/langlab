@@ -60,7 +60,7 @@ sub print_options {
 
 	print "Options:\n";
 
-	foreach my $i (keys(%options)) {
+	foreach my $i (sort keys(%options)) {
 		if (exists($options{$i}->{'setable'})) {
 			$st = sprintf("\t%-20s %s\n", "--$i=" .
 				$options{$i}->{'setable'},
