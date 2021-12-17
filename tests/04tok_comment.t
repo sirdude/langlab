@@ -15,15 +15,15 @@ use tok_comment;
 my ($testast, $output);
 
 sub test_tok_pound_line_comment_basics {
-	$testast->add_node('char', '#', 1, 0);
-	$testast->add_node('char', ' ', 2, 0);
-	$testast->add_node('char', '9', 3, 0);
-	$testast->add_node('char', 'b', 4, 0);
-	$testast->add_node('char', '7', 5, 0);
-	$testast->add_node('char', '6', 6, 0);
-	$testast->add_node('char', ';', 7, 0);
-	$testast->add_node('EOL', "\n", 8, 0);
-	$testast->add_node('char', 'a', 9, 0);
+	$testast->add_base_node('char', '#', 1, 0);
+	$testast->add_base_node('char', ' ', 2, 0);
+	$testast->add_base_node('char', '9', 3, 0);
+	$testast->add_base_node('char', 'b', 4, 0);
+	$testast->add_base_node('char', '7', 5, 0);
+	$testast->add_base_node('char', '6', 6, 0);
+	$testast->add_base_node('char', ';', 7, 0);
+	$testast->add_base_node('EOL', "\n", 8, 0);
+	$testast->add_base_node('char', 'a', 9, 0);
 
 	is(tok_comment::start($testast), 1, 'Testing if we have the start of a # single line comment.');
 	is(tok_comment::get($testast, $output), 1, 'Get # comments.');
@@ -36,15 +36,15 @@ sub test_tok_pound_line_comment_basics {
 }
 
 sub test_tok_doubleslash_line_comment_basics {
-	$testast->add_node('char', '/', 1, 0);
-	$testast->add_node('char', '/', 2, 0);
-	$testast->add_node('char', ' ', 3, 0);
-	$testast->add_node('char', ' ', 4, 0);
-	$testast->add_node('char', '7', 5, 0);
-	$testast->add_node('char', '6', 6, 0);
-	$testast->add_node('char', ';', 7, 0);
-	$testast->add_node('EOL', "\n", 8, 0);
-	$testast->add_node('char', 'a', 9, 0);
+	$testast->add_base_node('char', '/', 1, 0);
+	$testast->add_base_node('char', '/', 2, 0);
+	$testast->add_base_node('char', ' ', 3, 0);
+	$testast->add_base_node('char', ' ', 4, 0);
+	$testast->add_base_node('char', '7', 5, 0);
+	$testast->add_base_node('char', '6', 6, 0);
+	$testast->add_base_node('char', ';', 7, 0);
+	$testast->add_base_node('EOL', "\n", 8, 0);
+	$testast->add_base_node('char', 'a', 9, 0);
 
 	is(tok_comment::start($testast), 1, 'Testing if we have the start of a // line comment.');
 	is(tok_comment::get($testast, $output), 1, 'Get a // comment.');
@@ -56,18 +56,18 @@ sub test_tok_doubleslash_line_comment_basics {
 }
 
 sub test_tok_multi_line_comment_basics {
-	$testast->add_node('char', '/', 1, 0);
-	$testast->add_node('char', '*', 2, 0);
-	$testast->add_node('char', ' ', 3, 0);
-	$testast->add_node('char', ' ', 4, 0);
-	$testast->add_node('char', '7', 5, 0);
-	$testast->add_node('char', '6', 6, 0);
-	$testast->add_node('char', ';', 7, 0);
-	$testast->add_node('EOL', "\n", 8, 0);
-	$testast->add_node('char', 'a', 1, 1);
-	$testast->add_node('char', '*', 2, 1);
-	$testast->add_node('char', '/', 3, 1);
-	$testast->add_node('char', 'a', 3, 2);
+	$testast->add_base_node('char', '/', 1, 0);
+	$testast->add_base_node('char', '*', 2, 0);
+	$testast->add_base_node('char', ' ', 3, 0);
+	$testast->add_base_node('char', ' ', 4, 0);
+	$testast->add_base_node('char', '7', 5, 0);
+	$testast->add_base_node('char', '6', 6, 0);
+	$testast->add_base_node('char', ';', 7, 0);
+	$testast->add_base_node('EOL', "\n", 8, 0);
+	$testast->add_base_node('char', 'a', 1, 1);
+	$testast->add_base_node('char', '*', 2, 1);
+	$testast->add_base_node('char', '/', 3, 1);
+	$testast->add_base_node('char', 'a', 3, 2);
 
 	is(tok_comment::start($testast), 1, 'Testing if we have the start of a multi line comment.');
 	is(tok_comment::get($testast, $output), 1, 'Get a multi comment.');

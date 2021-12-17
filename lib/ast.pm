@@ -207,33 +207,40 @@ sub consume {
 	}
 }
 
-sub add_node {
+sub add_base_node {
 	my ($self, $type, $data, $line, $column) = @_;
 	my $node = {};
 
-	$self->debug("ast::add_node($type, $data, $line, $column)\n");
+	$self->debug("ast::add_base_node($type, $data, $line, $column)\n");
 	$node->{'type'} = $type;
 	$node->{'data'} = $data;
 	$node->{'linenum'} = $line;
 	$node->{'columnnum'} = $column;
 
-	if ($data eq $EOF) {
+    return add_node($self, $node);
+}
+
+sub add_node {
+	my ($self, $node) = @_;
+
+	if ($node->{'data'} eq $EOF) {
 		$self->add_stat('char', 'EOF', 1);
-	} elsif ($data eq $EOL) {
+	} elsif ($node->{'data'} eq $EOL) {
 		$self->add_stat('char', 'EOL', 1);
 	} else {
 	    if (!$self->{'expand-stats'}) {
-			if (($type eq 'string') || ($type eq 'comment') ||
-				($type eq 'whitespace') || ($type eq 'ident')) {
-					$self->add_stat($type, $type, 1);
+			if (($node->{'type'} eq 'string') || ($node->{'type'} eq 'comment') ||
+				($node->{'type'} eq 'whitespace') || ($node->{'type'} eq 'ident')) {
+					$self->add_stat($node->{'type'}, $node->{'type'}, 1);
 				} else {
-					$self->add_stat($type, $data, 1);
+					$self->add_stat($node->{'type'}, $node->{'data'}, 1);
 				}
 		} else {
-			$self->add_stat($type, $data, 1);
+			$self->add_stat($node->{'type'}, $node->{'data'}, 1);
 		}
 	}
 	$self->add_stat('stats', 'totalchars', 1);
+
 	push(@{$self->{'data'}}, $node);
 	$self->{'size'} += 1;
 
@@ -588,9 +595,9 @@ sub parse_string {
 	foreach my $i (split //, $string) {
 		$c = $c + 1;
 		if ($i eq "\n") {
-			$self->add_node('EOL', $EOL, $lnum, $c);
+			$self->add_base_node('EOL', $EOL, $lnum, $c);
 		} else {
-			$self->add_node('char', $i, $lnum, $c);
+			$self->add_base_node('char', $i, $lnum, $c);
 		}
 	}
 	return 1;
@@ -616,7 +623,7 @@ sub parse_file {
 		}
 		close($fh);
 		$l = $l + 1;
-		$self->add_node('EOF', $EOF, $l, 0);
+		$self->add_base_node('EOF', $EOF, $l, 0);
 		$self->add_stat('stats', 'linenum', $l);
 		return 1;
 	} else {

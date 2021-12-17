@@ -53,7 +53,7 @@ sub get {
 		$word .= $tmp;
 		$ast->debug("html::get found: $word");
 		$ast->add_stat('literal', 'html', 1);
-		$outast->add_node('html', $word, $l, $p);
+		$outast->add_base_node('html', $word, $l, $p);
 		$ast->pop_scope();
 		return 1;
 	}

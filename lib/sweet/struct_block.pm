@@ -53,7 +53,7 @@ sub get {
 
 		$ast->pop_scope();
 
-		# XXX $ast->add_node($node);
+		$ast->add_node($node);
 
 		return 1;
 	}

@@ -22,7 +22,7 @@ sub valid {
 sub get {
 	my ($ast, $outast) = @_;
 	my ($p, $l) = $ast->get_loc();
-	my ($word, $tmp);
+	my (%node, $tmp);
 	my $return = 0;
 
 	$ast->push_scope();
@@ -35,16 +35,21 @@ sub get {
 
 	$tmp = $ast->consume('if');
 	$tmp = $ast->consume('(');
+	$node->{'type'} = 'if';
 
 	# XXX Need to get expression here
 	
 	$tmp = $ast->consume(')');
 
-	# XXX Need to get first block
-	#
+	$node->{'data'} = struct_block::get($ast);
+
+	# XXX 
 	# look and get Optional else if
-	# get Optional else 
-	#
+
+	if ($ast->peek('else') {
+		$node->{'else'} = struct_block::get($ast);
+	}
+
 	# put the node togeather
 	
 	if ($return) {

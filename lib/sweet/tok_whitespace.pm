@@ -42,7 +42,7 @@ sub get {
 		return 0;
 	}
 
-	$outast->add_node('whitespace', $word, $l, $p);
+	$outast->add_base_node('whitespace', $word, $l, $p);
 	$ast->debug("whitespace::get added '$word\' length:" . length($word) . "\n");
 
 	$ast->pop_scope();

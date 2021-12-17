@@ -15,8 +15,8 @@ use tok_op;
 my ($testast, $output);
 
 sub test_tok_op_equal {
-	$testast->add_node('char', '=', 1, 0);
-	$testast->add_node('char', 'a', 3, 0);
+	$testast->add_base_node('char', '=', 1, 0);
+	$testast->add_base_node('char', 'a', 3, 0);
 
 	is(tok_op::start($testast), 1, 'Testing if we have the start of a operator.');
 	is(tok_op::get($testast, $output), 1, 'Testing get =.');
@@ -31,9 +31,9 @@ sub test_tok_op_equal {
 }
 
 sub test_tok_op_equalequal {
-	$testast->add_node('char', '=', 1, 0);
-	$testast->add_node('char', '=', 2, 0);
-	$testast->add_node('char', 'a', 3, 0);
+	$testast->add_base_node('char', '=', 1, 0);
+	$testast->add_base_node('char', '=', 2, 0);
+	$testast->add_base_node('char', 'a', 3, 0);
 
 	is(tok_op::start($testast), 1, 'Testing if we have the start of a operator.');
 	is(tok_op::get($testast, $output), 1, 'Testing get ==.');
@@ -46,9 +46,9 @@ sub test_tok_op_equalequal {
 }
 
 sub test_tok_op_nottwoops {
-	$testast->add_node('char', '.', 1, 0);
-	$testast->add_node('char', ';', 2, 0);
-	$testast->add_node('char', 'a', 3, 0);
+	$testast->add_base_node('char', '.', 1, 0);
+	$testast->add_base_node('char', ';', 2, 0);
+	$testast->add_base_node('char', 'a', 3, 0);
 
 	is(tok_op::start($testast), 1, 'Testing if we have the start of a operator.');
 	is(tok_op::get($testast, $output), 1, 'Testing get ".".');

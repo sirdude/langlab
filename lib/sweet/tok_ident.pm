@@ -98,9 +98,9 @@ sub get {
 
 	$ast->debug("ident::get: '$word'");
 	if (is_keyword($word)) {
-		$outast->add_node($keywords{$word}, $word, $l, $p);
+		$outast->add_base_node($keywords{$word}, $word, $l, $p);
 	} else {
-		$outast->add_node('ident', $word, $l, $p);
+		$outast->add_base_node('ident', $word, $l, $p);
 	}
 	$ast->pop_scope();
 	return 1;

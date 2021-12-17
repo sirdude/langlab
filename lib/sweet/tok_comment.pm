@@ -45,7 +45,7 @@ sub get {
 
 		$ast->debug("single comment = '$com'");
 		$ast->add_stat('comment', 'singleline', 1);
-		$outast->add_node('comment', $com, $l, $p);
+		$outast->add_base_node('comment', $com, $l, $p);
 
 		$ast->pop_scope();
 		return 1;
@@ -70,7 +70,7 @@ sub get {
 		}
 		$ast->debug("double comment = '$com'");
 		$ast->add_stat('comment', 'multiline', 1);
-		$outast->add_node('comment', $com, $l, $p);
+		$outast->add_base_node('comment', $com, $l, $p);
 
 		$ast->pop_scope();
 		return 1;
