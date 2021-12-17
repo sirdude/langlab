@@ -72,6 +72,8 @@ sub test_ident_with_underscore {
 sub test_keyword {
 	is(tok_ident::is_keyword('if'), 1, 'Testing if if is a keyword.');
 	is(tok_ident::is_keyword('ifnot'), 0, 'Testing if ifnot is a keyword.');
+
+	return 1;
 }
 
 sub main {
