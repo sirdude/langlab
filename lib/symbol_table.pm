@@ -3,9 +3,6 @@ package symbol_table;
 use warnings;
 use base 'Exporter';
 
-our @EXPORT = qw(lookup_value lookup_type intable insert_symbol
-	dump_table);
-
 sub new {
 	my $class = shift;
 	my $self = {};
