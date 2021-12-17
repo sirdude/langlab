@@ -39,9 +39,7 @@ sub main {
 #	$testast->set_debug(1);
 	init_tests();
 	test_tok_num_basics();
-	test_summary();
-
-	return 1;
+	return test_summary();
 }
 
 main();

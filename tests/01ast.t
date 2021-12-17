@@ -66,9 +66,7 @@ sub main {
 	test_scope();
 	test_node_basics();
 	test_stats();
-	test_summary();
-
-	return 1;
+	return test_summary();
 }
 
 main();

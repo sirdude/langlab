@@ -27,9 +27,7 @@ sub main {
 	$testast = symbol_table->new();
 	init_tests();
 	test_sym_table();
-	test_summary();
-
-	return 1;
+	return test_summary();
 }
 
 main();

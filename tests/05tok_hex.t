@@ -50,9 +50,7 @@ sub main {
 	init_tests();
 	test_tok_hex_basics();
 	test_invalid_hex();
-	test_summary();
-
-	return 1;
+	return test_summary();
 }
 
 main();

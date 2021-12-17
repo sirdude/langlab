@@ -88,9 +88,7 @@ sub main {
 	test_tok_whitespace_spaces();
 	test_tok_whitespace_tab();
 	test_tok_whitespace_eol();
-	test_summary();
-
-	return 1;
+	return test_summary();
 }
 
 main();

@@ -69,9 +69,7 @@ sub main {
 	test_tok_op_equal();
 	test_tok_op_equalequal();
 	test_tok_op_nottwoops();
-	test_summary();
-
-	return 1;
+	return test_summary();
 }
 
 main();

@@ -86,9 +86,7 @@ sub main {
 	test_tok_pound_line_comment_basics();
 	test_tok_doubleslash_line_comment_basics();
 	test_tok_multi_line_comment_basics();
-	test_summary();
-
-	return 1;
+	return test_summary();
 }
 
 main();

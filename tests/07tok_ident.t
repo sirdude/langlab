@@ -85,9 +85,7 @@ sub main {
 	test_ident_with_num();
 	test_ident_with_underscore();
 	test_keyword();
-	test_summary();
-
-	return 1;
+	return test_summary();
 }
 
 main();
