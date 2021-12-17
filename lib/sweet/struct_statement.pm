@@ -3,9 +3,6 @@ package struct_statement;
 
 use strict;
 use warnings;
-use base 'Exporter';
-
-our @EXPORT = qw(start valid get);
 
 sub start {
 	my ($ast) = @_;
@@ -30,7 +27,7 @@ sub valid {
 sub get {
 	my ($ast, $outast) = @_;
 	my ($p, $l) = $ast->get_loc();
-	my ($word, $tmp);
+	my ($node, $tmp);
 	my $return = 0;
 
 	$ast->push_scope();
@@ -60,11 +57,6 @@ sub get {
 	}
 	$ast->pop_scope();
 	return $return;
-}
-
-sub put {
-	my ($node) = @_;
-
 }
 
 1;

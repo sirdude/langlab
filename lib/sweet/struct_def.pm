@@ -3,9 +3,7 @@ package struct_def;
 
 use strict;
 use warnings;
-use base 'Exporter';
 
-our @EXPORT = qw(start valid get);
 my @types = ('void', 'int', 'float', 'string', 'object', 'mapping', 'mixed');
 my @typemods = ('atomic', 'nomask', 'private', 'static');
 
@@ -66,11 +64,6 @@ sub get {
 
 	$ast->pop_scope();
 	return 1;
-}
-
-sub put {
-	my ($node) = @_;
-
 }
 
 1;

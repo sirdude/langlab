@@ -3,9 +3,6 @@ package struct_program;
 
 use strict;
 use warnings;
-use base 'Exporter';
-
-our @EXPORT = qw(start valid get);
 
 sub start {
 	my ($ast) = @_;

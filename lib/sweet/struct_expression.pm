@@ -3,9 +3,6 @@ package struct_expression;
 
 use strict;
 use warnings;
-use base 'Exporter';
-
-our @EXPORT = qw(start valid get);
 
 sub start {
 	my ($ast) = @_;
@@ -60,11 +57,6 @@ sub get {
 	}
 	$ast->pop_scope();
 	return $return;
-}
-
-sub put {
-	my ($node) = @_;
-
 }
 
 1;

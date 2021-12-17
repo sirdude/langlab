@@ -3,9 +3,7 @@ package struct_params;
 
 use strict;
 use warnings;
-use base 'Exporter';
 
-our @EXPORT = qw(start valid get);
 my @types = ('void', 'int', 'float', 'string', 'object', 'mapping', 'mixed');
 my @typemods = ('atomic', 'nomask', 'private', 'static');
 

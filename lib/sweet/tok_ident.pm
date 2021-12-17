@@ -2,9 +2,6 @@ package tok_ident;
 
 use strict;
 use warnings;
-use base 'Exporter';
-
-our @EXPORT = qw(start valid get);
 
 # Not all of these will be in our language but they are used in different
 # # languages this is more generic
