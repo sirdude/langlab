@@ -19,7 +19,8 @@ sub valid {
 sub get {
 	my ($ast, $outast) = @_;
 	my ($p, $l) = $ast->get_loc();
-	my (%node, $tmp);
+	my $tmp;
+	my $node = {};
 	my $return = 0;
 
 	$ast->push_scope();

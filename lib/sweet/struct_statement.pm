@@ -6,14 +6,13 @@ use warnings;
 
 sub start {
 	my ($ast) = @_;
-	my $i;
 
 	$ast->debug('struct_def::start');
 
 	if start_typemod($ast) {
 		return 1;
 	}
-	foreach $i (@types) {
+	foreach my $i (@types) {
 		if ($ast->match($i)) {
 			return 1;
 		}
@@ -27,7 +26,8 @@ sub valid {
 sub get {
 	my ($ast, $outast) = @_;
 	my ($p, $l) = $ast->get_loc();
-	my ($node, $tmp);
+	my $tmp;
+	my $node = {};
 	my $return = 0;
 
 	$ast->push_scope();

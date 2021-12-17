@@ -4,16 +4,17 @@ package struct_program;
 use strict;
 use warnings;
 
+use struct_def;
+
 sub start {
 	my ($ast) = @_;
-	my $i;
 
 	$ast->debug('struct_def::start');
 
 	if start_typemod($ast) {
 		return 1;
 	}
-	foreach $i (@types) {
+	foreach my $i (@types) {
 		if ($ast->match($i)) {
 			return 1;
 		}
@@ -27,8 +28,7 @@ sub valid {
 sub get {
 	my ($ast, $outast) = @_;
 	my ($p, $l) = $ast->get_loc();
-	my ($word, $tmp);
-	my $return = 0;
+	my ($node, $done);
 
 	$ast->push_scope();
 	$ast->debug('struct_def::get');
@@ -38,30 +38,17 @@ sub get {
 		return 0;
 	}
 
-	$tmp = $ast->consume('if');
-	$tmp = $ast->consume('(');
-
-	# XXX Need to get expression here
-	
-	$tmp = $ast->consume(')');
-
-	# XXX Need to get first block
-	#
-	# look and get Optional else if
-	# get Optional else 
-	#
-	# put the node togeather
-	
-	if ($return) {
-		# XXX add the node to our new tree
+	while (!$ast->at_eof() && !$done) {
+		$node = struct_def();
+		if (!$node) {
+			$ast->pop_scope();
+			return 0;
+		} else {
+			$outast->add_node($node);
+		}
 	}
 	$ast->pop_scope();
-	return $return;
-}
-
-sub put {
-	my ($node) = @_;
-
+	return 1;
 }
 
 1;

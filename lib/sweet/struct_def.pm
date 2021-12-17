@@ -10,7 +10,7 @@ my @typemods = ('atomic', 'nomask', 'private', 'static');
 sub start_typemod {
 	my ($ast) = @_;
 
-	foreach $i (@typemods) {
+	foreach my $i (@typemods) {
 		if ($ast->match($i)) {
 			return 1;
 		}
@@ -27,7 +27,7 @@ sub start {
 	if start_typemod($ast) {
 		return 1;
 	}
-	foreach $i (@types) {
+	foreach my $i (@types) {
 		if ($ast->match($i)) {
 			return 1;
 		}
@@ -41,7 +41,8 @@ sub valid {
 sub get {
 	my ($ast, $outast) = @_;
 	my ($p, $l) = $ast->get_loc();
-	my ($tmp, %node);
+	my ($tmp);
+	my $node = {};
 
 	$ast->push_scope();
 	$ast->debug('struct_def::get');
