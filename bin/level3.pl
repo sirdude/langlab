@@ -32,17 +32,6 @@ sub usage {
 	return 1;
 }
 
-sub debug {
-	my ($info) = @_;
-
-	if (query_option('debug')) {
-		print "$info\n";
-		return 1;
-	}
-
-	return 0;
-}
-
 sub convert_to_tokens {
 	my ($inast, $outast) = @_;
 	my $done = 0;
@@ -128,7 +117,8 @@ sub main {
 
 	add_option('help', 'Print usage statement.');
 	add_option('debug', 'Enable debugging mode.');
-	add_option('expand-stats', 'Dig a little deeper not just reporting types for comments, strings, idents.');
+	add_option('expand-stats',
+		'Dig a little deeper not just reporting types for comments, strings, idents.');
 	add_option('keep-ws', 'Keep whitespace and Comment Tokens.');
 	add_option('output-char-file', 'Filename for output charaters.');
 	add_option('output-tok-file', 'Filename for output tokens.');
@@ -143,9 +133,12 @@ sub main {
 		return usage();
 	}
 
-	$charast = ast->new('expand-stats' => query_option('expand-stats'), 'debug' => query_option('debug'));
-	$tokast = ast->new('expand-stats' => query_option('expand-stats'), 'debug' => query_option('debug'));
-	$progast = ast->new('expand-stats' => query_option('expand-stats'), 'debug' => query_option('debug'));
+	$charast = ast->new('expand-stats' => query_option('expand-stats'),
+		'debug' => query_option('debug'));
+	$tokast = ast->new('expand-stats' => query_option('expand-stats'),
+		'debug' => query_option('debug'));
+	$progast = ast->new('expand-stats' => query_option('expand-stats'),
+		'debug' => query_option('debug'));
 
 	if (!$charast->parse_file_or_string(@VALUES)) {
 		return 0;
