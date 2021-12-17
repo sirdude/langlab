@@ -43,8 +43,7 @@ sub valid {
 sub get {
 	my ($ast, $outast) = @_;
 	my ($p, $l) = $ast->get_loc();
-	my ($word, $tmp);
-	my $return = 0;
+	my ($tmp, %node);
 
 	$ast->push_scope();
 	$ast->debug('struct_def::get');
@@ -54,25 +53,19 @@ sub get {
 		return 0;
 	}
 
-	$tmp = $ast->consume('if');
+	# XXX Need to get typemods and type here....
+	# Need to set if it's a function or a variable declaration as well.
+
 	$tmp = $ast->consume('(');
 
-	# XXX Need to get expression here
+	$node->{'params'} = struct_params::get($ast);
 	
 	$tmp = $ast->consume(')');
 
-	# XXX Need to get first block
-	#
-	# look and get Optional else if
-	# get Optional else 
-	#
-	# put the node togeather
-	
-	if ($return) {
-		# XXX add the node to our new tree
-	}
+	$node->{'data'} = struct_block::get($ast);
+
 	$ast->pop_scope();
-	return $return;
+	return 1;
 }
 
 sub put {

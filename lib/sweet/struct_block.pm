@@ -8,7 +8,6 @@ our @EXPORT = qw(start valid get);
 
 sub start {
 	my ($ast) = @_;
-	my $i;
 
 	$ast->debug('struct_def::start');
 	if ($ast->match('{')) {
@@ -23,8 +22,8 @@ sub valid {
 sub get {
 	my ($ast, $outast) = @_;
 	my ($p, $l) = $ast->get_loc();
-	my ($word, $tmp);
-	my $return = 0;
+	my ($tmp, %node);
+	my $done = 0;
 
 	$ast->push_scope();
 	$ast->debug('struct_block::get');
@@ -36,14 +35,31 @@ sub get {
 
 	$tmp = $ast->consume('{');
 
-# XXX Do work here for grabbing statements....
+	$node->{'data'} = ();
+	while (!$ast->peek('}') && !$done) {
+		my %tmp = struct_statement::get($ast);
+		if (%tmp) {
+			push(@{$node->{'data'}}, $tmp);
+		} else {
+			$done = 1;
+		}
+	}
 
 	$tmp = $ast->consume('}');
+	if ($tmp) {
+		$node->{'type'} = 'block';
+		$node->{'columnnum'} = $p;
+		$node->{'linenum'} = $l;
 
-# XXX build and add the node to our new tree
+		$ast->pop_scope();
+
+		# XXX $ast->add_node($node);
+
+		return 1;
+	}
 
 	$ast->pop_scope();
-	return $return;
+	return 0;
 }
 
 sub put {
