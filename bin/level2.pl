@@ -52,9 +52,9 @@ sub convert_to_tokens {
 		if ($inast->at_eof()) {
 		$done = 1;
 		} elsif (tok_comment::start($inast)) {
-			tok_comment::get($inast, $outast);
+			tok_comment::get($inast, $outast, query_option('keep-ws'));
 		} elsif (tok_whitespace::start($inast)) {
-			tok_whitespace::get($inast, $outast);
+			tok_whitespace::get($inast, $outast, query_option('keep-ws'));
 		} elsif (tok_ident::start($inast)) {
 			tok_ident::get($inast, $outast, query_option('expand-stats'));
 		} elsif (tok_string::start($inast)) {
@@ -99,6 +99,7 @@ sub main {
 	add_option('help', 'Print usage statement.');
 	add_option('debug', 'Enable debugging mode.');
 	add_option('expand-stats', 'Dig a little deeper not just reporting types for comments, strings, idents.');
+	add_option('keep-ws', 'Keep whitespace and Comment Tokens.');
 	add_option('output-char-file', 'Filename for output charaters.');
 	add_option('output-tok-file', 'Filename for output tokens.');
 

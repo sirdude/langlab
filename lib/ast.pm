@@ -252,7 +252,7 @@ sub print_nodes {
 	my $c = 0;
 	my $fh;
 
-	if (($filename eq '') || $filename == 1) {
+	if (($filename eq '') || ($filename eq '1')) {
 		foreach my $i (@{$self->{'data'}}) {
 			print "Node: $c\n";
 			foreach my $key (sort keys %{$i}) {
