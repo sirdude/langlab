@@ -42,6 +42,7 @@ sub get {
 	my ($ast, $outast) = @_;
 	my ($p, $l) = $ast->get_loc();
 	my ($tmp);
+	my @typemods = ();
 	my $node = {};
 
 	$ast->push_scope();
@@ -54,6 +55,29 @@ sub get {
 
 	# XXX Need to get typemods and type here....
 	# Need to set if it's a function or a variable declaration as well.
+	while(start_typemod($ast)) {
+		$tmp = $ast->consume();
+		push(@typemods, $tmp);
+	}
+	$node->{'typemods'} = @typemods;
+	$tmp = @ast->consume();
+
+	if (!is_type($tmp)) {
+		print "ERROR: struct_def::get Expected type got $tmp\n";
+		$ast->pop_scope();
+		return 0;
+	}
+
+	if (!match_type('ident')) {
+		print "ERROR: struct_def::get Expected ident got $tmp\n";
+		$ast->pop_scope();
+		return 0;
+	} else { # Set the name of the function/var.....
+		$tmp = @ast->consume();
+		$node->{'data'} = $tmp;
+	}
+
+# XXX Need to see if we are dealing with a function or a variable...
 
 	$tmp = $ast->consume('(');
 
