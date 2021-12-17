@@ -13,9 +13,6 @@ sub start {
 	return 0;
 }
 
-sub valid {
-}
-
 sub get {
 	my ($ast, $outast, $keepws_flag) = @_;
 	my ($com, $tmp) = ('', '');
@@ -80,16 +77,6 @@ sub get {
 	}
 	$ast->pop_scope();
 	return 0;
-}
-
-sub put {
-	my ($node) = @_;
-
-	if (($node->{'type'} eq 'comment') ||
-		($node->{'type'} eq 'multicomment')) {
-		return $node->{'value'};
-	}
-	return '';
 }
 
 1;

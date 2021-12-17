@@ -24,9 +24,6 @@ sub is_num {
 	return 0;
 }
 
-sub valid {
-}
-
 sub get {
 	my ($ast, $outast) = @_;
 	my $word = '';
@@ -57,15 +54,6 @@ sub get {
 	print("ERROR: html::get: got $word, expected: &#DDDD;\n");
 	$ast->pop_scope();
 	return 0;
-}
-
-sub put {
-	my ($node) = @_;
-
-	if ($node->{'type'} eq 'html') {
-		return $node->{'value'};
-	}
-	return '';
 }
 
 1;

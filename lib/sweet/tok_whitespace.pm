@@ -13,9 +13,6 @@ sub start {
 	return 0;
 }
 
-sub valid {
-}
-
 sub get {
 	my ($ast, $outast, $keepws_flag) = @_;
 	my ($p, $l) = $ast->get_loc();
@@ -46,15 +43,6 @@ sub get {
 
 	$ast->pop_scope();
 	return 1;
-}
-
-sub put {
-	my ($ast) = @_;
-
-	if (!$ast->valid()) {
-		return $ast->{'value'};
-	}
-	return '';
 }
 
 1;

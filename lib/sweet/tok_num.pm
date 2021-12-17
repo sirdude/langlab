@@ -16,9 +16,6 @@ sub start {
 	return 0;
 }
 
-sub valid {
-}
-
 sub get {
 	my ($ast, $outast) = @_;
 	my ($p, $l) = $ast->get_loc();
@@ -62,18 +59,6 @@ sub get {
 	$outast->add_base_node('int', $word, $l, $p);
 	$ast->pop_scope();
 	return 1;
-}
-
-sub put {
-	my ($node) = @_;
-
-	if ($node->{'type'} eq 'int') {
-		return $node->{'value'};
-	}
-	if ($node->{'type'} eq 'float') {
-		return $node->{'value'};
-	}
-	return '';
 }
 
 1;

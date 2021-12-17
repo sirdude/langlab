@@ -61,13 +61,4 @@ sub get {
 	return $return;
 }
 
-sub put {
-	my ($node) = @_;
-
-	if ($node->{'type'} ne 'hex') {
-		return "";
-	}
-	return $node->{'value'};
-}
-
 1;

@@ -20,9 +20,6 @@ sub start {
 	return 0;
 }
 
-sub valid {
-}
-
 sub get {
 	my ($ast, $outast) = @_;
 	my ($p, $l) = $ast->get_loc();

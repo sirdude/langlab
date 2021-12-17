@@ -59,7 +59,11 @@ sub test_summary {
 	print "Total tests: " . total_tests() . " :Success: " .
 		total_success() . "\n";
 
-	return 1;
+	if (total_tests() eq total_success()) {
+		return 1;
+	}
+
+	return 0;
 }
 
 1;
