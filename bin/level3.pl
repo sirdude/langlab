@@ -84,8 +84,15 @@ sub convert_to_tokens {
 
 sub convert_to_ast {
 	my ($inast, $outast) = @_;
+	my $numerrors = 0;
 
 	# XXX Need to do work here...
+
+	if ($numerrors > 0) {
+		print "Number of errors in input: $numerrors\n";
+		return 0;
+	}
+	return 1;
 }
 
 sub has_extension {
@@ -98,9 +105,26 @@ sub has_extension {
 	return 0;
 }
 
+sub outputfile {
+	my ($filename, $printast, $statsfile) = @_;
+	my $ret  = 1;
+
+	if ($filename) {
+		if (has_extension($filename, 'json')) {
+			$ret = $printast->nodes_to_json($filename);
+		} elsif (has_extension($filename, 'xml')) {
+			$ret = $printast->nodes_to_xml($filename);
+		} else {
+			$ret = $printast->print_nodes($filename);
+		}
+	}
+	$printast->write_stats($statsfile);
+
+	return $ret;
+}
+
 sub main {
 	my @VALUES = @_;
-	my $ret = 0;
 
 	add_option('help', 'Print usage statement.');
 	add_option('debug', 'Enable debugging mode.');
@@ -119,61 +143,29 @@ sub main {
 		return usage();
 	}
 
-	$charast = ast->new();
-	$tokast = ast->new();
-	$progast = ast->new();
-	if (query_option('expand-stats')) {
-		$charast->{'expand-stats'} = 1;
-		$tokast->{'expand-stats'} = 1;
-		$progast->{'expand-stats'} = 1;
-	}
+	$charast = ast->new('expand-stats' => query_option('expand-stats'), 'debug' => query_option('debug'));
+	$tokast = ast->new('expand-stats' => query_option('expand-stats'), 'debug' => query_option('debug'));
+	$progast = ast->new('expand-stats' => query_option('expand-stats'), 'debug' => query_option('debug'));
 
-	if (query_option('debug')) {
-		$charast->set_debug(1);
-		$tokast->set_debug(1);
-		$progast->set_debug(1);
+	if (!$charast->parse_file_or_string(@VALUES)) {
+		return 0;
 	}
-
-	if ($charast->parse_file_or_string(@VALUES)) {
-		my $filename = query_option('output-char-file');
-		if ($filename) {
-			if (has_extension($filename, 'json')) {
-				$ret = $charast->nodes_to_json($filename);
-			} elsif (has_extension($filename, 'xml')) {
-				$ret = $charast->nodes_to_xml($filename);
-			} else {
-				$ret = $charast->print_nodes($filename);
-			}
-		}
-		$charast->write_stats('char_stats.txt');
+	if (!outputfile(query_option('output-char-file'), $charast, 'char_stats.txt')) {
+		return 0;
 	}
-
-	convert_to_tokens($charast, $tokast);
-	my $filename = query_option('output-tok-file');
-	if ($filename) {
-		if (has_extension($filename, 'json')) {
-			$ret = $tokast->nodes_to_json($filename);
-		} elsif (has_extension($filename, 'xml')) {
-			$ret = $tokast->nodes_to_xml($filename);
-		} else {
-			$ret = $tokast->print_nodes($filename);
-		}
+	if (!convert_to_tokens($charast, $tokast)) {
+		return 0;
 	}
-	$tokast->write_stats('token_stats.txt');
-
-	convert_to_ast($tokast, $progast);
-	my $filename = query_option('output-ast-file');
-	if ($filename) {
-		if (has_extension($filename, 'json')) {
-			$ret = $progast->nodes_to_json($filename);
-		} elsif (has_extension($filename, 'xml')) {
-			$ret = $progast->nodes_to_xml($filename);
-		} else {
-			$ret = $progast->print_nodes($filename);
-		}
+	if (!outputfile(query_option('output-tok-file'), $tokast, 'token_stats.txt')) {
+		return 0;
 	}
-	$tokast->write_stats('ast_stats.txt');
-	return $ret;
+	if (!convert_to_ast($tokast, $progast)) {
+		return 0;
+	}
+	if (!outputfile(query_option('output-ast-file'), $progast, 'ast_stats.txt')) {
+		return 0;
+	}
+	return 1;
 }
 
 main(@ARGV);
