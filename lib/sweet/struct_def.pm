@@ -39,7 +39,7 @@ sub get {
 	my ($ast, $outast) = @_;
 	my ($p, $l) = $ast->get_loc();
 	my ($tmp);
-	my @typemods = ();
+	my @tmods = ();
 	my $node = {};
 
 	$ast->push_scope();
@@ -54,9 +54,9 @@ sub get {
 	# Need to set if it's a function or a variable declaration as well.
 	while(start_typemod($ast)) {
 		$tmp = $ast->consume();
-		push(@typemods, $tmp);
+		push(@tmods, $tmp);
 	}
-	$node->{'typemods'} = @typemods;
+	$node->{'typemods'} = @tmods;
 	$tmp = @ast->consume();
 
 	if (!is_type($tmp)) {
