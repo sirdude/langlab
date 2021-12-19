@@ -3,16 +3,14 @@ package struct_expression;
 
 use strict;
 use warnings;
+my @starts = ('if');
 
 sub start {
 	my ($ast) = @_;
 
-	$ast->debug('struct_def::start');
+	$ast->debug('struct_expression::start');
 
-	if start_typemod($ast) {
-		return 1;
-	}
-	foreach my $i (@types) {
+	foreach my $i (@starts) {
 		if ($ast->match($i)) {
 			return 1;
 		}
@@ -27,7 +25,7 @@ sub get {
 	my $return = 0;
 
 	$ast->push_scope();
-	$ast->debug('struct_def::get');
+	$ast->debug('struct_expression::get');
 
 	if (!start($ast)) {
 		$ast->pop_scope();

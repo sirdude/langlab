@@ -21,9 +21,9 @@ sub start_typemod {
 sub start {
 	my ($ast) = @_;
 
-	$ast->debug('struct_def::start');
+	$ast->debug('struct_params::start');
 
-	if start_typemod($ast) {
+	if (start_typemod($ast)) {
 		return 1;
 	}
 	foreach my $i (@types) {
@@ -41,30 +41,13 @@ sub get {
 	my $return = 0;
 
 	$ast->push_scope();
-	$ast->debug('struct_def::get');
+	$ast->debug('struct_params::get');
 
 	if (!start($ast)) {
 		$ast->pop_scope();
 		return 0;
 	}
 
-	$tmp = $ast->consume('if');
-	$tmp = $ast->consume('(');
-
-	# XXX Need to get expression here
-	
-	$tmp = $ast->consume(')');
-
-	# XXX Need to get first block
-	#
-	# look and get Optional else if
-	# get Optional else 
-	#
-	# put the node togeather
-	
-	if ($return) {
-		# XXX add the node to our new tree
-	}
 	$ast->pop_scope();
 	return $return;
 }

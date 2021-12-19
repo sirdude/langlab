@@ -6,7 +6,7 @@ use warnings;
 sub start {
 	my ($ast) = @_;
 
-	$ast->debug('struct_def::start');
+	$ast->debug('struct_block::start');
 	if ($ast->match('{')) {
 		return 1;
 	}

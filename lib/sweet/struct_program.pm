@@ -9,7 +9,7 @@ use struct_def;
 sub start {
 	my ($ast) = @_;
 
-	$ast->debug('struct_def::start');
+	$ast->debug('struct_program::start');
 
 	if (struct_def::start($ast)) {
 		return 1;
@@ -23,7 +23,7 @@ sub get {
 	my ($node, $done);
 
 	$ast->push_scope();
-	$ast->debug('struct_def::get');
+	$ast->debug('struct_program::get');
 
 	if (!start($ast)) {
 		$ast->pop_scope();

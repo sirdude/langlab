@@ -4,6 +4,10 @@ package struct_def;
 use strict;
 use warnings;
 
+use struct_expression;
+use struct_block;
+use struct_params;
+
 my @types = ('void', 'int', 'float', 'string', 'object', 'mapping', 'mixed');
 my @typemods = ('atomic', 'nomask', 'private', 'static');
 
@@ -64,6 +68,7 @@ sub get {
 		$ast->pop_scope();
 		return 0;
 	}
+	$node->{'return_type'} = $ast->consume();
 
 	if (!match_type('ident')) {
 		print "ERROR: struct_def::get Expected ident got $tmp\n";
@@ -74,18 +79,30 @@ sub get {
 		$node->{'data'} = $tmp;
 	}
 
-# XXX Need to see if we are dealing with a function or a variable...
+	if ($ast->peek('(')) {
+		$tmp = $ast->consume('(');
+		$node->{'type'} = 'function_def';
 
-	$tmp = $ast->consume('(');
-
-	$node->{'params'} = struct_params::get($ast);
+		$node->{'params'} = struct_params::get($ast);
 	
-	$tmp = $ast->consume(')');
+		$tmp = $ast->consume(')');
 
-	$node->{'data'} = struct_block::get($ast);
+		$node->{'data'} = struct_block::get($ast);
 
-	$ast->pop_scope();
-	return 1;
+		$outast->add_node($node);
+		$ast->pop_scope();
+		return 1;
+	} else {
+		$node->{'type'} = 'var_def';
+		if ($ast->peek('=')) {
+			$ast->consume('=');
+			$node->{'data'} = struct_expression::get;
+		}
+
+		$outast->add_node($node);
+		$ast->pop_scope();
+		return 1;
+	}
 }
 
 1;
