@@ -3,6 +3,8 @@ package struct_if;
 use strict;
 use warnings;
 
+use struct_expression;
+
 sub start {
 	my ($ast) = @_;
 
@@ -29,29 +31,26 @@ sub get {
 	}
 
 	$tmp = $ast->consume('if');
-	$tmp = $ast->consume('(');
 	$node->{'type'} = 'if';
 
-	# XXX Need to get expression here
+	$tmp = $ast->consume('(');
+
+	$node->{'test'} = struct_expression::get($ast);
 	
 	$tmp = $ast->consume(')');
 
 	$node->{'data'} = struct_block::get($ast);
 
-	# XXX 
-	# look and get Optional else if
+	# XXX look and get Optional else if
 
 	if ($ast->peek('else') {
 		$node->{'else'} = struct_block::get($ast);
 	}
 
-	# put the node togeather
+	$outast->add_node($node);
 	
-	if ($return) {
-		# XXX add the node to our new tree
-	}
 	$ast->pop_scope();
-	return $return;
+	return 1;
 }
 
 1;

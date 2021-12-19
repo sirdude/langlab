@@ -54,8 +54,6 @@ sub get {
 		return 0;
 	}
 
-	# XXX Need to get typemods and type here....
-	# Need to set if it's a function or a variable declaration as well.
 	while(start_typemod($ast)) {
 		$tmp = $ast->consume();
 		push(@tmods, $tmp);
