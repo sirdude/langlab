@@ -17,6 +17,8 @@ use tok_hex;
 use tok_num;
 use tok_op;
 
+use struct_program;
+
 my ($charast, $tokast, $progast);
 
 sub usage {

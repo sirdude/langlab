@@ -24,7 +24,7 @@ sub start {
 
 	$ast->debug('struct_def::start');
 
-	if start_typemod($ast) {
+	if (start_typemod($ast)) {
 		return 1;
 	}
 	foreach my $i (@types) {
@@ -57,7 +57,7 @@ sub get {
 		push(@tmods, $tmp);
 	}
 	$node->{'typemods'} = @tmods;
-	$tmp = @ast->consume();
+	$tmp = $ast->consume();
 
 	if (!is_type($tmp)) {
 		print "ERROR: struct_def::get Expected type got $tmp\n";
@@ -70,7 +70,7 @@ sub get {
 		$ast->pop_scope();
 		return 0;
 	} else { # Set the name of the function/var.....
-		$tmp = @ast->consume();
+		$tmp = $ast->consume();
 		$node->{'data'} = $tmp;
 	}
 

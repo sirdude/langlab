@@ -11,13 +11,8 @@ sub start {
 
 	$ast->debug('struct_def::start');
 
-	if start_typemod($ast) {
+	if (struct_def::start($ast)) {
 		return 1;
-	}
-	foreach my $i (@types) {
-		if ($ast->match($i)) {
-			return 1;
-		}
 	}
 	return 0;
 }
