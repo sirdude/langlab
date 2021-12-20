@@ -554,28 +554,21 @@ sub clear_stats {
 
 sub write_stats {
 	my ($self, $statfile) = @_;
-	my ($sfh);
+	my ($sfh, %table);
+
+	$table{"whitespace:\n"} = 'whitespace:\n:';
+	$table{"whitespace:\r"} = 'whitespace:\r:';
+	$table{"whitespace:\t"} = 'whitespace:\t:';
+	$table{"char: "} = 'char:SPACE:';
+	$table{"char:\t"} = 'char:\t:';
 
 	$self->debug("write_stats");
 	open($sfh,">>", $statfile) or die
 		"Unable to open stats file: $statfile\n";
 	if ($sfh) {
 		foreach my $i (sort keys %{$self->{'stats'}}) {
-			if ($i eq "whitespace:\n") {
-				print $sfh "whitespace:\\n:" .
-					$self->{'stats'}->{$i} . "\n";
-			} elsif ($i eq "whitespace:\r") {
-				print $sfh "whitespace:\\r:" .
-					$self->{'stats'}->{$i} . "\n";
-			} elsif ($i eq "whitespace:\t") {
-				print $sfh "whitespace:\\t:" .
-					$self->{'stats'}->{$i} . "\n";
-			} elsif ($i eq "char:\t") {
-				print $sfh "char:TAB(\\t):" .
-					$self->{'stats'}->{$i} . "\n";
-			} elsif ($i eq "char: ") {
-				print $sfh "char:SPACE:" .
-					$self->{'stats'}->{$i} . "\n";
+			if (exists($table{$i})) {
+				print $sfh $table{$i} . ':' . $self->{'stats'}->{$i} . "\n";
 			} else {
 				print $sfh "$i:" . $self->{'stats'}->{$i} . "\n";
 			}
