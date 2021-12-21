@@ -43,11 +43,11 @@ sub convert_to_tokens {
 		if ($inast->at_eof()) {
 		$done = 1;
 		} elsif (tok_comment::start($inast)) {
-			tok_comment::get($inast, $outast, query_option('keep-ws'));
+			tok_comment::get($inast, $outast);
 		} elsif (tok_whitespace::start($inast)) {
-			tok_whitespace::get($inast, $outast, query_option('keep-ws'));
+			tok_whitespace::get($inast, $outast);
 		} elsif (tok_ident::start($inast)) {
-			tok_ident::get($inast, $outast, query_option('expand-stats'));
+			tok_ident::get($inast, $outast);
 		} elsif (tok_string::start($inast)) {
 			tok_string::get($inast, $outast);
 		} elsif (tok_html::start($inast)) {
@@ -135,12 +135,18 @@ sub main {
 		return usage();
 	}
 
-	$charast = ast->new('expand-stats' => query_option('expand-stats'),
-		'debug' => query_option('debug'));
-	$tokast = ast->new('expand-stats' => query_option('expand-stats'),
-		'debug' => query_option('debug'));
-	$progast = ast->new('expand-stats' => query_option('expand-stats'),
-		'debug' => query_option('debug'));
+	$charast = ast->new();
+	$charast->{'expand-stats'} = query_option('expand-stats');
+	$charast->{'debug'} = query_option('debug');
+	$charast->{'keep-ws'} = query_option('keep-ws');
+	$tokast = ast->new();
+	$tokast->{'expand-stats'} = query_option('expand-stats');
+	$tokast->{'debug'} = query_option('debug');
+	$tokast->{'keep-ws'} = query_option('keep-ws');
+	$progast = ast->new();
+	$progast->{'expand-stats'} = query_option('expand-stats');
+	$progast->{'debug'} = query_option('debug');
+	$progast->{'keep-ws'} = query_option('keep-ws');
 
 	if (!$charast->parse_file_or_string(@VALUES)) {
 		return 0;

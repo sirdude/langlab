@@ -10,7 +10,7 @@ our $EOF = '__YY_EOF___';
 my ($linenum);
 
 sub new {
-	my $class = shift;
+	my ($class, $args) = @_;
 	my $self = {};
 
 	$self->{'current'} = 0;

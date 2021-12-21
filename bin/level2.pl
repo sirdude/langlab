@@ -52,11 +52,11 @@ sub convert_to_tokens {
 		if ($inast->at_eof()) {
 		$done = 1;
 		} elsif (tok_comment::start($inast)) {
-			tok_comment::get($inast, $outast, query_option('keep-ws'));
+			tok_comment::get($inast, $outast);
 		} elsif (tok_whitespace::start($inast)) {
-			tok_whitespace::get($inast, $outast, query_option('keep-ws'));
+			tok_whitespace::get($inast, $outast);
 		} elsif (tok_ident::start($inast)) {
-			tok_ident::get($inast, $outast, query_option('expand-stats'));
+			tok_ident::get($inast, $outast);
 		} elsif (tok_string::start($inast)) {
 			tok_string::get($inast, $outast);
 		} elsif (tok_html::start($inast)) {
@@ -117,6 +117,11 @@ sub main {
 	if (query_option('expand-stats')) {
 		$charast->{'expand-stats'} = 1;
 		$tokast->{'expand-stats'} = 1;
+	}
+
+	if (query_option('keep-ws')) {
+		$charast->{'keep-ws'} = 1;
+		$tokast->{'keep-ws'} = 1;
 	}
 
 	if (query_option('debug')) {

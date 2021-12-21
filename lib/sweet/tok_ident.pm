@@ -69,7 +69,7 @@ sub start_num {
 }
 
 sub get {
-	my ($ast, $outast, $flag) = @_;
+	my ($ast, $outast) = @_;
 	my ($p, $l) = $ast->get_loc();
 	my ($word, $tmp);
 
@@ -94,7 +94,7 @@ sub get {
 	if (is_keyword($word)) {
 		$outast->add_base_node($keywords{$word}, $word, $l, $p);
 	} else {
-		$outast->add_base_node('ident', $word, $l, $p);
+		$outast->add_base_node('ident', 'ident', $l, $p);
 	}
 	$ast->pop_scope();
 	return 1;

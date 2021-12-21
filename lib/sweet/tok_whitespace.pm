@@ -14,7 +14,7 @@ sub start {
 }
 
 sub get {
-	my ($ast, $outast, $keepws_flag) = @_;
+	my ($ast, $outast) = @_;
 	my ($p, $l) = $ast->get_loc();
 	my $word = '';
 
@@ -36,7 +36,7 @@ sub get {
 		return 0;
 	}
 
-	if ($keepws_flag) {
+	if ($ast->{'keep-ws'}) {
 		$outast->add_base_node('whitespace', $word, $l, $p);
 		$ast->debug("whitespace::get added '$word\' length:" . length($word) . "\n");
 	}

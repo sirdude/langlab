@@ -14,7 +14,7 @@ sub start {
 }
 
 sub get {
-	my ($ast, $outast, $keepws_flag) = @_;
+	my ($ast, $outast) = @_;
 	my ($com, $tmp) = ('', '');
 	my ($p, $l) = $ast->get_loc();
 	my $done = 0;
@@ -41,7 +41,7 @@ sub get {
 		$ast->debug("single comment = '$com'");
 		$ast->add_stat('comment', 'singleline', 1);
 
-		if ($keepws_flag) {
+		if ($ast->{'keep-ws'}) {
 			$outast->add_base_node('comment', $com, $l, $p);
 		}
 
@@ -68,7 +68,7 @@ sub get {
 		}
 		$ast->debug("double comment = '$com'");
 		$ast->add_stat('comment', 'multiline', 1);
-		if ($keepws_flag) {
+		if ($ast->{'keep-ws'}) {
 			$outast->add_base_node('comment', $com, $l, $p);
 		}
 
