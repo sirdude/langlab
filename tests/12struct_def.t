@@ -10,7 +10,7 @@ use lib "../lib/sweet";
 
 use ast;
 use tests;
-use struct_program;
+use struct_def;
 
 my ($testast, $output);
 
@@ -18,8 +18,8 @@ sub test_var_def {
 	$testast->add_base_node('type', "int", 1, 0);
 	$testast->add_base_node('ident', "x", 1, 2);
 	$testast->add_base_node('op', ";", 1, 3);
-	is(struct_program::start($testast), 1, 'Testing start of definintion type int.');
-	is(struct_program::get($testast, $output), 1, 'Testing int x;');
+	is(struct_def::start($testast), 1, 'Testing start of definintion type int.');
+	is(struct_def::get($testast, $output), 1, 'Testing int x;');
 
 	return 1;
 }
@@ -32,8 +32,8 @@ sub test_function_def {
 	$testast->add_base_node('op', "{", 2, 0);
 	$testast->add_base_node('op', "}", 2, 0);
 
-	is(struct_program::start($testast), 1, 'Testing if we have the start of a function def.');
-	is(struct_program::get($testast, $output), 1, 'Testing void main() {}.');
+	is(struct_def::start($testast), 1, 'Testing if we have the start of a function def.');
+	is(struct_def::get($testast, $output), 1, 'Testing void main() {}.');
 	return 1;
 }
 

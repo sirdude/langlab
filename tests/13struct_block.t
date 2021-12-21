@@ -10,15 +10,15 @@ use lib "../lib/sweet";
 
 use ast;
 use tests;
-use struct_program;
+use struct_block;
 
 my ($testast, $output);
 
 sub test_empty_block {
 	$testast->add_base_node('op', "{", 1, 3);
 	$testast->add_base_node('op', "}", 1, 3);
-	is(struct_program::start($testast), 1, 'Testing start of block.');
-	is(struct_program::get($testast, $output), 1, 'Testing get empty block;');
+	is(struct_block::start($testast), 1, 'Testing start of block.');
+	is(struct_block::get($testast, $output), 1, 'Testing get empty block;');
 
 	return 1;
 }
@@ -30,7 +30,7 @@ sub test_simple_block {
 	$testast->add_base_node('op', ";", 1, 3);
 	$testast->add_base_node('op', "}", 1, 3);
 
-	is(struct_program::get($testast, $output), 1, 'Testing get simple block.');
+	is(struct_block::get($testast, $output), 1, 'Testing get simple block.');
 	return 1;
 }
 

@@ -43,7 +43,7 @@ sub get {
 
 	# XXX look and get Optional else if
 
-	if ($ast->peek('else') {
+	if ($ast->peek('else')) {
 		$node->{'else'} = struct_block::get($ast);
 	}
 
