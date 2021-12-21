@@ -139,14 +139,6 @@ sub main {
 	$charast->{'expand-stats'} = query_option('expand-stats');
 	$charast->{'debug'} = query_option('debug');
 	$charast->{'keep-ws'} = query_option('keep-ws');
-	$tokast = ast->new();
-	$tokast->{'expand-stats'} = query_option('expand-stats');
-	$tokast->{'debug'} = query_option('debug');
-	$tokast->{'keep-ws'} = query_option('keep-ws');
-	$progast = ast->new();
-	$progast->{'expand-stats'} = query_option('expand-stats');
-	$progast->{'debug'} = query_option('debug');
-	$progast->{'keep-ws'} = query_option('keep-ws');
 
 	if (!$charast->parse_file_or_string(@VALUES)) {
 		return 0;
@@ -154,18 +146,33 @@ sub main {
 	if (!outputfile(query_option('output-char-file'), $charast, 'char_stats.txt')) {
 		return 0;
 	}
+
+	$tokast = ast->new();
+	$tokast->{'expand-stats'} = query_option('expand-stats');
+	$tokast->{'debug'} = query_option('debug');
+	$tokast->{'keep-ws'} = query_option('keep-ws');
+
 	if (!convert_to_tokens($charast, $tokast)) {
 		return 0;
 	}
 	if (!outputfile(query_option('output-tok-file'), $tokast, 'token_stats.txt')) {
 		return 0;
 	}
+
+	$charast = ();
+	$progast = ast->new();
+	$progast->{'expand-stats'} = query_option('expand-stats');
+	$progast->{'debug'} = query_option('debug');
+	$progast->{'keep-ws'} = query_option('keep-ws');
+
 	if (!convert_to_ast($tokast, $progast)) {
 		return 0;
 	}
 	if (!outputfile(query_option('output-ast-file'), $progast, 'ast_stats.txt')) {
 		return 0;
 	}
+
+	$tokast = ();
 	return 1;
 }
 
