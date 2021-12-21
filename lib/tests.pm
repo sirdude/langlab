@@ -1,6 +1,7 @@
 package tests;
 
 use warnings;
+use Term::ANSIColor;
 use base 'Exporter';
 
 our @EXPORT = qw(add_test add_success total_tests total_success is
@@ -35,14 +36,14 @@ sub is {
 
 	if (!$functioncall && !$expected) {
 		add_success();
-		print "ok " . total_tests() . " - $text\n";
+		print color('bold green') . "ok " . color('reset') . total_tests() . " - $text\n";
 		return 1;
 	} elsif ($functioncall eq $expected) {
 		add_success();
-		print "ok " . total_tests() . " - $text\n";
+		print color('bold green') . "ok " . color('reset') . total_tests() . " - $text\n";
 		return 1;
 	} else {
-		print "notok " . total_tests() . " - $text\n";
+		print color('bold red') . "notok " . color('reset') . total_tests() . " - $text\n";
 		print "\tgot: " . $functioncall .  " expected: $expected\n";
 		return 0;
 	}
