@@ -10,7 +10,7 @@ use lib "../lib/sweet";
 
 use ast;
 use tests;
-use struct_expression;
+use struct_statement;
 
 my ($testast, $output);
 
@@ -19,8 +19,8 @@ sub test_assignment {
 	$testast->add_base_node('op', "=", 1, 3);
 	$testast->add_base_node('int', "5", 1, 3);
 	$testast->add_base_node('op', ";", 1, 3);
-	is(struct_expression::start($testast), 1, 'Testing start of assignment.');
-	is(struct_expression::get($testast, $output), 1, 'Testing x=5;');
+	is(struct_statement::start($testast), 1, 'Testing start of assignment.');
+	is(struct_statement::get($testast, $output), 1, 'Testing x=5;');
 
 	return 1;
 }

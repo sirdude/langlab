@@ -77,7 +77,7 @@ sub get {
 		$node->{'data'} = $tmp;
 	}
 
-	if ($ast->peek('(')) {
+	if ($ast->match('(')) {
 		$tmp = $ast->consume('(');
 		$node->{'type'} = 'function_def';
 
@@ -92,7 +92,7 @@ sub get {
 		return 1;
 	} else {
 		$node->{'type'} = 'var_def';
-		if ($ast->peek('=')) {
+		if ($ast->match('=')) {
 			$ast->consume('=');
 			$node->{'data'} = struct_expression::get;
 		}

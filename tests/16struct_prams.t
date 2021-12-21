@@ -18,7 +18,7 @@ sub test_no_param {
 	$testast->add_base_node('op', "(", 1, 3);
 	$testast->add_base_node('op', ")", 1, 3);
 	is(struct_params::start($testast), 1, 'Testing start of params.');
-	is(struct_params::get($testast, $output), 1, 'Testing no params');
+	is(struct_params::get($testast, $output), 1, 'Testing no params ().');
 
 	return 1;
 }

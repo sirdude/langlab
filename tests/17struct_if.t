@@ -15,11 +15,14 @@ use struct_if;
 my ($testast, $output);
 
 sub test_simple_if {
-	$testast->add_base_node('type', "int", 1, 0);
-	$testast->add_base_node('ident', "x", 1, 2);
-	$testast->add_base_node('op', ";", 1, 3);
-	is(struct_if::start($testast), 1, 'Testing start of definintion type int.');
-	is(struct_if::get($testast, $output), 1, 'Testing int x;');
+	$testast->add_base_node('keyword', 'if', 1, 0);
+	$testast->add_base_node('op', "(", 1, 3);
+	$testast->add_base_node('int', "1", 1, 3);
+	$testast->add_base_node('op', ")", 1, 3);
+	$testast->add_base_node('op', "{", 1, 3);
+	$testast->add_base_node('op', "}", 1, 3);
+	is(struct_if::start($testast), 1, 'Testing start of if statement.');
+	is(struct_if::get($testast, $output), 1, 'Testing if (1) {};');
 
 	return 1;
 }

@@ -31,7 +31,7 @@ sub get {
 	$tmp = $ast->consume('{');
 
 	$node->{'data'} = ();
-	while (!$ast->peek('}') && !$done) {
+	while (!$ast->match('}') && !$done) {
 		my %tmp = struct_statement::get($ast);
 		if (%tmp) {
 			push(@{$node->{'data'}}, $tmp);
