@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use struct_expression;
+use struct_block;
 
 sub start {
 	my ($ast) = @_;

@@ -139,6 +139,8 @@ sub match {
 	my $c = 0;
 	my $l = length($str);
 	my $ans = '';
+
+	$self->debug("ast::match($str)");
 	
 	if (($str eq 'EOF') && $self->at_eof()) {
 		return 1;
@@ -151,12 +153,14 @@ sub match {
 		} else {
 			$ans .= $tmp;
 		}
-		$c = $c + 1;
+		$c = $c + length($tmp);
 	}
 
 	my $name = show_invis($str);
 	my $name2 = show_invis($ans);
+
 	$self->debug("ast::match($name) tmp = '$name2'");
+
 	if ($str eq $ans) {
 		return 1;
 	}

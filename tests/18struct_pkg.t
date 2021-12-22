@@ -16,7 +16,7 @@ my ($testast, $output);
 
 sub test_use_pkg {
 	$testast->add_base_node('keyword', "use", 1, 0);
-	$testast->add_base_node('options', "x", 1, 2);
+	$testast->add_base_node('ident', "options", 1, 2);
 	$testast->add_base_node('op', ";", 1, 3);
 	is(struct_pkg::start($testast), 1, 'Testing start of use.');
 	is(struct_pkg::get($testast, $output), 1, 'Testing use options;');
@@ -30,8 +30,7 @@ sub test_use_lib {
 	$testast->add_base_node('options', "./", 1, 2);
 	$testast->add_base_node('op', ";", 1, 3);
 
-	is(struct_pkg::start($testast), 1, 'Testing if we have the start of a function def.');
-	is(struct_pkg::get($testast, $output), 1, 'Testing void main() {}.');
+	is(struct_pkg::get($testast, $output), 1, 'Testing use lib "./";.');
 	return 1;
 }
 
