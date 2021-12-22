@@ -4,12 +4,23 @@ package struct_statement;
 use strict;
 use warnings;
 
+use struct_if;
+use struct_while;
+use struct_assignment;
+use struct_foreach;
+
+# XXX Not quite right, how about null case?
 sub start {
 	my ($ast) = @_;
+	my @mods = ('struct_if', 'struct_while', 'struct_assignment', 'struct_foreach');
 
 	$ast->debug('struct_statement::start');
 
-# XXX do the work here...
+	foreach my $i (@mods) {
+		if ($i->start($ast)) {
+			return 1;
+		}
+	}
 
 	return 0;
 }
