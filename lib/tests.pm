@@ -61,10 +61,10 @@ sub test_summary {
 		total_success() . "\n";
 
 	if (total_tests() eq total_success()) {
-		return 1;
+		return 0;
 	}
 
-	return 0;
+	return total_tests() - total_success();
 }
 
 1;

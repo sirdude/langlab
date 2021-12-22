@@ -1,0 +1,19 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+my ($e, $c) = 0;
+
+foreach my $i (`ls *.t`) {
+	if ($c < 10) {
+		$e += system($i);
+		$c = $c + 1;
+	}
+}
+
+if ($e > 0) {
+	print "$e: total errors in $c test files.\n";
+} else {
+	print "All tests sucessful in $c test files.\n";
+}
