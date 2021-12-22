@@ -39,7 +39,7 @@ sub get {
 		$ast->pop_scope();
 		return 0;
 	}
-	$tmp = consume();
+	$tmp = $ast->consume();
 
 	$node->{'iterator'} = $tmp;
 
