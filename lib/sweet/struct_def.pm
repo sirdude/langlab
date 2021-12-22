@@ -89,13 +89,9 @@ sub get {
 	}
 
 	if ($ast->match('(')) {
-		$tmp = $ast->consume('(');
 		$node->{'type'} = 'function_def';
 
 		$node->{'params'} = struct_params::get($ast);
-	
-		$tmp = $ast->consume(')');
-
 		$node->{'data'} = struct_block::get($ast);
 
 		$outast->add_node($node);

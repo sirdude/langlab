@@ -23,13 +23,8 @@ sub start {
 
 	$ast->debug('struct_params::start');
 
-	if (start_typemod($ast)) {
+	if ($ast->match('(')) {
 		return 1;
-	}
-	foreach my $i (@types) {
-		if ($ast->match($i)) {
-			return 1;
-		}
 	}
 	return 0;
 }
@@ -39,6 +34,7 @@ sub get {
 	my ($p, $l) = $ast->get_loc();
 	my $tmp;
 	my $return = 0;
+	my @params;
 
 	$ast->push_scope();
 	$ast->debug('struct_params::get');
@@ -47,9 +43,30 @@ sub get {
 		$ast->pop_scope();
 		return 0;
 	}
+	$tmp = $ast->consume(); # Get rid of the (
+
+	while ($ast->match_type('type') || $ast->match_type('typemod')) {
+# XXX Need to work on typemod stuff here... 
+		$tmp = $ast->consume();
+		my $tnode = {};
+		$tnode->{'param_type'} = $tmp;
+		$tmp = $ast->consume();
+		$tnode->{'data'} = $tmp;
+		push(@params, $tnode);
+		if ($ast->match(',')) {
+			$tmp = $ast->consume();
+		}
+	}
+
+	if (!$ast->match(')')) {
+	    print "ERROR struct_arams::get expecting closing ')' got:" . $ast->peek() . "\n";
+		return 0;
+	}
+	$tmp = $ast->consume(); # Get rid of the trailing )
+# XXX Need to finish setting $node and return it?
 
 	$ast->pop_scope();
-	return $return;
+	return @params;
 }
 
 1;
