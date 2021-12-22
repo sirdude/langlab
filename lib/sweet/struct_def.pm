@@ -22,6 +22,17 @@ sub start_typemod {
 	return 0;
 }
 
+sub is_type {
+	my ($str) = @_;
+
+	foreach my $i (@types) {
+		if ($i eq $str) {
+			return 1;
+		}
+	}
+	return 0;
+}
+
 sub start {
 	my ($ast) = @_;
 	my $i;
@@ -66,9 +77,9 @@ sub get {
 		$ast->pop_scope();
 		return 0;
 	}
-	$node->{'return_type'} = $ast->consume();
+	$node->{'return_type'} = $tmp;
 
-	if (!match_type('ident')) {
+	if (!$ast->match_type('ident')) {
 		print "ERROR: struct_def::get Expected ident got $tmp\n";
 		$ast->pop_scope();
 		return 0;

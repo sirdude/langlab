@@ -20,6 +20,7 @@ sub test_var_def {
 	$testast->add_base_node('op', ";", 1, 3);
 	is(struct_def::start($testast), 1, 'Testing start of definintion type int.');
 	is(struct_def::get($testast, $output), 1, 'Testing int x;');
+	$testast->consume();  # Get rid of the ;
 
 	return 1;
 }
