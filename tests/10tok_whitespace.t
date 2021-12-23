@@ -48,7 +48,7 @@ sub test_tok_whitespace_tab {
 
 	$testast->add_base_node('char', "\t", 0, 49);
 	$testast->add_base_node('char', "\t", 0, 50);
-	$testast->add_base_node('char', " ", 0, 51);
+	$testast->add_base_node('char', ' ', 0, 51);
 	$testast->add_base_node('char', ';', 0, 52);
 	is(tok_whitespace::get($testast, $output), 1, 'Testing get of multiple tabs, with a space.');
 	is($testast->peek(), ';', 'Testing to see if we are pointing at the next token.');

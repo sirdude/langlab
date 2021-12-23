@@ -15,8 +15,8 @@ use struct_block;
 my ($testast, $output);
 
 sub test_empty_block {
-	$testast->add_base_node('op', "{", 0, 18);
-	$testast->add_base_node('op', "}", 0, 19);
+	$testast->add_base_node('op', '{', 0, 18);
+	$testast->add_base_node('op', '}', 0, 19);
 	is(struct_block::start($testast), 1, 'Testing start of block.');
 	is(struct_block::get($testast, $output), 1, 'Testing get empty block;');
 
@@ -24,11 +24,11 @@ sub test_empty_block {
 }
 
 sub test_simple_block {
-	$testast->add_base_node('op', "{", 0, 27);
-	$testast->add_base_node('type', "int", 0, 28);
-	$testast->add_base_node('ident', "x", 0, 29);
-	$testast->add_base_node('op', ";", 0, 30);
-	$testast->add_base_node('op', "}", 0, 31);
+	$testast->add_base_node('op', '{', 0, 27);
+	$testast->add_base_node('type', 'int', 0, 28);
+	$testast->add_base_node('ident', 'x', 0, 29);
+	$testast->add_base_node('op', ';', 0, 30);
+	$testast->add_base_node('op', '}', 0, 31);
 
 	is(struct_block::get($testast, $output), 1, 'Testing get simple block.');
 	return 1;
