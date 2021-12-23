@@ -28,7 +28,6 @@ sub start {
 sub get {
 	my ($ast, $outast) = @_;
 	my ($p, $l) = $ast->get_loc();
-	my $tmp;
 	my $node = {};
 	my $return = 0;
 
