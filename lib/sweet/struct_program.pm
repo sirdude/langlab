@@ -5,13 +5,17 @@ use strict;
 use warnings;
 
 use struct_def;
+use struct_pkg;
 
 sub start {
 	my ($ast) = @_;
 
 	$ast->debug('struct_program::start');
 
-	if (struct_def::start($ast)) {
+	if (struct_def::start($ast) || struct_pkg::start($ast)) {
+		return 1;
+	}
+	if ($ast->at_eof()) {
 		return 1;
 	}
 	return 0;
@@ -31,12 +35,14 @@ sub get {
 	}
 
 	while (!$ast->at_eof() && !$done) {
-		$node = struct_def();
-		if (!$node) {
-			$ast->pop_scope();
-			return 0;
+	    if (struct_pkg::start($ast)) {
+			if (!struct_pkg::get($ast, $outast)) {
+				$done = 1;
+			}
 		} else {
-			$outast->add_node($node);
+			if (!struct_def::get($ast, $outast)) {
+				$done = 1;
+			}
 		}
 	}
 	$ast->pop_scope();
