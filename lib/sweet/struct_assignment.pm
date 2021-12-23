@@ -33,7 +33,7 @@ sub get {
 
 	$tmp = $ast->consume();
 	$node->{'type'} = 'assignment';
-	$node->{'var'} = $tmp;
+	$node->{'data'} = $tmp;
 
 	if (!$ast->match('=')) {
 # XXX Need to backtrack and or do other stuff here not assignment....
@@ -43,7 +43,7 @@ sub get {
 	}
 	$tmp = $ast->consume('=');
 
-	$node->{'value'} = struct_expression::get($ast);
+	$node->{'rhs'} = struct_expression::get($ast);
 
 	$outast->add_node($node);
 	

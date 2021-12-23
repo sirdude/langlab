@@ -41,8 +41,8 @@ sub debug {
 sub error {
 	my ($self, $info) = @_;
 
-	print $self->{'data'}->{'current'}{'linenum'} . ':' .
-		$self->{'data'}->{'current'}{'linenum'} . ':' .
+	print $self->{'data'}->[$self->{'current'}]->{'linenum'} . ':' .
+		$self->{'data'}->[$self->{'current'}]->{'columnnum'} . ':' .
 		$info . "\n";
 	return 1;
 }
