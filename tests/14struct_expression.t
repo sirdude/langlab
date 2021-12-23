@@ -15,7 +15,7 @@ use struct_expression;
 my ($testast, $output);
 
 sub test_const_expression {
-	$testast->add_base_node('type', "int", 1, 0);
+	$testast->add_base_node('type', "int", 0, 18);
 	is(struct_expression::start($testast), 1, 'Testing start of constant expression 1.');
 	is(struct_expression::get($testast, $output), 1, 'Testing expression: 1;');
 
@@ -23,10 +23,10 @@ sub test_const_expression {
 }
 
 sub test_var_equals {
-	$testast->add_base_node('ident', "x", 2, 0);
-	$testast->add_base_node('op', "==", 2, 0);
-	$testast->add_base_node('int', "5", 2, 0);
-	$testast->add_base_node('op', ";", 2, 0);
+	$testast->add_base_node('ident', "x", 0, 26);
+	$testast->add_base_node('op', "==", 0, 27);
+	$testast->add_base_node('int', "5", 0, 28);
+	$testast->add_base_node('op', ";", 0, 29);
 
 	is(struct_expression::start($testast), 1, 'Testing start of expression x==5.');
 	is(struct_expression::get($testast, $output), 1, 'Testing expression x==5.');

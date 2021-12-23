@@ -15,12 +15,12 @@ use tok_num;
 my ($testast, $output);
 
 sub test_tok_num_basics {
-	$testast->add_base_node('char', '0', 1, 0);
-	$testast->add_base_node('char', '9', 2, 0);
-	$testast->add_base_node('char', '8', 3, 0);
-	$testast->add_base_node('char', '7', 4, 0);
-	$testast->add_base_node('char', '6', 5, 0);
-	$testast->add_base_node('char', ';', 6, 0);
+	$testast->add_base_node('char', '0', 0, 18);
+	$testast->add_base_node('char', '9', 0, 19);
+	$testast->add_base_node('char', '8', 0, 20);
+	$testast->add_base_node('char', '7', 0, 21);
+	$testast->add_base_node('char', '6', 0, 22);
+	$testast->add_base_node('char', ';', 0, 23);
 
 	is(tok_num::start($testast), 1, 'Testing if we have the start of a num.');
 	is(tok_num::get($testast, $output), 1, 'Testing if we have the start of a num.');

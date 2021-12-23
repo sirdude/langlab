@@ -22,16 +22,16 @@ sub test_empty_program {
 }
 
 sub test_hello_world {
-	$testast->add_base_node('comment', '# Hello world', 1, 0);
-	$testast->add_base_node('keyword', "void", 2, 0);
-	$testast->add_base_node('ident', "main", 2, 0);
-	$testast->add_base_node('op', "(", 2, 0);
-	$testast->add_base_node('op', ")", 2, 0);
-	$testast->add_base_node('op', "{", 2, 0);
-	$testast->add_base_node('keyword', "print", 2, 0);
-	$testast->add_base_node('string', "Hello World!\n", 2, 0);
-	$testast->add_base_node('op', ";", 2, 0);
-	$testast->add_base_node('op', "}", 2, 0);
+	$testast->add_base_node('comment', '# Hello world', 0, 25);
+	$testast->add_base_node('keyword', "void", 0, 26);
+	$testast->add_base_node('ident', "main", 0, 27);
+	$testast->add_base_node('op', "(", 0, 28);
+	$testast->add_base_node('op', ")", 0, 29);
+	$testast->add_base_node('op', "{", 0, 30);
+	$testast->add_base_node('keyword', "print", 0, 31);
+	$testast->add_base_node('string', "Hello World!\n", 0, 32);
+	$testast->add_base_node('op', ";", 0, 33);
+	$testast->add_base_node('op', "}", 0, 34);
 
 	is(struct_program::start($testast), 1, 'Testing if we have the start of a program.');
 	is(struct_program::get($testast, $output), 1, 'Testing get hello world.');

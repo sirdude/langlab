@@ -28,10 +28,10 @@ sub test_scope {
 }
 
 sub test_node_basics {
-	$testast->add_base_node('char', 'a', 1, 0);
-	$testast->add_base_node('char', 'b', 2, 0);
-	$testast->add_base_node('char', 'c', 3, 0);
-	$testast->add_base_node('char', 'd', 4, 0);
+	$testast->add_base_node('char', 'a', 0, 31);
+	$testast->add_base_node('char', 'b', 0, 32);
+	$testast->add_base_node('char', 'c', 0, 33);
+	$testast->add_base_node('char', 'd', 0, 34);
 	is($testast->peek(), 'a', 'Testing peek with one insert.');
 	is($testast->peek(), 'a', 'Testing peek with two inserts.');
 	is($testast->peek(1), 'b', 'Testing peek(1) with two inserts.');

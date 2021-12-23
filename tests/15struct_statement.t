@@ -15,10 +15,10 @@ use struct_statement;
 my ($testast, $output);
 
 sub test_assignment {
-	$testast->add_base_node('ident', "x", 1, 2);
-	$testast->add_base_node('op', "=", 1, 3);
-	$testast->add_base_node('int', "5", 1, 3);
-	$testast->add_base_node('op', ";", 1, 3);
+	$testast->add_base_node('ident', "x", 0, 18);
+	$testast->add_base_node('op', "=", 0, 19);
+	$testast->add_base_node('int', "5", 0, 20);
+	$testast->add_base_node('op', ";", 0, 21);
 	is(struct_statement::start($testast), 1, 'Testing start of assignment.');
 	is(struct_statement::get($testast, $output), 1, 'Testing x=5;');
 

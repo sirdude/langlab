@@ -15,18 +15,18 @@ use tok_ident;
 my ($testast, $output);
 
 sub test_tok_ident_basics {
-	$testast->add_base_node('char', 'i', 1, 0);
-	$testast->add_base_node('char', 'n', 2, 0);
-	$testast->add_base_node('char', 't', 3, 0);
+	$testast->add_base_node('char', 'i', 0, 18);
+	$testast->add_base_node('char', 'n', 0, 19);
+	$testast->add_base_node('char', 't', 0, 20);
 
 	is(tok_ident::start($testast), 1, 'Testing if we have the start of an ident.');
 	is(tok_ident::get($testast, $output), 1, 'Get the ident int.');
 
-	$testast->add_base_node('char', 'i', 1, 0);
-	$testast->add_base_node('char', 'n', 2, 0);
-	$testast->add_base_node('char', 't', 3, 0);
-	$testast->add_base_node('char', 'a', 4, 0);
-	$testast->add_base_node('char', ';', 5, 0);
+	$testast->add_base_node('char', 'i', 0, 25);
+	$testast->add_base_node('char', 'n', 0, 26);
+	$testast->add_base_node('char', 't', 0, 27);
+	$testast->add_base_node('char', 'a', 0, 28);
+	$testast->add_base_node('char', ';', 0, 29);
 	is(tok_ident::get($testast, $output), 1, 'get ident inta.');
 
 	is($testast->peek(), ';', 'Testing to see if we are pointing at the next token.');
@@ -37,12 +37,12 @@ sub test_tok_ident_basics {
 }
 
 sub test_ident_with_num {
-	$testast->add_base_node('char', 'i', 1, 0);
-	$testast->add_base_node('char', 'n', 2, 0);
-	$testast->add_base_node('char', 't', 3, 0);
-	$testast->add_base_node('char', '0', 3, 0);
-	$testast->add_base_node('char', '5', 4, 0);
-	$testast->add_base_node('char', ';', 5, 0);
+	$testast->add_base_node('char', 'i', 0, 40);
+	$testast->add_base_node('char', 'n', 0, 41);
+	$testast->add_base_node('char', 't', 0, 42);
+	$testast->add_base_node('char', '0', 0, 43);
+	$testast->add_base_node('char', '5', 0, 44);
+	$testast->add_base_node('char', ';', 0, 45);
 
 	is(tok_ident::start($testast), 1, 'Testing if we have the start of an ident.');
 	is(tok_ident::get($testast, $output), 1, 'Get the ident int05.');
@@ -54,12 +54,12 @@ sub test_ident_with_num {
 }
 
 sub test_ident_with_underscore {
-	$testast->add_base_node('char', 'i', 1, 0);
-	$testast->add_base_node('char', 'n', 2, 0);
-	$testast->add_base_node('char', 't', 3, 0);
-	$testast->add_base_node('char', '_', 3, 0);
-	$testast->add_base_node('char', '5', 4, 0);
-	$testast->add_base_node('char', ';', 5, 0);
+	$testast->add_base_node('char', 'i', 0, 57);
+	$testast->add_base_node('char', 'n', 0, 58);
+	$testast->add_base_node('char', 't', 0, 59);
+	$testast->add_base_node('char', '_', 0, 60);
+	$testast->add_base_node('char', '5', 0, 61);
+	$testast->add_base_node('char', ';', 0, 62);
 
 	is(tok_ident::start($testast), 1, 'Testing if we have the start of an ident.');
 	is(tok_ident::get($testast, $output), 1, 'Get the ident int_5.');

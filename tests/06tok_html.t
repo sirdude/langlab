@@ -15,14 +15,14 @@ use tok_html;
 my ($testast, $output);
 
 sub test_tok_html_basics {
-	$testast->add_base_node('char', '&', 1, 0);
-	$testast->add_base_node('char', '#', 2, 0);
-	$testast->add_base_node('char', '9', 3, 0);
-	$testast->add_base_node('char', '8', 4, 0);
-	$testast->add_base_node('char', '7', 5, 0);
-	$testast->add_base_node('char', '6', 6, 0);
-	$testast->add_base_node('char', ';', 7, 0);
-	$testast->add_base_node('char', 'a', 8, 0);
+	$testast->add_base_node('char', '&', 0, 18);
+	$testast->add_base_node('char', '#', 0, 19);
+	$testast->add_base_node('char', '9', 0, 20);
+	$testast->add_base_node('char', '8', 0, 21);
+	$testast->add_base_node('char', '7', 0, 22);
+	$testast->add_base_node('char', '6', 0, 23);
+	$testast->add_base_node('char', ';', 0, 24);
+	$testast->add_base_node('char', 'a', 0, 25);
 
 	is(tok_html::start($testast), 1, 'Testing if we have the start of a html code.');
 	is(tok_html::get($testast, $output), 1, 'Try and get the html.');
@@ -36,13 +36,13 @@ sub test_tok_html_basics {
 }
 
 sub test_invalid_html {
-	$testast->add_base_node('char', '&', 1, 0);
-	$testast->add_base_node('char', '#', 2, 0);
-	$testast->add_base_node('char', '9', 3, 0);
-	$testast->add_base_node('char', '9', 4, 0);
-	$testast->add_base_node('char', '9', 5, 0);
-	$testast->add_base_node('char', '9', 6, 0);
-	$testast->add_base_node('char', 'a', 7, 0);
+	$testast->add_base_node('char', '&', 0, 39);
+	$testast->add_base_node('char', '#', 0, 40);
+	$testast->add_base_node('char', '9', 0, 41);
+	$testast->add_base_node('char', '9', 0, 42);
+	$testast->add_base_node('char', '9', 0, 43);
+	$testast->add_base_node('char', '9', 0, 44);
+	$testast->add_base_node('char', 'a', 0, 45);
 
 	is(tok_html::get($testast, $output), 0, 'Testing if get fails on invalid html.');
 

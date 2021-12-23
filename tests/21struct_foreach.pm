@@ -15,15 +15,15 @@ use struct_foreach;
 my ($testast, $output);
 
 sub test_simple_foreach {
-	$testast->add_base_node('keyword', 'foreach', 1, 0);
-	$testast->add_base_node('ident', "x", 1, 3);
+	$testast->add_base_node('keyword', 'foreach', 0, 18);
+	$testast->add_base_node('ident', "x", 0, 19);
 
-	$testast->add_base_node('op', "(", 1, 3);
-	$testast->add_base_node('int', "1", 1, 3);
-	$testast->add_base_node('op', ")", 1, 3);
-	$testast->add_base_node('op', "{", 1, 3);
-	$testast->add_base_node('op', "}", 1, 3);
-	$testast->add_base_node('op', ";", 1, 3);
+	$testast->add_base_node('op', "(", 0, 21);
+	$testast->add_base_node('int', "1", 0, 22);
+	$testast->add_base_node('op', ")", 0, 23);
+	$testast->add_base_node('op', "{", 0, 24);
+	$testast->add_base_node('op', "}", 0, 25);
+	$testast->add_base_node('op', ";", 0, 26);
 	is(struct_foreach::start($testast), 1, 'Testing start of foreach statement.');
 	is(struct_foreach::get($testast, $output), 1, 'Testing foreach x (1) {};');
 	is(struct_foreach::start($testast), 0, 'Testing start of foreach with ;.');
