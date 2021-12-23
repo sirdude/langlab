@@ -35,7 +35,7 @@ sub get {
 	$node->{'type'} = 'foreach';
 
 	if (!$ast->match_type('ident')) {
-		print "ERROR struct_foreach::get expected variable got: " . $ast->peek() . "\n";
+		error("struct_foreach::get expected var got: '" . $ast->peek() . "'");
 		$ast->pop_scope();
 		return 0;
 	}

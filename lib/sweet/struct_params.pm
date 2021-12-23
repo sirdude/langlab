@@ -59,7 +59,7 @@ sub get {
 	}
 
 	if (!$ast->match(')')) {
-	    print "ERROR struct_arams::get expecting closing ')' got:" . $ast->peek() . "\n";
+	    error("struct_arams::get expecting closing ')' got: '" . $ast->peek() . "'");
 		return 0;
 	}
 	$tmp = $ast->consume(); # Get rid of the trailing )

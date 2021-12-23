@@ -61,13 +61,13 @@ sub convert_to_tokens {
 		} else {
 			my $value = $inast->peek();
 			my $ascii = ord($value);
-			print("convert_to_tokens: invalid input: '" . $value .
-				"' ascii: '" . $ascii . "'\n");
+			$inast->error("convert_to_tokens: invalid input: '" . $value .
+				"' ascii: '" . $ascii . "'");
 			$numerrors += 1;
 		}
 	}
 	if ($numerrors > 0) {
-		print "Number of errors in input: $numerrors\n";
+		$inast->error("Number of errors in input: $numerrors");
 		return 0;
 	}
 	return 1;
@@ -80,7 +80,7 @@ sub convert_to_ast {
 	# XXX Need to do work here...
 
 	if ($numerrors > 0) {
-		print "Number of errors in input: $numerrors\n";
+		error("Number of errors in input: $numerrors");
 		return 0;
 	}
 	return 1;

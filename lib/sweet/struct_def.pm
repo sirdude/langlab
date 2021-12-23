@@ -73,14 +73,14 @@ sub get {
 	$tmp = $ast->consume();
 
 	if (!is_type($tmp)) {
-		print "ERROR: struct_def::get Expected type got $tmp\n";
+		$ast->error("struct_def::get Expected 'type' got '$tmp'");
 		$ast->pop_scope();
 		return 0;
 	}
 	$node->{'return_type'} = $tmp;
 
 	if (!$ast->match_type('ident')) {
-		print "ERROR: struct_def::get Expected ident got $tmp\n";
+		$ast->error("struct_def::get Expected 'ident' got '$tmp'");
 		$ast->pop_scope();
 		return 0;
 	} else { # Set the name of the function/var.....

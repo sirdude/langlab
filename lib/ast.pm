@@ -38,6 +38,15 @@ sub debug {
 	return 0;
 }
 
+sub error {
+	my ($self, $info) = @_;
+
+	print $self->{'data'}->{'current'}{'linenum'} . ':' .
+		$self->{'data'}->{'current'}{'linenum'} . ':' .
+		$info . "\n";
+	return 1;
+}
+
 sub push_scope {
 	my ($self) = @_;
 
