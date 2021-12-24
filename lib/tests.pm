@@ -34,17 +34,27 @@ sub is {
 
 	add_test();
 
-	if (!$functioncall && !$expected) {
-		add_success();
-		print color('bold green') . "ok " . color('reset') . total_tests() . " - $text\n";
-		return 1;
+	if (!$functioncall) {
+		if (!$expected) {
+			add_success();
+			print color('bold green') . "ok " . color('reset') . total_tests() . " - $text\n";
+			return 1;
+		} else {
+			print color('bold red') . "notok " . color('reset') . total_tests() . " - $text\n";
+			print "\tgot: '' expected: $expected\n";
+			return 0;
+		}
 	} elsif ($functioncall eq $expected) {
 		add_success();
 		print color('bold green') . "ok " . color('reset') . total_tests() . " - $text\n";
 		return 1;
 	} else {
 		print color('bold red') . "notok " . color('reset') . total_tests() . " - $text\n";
-		print "\tgot: " . $functioncall .  " expected: $expected\n";
+		if (!$expected) {
+			print "\tgot: " . $functioncall .  " expected: ''\n";
+		} else {
+			print "\tgot: " . $functioncall .  " expected: $expected\n";
+		}
 		return 0;
 	}
 }
