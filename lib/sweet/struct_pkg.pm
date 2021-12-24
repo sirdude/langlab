@@ -34,11 +34,13 @@ sub get {
 	}
 
 	$tmp = $ast->consume();
-	if ($ast->peek("lib")) {
+	if (!$ast->match("lib")) {
 		$node->{'type'} = 'use';
 	} else {
 		$node->{'type'} = 'libpath';
+		$tmp = $ast->consume();
 	}
+	$node->{'data'} = struct_expression::get($ast);
 
 	$outast->add_node($node);
 	$ast->pop_scope();
