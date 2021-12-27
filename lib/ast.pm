@@ -75,12 +75,14 @@ sub get_scope {
 # Look at just the next token
 sub peek {
 	my ($self, $count) = @_;
+	my $ttt;
 
 	if (!$count || $count eq '') {
 		$count = 0;
 	}
-	$self->debug("ast::peek($count)\n");
-	$count += $self->{'current'};
+	$ttt = $self->{'current'} + $count;
+	$self->debug("ast::peek($count:$ttt) size = " . $self->{'size'} . "\n");
+	$count = $ttt;
 
 	if ($count >= $self->{'size'}) {
 		return $EOF;
