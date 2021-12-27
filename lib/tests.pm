@@ -40,7 +40,7 @@ sub is {
 			print color('bold green') . "ok " . color('reset') . total_tests() . " - $text\n";
 			return 1;
 		} else {
-			print color('bold red') . "notok " . color('reset') . total_tests() . " - $text\n";
+			print color('bold red') . "not ok " . color('reset') . total_tests() . " - $text\n";
 			print "\tgot: '' expected: $expected\n";
 			return 0;
 		}
@@ -49,7 +49,7 @@ sub is {
 		print color('bold green') . "ok " . color('reset') . total_tests() . " - $text\n";
 		return 1;
 	} else {
-		print color('bold red') . "notok " . color('reset') . total_tests() . " - $text\n";
+		print color('bold red') . "not ok " . color('reset') . total_tests() . " - $text\n";
 		if (!$expected) {
 			print "\tgot: " . $functioncall .  " expected: ''\n";
 		} else {
