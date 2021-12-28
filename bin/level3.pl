@@ -73,19 +73,6 @@ sub convert_to_tokens {
 	return 1;
 }
 
-sub convert_to_ast {
-	my ($inast, $outast) = @_;
-	my $numerrors = 0;
-
-	# XXX Need to do work here...
-
-	if ($numerrors > 0) {
-		error("Number of errors in input: $numerrors");
-		return 0;
-	}
-	return 1;
-}
-
 sub has_extension {
 	my ($fname, $ext) = @_;
 
@@ -165,7 +152,7 @@ sub main {
 	$progast->{'debug'} = query_option('debug');
 	$progast->{'keep-ws'} = query_option('keep-ws');
 
-	if (!convert_to_ast($tokast, $progast)) {
+	if (!struct_program::get($tokast, $progast)) {
 		return 0;
 	}
 	if (!outputfile(query_option('output-ast-file'), $progast, 'ast_stats.txt')) {

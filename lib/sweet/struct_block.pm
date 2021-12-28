@@ -3,6 +3,8 @@ package struct_block;
 use strict;
 use warnings;
 
+use struct_statement;
+
 sub start {
 	my ($ast) = @_;
 
