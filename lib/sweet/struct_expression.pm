@@ -21,8 +21,7 @@ sub start {
 sub get {
 	my ($ast, $outast) = @_;
 	my ($p, $l) = $ast->get_loc();
-	my $tmp;
-	my $return = 0;
+	my ($tmp, $node, @expressions);
 
 	$ast->push_scope();
 	$ast->debug('struct_expression::get');
@@ -32,25 +31,12 @@ sub get {
 		return 0;
 	}
 
-	$tmp = $ast->consume('if');
-	$tmp = $ast->consume('(');
+	# XXX Need to do the work here...
 
-	# XXX Need to get expression here
+	$outast->add_node($node);
 	
-	$tmp = $ast->consume(')');
-
-	# XXX Need to get first block
-	#
-	# look and get Optional else if
-	# get Optional else 
-	#
-	# put the node togeather
-	
-	if ($return) {
-		# XXX add the node to our new tree
-	}
 	$ast->pop_scope();
-	return $return;
+	return 1;
 }
 
 1;

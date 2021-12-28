@@ -36,16 +36,24 @@ sub get {
 
 	$tmp = $ast->consume('(');
 
-	$node->{'test'} = struct_expression::get($ast);
+	if (!struct_expression::get($ast, $tmp)) {
+		return 0;
+	}
+	$node->{'data'} = $tmp;
 	
 	$tmp = $ast->consume(')');
 
-	$node->{'data'} = struct_block::get($ast);
-
-	# XXX look and get Optional else if
+	if (!struct_block::get($ast, $tmp)) {
+		return 0;
+	}
+	$node->{'ifcase'} = $tmp;
 
 	if ($ast->match('else')) {
-		$node->{'else'} = struct_block::get($ast);
+		$ast->consume('else');
+		if (!struct_block::get($ast, $tmp)) {
+			return 0;
+		}
+		$node->{'elsecase'} = $tmp;
 	}
 
 	$outast->add_node($node);
