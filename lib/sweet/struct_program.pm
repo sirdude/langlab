@@ -24,7 +24,7 @@ sub start {
 sub get {
 	my ($ast, $outast) = @_;
 	my ($p, $l) = $ast->get_loc();
-	my ($node, $done);
+	my ($node, $done, @packages, @defs);
 
 	$ast->push_scope();
 	$ast->debug('struct_program::get');
@@ -36,14 +36,23 @@ sub get {
 
 	while (!$ast->at_eof() && !$done) {
 	    if (struct_pkg::start($ast)) {
-			if (!struct_pkg::get($ast, $outast)) {
-				$done = 1;
+			if (!struct_pkg::get($ast, @packages)) {
+				return 0;
+			}
+		} elsif (struct_def::start($ast)) {
+			if (!struct_def::get($ast, @defs)) {
+				return 0;
 			}
 		} else {
-			if (!struct_def::get($ast, $outast)) {
-				$done = 1;
-			}
+			$ast->error("Not a pkg or definition.");
+			return 0;
 		}
+		my $node = {};
+		$node{'packages'} = @packages;
+		$node{'data'} = @defs;
+		$node{'type'} = 'program';
+
+		$outast->add_node($node);
 	}
 	$ast->pop_scope();
 	return 1;

@@ -22,7 +22,6 @@ sub test_empty_program {
 }
 
 sub test_hello_world {
-	$testast->add_base_node('comment', '# Hello world', 0, 25);
 	$testast->add_base_node('keyword', 'void', 0, 26);
 	$testast->add_base_node('ident', 'main', 0, 27);
 	$testast->add_base_node('op', '(', 0, 28);
