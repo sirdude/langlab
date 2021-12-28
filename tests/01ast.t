@@ -13,11 +13,11 @@ my ($testast);
 
 sub test_scope {
 
-	is($testast->get_scope(), 0, 'Check inital scope.');
+	is($testast->get_scope(), 0, 'Check initial scope.');
 	$testast->push_scope();
-	is($testast->get_scope(), 1, 'Check inital scope +1.');
+	is($testast->get_scope(), 1, 'Check initial scope +1.');
 	$testast->push_scope();
-	is($testast->get_scope(), 2, 'Check inital scope +2.');
+	is($testast->get_scope(), 2, 'Check initial scope +2.');
 	$testast->pop_scope();
 	is($testast->get_scope(), 1, 'Check pop_scope.');
 	$testast->pop_scope();

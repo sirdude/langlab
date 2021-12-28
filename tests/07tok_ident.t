@@ -20,14 +20,14 @@ sub test_tok_ident_basics {
 	$testast->add_base_node('char', 't', 0, 20);
 
 	is(tok_ident::start($testast), 1, 'Testing if we have the start of an ident.');
-	is(tok_ident::get($testast, $output), 1, 'Get the ident int.');
+	is(tok_ident::get($testast, $output), 1, "Get the ident 'int'.");
 
 	$testast->add_base_node('char', 'i', 0, 25);
 	$testast->add_base_node('char', 'n', 0, 26);
 	$testast->add_base_node('char', 't', 0, 27);
 	$testast->add_base_node('char', 'a', 0, 28);
 	$testast->add_base_node('char', ';', 0, 29);
-	is(tok_ident::get($testast, $output), 1, 'get ident inta.');
+	is(tok_ident::get($testast, $output), 1, "get ident 'inta'.");
 
 	is($testast->peek(), ';', 'Testing to see if we are pointing at the next token.');
 	is(tok_ident::get($testast, $output), 0, 'Testing if get fails on non ident.');
@@ -71,7 +71,7 @@ sub test_ident_with_underscore {
 
 sub test_keyword {
 	is(tok_ident::is_keyword('if'), 1, 'Testing if if is a keyword.');
-	is(tok_ident::is_keyword('ifnot'), 0, 'Testing if ifnot is a keyword.');
+	is(tok_ident::is_keyword('ifnot'), 0, "Testing if 'ifnot' is a keyword.");
 
 	return 1;
 }

@@ -18,7 +18,7 @@ sub test_var_def {
 	$testast->add_base_node('type', 'int', 0, 18);
 	$testast->add_base_node('ident', 'x', 0, 19);
 	$testast->add_base_node('op', ';', 0, 20);
-	is(struct_def::start($testast), 1, 'Testing start of definintion type int.');
+	is(struct_def::start($testast), 1, 'Testing start of definition type int.');
 	is(struct_def::get($testast, $output), 1, 'Testing int x;');
 	$testast->consume();  # Get rid of the ;
 

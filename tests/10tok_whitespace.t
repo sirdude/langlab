@@ -28,7 +28,7 @@ sub test_tok_whitespace_spaces {
 	$testast->add_base_node('char', ' ', 0, 28);
 	$testast->add_base_node('char', ' ', 0, 29);
 	$testast->add_base_node('char', ';', 0, 30);
-	is(tok_whitespace::get($testast, $output), 1, 'Testing get of multiple whitespaces.');
+	is(tok_whitespace::get($testast, $output), 1, 'Testing get of multiple white spaces.');
 	is($testast->peek(), ';', 'Testing to see if we are pointing at the next token.');
 
 	$testast->consume(); # get rid of the ';' so we can put something that looks like a hex in the queue.

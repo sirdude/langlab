@@ -24,8 +24,8 @@ sub main {
 	is(parse_options(""), @ans, 'Try to call parse_options with empty str');
 	@ans = ("wah");
 	is(parse_options("wah"), @ans,
-		'Try ot call parse_options with no options');
-	is(parse_options('--test'), 0, 'try to add some non existant option.');
+		'Try to call parse_options with no options');
+	is(parse_options('--test'), 0, 'try to add some non existent option.');
 	@ans = ();
 	is(parse_options('--help'), @ans, "try --help when it's defined.");
 	@ans = ("wah");
@@ -34,7 +34,7 @@ sub main {
 	@input = ('--help', '--filename="My Fun"', 'wah');
 	is(parse_options(@input), @ans, 'Parse multiple options');
 
-	is(query_option('helper'), 0, 'Check for non existant option: "helper"');
+	is(query_option('helper'), 0, 'Check for non existent option: "helper"');
 	is(query_option('help'), 1, 'Check for added help option.');
 	is(query_option('debug'), "5", 'Check for debug=5 option.');
 	is(query_option('filename'), 'My Fun',
