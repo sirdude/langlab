@@ -109,7 +109,7 @@ sub main {
 	add_option('expand-stats',
 		'Dig a little deeper not just reporting types for comments, strings, idents.');
 	add_option('keep-ws', 'Keep whitespace and Comment Tokens.');
-	add_option('output-char-file', 'Filename for output charaters.');
+	add_option('output-char-file', 'Filename for output characters.');
 	add_option('output-tok-file', 'Filename for output tokens.');
 	add_option('output-ast-file', 'Filename for output AST.');
 
