@@ -48,9 +48,9 @@ sub get {
 			return 0;
 		}
 		my $node = {};
-		$node{'packages'} = @packages;
-		$node{'data'} = @defs;
-		$node{'type'} = 'program';
+		$node->{'packages'} = @packages;
+		$node->{'data'} = @defs;
+		$node->{'type'} = 'program';
 
 		$outast->add_node($node);
 	}
