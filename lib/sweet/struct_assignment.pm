@@ -9,8 +9,13 @@ use struct_block;
 sub start {
 	my ($ast) = @_;
 
-	$ast->debug('struct_while::start');
-	if ($ast->match_type('ident')) {
+	$ast->debug('struct_assignment::start');
+
+	if (!$ast->match_type('ident')) {
+		return 0;
+	}
+
+	if ($ast->peek(1) eq '=') {
 		return 1;
 	}
 	return 0;
@@ -35,12 +40,6 @@ sub get {
 	$node->{'type'} = 'assignment';
 	$node->{'data'} = $tmp;
 
-	if (!$ast->match('=')) {
-# XXX Need to backtrack and or do other stuff here not assignment....
-		$ast->pop_scope();
-		return 0;
-
-	}
 	$tmp = $ast->consume('=');
 
 	$node->{'rhs'} = struct_expression::get($ast);
