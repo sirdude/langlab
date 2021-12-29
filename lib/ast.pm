@@ -267,7 +267,7 @@ sub print_nodes {
 	my $c = 0;
 	my $fh;
 
-	if (($filename eq '') || ($filename eq '1')) {
+	if (!$filename || ($filename eq '')) {
 		foreach my $i (@{$self->{'data'}}) {
 			print "Node: $c\n";
 			foreach my $key (sort keys %{$i}) {
@@ -293,7 +293,7 @@ sub nodes_to_json {
 	my $start = 0;
 	my $fh;
 
-	if (($filename eq '') || $filename == 1) {
+	if (!$filename || ($filename eq '')) {
 		print "{ \"NODES\": [\n";
 		foreach my $i (@{$self->{'data'}}) {
 			if (!$start) {
@@ -340,7 +340,7 @@ sub nodes_to_xml {
 	my $start = 0;
 	my $fh;
 
-	if (($filename eq '') || $filename == 1) {
+	if (!$filename || ($filename eq '')) {
 		print "<nodes>\n";
 		foreach my $i (@{$self->{'data'}}) {
 			print "\t<node>\n";

@@ -87,6 +87,8 @@ sub outputfile {
 	my ($filename, $printast, $statsfile) = @_;
 	my $ret  = 1;
 
+	$printast->write_stats($statsfile);
+
 	if ($filename) {
 		if (has_extension($filename, 'json')) {
 			$ret = $printast->nodes_to_json($filename);
@@ -96,13 +98,17 @@ sub outputfile {
 			$ret = $printast->print_nodes($filename);
 		}
 	}
-	$printast->write_stats($statsfile);
 
 	return $ret;
 }
 
 sub main {
 	my @VALUES = @_;
+	my @flags = ('expand-stats', 'debug', 'keep-ws');
+
+	if (!@VALUES) {
+		return usage();
+	}
 
 	add_option('help', 'Print usage statement.');
 	add_option('debug', 'Enable debugging mode.');
@@ -113,44 +119,39 @@ sub main {
 	add_option('output-tok-file', 'Filename for output tokens.');
 	add_option('output-ast-file', 'Filename for output AST.');
 
-	if (!@VALUES) {
-		return usage();
-	}
-
 	@VALUES = parse_options(@VALUES);
+
 	if (query_option('help') || !@VALUES) {
 		return usage();
 	}
 
 	$charast = ast->new();
-	$charast->{'expand-stats'} = query_option('expand-stats');
-	$charast->{'debug'} = query_option('debug');
-	$charast->{'keep-ws'} = query_option('keep-ws');
+	$tokast = ast->new();
+	$progast = ast->new();
+
+	foreach my $i (@flags) {
+		$charast->{$i} = query_option($i);
+		$tokast->{$i} = query_option($i);
+		$progast->{$i} = query_option($i);
+	}
 
 	if (!$charast->parse_file_or_string(@VALUES)) {
 		return 0;
 	}
+
 	if (!outputfile(query_option('output-char-file'), $charast, 'char_stats.txt')) {
 		return 0;
 	}
 
-	$tokast = ast->new();
-	$tokast->{'expand-stats'} = query_option('expand-stats');
-	$tokast->{'debug'} = query_option('debug');
-	$tokast->{'keep-ws'} = query_option('keep-ws');
-
 	if (!convert_to_tokens($charast, $tokast)) {
 		return 0;
 	}
+
 	if (!outputfile(query_option('output-tok-file'), $tokast, 'token_stats.txt')) {
 		return 0;
 	}
 
 	$charast = ();
-	$progast = ast->new();
-	$progast->{'expand-stats'} = query_option('expand-stats');
-	$progast->{'debug'} = query_option('debug');
-	$progast->{'keep-ws'} = query_option('keep-ws');
 
 	if (!struct_program::get($tokast, $progast)) {
 		return 0;
