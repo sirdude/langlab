@@ -6,7 +6,7 @@ use warnings;
 our $EOL = "\n";
 our $EOF = '__YY_EOF___';
 
-# XXX Need to get rid of at least linenum???
+# $linenum is used for reading in text files and debugging info for them.
 my ($linenum);
 
 sub new {
@@ -167,10 +167,8 @@ sub match {
 		$c = $c + length($tmp);
 	}
 
-	my $name = show_invis($str);
-	my $name2 = show_invis($ans);
-
-	$self->debug("ast::match($name) tmp = '$name2'");
+	$self->debug("ast::match(" . show_invis($str) . 
+		") tmp = '" . show_invis($ans) . "'");
 
 	if ($str eq $ans) {
 		return 1;
