@@ -47,7 +47,7 @@ sub get {
 			$ast->error("Not a pkg or definition.");
 			return 0;
 		}
-		my $node = {};
+		$node = {};
 		$node->{'packages'} = @packages;
 		$node->{'data'} = @defs;
 		$node->{'type'} = 'program';
