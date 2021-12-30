@@ -5,8 +5,6 @@ use strict;
 use warnings;
 
 use struct_expression;
-use struct_block;
-use struct_params;
 
 sub start {
 	my ($ast) = @_;
@@ -40,7 +38,12 @@ sub get {
 		$node->{'type'} = 'libpath';
 		$tmp = $ast->consume();
 	}
-	$node->{'data'} = struct_expression::get($ast);
+
+	if (!struct_expression::get($ast, $tmp)) {
+		$ast->pop_scope();
+		return 0;
+	}
+	$node->{'data'} = $tmp;
 
 	$outast->add_node($node);
 	$ast->pop_scope();

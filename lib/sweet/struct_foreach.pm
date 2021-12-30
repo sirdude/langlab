@@ -45,11 +45,18 @@ sub get {
 
 	$tmp = $ast->consume('(');
 
-	$node->{'items'} = struct_expression::get($ast);
+	if (!struct_expression::get($ast, $tmp)) {
+		$ast->pop_scope();
+		return 0;
+	}
+	$node->{'items'} = $tmp;
 	
 	$tmp = $ast->consume(')');
 
-	$node->{'data'} = struct_block::get($ast);
+	if (!struct_block::get($ast, $tmp)) {
+		return 0;
+	}
+	$node->{'data'} = $tmp;
 
 	$outast->add_node($node);
 	
