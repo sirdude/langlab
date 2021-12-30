@@ -8,11 +8,23 @@ use struct_if;
 use struct_while;
 use struct_assignment;
 use struct_foreach;
+# XXX Need to do these....
+# use struct_return;
+# use struct_exit;
+# use struct_break;
+# use struct_switch;
+# use struct_continue;
+# use struct_try;
+# use struct_throw;
 
-# XXX Not quite right, how about null case?
+my @mods = ('struct_if',
+	'struct_while',
+	'struct_assignment',
+	'struct_foreach',
+	'struct_block');
+
 sub start {
 	my ($ast) = @_;
-	my @mods = ('struct_if', 'struct_while', 'struct_assignment', 'struct_foreach');
 
 	$ast->debug('struct_statement::start');
 
@@ -29,18 +41,26 @@ sub get {
 	my ($ast, $outast) = @_;
 	my ($p, $l) = $ast->get_loc();
 	my $node = {};
-	my $return = 0;
+	my $done = 0;
 
 	$ast->push_scope();
 	$ast->debug('struct_statement::get');
 
-	if (!start($ast)) {
-		$ast->pop_scope();
-		return 0;
+	# Assume we return 1 unless we run into an error.
+	while (!$done) {
+		$done = 1;
+		foreach my $i (@mods) {
+			if ($i->start($ast)) {
+				if (!$i->get($ast, $outast)) {
+					return 0;
+				}
+				$done = 0;
+			}
+		}
 	}
 
 	$ast->pop_scope();
-	return $return;
+	return 1;
 }
 
 1;
