@@ -63,7 +63,8 @@ sub get {
 		return 0;
 	}
 	$tmp = $ast->consume(); # Get rid of the trailing )
-# XXX Need to finish setting $node and return it?
+
+	$output = @params;
 
 	$ast->pop_scope();
 	return 1;

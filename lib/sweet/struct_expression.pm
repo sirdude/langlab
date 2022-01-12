@@ -19,9 +19,10 @@ sub start {
 }
 
 sub get {
-	my ($ast, $outast) = @_;
+	my ($ast, $output) = @_;
 	my ($p, $l) = $ast->get_loc();
-	my ($tmp, $node, @expressions);
+	my $tmp;
+	my $node = {};
 
 	$ast->push_scope();
 	$ast->debug('struct_expression::get');
@@ -33,7 +34,7 @@ sub get {
 
 	# XXX Need to do the work here...
 
-	$outast->add_node($node);
+	$output = $node;
 	
 	$ast->pop_scope();
 	return 1;

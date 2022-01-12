@@ -16,7 +16,7 @@ sub start {
 }
 
 sub get {
-	my ($ast, $outast) = @_;
+	my ($ast, $output) = @_;
 	my ($p, $l) = $ast->get_loc();
 	my $tmp;
 	my $node = {};
@@ -36,7 +36,7 @@ sub get {
 
 	$node->{'data'} = ();
 	while (!$ast->match('}') && !$done) {
-		my $tmp = ();
+	    $tmp = {};
 		if (struct_statement::get($ast, $tmp)) {
 			push(@{$node->{'data'}}, $tmp);
 		} else {
@@ -52,7 +52,7 @@ sub get {
 
 		$ast->pop_scope();
 
-		$outast = $node;
+		$output = $node;
 		return 1;
 	}
 

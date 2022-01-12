@@ -51,7 +51,7 @@ sub start {
 }
 
 sub get {
-	my ($ast, $outast) = @_;
+	my ($ast, $output) = @_;
 	my ($p, $l) = $ast->get_loc();
 	my ($tmp);
 	my @tmods = ();
@@ -112,7 +112,7 @@ sub get {
 			$node->{'data'} = struct_expression::get;
 		}
 
-		$outast->add_node($node);
+		$output = $node;
 		$ast->pop_scope();
 		return 1;
 	}

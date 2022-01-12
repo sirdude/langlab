@@ -55,7 +55,7 @@ sub start {
 }
 
 sub get {
-	my ($ast, $outast) = @_;
+	my ($ast, $output) = @_;
 	my ($p, $l) = $ast->get_loc();
 	my $node = {};
 	my $done = 0;
@@ -69,7 +69,7 @@ sub get {
 		foreach my $i (@mods) {
 		    
 			if ($actions{$i . '::start'}->($ast)) {
-				if (!$actions{$i . '::get'}->($ast, $outast)) {
+				if (!$actions{$i . '::get'}->($ast, $output)) {
 					return 0;
 				}
 				$done = 0;
