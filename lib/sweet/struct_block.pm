@@ -27,6 +27,8 @@ sub get {
 
 	if (!start($ast)) {
 		$ast->pop_scope();
+		$ast->error('struct_block::get called and not the start of a block:' .
+			"$l:$p: " . $ast->peek());
 		return 0;
 	}
 
@@ -34,8 +36,8 @@ sub get {
 
 	$node->{'data'} = ();
 	while (!$ast->match('}') && !$done) {
-		my %tmp = struct_statement::get($ast);
-		if (%tmp) {
+		my $tmp = ();
+		if (struct_statement::get($ast, $tmp)) {
 			push(@{$node->{'data'}}, $tmp);
 		} else {
 			$done = 1;
@@ -50,8 +52,7 @@ sub get {
 
 		$ast->pop_scope();
 
-		$ast->add_node($node);
-
+		$outast = $node;
 		return 1;
 	}
 

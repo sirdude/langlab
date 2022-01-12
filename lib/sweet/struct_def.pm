@@ -91,10 +91,18 @@ sub get {
 	if ($ast->match('(')) {
 		$node->{'type'} = 'function_def';
 
-		$node->{'params'} = struct_params::get($ast);
-		$node->{'data'} = struct_block::get($ast);
+		$tmp = ();
 
-		$outast->add_node($node);
+		if (struct_params::get($ast, $tmp)) {
+			return 0;
+		}
+		$node->{'params'} = $tmp;
+
+		if (!struct_block::get($ast, $tmp)) {
+			return 0;
+		}
+		$node->{'data'} = $tmp;
+
 		$ast->pop_scope();
 		return 1;
 	} else {
