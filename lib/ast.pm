@@ -6,8 +6,8 @@ use warnings;
 our $EOL = "\n";
 our $EOF = '__YY_EOF___';
 
-# $linenum is used for reading in text files and debugging info for them.
-my ($linenum);
+#  used for reading in text files and debugging info for them.
+my $linenum;
 
 sub new {
 	my ($class, $args) = @_;
@@ -81,26 +81,22 @@ sub peek {
 		$count = 0;
 	}
 	$ttt = $self->{'current'} + $count;
-	$self->debug("ast::peek($count:$ttt) size = " . $self->{'size'} . "\n");
+	$self->debug("ast::peek($count:$ttt) size = " . $self->{'size'});
 	$count = $ttt;
 
 	if ($count >= $self->{'size'}) {
 		return $EOF;
-	} elsif ($self->{'data'}[$count]->{'type'} eq 'EOF') {
-		$self->debug("Node: $count numnodes: " . $self->{'size'} .
-			' Type ' . $self->{'data'}[$count]->{'type'} .
-			' data ' . $self->{'data'}[$count]->{'data'} . "\n");
-		return $EOF;
-	} elsif ($self->{'data'}[$count]->{'type'} eq 'EOL') {
-		$self->debug("Node: $count numnodes: " . $self->{'size'} .
-			' Type ' . $self->{'data'}[$count]->{'type'} .
-			' data ' . $self->{'data'}[$count]->{'data'} . "\n");
-		return $EOL;
 	} else {
 		$self->debug("Node: $count numnodes: " . $self->{'size'} .
 			' Type ' . $self->{'data'}[$count]->{'type'} .
-			' data ' . $self->{'data'}[$count]->{'data'} . "\n");
-		return $self->{'data'}[$count]->{'data'};
+			' data ' . $self->{'data'}[$count]->{'data'});
+		if ($self->{'data'}[$count]->{'type'} eq 'EOF') {
+			return $EOF;
+		} elsif ($self->{'data'}[$count]->{'type'} eq 'EOL') {
+			return $EOL;
+		} else {
+			return $self->{'data'}[$count]->{'data'};
+		}
 	}
 }
 
@@ -233,17 +229,30 @@ sub add_base_node {
     return add_node($self, $node);
 }
 
+sub expand_stats_type {
+	my ($type) = @_;
+
+	my @values = ('string', 'comment', 'whitespace', 'ident');
+
+	foreach my $i (@values) {
+		if ($i eq $type) {
+			return 1;
+		}
+	}
+	return 0;
+}
+
 sub add_node {
 	my ($self, $node) = @_;
 
+	$self->debug("ast::add_node: type = " . $node->{'type'} . " data = " . $node->{'data'} . "\n");
 	if ($node->{'data'} eq $EOF) {
 		$self->add_stat('char', 'EOF', 1);
 	} elsif ($node->{'data'} eq $EOL) {
 		$self->add_stat('char', 'EOL', 1);
 	} else {
 	    if (!$self->{'expand-stats'}) {
-			if (($node->{'type'} eq 'string') || ($node->{'type'} eq 'comment') ||
-				($node->{'type'} eq 'whitespace') || ($node->{'type'} eq 'ident')) {
+			if (expand_stats_type($node->{'type'})) {
 					$self->add_stat($node->{'type'}, $node->{'type'}, 1);
 				} else {
 					$self->add_stat($node->{'type'}, $node->{'data'}, 1);
