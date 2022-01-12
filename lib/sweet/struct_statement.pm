@@ -8,11 +8,13 @@ use struct_if;
 use struct_while;
 use struct_assignment;
 use struct_foreach;
+use struct_block;
 # XXX Need to do these....
 # use struct_return;
 # use struct_exit;
 # use struct_break;
 # use struct_switch;
+# use struct_default;
 # use struct_continue;
 # use struct_try;
 # use struct_throw;
@@ -23,13 +25,28 @@ my @mods = ('struct_if',
 	'struct_foreach',
 	'struct_block');
 
+my %actions = (
+	'struct_if::start' => \&struct_if::start,
+	'struct_if::get' => \&struct_if::get,
+	'struct_while::start' => \&struct_while::start,
+	'struct_while::get' => \&struct_while::get,
+	'struct_assignment::start' => \&struct_assignment::start,
+	'struct_assignment::get' => \&struct_assignment::get,
+	'struct_foreach::start' => \&struct_foreach::start,
+	'struct_foreach::get' => \&struct_foreach::get,
+	'struct_block::start' => \&struct_block::start,
+	'struct_block::get' => \&struct_block::get
+);
+
 sub start {
 	my ($ast) = @_;
 
 	$ast->debug('struct_statement::start');
 
 	foreach my $i (@mods) {
-		if ($i->start($ast)) {
+		my $action = $i . '::start';
+
+		if ($actions{$action}->($ast)) {
 			return 1;
 		}
 	}
@@ -50,8 +67,9 @@ sub get {
 	while (!$done) {
 		$done = 1;
 		foreach my $i (@mods) {
-			if ($i->start($ast)) {
-				if (!$i->get($ast, $outast)) {
+		    
+			if ($actions{$i . '::start'}->($ast)) {
+				if (!$actions{$i . '::get'}->($ast, $outast)) {
 					return 0;
 				}
 				$done = 0;
