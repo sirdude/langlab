@@ -30,7 +30,7 @@ sub start {
 }
 
 sub get {
-	my ($ast, $outast) = @_;
+	my ($ast, $output) = @_;
 	my ($p, $l) = $ast->get_loc();
 	my $tmp;
 	my $return = 0;
@@ -66,7 +66,7 @@ sub get {
 # XXX Need to finish setting $node and return it?
 
 	$ast->pop_scope();
-	return @params;
+	return 1;
 }
 
 1;

@@ -12,14 +12,14 @@ use ast;
 use tests;
 use struct_params;
 
-my ($testast, $output);
+my ($testast, @output);
 
 sub test_no_param {
 	$testast->add_base_node('op', '(', 0, 18);
 	$testast->add_base_node('op', ')', 0, 19);
 	$testast->add_base_node('op', ';', 0, 20);
 	is(struct_params::start($testast), 1, 'Testing start of params no params.');
-	is(struct_params::get($testast, $output), 1, 'Testing get with no params.');
+	is(struct_params::get($testast, @output), 1, 'Testing get with no params.');
 	is(struct_params::start($testast), 0, 'Testing start of params with ;.');
 
 	return 1;
@@ -31,7 +31,7 @@ sub test_one_param {
 	$testast->add_base_node('ident', 'x', 0, 31);
 	$testast->add_base_node('op', ')', 0, 32);
 	$testast->add_base_node('ident', ';', 0, 33);
-	is(struct_params::get($testast, $output), 1, 'Testing params int x.');
+	is(struct_params::get($testast, @output), 1, 'Testing params int x.');
 	$testast->consume(); # Get rid of the ;
 
 	return 1;
@@ -47,7 +47,7 @@ sub test_two_params {
 	$testast->add_base_node('op', ')', 0, 47);
 	$testast->add_base_node('ident', ';', 0, 48);
 	is(struct_params::start($testast), 1, 'Testing start of params string.');
-	is(struct_params::get($testast, $output), 1, 'Testing params (string x, int y).');
+	is(struct_params::get($testast, @output), 1, 'Testing params (string x, int y).');
 	$testast->consume(); # Get rid of the ;
 
 	return 1;
@@ -55,7 +55,6 @@ sub test_two_params {
 
 sub main {
 	$testast = ast->new();
-	$output = ast->new();
 #	$testast->set_debug(1);
 	init_tests();
 	test_no_param();
