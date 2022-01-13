@@ -6,10 +6,9 @@ use warnings;
 my ($e, $c) = 0;
 
 foreach my $i (`ls *.t`) {
-	if ($c < 10) {
-		$e += system($i);
-		$c = $c + 1;
-	}
+	print "\t\tRunning test: $i";
+	$e += system($i);
+	$c = $c + 1;
 }
 
 if ($e > 0) {
