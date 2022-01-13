@@ -30,7 +30,7 @@ sub get {
 
 	$node->{'type'} = 'expression';
 	if (struct_signed_term::get($ast, $tmp)) {
-		push(@($node->{'data'}), $tmp);
+		push(@{$node->{'data'}}, $tmp);
 	} else {
 		return 0;
 	}
@@ -41,7 +41,7 @@ sub get {
 			return 0;
 		}
 		$tnode->{'data'} = $tmp;
-		push(@($node->{'data'}), $tnode);
+		push(@{$node->{'data'}}, $tnode);
 	}
 
 	$output = $node;

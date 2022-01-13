@@ -29,19 +29,19 @@ sub get {
 
 	$node->{'type'} = 'term';
 	if (struct_not_factor::get($ast, $tmp)) {
-		push(@($node->{'data'}), $tmp);
+		push(@{$node->{'data'}}, $tmp);
 	} else {
 		return 0;
 	}
 	while ($ast->match('*') || $ast->match('/')) {
-	    my $tnode = {};
+	    my $tnode = ();
 		$tnode->{'type'} = $ast->consume();
 		if (!not_factor::get($ast, $tmp)) {
 			return 0;
 		} 
 		$tnode->{'data'} = $tmp;
 
-		push(@($node->{'data'}), $tnode);
+		push(@{$node->{'data'}}, $tnode);
 	}
 
 	$output = $node;

@@ -3,9 +3,6 @@ package struct_factor;
 use strict;
 use warnings;
 
-use struct_num;
-use struct_ident;
-
 sub start {
 	my ($ast) = @_;
 
@@ -14,10 +11,13 @@ sub start {
 	if ($ast->match('(')) {
 		return 1;
 	}
-	if (struct_ident::start($ast)) {
+	if ($ast->match_type('ident')) {
 		return 1;
 	}
-	return struct_num::start($ast);
+	if ($ast->match_type('float') || $ast->match_type('int')) {
+		return 1;
+	}
+	return 0;
 }
 
 sub get {
@@ -43,11 +43,11 @@ sub get {
 		$output = $node;
 		$ast->pop_scope();
 		return 1;
-	} elsif (struct_ident::start($ast) {
-		if (!struct_ident::get($ast,$tmp)) {
-			return 0;
-		}
-	} elsif (!struct_num::get($ast,$tmp)) {
+	} elsif ($ast->match_type('ident')) {
+		$tmp = $ast->consume();
+	} elsif ($ast->match_type('float') || $ast->match_type('int')) {
+		$tmp = $ast->consume();
+	} else {
 		return 0;
 	}
 	$output = $tmp;
