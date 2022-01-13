@@ -93,7 +93,7 @@ sub get {
 
 		$tmp = ();
 
-		if (struct_params::get($ast, $tmp)) {
+		if (!struct_params::get($ast, $tmp)) {
 			return 0;
 		}
 		$node->{'params'} = $tmp;
@@ -109,7 +109,10 @@ sub get {
 		$node->{'type'} = 'var_def';
 		if ($ast->match('=')) {
 			$ast->consume('=');
-			$node->{'data'} = struct_expression::get;
+			if (!struct_expression::get($ast, $tmp)) {
+				return 0;
+			}
+			$node->{'data'} = $tmp;
 		}
 
 		$output = $node;
