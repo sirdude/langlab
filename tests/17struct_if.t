@@ -21,8 +21,30 @@ sub test_simple_if {
 	$testast->add_base_node('op', ')', 0, 21);
 	$testast->add_base_node('op', '{', 0, 22);
 	$testast->add_base_node('op', '}', 0, 23);
+	$testast->add_base_node('op', ';', 0, 23);
 	is(struct_if::start($testast), 1, 'Testing start of if statement.');
 	is(struct_if::get($testast, $output), 1, 'Testing if (1) {};');
+	is(struct_if::start($testast), 0, 'Testing start of if statement with ;.');
+	$testast->consume(); # get rid of the ';'
+
+	return 1;
+}
+
+sub test_var_equals_if() {
+	$testast->add_base_node('keyword', 'if', 0, 18);
+	$testast->add_base_node('op', '(', 0, 19);
+	$testast->add_base_node('ident', '', 0, 20);
+	$testast->add_base_node('op', '==', 0, 20);
+	$testast->add_base_node('int', '5', 0, 20);
+	$testast->add_base_node('op', ')', 0, 21);
+	$testast->add_base_node('op', '{', 0, 22);
+	$testast->add_base_node('ident', 'print', 0, 22);
+	$testast->add_base_node('string', 'Hello World!', 0, 22);
+	$testast->add_base_node('op', ';', 0, 23);
+	$testast->add_base_node('op', '}', 0, 23);
+	$testast->add_base_node('op', ';', 0, 23);
+	is(struct_if::get($testast, $output), 1, 'Testing if (x=1) { print "Hello World!";};');
+	$testast->consume(); # get rid of the ';'
 
 	return 1;
 }
@@ -33,6 +55,7 @@ sub main {
 #	$testast->set_debug(1);
 	init_tests();
 	test_simple_if();
+	test_var_equals_if();
 	return test_summary();
 }
 
