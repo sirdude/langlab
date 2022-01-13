@@ -28,12 +28,12 @@ sub get {
 	}
 
 	$node->{'type'} = 'term';
-	if (struct_not_factor::get($ast, $tmp);
+	if (struct_not_factor::get($ast, $tmp)) {
 		push(@($node->{'data'}), $tmp);
 	} else {
 		return 0;
 	}
-	while (($ast->peek() eq '*') || ($ast->peek() eq '/')) {
+	while ($ast->match('*') || $ast->match('/')) {
 	    my $tnode = {};
 		$tnode->{'type'} = $ast->consume();
 		if (!not_factor::get($ast, $tmp)) {

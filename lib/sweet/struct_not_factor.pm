@@ -31,7 +31,7 @@ sub get {
 		return 0;
 	}
 
-	if ($ast->peek('!')) {
+	if ($ast->match('!')) {
 	   $node->{'type'} = $ast->consume();
 	}
 

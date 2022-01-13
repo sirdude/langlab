@@ -29,12 +29,12 @@ sub get {
 	}
 
 	$node->{'type'} = 'expression';
-	if (struct_signed_term::get($ast, $tmp);
+	if (struct_signed_term::get($ast, $tmp)) {
 		push(@($node->{'data'}), $tmp);
 	} else {
 		return 0;
 	}
-	while (($ast->peek() eq '+') || ($ast->peek() eq '-')) {
+	while ($ast->match('+') || $ast->match('-')) {
 	    my $tnode = {};
 		$tnode->{'type'} = $ast->consume();
 		if (!term::get($ast, $tmp)) {
