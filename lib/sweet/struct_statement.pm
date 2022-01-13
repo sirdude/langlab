@@ -1,5 +1,4 @@
 package struct_statement;
-# This package covers both function and variable definitions.
 
 use strict;
 use warnings;

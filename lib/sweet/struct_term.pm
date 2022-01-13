@@ -1,17 +1,16 @@
-package struct_expression;
+package struct_term;
 
 use strict;
 use warnings;
 
-use struct_signed_term;
-use struct_term;
+use struct_not_factor;
 
 sub start {
 	my ($ast) = @_;
 
-	$ast->debug('struct_expression::start');
+	$ast->debug('struct_term::start');
 
-	return struct_signed_term::start($ast);
+	return struct_not_factor::start($ast);
 }
 
 sub get {
@@ -21,26 +20,27 @@ sub get {
 	my $node = {};
 
 	$ast->push_scope();
-	$ast->debug('struct_expression::get');
+	$ast->debug('struct_term::get');
 
 	if (!start($ast)) {
 		$ast->pop_scope();
 		return 0;
 	}
 
-	$node->{'type'} = 'expression';
-	if (struct_signed_term::get($ast, $tmp);
+	$node->{'type'} = 'term';
+	if (struct_not_factor::get($ast, $tmp);
 		push(@($node->{'data'}), $tmp);
 	} else {
 		return 0;
 	}
-	while (($ast->peek() eq '+') || ($ast->peek() eq '-')) {
+	while (($ast->peek() eq '*') || ($ast->peek() eq '/')) {
 	    my $tnode = {};
 		$tnode->{'type'} = $ast->consume();
-		if (!term::get($ast, $tmp)) {
+		if (!not_factor::get($ast, $tmp)) {
 			return 0;
-		}
+		} 
 		$tnode->{'data'} = $tmp;
+
 		push(@($node->{'data'}), $tnode);
 	}
 
