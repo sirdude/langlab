@@ -21,6 +21,7 @@ sub test_no_param {
 	is(struct_params::start($testast), 1, 'Testing start of params no params.');
 	is(struct_params::get($testast, @output), 1, 'Testing get with no params.');
 	is(struct_params::start($testast), 0, 'Testing start of params with ;.');
+	$testast->consume(); # Get rid of the ;
 
 	return 1;
 }

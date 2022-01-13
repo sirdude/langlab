@@ -6,10 +6,21 @@ use warnings;
 my @types = ('void', 'int', 'float', 'string', 'object', 'mapping', 'mixed');
 my @typemods = ('atomic', 'nomask', 'private', 'static');
 
-sub start_typemod {
+sub is_typemod {
 	my ($ast) = @_;
 
 	foreach my $i (@typemods) {
+		if ($ast->match($i)) {
+			return 1;
+		}
+	}
+	return 0;
+}
+
+sub is_type {
+	my ($ast) = @_;
+
+	foreach my $i (@types) {
 		if ($ast->match($i)) {
 			return 1;
 		}
@@ -34,6 +45,7 @@ sub get {
 	my $tmp;
 	my $return = 0;
 	my @params;
+	my $done = 0;
 
 	$ast->push_scope();
 	$ast->debug('struct_params::get');
@@ -44,15 +56,36 @@ sub get {
 	}
 	$tmp = $ast->consume(); # Get rid of the (
 
-	while ($ast->match_type('type') || $ast->match_type('typemod')) {
-# XXX Need to work on typemod stuff here... 
-		$tmp = $ast->consume();
+	if ($ast->match(')')) { # Empty params list... 
+		$tmp = $ast->consume(); # Get rid of the trailing )
+
+		$output = @params;
+
+		$ast->pop_scope();
+		return 1;
+	}
+
+	while (!$done) {
 		my $tnode = {};
+
+		while (is_typemod($ast)) {
+			$tmp = $ast->consume();
+			push(@{$tnode->{'typemods'}}, $tmp);
+		}
+		if (!is_type($ast)) {
+		    $ast->error('expected a valid type got ' . $ast->peek());
+			return 0;
+		}
+		$tmp = $ast->consume();
+
 		$tnode->{'param_type'} = $tmp;
+		$tnode->{'type'} = 'param';
 		$tmp = $ast->consume();
 		$tnode->{'data'} = $tmp;
 		push(@params, $tnode);
-		if ($ast->match(',')) {
+		if (!$ast->match(',')) {
+			$done = 1;
+		} else {
 			$tmp = $ast->consume();
 		}
 	}
