@@ -31,9 +31,12 @@ sub test_hello_world {
 	$testast->add_base_node('string', "Hello World!\n", 0, 32);
 	$testast->add_base_node('op', ';', 0, 33);
 	$testast->add_base_node('op', '}', 0, 34);
+	$testast->add_base_node('op', "'", 0, 34);
 
 	is(struct_program::start($testast), 1, 'Testing if we have the start of a program.');
 	is(struct_program::get($testast, $output), 1, 'Testing get hello world.');
+	is(struct_program::start($testast), 0, 'Testing invalid of a program "\'".');
+	is(struct_program::get($testast, $output), 0, 'Testing get invalid program.');
 	return 1;
 }
 
