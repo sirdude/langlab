@@ -15,9 +15,11 @@ use struct_expression;
 my ($testast, $output);
 
 sub test_const_expression {
-	$testast->add_base_node('type', 'int', 0, 18);
+	$testast->add_base_node('int', '1', 0, 18);
+	$testast->add_base_node('op', ';', 0, 18);
 	is(struct_expression::start($testast), 1, 'Testing start of constant expression 1.');
 	is(struct_expression::get($testast, $output), 1, 'Testing expression: 1;');
+	$testast->consume(); # get rid of the ';'
 
 	return 1;
 }
