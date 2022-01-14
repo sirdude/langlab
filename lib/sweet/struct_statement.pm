@@ -8,6 +8,8 @@ use struct_while;
 use struct_assignment;
 use struct_foreach;
 use struct_block;
+use struct_def; # XXX should not allow nested functions...
+
 # XXX Need to do these....
 # use struct_return;
 # use struct_exit;
@@ -17,12 +19,14 @@ use struct_block;
 # use struct_continue;
 # use struct_try;
 # use struct_throw;
+# Need to also do functioncalls...
 
 my @mods = ('struct_if',
 	'struct_while',
 	'struct_assignment',
 	'struct_foreach',
-	'struct_block');
+	'struct_block',
+	'struct_def');
 
 my %actions = (
 	'struct_if::start' => \&struct_if::start,
@@ -34,8 +38,22 @@ my %actions = (
 	'struct_foreach::start' => \&struct_foreach::start,
 	'struct_foreach::get' => \&struct_foreach::get,
 	'struct_block::start' => \&struct_block::start,
-	'struct_block::get' => \&struct_block::get
+	'struct_block::get' => \&struct_block::get,
+	'struct_def::start' => \&struct_def::start,
+	'struct_def::get' => \&struct_def::get
 );
+
+sub no_semi {
+	my ($fun) = @_;
+	my @values = ('if', 'while', 'block', 'foreach');
+
+	foreach my $i (@values) {
+		if ($i eq $fun) {
+			return 1;
+		}
+	}
+	return 0;
+}
 
 sub start {
 	my ($ast) = @_;
@@ -57,6 +75,7 @@ sub get {
 	my ($ast, $output) = @_;
 	my $node = {};
 	my $done = 0;
+	my $tmp;
 
 	$ast->push_scope();
 	$ast->debug('struct_statement::get');
@@ -67,14 +86,28 @@ sub get {
 		foreach my $i (@mods) {
 		    
 			if ($actions{$i . '::start'}->($ast)) {
-				if (!$actions{$i . '::get'}->($ast, $output)) {
+				if (!$actions{$i . '::get'}->($ast, $tmp)) {
 					$ast->error("Expected $i");
 					$ast->pop_scope();
 					return 0;
 				}
+				if (!no_semi($i)) {
+					if (!$ast->match(';')) {
+						$ast->error("Expected ;");
+						$ast->pop_scope();
+						return 0;
+					}
+					$ast->consume(';');
+				}
 				$done = 0;
 			}
 		}
+	}
+
+	if (!$ast->match->('}')) {
+	   error('Unable to find valid statement.');
+		$ast->pop_scope();
+		return 0;
 	}
 
 	$ast->pop_scope();
