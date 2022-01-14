@@ -55,7 +55,6 @@ sub start {
 
 sub get {
 	my ($ast, $output) = @_;
-	my ($p, $l) = $ast->get_loc();
 	my $node = {};
 	my $done = 0;
 
