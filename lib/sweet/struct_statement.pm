@@ -69,6 +69,8 @@ sub get {
 		    
 			if ($actions{$i . '::start'}->($ast)) {
 				if (!$actions{$i . '::get'}->($ast, $output)) {
+					$ast->error("Expected $i, got: " . $ast->peek());
+					$ast->pop_scope();
 					return 0;
 				}
 				$done = 0;

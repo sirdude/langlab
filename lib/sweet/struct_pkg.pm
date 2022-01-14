@@ -40,6 +40,7 @@ sub get {
 	}
 
 	if (!struct_expression::get($ast, $tmp)) {
+		$ast->error("Expected expression, got: " . $ast->peek());
 		$ast->pop_scope();
 		return 0;
 	}
@@ -47,6 +48,7 @@ sub get {
 
 	$output = $node;
 	$ast->pop_scope();
+
 	return 1;
 }
 

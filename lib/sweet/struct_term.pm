@@ -31,12 +31,16 @@ sub get {
 	if (struct_not_factor::get($ast, $tmp)) {
 		push(@{$node->{'data'}}, $tmp);
 	} else {
+		$ast->error("Expected ! factor, got " . $ast->peek());
+		$ast->pop_scope();
 		return 0;
 	}
 	while ($ast->match('*') || $ast->match('/')) {
 	    my $tnode = ();
 		$tnode->{'type'} = $ast->consume();
 		if (!not_factor::get($ast, $tmp)) {
+			$ast->error("Expected ! factor, got " . $ast->peek());
+			$ast->pop_scope();
 			return 0;
 		} 
 		$tnode->{'data'} = $tmp;

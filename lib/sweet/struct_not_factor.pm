@@ -36,11 +36,14 @@ sub get {
 	}
 
 	if (!struct_factor::get($ast, $tmp)) {
+		$ast->error("Expected factor, got: " . $ast->peek());
+		$ast->pop_scope();
 		return 0;
 	}
+
 	$output = $tmp;
-	
 	$ast->pop_scope();
+
 	return 1;
 }
 

@@ -5,6 +5,7 @@ use warnings;
 
 use struct_expression;
 use struct_block;
+# use struct_ident; XXX Need to use this instead of lhs...
 
 sub start {
 	my ($ast) = @_;
@@ -15,7 +16,7 @@ sub start {
 		return 0;
 	}
 
-	if ($ast->peek(1) eq '=') {
+	if ($ast->peek(1) eq '=') { # XXX need to account for x[3] = 5;
 		return 1;
 	}
 	return 0;
@@ -40,9 +41,20 @@ sub get {
 	$node->{'type'} = 'assignment';
 	$node->{'data'} = $tmp;
 
+	if (!$ast->match('=')) {
+		error("In assignment Expected = got " . $ast->peek());
+		$ast->pop_scope();
+		return 0;
+	}
 	$tmp = $ast->consume('=');
 
-	$node->{'rhs'} = struct_expression::get($ast);
+	if (!struct_expression::get($ast, $tmp)) {
+		error("In assignment Expected expression, got: " . $ast->peek());
+		$ast->pop_scope();
+		return 0;
+	}
+
+	$ast->{'rhs'} = $tmp;
 
 	$output = $node;
 	

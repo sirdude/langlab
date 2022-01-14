@@ -60,7 +60,6 @@ sub get {
 		$tmp = $ast->consume(); # Get rid of the trailing )
 
 		$output = @params;
-
 		$ast->pop_scope();
 		return 1;
 	}
@@ -74,31 +73,35 @@ sub get {
 		}
 		if (!is_type($ast)) {
 		    $ast->error('expected a valid type got ' . $ast->peek());
+			$ast->pop_scope();
 			return 0;
 		}
 		$tmp = $ast->consume();
-
 		$tnode->{'param_type'} = $tmp;
 		$tnode->{'type'} = 'param';
+
 		$tmp = $ast->consume();
 		$tnode->{'data'} = $tmp;
+
 		push(@params, $tnode);
+
 		if (!$ast->match(',')) {
 			$done = 1;
 		} else {
-			$tmp = $ast->consume();
+			$tmp = $ast->consume(); # getting rid of ,
 		}
 	}
 
 	if (!$ast->match(')')) {
 	    error("struct_params::get expecting closing ')' got: '" . $ast->peek() . "'");
+		$ast->pop_scope();
 		return 0;
 	}
 	$tmp = $ast->consume(); # Get rid of the trailing )
 
 	$output = @params;
-
 	$ast->pop_scope();
+
 	return 1;
 }
 

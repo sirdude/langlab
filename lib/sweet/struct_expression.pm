@@ -32,12 +32,16 @@ sub get {
 	if (struct_signed_term::get($ast, $tmp)) {
 		push(@{$node->{'data'}}, $tmp);
 	} else {
+		$ast->error("Expected signed_term got " . $ast->peek());
+		$ast->pop_scope();
 		return 0;
 	}
 	while ($ast->match('+') || $ast->match('-')) {
 	    my $tnode = {};
 		$tnode->{'type'} = $ast->consume();
 		if (!term::get($ast, $tmp)) {
+		$ast->error("Expected term got " . $ast->peek());
+		$ast->pop_scope();
 			return 0;
 		}
 		$tnode->{'data'} = $tmp;
@@ -45,8 +49,8 @@ sub get {
 	}
 
 	$output = $node;
-	
 	$ast->pop_scope();
+
 	return 1;
 }
 

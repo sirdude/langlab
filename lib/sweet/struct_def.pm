@@ -11,7 +11,7 @@ use struct_params;
 my @types = ('void', 'int', 'float', 'string', 'object', 'mapping', 'mixed');
 my @typemods = ('atomic', 'nomask', 'private', 'static');
 
-sub start_typemod {
+sub is_typemod {
 	my ($ast) = @_;
 
 	foreach my $i (@typemods) {
@@ -39,7 +39,7 @@ sub start {
 
 	$ast->debug('struct_def::start');
 
-	if (start_typemod($ast)) {
+	if (is_typemod($ast)) {
 		return 1;
 	}
 	foreach my $i (@types) {
@@ -65,7 +65,7 @@ sub get {
 		return 0;
 	}
 
-	while(start_typemod($ast)) {
+	while(is_typemod($ast)) {
 		$tmp = $ast->consume();
 		push(@tmods, $tmp);
 	}
@@ -94,11 +94,15 @@ sub get {
 		$tmp = ();
 
 		if (!struct_params::get($ast, $tmp)) {
+			$ast->error("Expected params: got " . $ast->peek());
+			$ast->pop_scope();
 			return 0;
 		}
 		$node->{'params'} = $tmp;
 
 		if (!struct_block::get($ast, $tmp)) {
+			$ast->error("Expected block: got " . $ast->peek());
+			$ast->pop_scope();
 			return 0;
 		}
 		$node->{'data'} = $tmp;
@@ -110,6 +114,8 @@ sub get {
 		if ($ast->match('=')) {
 			$ast->consume('=');
 			if (!struct_expression::get($ast, $tmp)) {
+				$ast->error("Expected expression got " . $ast->peek());
+				$ast->pop_scope();
 				return 0;
 			}
 			$node->{'data'} = $tmp;

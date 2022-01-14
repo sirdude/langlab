@@ -46,6 +46,7 @@ sub get {
 	$tmp = $ast->consume('(');
 
 	if (!struct_expression::get($ast, $tmp)) {
+		$ast->error("Expected expression, got: " . $ast->peek());
 		$ast->pop_scope();
 		return 0;
 	}
@@ -54,13 +55,15 @@ sub get {
 	$tmp = $ast->consume(')');
 
 	if (!struct_block::get($ast, $tmp)) {
+		$ast->error("Expected block, got: " . $ast->peek());
+		$ast->pop_scope();
 		return 0;
 	}
-	$node->{'data'} = $tmp;
 
+	$node->{'data'} = $tmp;
 	$output = $node;
-	
 	$ast->pop_scope();
+
 	return 1;
 }
 

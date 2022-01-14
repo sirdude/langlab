@@ -55,10 +55,9 @@ sub get {
 	}
 
 	$tmp = $ast->consume('}');
-
 	$ast->pop_scope();
-
 	$output = $node;
+
 	return 1;
 }
 
