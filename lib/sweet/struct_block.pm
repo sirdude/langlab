@@ -26,15 +26,19 @@ sub get {
 	$ast->debug('struct_block::get');
 
 	if (!start($ast)) {
-		$ast->pop_scope();
 		$ast->error('struct_block::get called and not the start of a block:' .
 			"$l:$p: " . $ast->peek());
+		$ast->pop_scope();
 		return 0;
 	}
 
+	$node->{'type'} = 'block';
+	$node->{'columnnum'} = $p;
+	$node->{'linenum'} = $l;
+	$node->{'data'} = ();
+
 	$tmp = $ast->consume('{');
 
-	$node->{'data'} = ();
 	while (!$ast->match('}') && !$done) {
 	    $tmp = {};
 		if (struct_statement::get($ast, $tmp)) {
@@ -44,20 +48,18 @@ sub get {
 		}
 	}
 
-	$tmp = $ast->consume('}');
-	if ($tmp) {
-		$node->{'type'} = 'block';
-		$node->{'columnnum'} = $p;
-		$node->{'linenum'} = $l;
-
+	if (!$ast->match('}')) {
+		$ast->error("Expected end of block, got: " . $ast->peek());
 		$ast->pop_scope();
-
-		$output = $node;
-		return 1;
+		return 0;
 	}
 
+	$tmp = $ast->consume('}');
+
 	$ast->pop_scope();
-	return 0;
+
+	$output = $node;
+	return 1;
 }
 
 1;
