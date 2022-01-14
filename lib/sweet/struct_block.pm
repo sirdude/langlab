@@ -39,7 +39,6 @@ sub get {
 	$tmp = $ast->consume('{');
 
 	while (!$ast->match('}') && !$done) {
-print "Calling get statement\n";
 	    $tmp = {};
 		if (struct_statement::get($ast, $tmp)) {
 			push(@{$node->{'data'}}, $tmp);
