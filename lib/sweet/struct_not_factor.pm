@@ -36,7 +36,7 @@ sub get {
 	}
 
 	if (!struct_factor::get($ast, $tmp)) {
-		$ast->error("Expected factor, got: " . $ast->peek());
+		$ast->error('Expected factor');
 		$ast->pop_scope();
 		return 0;
 	}

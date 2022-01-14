@@ -42,23 +42,22 @@ sub get {
 	$node->{'data'} = $tmp;
 
 	if (!$ast->match('=')) {
-		error("In assignment Expected = got " . $ast->peek());
+		error('In assignment Expected =');
 		$ast->pop_scope();
 		return 0;
 	}
 	$tmp = $ast->consume('=');
 
 	if (!struct_expression::get($ast, $tmp)) {
-		error("In assignment Expected expression, got: " . $ast->peek());
+		error('In assignment Expected expression');
 		$ast->pop_scope();
 		return 0;
 	}
 
 	$ast->{'rhs'} = $tmp;
-
 	$output = $node;
-	
 	$ast->pop_scope();
+
 	return 1;
 }
 

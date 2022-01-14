@@ -73,14 +73,14 @@ sub get {
 	$tmp = $ast->consume();
 
 	if (!is_type($tmp)) {
-		$ast->error("struct_def::get Expected 'type' got '$tmp'");
+		$ast->error("struct_def::get Expected 'type'");
 		$ast->pop_scope();
 		return 0;
 	}
 	$node->{'return_type'} = $tmp;
 
 	if (!$ast->match_type('ident')) {
-		$ast->error("struct_def::get Expected 'ident' got '$tmp'");
+		$ast->error("struct_def::get Expected 'ident'");
 		$ast->pop_scope();
 		return 0;
 	} else { # Set the name of the function/var.....
@@ -94,14 +94,14 @@ sub get {
 		$tmp = ();
 
 		if (!struct_params::get($ast, $tmp)) {
-			$ast->error("Expected params: got " . $ast->peek());
+			$ast->error('Expected params');
 			$ast->pop_scope();
 			return 0;
 		}
 		$node->{'params'} = $tmp;
 
 		if (!struct_block::get($ast, $tmp)) {
-			$ast->error("Expected block: got " . $ast->peek());
+			$ast->error('Expected block');
 			$ast->pop_scope();
 			return 0;
 		}
@@ -114,7 +114,7 @@ sub get {
 		if ($ast->match('=')) {
 			$ast->consume('=');
 			if (!struct_expression::get($ast, $tmp)) {
-				$ast->error("Expected expression got " . $ast->peek());
+				$ast->error('Expected expression');
 				$ast->pop_scope();
 				return 0;
 			}

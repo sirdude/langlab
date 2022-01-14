@@ -72,7 +72,7 @@ sub get {
 			push(@{$tnode->{'typemods'}}, $tmp);
 		}
 		if (!is_type($ast)) {
-		    $ast->error('expected a valid type got ' . $ast->peek());
+		    $ast->error('expected a valid type');
 			$ast->pop_scope();
 			return 0;
 		}
@@ -93,7 +93,7 @@ sub get {
 	}
 
 	if (!$ast->match(')')) {
-	    error("struct_params::get expecting closing ')' got: '" . $ast->peek() . "'");
+	    error("struct_params::get expecting closing ')'");
 		$ast->pop_scope();
 		return 0;
 	}

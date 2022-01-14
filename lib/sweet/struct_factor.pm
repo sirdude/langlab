@@ -37,7 +37,7 @@ sub get {
 	if ($ast->match('(')) {
 		$node->{'type'} = $ast->consume();
 		if (!struct_expression::get($ast,$tmp)) {
-			$ast->error("Expected expression, got: " . $ast->peek());
+			$ast->error('Expected expression');
 			$ast->pop_scope();
 			return 0;
 		}
@@ -50,7 +50,7 @@ sub get {
 	} elsif ($ast->match_type('float') || $ast->match_type('int')) {
 		$tmp = $ast->consume();
 	} else {
-		$ast->error("Expected ident, or number, got " . $ast->peek());
+		$ast->error('Expected ident, or number');
 		$ast->pop_scope();
 		return 0;
 	}

@@ -41,9 +41,9 @@ sub debug {
 sub error {
 	my ($self, $info) = @_;
 
-	print $self->{'data'}->[$self->{'current'}]->{'linenum'} . ':' .
-		$self->{'data'}->[$self->{'current'}]->{'columnnum'} . ':' .
-		$info . "\n";
+	print "ERROR:" . $self->{'data'}->[$self->{'current'}]->{'linenum'} . ':' .
+		$self->{'data'}->[$self->{'current'}]->{'columnnum'} . ': \'' .
+		$self->peek() . '\'' . $info . "\n";
 	return 1;
 }
 

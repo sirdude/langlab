@@ -31,7 +31,7 @@ sub get {
 	if (struct_not_factor::get($ast, $tmp)) {
 		push(@{$node->{'data'}}, $tmp);
 	} else {
-		$ast->error("Expected ! factor, got " . $ast->peek());
+		$ast->error('Expected expression');
 		$ast->pop_scope();
 		return 0;
 	}
@@ -39,7 +39,7 @@ sub get {
 	    my $tnode = ();
 		$tnode->{'type'} = $ast->consume();
 		if (!not_factor::get($ast, $tmp)) {
-			$ast->error("Expected ! factor, got " . $ast->peek());
+			$ast->error('Expected expression');
 			$ast->pop_scope();
 			return 0;
 		} 

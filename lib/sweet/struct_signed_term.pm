@@ -33,7 +33,7 @@ sub get {
 	if ($ast->match('+') || $ast->match('-')) {
 		$node->{'type'} = $ast->consume();
 		if (!struct_term::get($ast, $tmp)) {
-			$ast->error("Expected term, got: " . $ast->peek());
+			$ast->error('Expected term');
 			$ast->pop_scope();
 			return 0;
 		}
@@ -42,7 +42,7 @@ sub get {
 		$output = $node;
 	} else {
 		if (!struct_term::get($ast, $tmp)) {
-			$ast->error("Expected term, got: " . $ast->peek());
+			$ast->error('Expected term');
 			$ast->pop_scope();
 			return 0;
 		}

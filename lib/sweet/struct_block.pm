@@ -26,8 +26,7 @@ sub get {
 	$ast->debug('struct_block::get');
 
 	if (!start($ast)) {
-		$ast->error('struct_block::get called and not the start of a block:' .
-			"$l:$p: " . $ast->peek());
+		$ast->error('struct_block::get called and not the start of a block');
 		$ast->pop_scope();
 		return 0;
 	}
@@ -49,7 +48,7 @@ sub get {
 	}
 
 	if (!$ast->match('}')) {
-		$ast->error("Expected end of block, got: " . $ast->peek());
+		$ast->error('Expected end of block');
 		$ast->pop_scope();
 		return 0;
 	}

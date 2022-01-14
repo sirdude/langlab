@@ -40,7 +40,7 @@ sub get {
 	}
 
 	if (!struct_expression::get($ast, $tmp)) {
-		$ast->error("Expected expression, got: " . $ast->peek());
+		$ast->error('Expected expression');
 		$ast->pop_scope();
 		return 0;
 	}

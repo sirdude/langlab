@@ -32,7 +32,7 @@ sub get {
 	if (struct_signed_term::get($ast, $tmp)) {
 		push(@{$node->{'data'}}, $tmp);
 	} else {
-		$ast->error("Expected signed_term got " . $ast->peek());
+		$ast->error('Expected expression');
 		$ast->pop_scope();
 		return 0;
 	}
@@ -40,7 +40,7 @@ sub get {
 	    my $tnode = {};
 		$tnode->{'type'} = $ast->consume();
 		if (!term::get($ast, $tmp)) {
-		$ast->error("Expected term got " . $ast->peek());
+		$ast->error('Expected term');
 		$ast->pop_scope();
 			return 0;
 		}
