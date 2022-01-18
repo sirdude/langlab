@@ -3,6 +3,8 @@ package struct_string_term;
 use strict;
 use warnings;
 
+use struct_ident;
+
 sub start {
 	my ($ast) = @_;
 
