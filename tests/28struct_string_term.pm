@@ -62,9 +62,9 @@ sub test_variable_inarray {
 
 sub test_hash {
 	$testast->add_base_node('keyword', 'x', 0, 64);
-	$testast->add_base_node('op', '{', 0, 65);
+	$testast->add_base_node('op', '[', 0, 65);
 	$testast->add_base_node('string', 'fun', 0, 66);
-	$testast->add_base_node('op', '}', 0, 67);
+	$testast->add_base_node('op', ']', 0, 67);
 	$testast->add_base_node('op', ';', 0, 68);
 
 	is(struct_string_term::get($testast, $output), 1, 'Testing getting a hash value.');
