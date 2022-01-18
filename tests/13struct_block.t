@@ -21,7 +21,6 @@ sub test_empty_block {
 
 	is(struct_block::start($testast), 1, 'Testing start of block.');
 	is(struct_block::get($testast, $output), 1, 'Testing get empty block;');
-
 	is(struct_block::start($testast), 0, 'Testing invalid start of block ";".');
 	is(struct_block::get($testast, $output), 0, 'Testing get invalid block;');
 
