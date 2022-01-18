@@ -12,7 +12,7 @@ sub start {
 	if ($ast->match_type('ident')) {
 		return 1;
 	}
-	if ($ast->match_type('int')) {
+	if ($ast->match_type('int') || $ast->match_type('float')) {
 		return 1;
 	}
 	return 0;
@@ -40,7 +40,11 @@ sub get {
 		}
 	} 
 	if (!$done) {
-		# XXX Need to get function call or variable call.
+		if (!struct_ident::get($ast, $tmp)) {
+			error("Expected variable or function call.");
+			$ast->pop_scope();
+			return 0;
+		}
 	}
 
 	$output = $tmp;

@@ -1,0 +1,64 @@
+package struct_ident;
+# This gets structure gets variables and function calls.
+
+use strict;
+use warnings;
+
+use struct_expression;
+
+sub start {
+	my ($ast) = @_;
+
+	$ast->debug('struct_ident::start');
+	if ($ast->match_type('ident')) {
+		return 1;
+	}
+	return 0;
+}
+
+sub get {
+	my ($ast, $output) = @_;
+	my $tmp;
+	my $node = {};
+	my $return = 0;
+
+	$ast->push_scope();
+	$ast->debug('struct_ident::get');
+
+	if (!start($ast)) {
+		$ast->pop_scope();
+		return 0;
+	}
+
+	$tmp = $ast->consume();
+	$node->{'data'} = $tmp;
+	if ($ast->match('(')) {
+		$node->{'type'} = 'function_call';
+
+		# XXX Need to get params 
+
+	} else {
+		$node->{'type'} = 'var';
+		if ($ast->match('[')) {
+			if (!struct_expression::get($ast, $tmp)) {
+				$ast->error('Invalid variable index for var');
+				$ast->pop_scope();
+				return 0;
+			}
+			$node->{'index'} = $tmp;
+			if (!$ast->match(']')) {
+				$ast->error('Expecting close index for var:');
+				$ast->pop_scope();
+				return 0;
+			}
+		    $tmp = $ast->consume();
+		}
+	}
+
+	$output = $node;
+	$ast->pop_scope();
+
+	return 1;
+}
+
+1;
