@@ -68,6 +68,7 @@ sub get {
 		$tmp = $ast->consume();
 		push(@tmods, $tmp);
 	}
+
 	$node->{'typemods'} = @tmods;
 	$tmp = $ast->consume();
 

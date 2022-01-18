@@ -9,6 +9,7 @@ use struct_assignment;
 use struct_foreach;
 use struct_block;
 use struct_def; # XXX should not allow nested functions...
+use struct_print;
 
 # XXX Need to do these....
 # use struct_return;
@@ -26,7 +27,8 @@ my @mods = ('struct_if',
 	'struct_assignment',
 	'struct_foreach',
 	'struct_block',
-	'struct_def');
+	'struct_def',
+	'struct_print');
 
 my %actions = (
 	'struct_if::start' => \&struct_if::start,
@@ -40,7 +42,9 @@ my %actions = (
 	'struct_block::start' => \&struct_block::start,
 	'struct_block::get' => \&struct_block::get,
 	'struct_def::start' => \&struct_def::start,
-	'struct_def::get' => \&struct_def::get
+	'struct_def::get' => \&struct_def::get,
+	'struct_print::start' => \&struct_print::start,
+	'struct_print::get' => \&struct_print::get
 );
 
 sub no_semi {
