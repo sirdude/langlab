@@ -43,7 +43,6 @@ sub test_var_equals_if() {
 	$testast->add_base_node('op', '}', 0, 23);
 	$testast->add_base_node('op', ';', 0, 23);
 
-print "Woo!!!\n";
 	is(struct_if::get($testast, $output), 1, 'Testing if (x==5) {};');
 
 	$testast->clear();
