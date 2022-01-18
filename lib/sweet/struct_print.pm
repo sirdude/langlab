@@ -32,8 +32,8 @@ sub get {
 	$tmp = $ast->consume('print');
 	$node->{'type'} = 'print';
 
-	if (!struct_expression::get($ast, $tmp)) {
-		$ast->error('Expected expression');
+	if (!struct_string_expression::get($ast, $tmp)) {
+		$ast->error('Expected string expression');
 		$ast->pop_scope();
 		return 0;
 	}
