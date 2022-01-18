@@ -31,8 +31,8 @@ sub test_tok_ident_basics {
 
 	is($testast->peek(), ';', 'Testing to see if we are pointing at the next token.');
 	is(tok_ident::get($testast, $output), 0, 'Testing if get fails on non ident.');
-	$testast->consume(); # get rid of the ';'
 
+	$testast->clear();
 	return 1;
 }
 
@@ -48,8 +48,8 @@ sub test_ident_with_num {
 	is(tok_ident::get($testast, $output), 1, 'Get the ident int05.');
 
 	is($testast->peek(), ';', 'Testing to see if we are pointing at the next token.');
-	$testast->consume(); # get rid of the ';'
 
+	$testast->clear();
 	return 1;
 }
 
@@ -65,7 +65,7 @@ sub test_ident_with_underscore {
 	is(tok_ident::get($testast, $output), 1, 'Get the ident int_5.');
 
 	is($testast->peek(), ';', 'Testing to see if we are pointing at the next token.');
-	$testast->consume(); # get rid of the ';'
+	$testast->clear();
 	return 1;
 }
 

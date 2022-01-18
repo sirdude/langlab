@@ -28,8 +28,7 @@ sub test_tok_num_basics {
 	is($testast->peek(), ';', 'Testing to see if we are pointing at the next token.');
 	is(tok_num::get($testast, $output), 0, 'Testing if get fails on non num.');
 
-	$testast->consume(); # get rid of the ';' so we can put something that looks like a hex in the queue.
-
+	$testast->clear();
 	return 1;
 }
 

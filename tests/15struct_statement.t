@@ -24,6 +24,7 @@ sub test_assignment {
 	is(struct_statement::get($testast, $output), 1, 'Testing x=5;');
 	is(struct_statement::start($testast), 0, 'Testing invalid start of statement _');
 
+	$testast->clear();
 	return 1;
 }
 

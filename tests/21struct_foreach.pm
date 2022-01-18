@@ -24,10 +24,12 @@ sub test_simple_foreach {
 	$testast->add_base_node('op', '{', 0, 24);
 	$testast->add_base_node('op', '}', 0, 25);
 	$testast->add_base_node('op', ';', 0, 26);
+
 	is(struct_foreach::start($testast), 1, 'Testing start of foreach statement.');
 	is(struct_foreach::get($testast, $output), 1, 'Testing foreach x (1) {};');
 	is(struct_foreach::start($testast), 0, 'Testing start of foreach with ;.');
 
+	$testast->clear();
 	return 1;
 }
 

@@ -30,8 +30,7 @@ sub test_tok_html_basics {
 	is($testast->peek(), 'a', 'Testing to see if we are pointing at the next token.');
 	is(tok_html::get($testast, $output), 0, 'Testing if get fails on non html.');
 
-	$testast->consume(); # get rid of the 'a' so we can put something that looks like html in the queue.
-
+	$testast->clear();
 	return 1;
 }
 
@@ -46,6 +45,7 @@ sub test_invalid_html {
 
 	is(tok_html::get($testast, $output), 0, 'Testing if get fails on invalid html.');
 
+	$testast->clear();
 	return 1;
 }
 

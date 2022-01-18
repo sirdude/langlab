@@ -29,8 +29,7 @@ sub test_tok_hex_basics {
 	is($testast->peek(), ';', 'Testing to see if we are pointing at the next token.');
 	is(tok_hex::get($testast, $output), 0, 'Testing if get fails on non hex number.');
 
-	$testast->consume(); # get rid of the ';' so we can put something that looks like a hex in the queue.
-
+	$testast->clear();
 	return 1;
 }
 
@@ -40,6 +39,7 @@ sub test_invalid_hex {
 	$testast->add_base_node('char', ';', 0, 40);
 	is(tok_hex::get($testast, $output), 0, 'Testing if get fails on invalid hex.');
 
+	$testast->clear();
 	return 1;
 }
 

@@ -30,8 +30,8 @@ sub test_tok_pound_line_comment_basics {
 
 	is($testast->peek(), 'a', 'Testing to see if we are pointing at the next token.');
 	is(tok_comment::get($testast, $output), 0, 'Testing if get fails on non comment.');
-	$testast->consume(); # Empty our queue so we can run another test.
 
+	$testast->clear();
 	return 1;
 }
 

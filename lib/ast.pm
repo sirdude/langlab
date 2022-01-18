@@ -13,12 +13,21 @@ sub new {
 	my ($class, $args) = @_;
 	my $self = {};
 
+	bless $self, $class;
+
+	$self->clear();
+	return $self;
+}
+
+sub clear {
+	my ($self) = @_;
+
 	$self->{'current'} = 0;
 	$self->{'size'} = 0;
 	$self->{'scope'} = 0;
-		
-	bless $self, $class;
-	return $self;
+	$self->{'data'} = ();
+
+	return 1;	
 }
 
 sub set_debug {

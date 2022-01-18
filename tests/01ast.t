@@ -24,6 +24,7 @@ sub test_scope {
 	$testast->pop_scope();
 	is($testast->get_scope(), -1, 'Check pop_scope to -1');
 
+	$testast->clear();
 	return 1;
 }
 
@@ -44,7 +45,8 @@ sub test_node_basics {
 	is($testast->consume('a'), 'a', 'Testing consume(a).');
 	is($testast->consume('bc'), 'bc', 'Testing consume(b).');
 	is($testast->peek(), 'd', 'Testing peek() after consume.');
-	$testast->consume(); # Get rid of d.
+
+	$testast->clear();
 	is($testast->match_type('EOF'), 1, 'Testing match("EOF").');
 
 	return 1;
@@ -57,6 +59,7 @@ sub test_stats {
 	is($testast->set_stat('test', 'a', 5), 1, 'Testing set stat');
 	is($testast->query_stat('test', 'a'), 5, 'Testing stat with 5');
 
+	$testast->clear();
 	return 1;
 }
 

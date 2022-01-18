@@ -12,6 +12,9 @@ sub start {
 	if ($ast->match_type('ident')) {
 		return 1;
 	}
+	if ($ast->match_type('int')) {
+		return 1;
+	}
 	return 0;
 }
 
@@ -19,6 +22,8 @@ sub get {
 	my ($ast, $output) = @_;
 	my $tmp;
 	my $node = {};
+	my @valid_types = ('int', 'float', 'string');
+	my $done = 0;
 
 	$ast->push_scope();
 	$ast->debug('struct_string_expression::get');
@@ -28,9 +33,13 @@ sub get {
 		return 0;
 	}
 
-	if ($ast->match_type('string')) {
-		$tmp = $ast->consume();
-	} else {
+	foreach my $i (@valid_types) {
+		if (!$done && $ast->match_type($i)) {
+			$tmp = $ast->consume();
+			$done = 1;
+		}
+	} 
+	if (!$done) {
 		# XXX Need to get function call or variable call.
 	}
 

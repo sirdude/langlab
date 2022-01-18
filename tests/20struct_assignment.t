@@ -19,10 +19,12 @@ sub test_simple_assignment {
 	$testast->add_base_node('op', '=', 0, 19);
 	$testast->add_base_node('int', '5', 0, 20);
 	$testast->add_base_node('op', ';', 0, 21);
+
 	is(struct_assignment::start($testast), 1, 'Testing start of assignment statement.');
 	is(struct_assignment::get($testast, $output), 1, 'Testing x=5;');
 	is(struct_assignment::start($testast), 0, 'Testing start of assignment with ;');
 
+	$testast->clear();
 	return 1;
 }
 

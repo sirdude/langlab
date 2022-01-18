@@ -31,7 +31,7 @@ sub test_tok_whitespace_spaces {
 	is(tok_whitespace::get($testast, $output), 1, 'Testing get of multiple white spaces.');
 	is($testast->peek(), ';', 'Testing to see if we are pointing at the next token.');
 
-	$testast->consume(); # get rid of the ';' so we can put something that looks like a hex in the queue.
+	$testast->clear();
 	return 1;
 }
 
@@ -53,7 +53,7 @@ sub test_tok_whitespace_tab {
 	is(tok_whitespace::get($testast, $output), 1, 'Testing get of multiple tabs, with a space.');
 	is($testast->peek(), ';', 'Testing to see if we are pointing at the next token.');
 
-	$testast->consume(); # get rid of the ';' so we can put something that looks like a hex in the queue.
+	$testast->clear();
 	return 1;
 }
 
@@ -76,7 +76,7 @@ sub test_tok_whitespace_eol {
 
 	is($testast->peek(), ';', 'Testing to see if we are pointing at the next token.');
 
-	$testast->consume(); # get rid of the ';' so we can put something that looks like a hex in the queue.
+	$testast->clear();
 	return 1;
 }
 

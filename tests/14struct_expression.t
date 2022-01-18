@@ -17,10 +17,11 @@ my ($testast, $output);
 sub test_const_expression {
 	$testast->add_base_node('int', '1', 0, 18);
 	$testast->add_base_node('op', ';', 0, 18);
+
 	is(struct_expression::start($testast), 1, 'Testing start of constant expression 1.');
 	is(struct_expression::get($testast, $output), 1, 'Testing expression: 1;');
-	$testast->consume(); # get rid of the ';'
 
+	$testast->clear();
 	return 1;
 }
 
@@ -32,6 +33,8 @@ sub test_var_equals {
 
 	is(struct_expression::start($testast), 1, 'Testing start of expression x==5.');
 	is(struct_expression::get($testast, $output), 1, 'Testing expression x==5.');
+
+	$testast->clear();
 	return 1;
 }
 

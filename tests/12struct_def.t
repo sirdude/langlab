@@ -22,8 +22,8 @@ sub test_var_def {
 	is(struct_def::get($testast, $output), 1, 'Testing int x;');
 	is(struct_def::start($testast), 0, 'Testing invalid start of definition ;.');
 	is(struct_def::get($testast, $output), 0, 'Testing get with invalid start of definition ;');
-	$testast->consume();  # Get rid of the ;
 
+	$testast->clear();
 	return 1;
 }
 
@@ -37,6 +37,8 @@ sub test_function_def {
 
 	is(struct_def::start($testast), 1, 'Testing if we have the start of a function def.');
 	is(struct_def::get($testast, $output), 1, 'Testing void main() {}.');
+
+	$testast->clear();
 	return 1;
 }
 

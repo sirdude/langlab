@@ -22,6 +22,8 @@ sub test_term {
 	is(struct_term::get($testast, $output), 1, 'Testing get term with 5;.');
 	is(struct_term::start($testast, $output), 0, 'Testing star term with ;.');
 	is(struct_term::get($testast, $output), 0, 'Testing get term with ;.');
+
+	$testast->clear();
 	return 1;
 }
 

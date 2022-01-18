@@ -6,10 +6,18 @@ use base 'Exporter';
 sub new {
 	my $class = shift;
 	my $self = {};
-	$self->{'symtable'} = ();
 
 	bless $self, $class;
+
+	$self->{'symtable'} = ();
+
 	return $self;
+}
+
+sub clear {
+	my ($self) = @_;
+
+	$self->{'symtable'} = ();
 }
 
 # Simple symbol table functions

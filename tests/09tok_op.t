@@ -25,8 +25,7 @@ sub test_tok_op_equal {
 
 	is(tok_op::get($testast, $output), 0, 'Testing if get fails on non op.');
 
-	$testast->consume(); # get rid of the 'a' so we can put something that looks like a hex in the queue.
-
+	$testast->clear();
 	return 1;
 }
 
@@ -39,9 +38,7 @@ sub test_tok_op_equalequal {
 	is(tok_op::get($testast, $output), 1, 'Testing get ==.');
 
 	is($testast->peek(), 'a', 'Testing to see if we are pointing at the next token.');
-
-	$testast->consume(); # get rid of the 'a' so we can put something that looks like a hex in the queue.
-
+	$testast->clear();
 	return 1;
 }
 
@@ -55,9 +52,7 @@ sub test_tok_op_nottwoops {
 	is(tok_op::get($testast, $output), 1, 'Testing get ";".');
 
 	is($testast->peek(), 'a', 'Testing to see if we are pointing at the next token.');
-
-	$testast->consume(); # get rid of the 'a' so we can put something that looks like a hex in the queue.
-
+	$testast->clear();
 	return 1;
 }
 

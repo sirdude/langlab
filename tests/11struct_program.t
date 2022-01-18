@@ -37,6 +37,8 @@ sub test_hello_world {
 	is(struct_program::get($testast, $output), 1, 'Testing get hello world.');
 	is(struct_program::start($testast), 0, 'Testing invalid of a program "\'".');
 	is(struct_program::get($testast, $output), 0, 'Testing get invalid program.');
+
+	$testast->clear();
 	return 1;
 }
 
@@ -56,6 +58,7 @@ sub test_pkg {
 
 	is(struct_program::start($testast), 1, 'Testing if we have the start of a program with use.');
 	is(struct_program::get($testast, $output), 1, 'Testing get pkg program.');
+	$testast->clear();
 	return 1;
 }
 

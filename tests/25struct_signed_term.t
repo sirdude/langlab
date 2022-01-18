@@ -18,11 +18,12 @@ sub test_plus_term {
 	$testast->add_base_node('op', '+', 0, 18);
 	$testast->add_base_node('int', '5', 0, 18);
 	$testast->add_base_node('op', ';', 0, 18);
+
 	is(struct_signed_term::start($testast), 1, 'Testing start of signed_term with +5;.');
 	is(struct_signed_term::get($testast, $output), 1, 'Testing get signed_term: +5;');
 	is(struct_signed_term::start($testast), 0, 'Testing start of signed_term invalid.');
-	$testast->consume(); # get rid of the ';'
 
+	$testast->clear();
 	return 1;
 }
 
@@ -33,8 +34,8 @@ sub test_minus_term {
 
 	is(struct_signed_term::start($testast), 1, 'Testing start of signed_term with -5;.');
 	is(struct_signed_term::get($testast, $output), 1, 'Testing get signed_term with -5;.');
-	$testast->consume(); # get rid of the ';'
 
+	$testast->clear();
 	return 1;
 }
 
@@ -44,6 +45,8 @@ sub test_basic_term {
 
 	is(struct_signed_term::start($testast), 1, 'Testing start of signed_term with 5;.');
 	is(struct_signed_term::get($testast, $output), 1, 'Testing get signed_term with 5;.');
+
+	$testast->clear();
 	return 1;
 }
 

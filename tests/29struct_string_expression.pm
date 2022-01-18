@@ -22,8 +22,8 @@ sub test_string {
 	is(struct_string_expression::get($testast, $output), 1, 'Testing use options;');
 	is(struct_string_expression::start($testast), 0, 'Testing invalid start ;.');
 	is(struct_string_expression::get($testast, $output), 0, 'Testing get with ;');
-	$testast->consume(); # get rid of the ';'
 
+	$testast->clear();
 	return 1;
 }
 
@@ -34,7 +34,8 @@ sub test_concat {
 	$testast->add_base_node('op', ';', 0, 20);
 
 	is(struct_string_expression::get($testast, $output), 1, 'Testing "one" + "two"');
-	$testast->consume(); # get rid of the ';'
+
+	$testast->clear();
 	return 1;
 }
 

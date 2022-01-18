@@ -22,6 +22,8 @@ sub test_factor {
 	is(struct_factor::get($testast, $output), 1, 'Testing get factor with 5;.');
 	is(struct_factor::start($testast), 0, 'Testing start of factor with ;.');
 	is(struct_factor::get($testast, $output), 0, 'Testing get factor with ;.');
+
+	$testast->clear();
 	return 1;
 }
 
