@@ -15,8 +15,8 @@ use struct_factor;
 my ($testast, $output);
 
 sub test_factor {
-	$testast->add_base_node('int', '5', 0, 28);
-	$testast->add_base_node('op', ';', 0, 29);
+	$testast->add_base_node('int', '5', 0, 18);
+	$testast->add_base_node('op', ';', 0, 19);
 
 	is(struct_factor::start($testast), 1, 'Testing start of factor with 5;.');
 	is(struct_factor::get($testast, $output), 1, 'Testing get factor with 5;.');

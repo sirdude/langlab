@@ -35,13 +35,13 @@ sub test_tok_html_basics {
 }
 
 sub test_invalid_html {
-	$testast->add_base_node('char', '&', 0, 39);
-	$testast->add_base_node('char', '#', 0, 40);
+	$testast->add_base_node('char', '&', 0, 38);
+	$testast->add_base_node('char', '#', 0, 39);
+	$testast->add_base_node('char', '9', 0, 40);
 	$testast->add_base_node('char', '9', 0, 41);
 	$testast->add_base_node('char', '9', 0, 42);
 	$testast->add_base_node('char', '9', 0, 43);
-	$testast->add_base_node('char', '9', 0, 44);
-	$testast->add_base_node('char', 'a', 0, 45);
+	$testast->add_base_node('char', 'a', 0, 44);
 
 	is(tok_html::get($testast, $output), 0, 'Testing if get fails on invalid html.');
 

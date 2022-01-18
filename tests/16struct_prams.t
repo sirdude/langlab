@@ -28,11 +28,11 @@ sub test_no_param {
 }
 
 sub test_one_param {
-	$testast->add_base_node('op', '(', 0, 29);
-	$testast->add_base_node('type', 'int', 0, 30);
-	$testast->add_base_node('ident', 'x', 0, 31);
-	$testast->add_base_node('op', ')', 0, 32);
-	$testast->add_base_node('ident', ';', 0, 33);
+	$testast->add_base_node('op', '(', 0, 31);
+	$testast->add_base_node('type', 'int', 0, 32);
+	$testast->add_base_node('ident', 'x', 0, 33);
+	$testast->add_base_node('op', ')', 0, 34);
+	$testast->add_base_node('ident', ';', 0, 35);
 
 	is(struct_params::get($testast, @output), 1, 'Testing params int x.');
 
@@ -41,14 +41,14 @@ sub test_one_param {
 }
 
 sub test_two_params {
-	$testast->add_base_node('op', '(', 0, 41);
-	$testast->add_base_node('type', 'string', 0, 42);
-	$testast->add_base_node('ident', 'x', 0, 43);
-	$testast->add_base_node('op', ',', 0, 44);
-	$testast->add_base_node('type', 'int', 0, 45);
-	$testast->add_base_node('ident', 'y', 0, 46);
-	$testast->add_base_node('op', ')', 0, 47);
-	$testast->add_base_node('ident', ';', 0, 48);
+	$testast->add_base_node('op', '(', 0, 44);
+	$testast->add_base_node('type', 'string', 0, 45);
+	$testast->add_base_node('ident', 'x', 0, 46);
+	$testast->add_base_node('op', ',', 0, 47);
+	$testast->add_base_node('type', 'int', 0, 48);
+	$testast->add_base_node('ident', 'y', 0, 49);
+	$testast->add_base_node('op', ')', 0, 50);
+	$testast->add_base_node('ident', ';', 0, 51);
 
 	is(struct_params::start($testast), 1, 'Testing start of params string.');
 	is(struct_params::get($testast, @output), 1, 'Testing params (string x, int y).');

@@ -21,7 +21,7 @@ sub test_simple_if {
 	$testast->add_base_node('op', ')', 0, 21);
 	$testast->add_base_node('op', '{', 0, 22);
 	$testast->add_base_node('op', '}', 0, 23);
-	$testast->add_base_node('op', ';', 0, 23);
+	$testast->add_base_node('op', ';', 0, 24);
 
 	is(struct_if::start($testast), 1, 'Testing start of if statement.');
 	is(struct_if::get($testast, $output), 1, 'Testing if (1) {};');
@@ -33,15 +33,15 @@ sub test_simple_if {
 }
 
 sub test_var_equals_if() {
-	$testast->add_base_node('keyword', 'if', 0, 18);
-	$testast->add_base_node('op', '(', 0, 19);
-	$testast->add_base_node('ident', 'x', 0, 20);
-	$testast->add_base_node('op', '==', 0, 20);
-	$testast->add_base_node('int', '5', 0, 20);
-	$testast->add_base_node('op', ')', 0, 21);
-	$testast->add_base_node('op', '{', 0, 22);
-	$testast->add_base_node('op', '}', 0, 23);
-	$testast->add_base_node('op', ';', 0, 23);
+	$testast->add_base_node('keyword', 'if', 0, 36);
+	$testast->add_base_node('op', '(', 0, 37);
+	$testast->add_base_node('ident', 'x', 0, 38);
+	$testast->add_base_node('op', '==', 0, 39);
+	$testast->add_base_node('int', '5', 0, 40);
+	$testast->add_base_node('op', ')', 0, 41);
+	$testast->add_base_node('op', '{', 0, 42);
+	$testast->add_base_node('op', '}', 0, 43);
+	$testast->add_base_node('op', ';', 0, 44);
 
 	is(struct_if::get($testast, $output), 1, 'Testing if (x==5) {};');
 

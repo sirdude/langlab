@@ -22,15 +22,15 @@ sub test_empty_program {
 }
 
 sub test_hello_world {
-	$testast->add_base_node('keyword', 'void', 0, 26);
-	$testast->add_base_node('ident', 'main', 0, 27);
-	$testast->add_base_node('op', '(', 0, 28);
-	$testast->add_base_node('op', ')', 0, 29);
-	$testast->add_base_node('op', '{', 0, 30);
-	$testast->add_base_node('keyword', 'print', 0, 31);
-	$testast->add_base_node('string', "Hello World!\n", 0, 32);
-	$testast->add_base_node('op', ';', 0, 33);
-	$testast->add_base_node('op', '}', 0, 34);
+	$testast->add_base_node('keyword', 'void', 0, 25);
+	$testast->add_base_node('ident', 'main', 0, 26);
+	$testast->add_base_node('op', '(', 0, 27);
+	$testast->add_base_node('op', ')', 0, 28);
+	$testast->add_base_node('op', '{', 0, 29);
+	$testast->add_base_node('keyword', 'print', 0, 30);
+	$testast->add_base_node('string', "Hello World!\n", 0, 31);
+	$testast->add_base_node('op', ';', 0, 32);
+	$testast->add_base_node('op', '}', 0, 33);
 	$testast->add_base_node('op', "'", 0, 34);
 
 	is(struct_program::start($testast), 1, 'Testing if we have the start of a program.');
@@ -43,18 +43,18 @@ sub test_hello_world {
 }
 
 sub test_pkg {
-	$testast->add_base_node('keyword', 'use', 0, 42);
-	$testast->add_base_node('keyword', 'options', 0, 43);
-	$testast->add_base_node('op', ';', 0, 44);
-	$testast->add_base_node('keyword', 'void', 0, 45);
-	$testast->add_base_node('ident', 'main', 0, 46);
-	$testast->add_base_node('op', '(', 0, 47);
-	$testast->add_base_node('op', ')', 0, 48);
-	$testast->add_base_node('op', '{', 0, 49);
-	$testast->add_base_node('keyword', 'print', 0, 50);
-	$testast->add_base_node('string', "Hello World!\n", 0, 51);
-	$testast->add_base_node('op', ';', 0, 52);
-	$testast->add_base_node('op', '}', 0, 53);
+	$testast->add_base_node('keyword', 'use', 0, 46);
+	$testast->add_base_node('keyword', 'options', 0, 47);
+	$testast->add_base_node('op', ';', 0, 48);
+	$testast->add_base_node('keyword', 'void', 0, 49);
+	$testast->add_base_node('ident', 'main', 0, 50);
+	$testast->add_base_node('op', '(', 0, 51);
+	$testast->add_base_node('op', ')', 0, 52);
+	$testast->add_base_node('op', '{', 0, 53);
+	$testast->add_base_node('keyword', 'print', 0, 54);
+	$testast->add_base_node('string', "Hello World!\n", 0, 55);
+	$testast->add_base_node('op', ';', 0, 56);
+	$testast->add_base_node('op', '}', 0, 57);
 
 	is(struct_program::start($testast), 1, 'Testing if we have the start of a program with use.');
 	is(struct_program::get($testast, $output), 1, 'Testing get pkg program.');

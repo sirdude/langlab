@@ -28,10 +28,10 @@ sub test_string {
 }
 
 sub test_concat {
-	$testast->add_base_node('string', 'one', 0, 18);
-	$testast->add_base_node('op', '+', 0, 20);
-	$testast->add_base_node('string', 'two', 0, 18);
-	$testast->add_base_node('op', ';', 0, 20);
+	$testast->add_base_node('string', 'one', 0, 31);
+	$testast->add_base_node('op', '+', 0, 32);
+	$testast->add_base_node('string', 'two', 0, 33);
+	$testast->add_base_node('op', ';', 0, 34);
 
 	is(struct_string_expression::get($testast, $output), 1, 'Testing "one" + "two"');
 

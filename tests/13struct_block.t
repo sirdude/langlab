@@ -17,7 +17,8 @@ my ($testast, $output);
 sub test_empty_block {
 	$testast->add_base_node('op', '{', 0, 18);
 	$testast->add_base_node('op', '}', 0, 19);
-	$testast->add_base_node('op', ';', 0, 19);
+	$testast->add_base_node('op', ';', 0, 20);
+
 	is(struct_block::start($testast), 1, 'Testing start of block.');
 	is(struct_block::get($testast, $output), 1, 'Testing get empty block;');
 
@@ -29,12 +30,12 @@ sub test_empty_block {
 }
 
 sub test_simple_block {
-	$testast->add_base_node('op', '{', 0, 27);
-	$testast->add_base_node('type', 'int', 0, 28);
-	$testast->add_base_node('ident', 'x', 0, 29);
-	$testast->add_base_node('op', ';', 0, 30);
-	$testast->add_base_node('op', '}', 0, 31);
-	$testast->add_base_node('op', ';', 0, 31);
+	$testast->add_base_node('op', '{', 0, 33);
+	$testast->add_base_node('type', 'int', 0, 34);
+	$testast->add_base_node('ident', 'x', 0, 35);
+	$testast->add_base_node('op', ';', 0, 36);
+	$testast->add_base_node('op', '}', 0, 37);
+	$testast->add_base_node('op', ';', 0, 38);
 
 	is(struct_block::get($testast, $output), 1, 'Testing get simple block.');
 
@@ -43,16 +44,16 @@ sub test_simple_block {
 }
 
 sub test_multistatement_block {
-	$testast->add_base_node('op', '{', 0, 27);
-	$testast->add_base_node('type', 'int', 0, 28);
-	$testast->add_base_node('ident', 'x', 0, 29);
-	$testast->add_base_node('op', ';', 0, 30);
-	$testast->add_base_node('ident', 'x', 0, 29);
-	$testast->add_base_node('op', '=', 0, 30);
-	$testast->add_base_node('float', '5.0', 0, 30);
-	$testast->add_base_node('op', ';', 0, 30);
-	$testast->add_base_node('op', '}', 0, 31);
-	$testast->add_base_node('op', ';', 0, 31);
+	$testast->add_base_node('op', '{', 0, 47);
+	$testast->add_base_node('type', 'int', 0, 48);
+	$testast->add_base_node('ident', 'x', 0, 49);
+	$testast->add_base_node('op', ';', 0, 50);
+	$testast->add_base_node('ident', 'x', 0, 51);
+	$testast->add_base_node('op', '=', 0, 52);
+	$testast->add_base_node('float', '5.0', 0, 53);
+	$testast->add_base_node('op', ';', 0, 54);
+	$testast->add_base_node('op', '}', 0, 55);
+	$testast->add_base_node('op', ';', 0, 56);
 
 	is(struct_block::get($testast, $output), 1, 'Testing get on multistatement block.');
 

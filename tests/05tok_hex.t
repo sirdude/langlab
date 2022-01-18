@@ -34,9 +34,9 @@ sub test_tok_hex_basics {
 }
 
 sub test_invalid_hex {
-	$testast->add_base_node('char', '0', 0, 38);
-	$testast->add_base_node('char', 'x', 0, 39);
-	$testast->add_base_node('char', ';', 0, 40);
+	$testast->add_base_node('char', '0', 0, 37);
+	$testast->add_base_node('char', 'x', 0, 38);
+	$testast->add_base_node('char', ';', 0, 39);
 	is(tok_hex::get($testast, $output), 0, 'Testing if get fails on invalid hex.');
 
 	$testast->clear();

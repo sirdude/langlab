@@ -27,10 +27,10 @@ sub test_use_pkg {
 }
 
 sub test_use_lib {
-	$testast->add_base_node('keyword', 'use', 0, 28);
-	$testast->add_base_node('keyword', 'lib', 0, 29);
-	$testast->add_base_node('string', './', 0, 30);
-	$testast->add_base_node('op', ';', 0, 31);
+	$testast->add_base_node('keyword', 'use', 0, 30);
+	$testast->add_base_node('keyword', 'lib', 0, 31);
+	$testast->add_base_node('string', './', 0, 32);
+	$testast->add_base_node('op', ';', 0, 33);
 
 	is(struct_pkg::get($testast, $output), 1, 'Testing use lib "./";.');
 

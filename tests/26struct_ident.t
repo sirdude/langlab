@@ -17,7 +17,7 @@ my ($testast, $output);
 sub test_var {
 	$testast->add_base_node('ident', 'x', 0, 18);
 	$testast->add_base_node('op', ';', 0, 19);
-	$testast->add_base_node('op', '+', 0, 19);
+	$testast->add_base_node('op', '+', 0, 20);
 
 	is(struct_ident::start($testast), 1, 'Testing start of varable reference');
 	is(struct_ident::get($testast, $output), 1, 'Testing get simple var');
@@ -29,11 +29,11 @@ sub test_var {
 }
 
 sub test_array {
-	$testast->add_base_node('ident', 'x', 0, 18);
-	$testast->add_base_node('op', '[', 0, 19);
-	$testast->add_base_node('int', '5', 0, 19);
-	$testast->add_base_node('op', ']', 0, 19);
-	$testast->add_base_node('op', ';', 0, 19);
+	$testast->add_base_node('ident', 'x', 0, 32);
+	$testast->add_base_node('op', '[', 0, 33);
+	$testast->add_base_node('int', '5', 0, 34);
+	$testast->add_base_node('op', ']', 0, 35);
+	$testast->add_base_node('op', ';', 0, 36);
 
 	is(struct_ident::get($testast, $output), 1, 'Testing get an reference to an array');
 
@@ -42,11 +42,11 @@ sub test_array {
 }
 
 sub test_hash {
-	$testast->add_base_node('ident', 'x', 0, 18);
-	$testast->add_base_node('op', '[', 0, 19);
-	$testast->add_base_node('string', 'a', 0, 19);
-	$testast->add_base_node('op', ']', 0, 19);
-	$testast->add_base_node('op', ';', 0, 19);
+	$testast->add_base_node('ident', 'x', 0, 45);
+	$testast->add_base_node('op', '[', 0, 46);
+	$testast->add_base_node('string', 'a', 0, 47);
+	$testast->add_base_node('op', ']', 0, 48);
+	$testast->add_base_node('op', ';', 0, 49);
 
 	is(struct_ident::get($testast, $output), 1, 'Testing get a reference to a hash');
 
@@ -55,10 +55,10 @@ sub test_hash {
 }
 
 sub test_function_no_args {
-	$testast->add_base_node('ident', 'x', 0, 18);
-	$testast->add_base_node('op', '(', 0, 19);
-	$testast->add_base_node('op', ')', 0, 19);
-	$testast->add_base_node('op', ';', 0, 19);
+	$testast->add_base_node('ident', 'x', 0, 58);
+	$testast->add_base_node('op', '(', 0, 59);
+	$testast->add_base_node('op', ')', 0, 60);
+	$testast->add_base_node('op', ';', 0, 61);
 
 	is(struct_ident::get($testast, $output), 1, 'Testing functioncall with no args;');
 
@@ -67,13 +67,13 @@ sub test_function_no_args {
 }
 
 sub test_function_multi_args {
-	$testast->add_base_node('ident', 'x', 0, 18);
-	$testast->add_base_node('op', '(', 0, 19);
-	$testast->add_base_node('ident', 'y', 0, 18);
-	$testast->add_base_node('op', ',', 0, 19);
-	$testast->add_base_node('ident', 'z', 0, 18);
-	$testast->add_base_node('op', ')', 0, 19);
-	$testast->add_base_node('op', ';', 0, 19);
+	$testast->add_base_node('ident', 'x', 0, 70);
+	$testast->add_base_node('op', '(', 0, 71);
+	$testast->add_base_node('ident', 'y', 0, 72);
+	$testast->add_base_node('op', ',', 0, 73);
+	$testast->add_base_node('ident', 'z', 0, 74);
+	$testast->add_base_node('op', ')', 0, 75);
+	$testast->add_base_node('op', ';', 0, 76);
 
 	is(struct_ident::get($testast, $output), 1, 'Testing function call with multiple args;');
 
