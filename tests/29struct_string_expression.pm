@@ -17,12 +17,11 @@ my ($testast, $output);
 sub test_string {
 	$testast->add_base_node('string', 'use', 0, 18);
 	$testast->add_base_node('op', ';', 0, 20);
-	$testast->add_base_node('op', '+', 0, 20);
 
 	is(struct_string_expression::start($testast), 1, 'Testing simple string.');
 	is(struct_string_expression::get($testast, $output), 1, 'Testing use options;');
-	is(struct_string_expression::start($testast), 0, 'Testing invalid.');
-	is(struct_string_expression::get($testast, $output), 0, 'Testing use options;');
+	is(struct_string_expression::start($testast), 0, 'Testing invalid start ;.');
+	is(struct_string_expression::get($testast, $output), 0, 'Testing get with ;');
 	$testast->consume(); # get rid of the ';'
 
 	return 1;
