@@ -35,18 +35,16 @@ sub test_simple_if {
 sub test_var_equals_if() {
 	$testast->add_base_node('keyword', 'if', 0, 18);
 	$testast->add_base_node('op', '(', 0, 19);
-	$testast->add_base_node('ident', '', 0, 20);
+	$testast->add_base_node('ident', 'x', 0, 20);
 	$testast->add_base_node('op', '==', 0, 20);
 	$testast->add_base_node('int', '5', 0, 20);
 	$testast->add_base_node('op', ')', 0, 21);
 	$testast->add_base_node('op', '{', 0, 22);
-	$testast->add_base_node('ident', 'print', 0, 22);
-	$testast->add_base_node('string', 'Hello World!', 0, 22);
-	$testast->add_base_node('op', ';', 0, 23);
 	$testast->add_base_node('op', '}', 0, 23);
 	$testast->add_base_node('op', ';', 0, 23);
 
-	is(struct_if::get($testast, $output), 1, 'Testing if (x=1) { print "Hello World!";};');
+print "Woo!!!\n";
+	is(struct_if::get($testast, $output), 1, 'Testing if (x==5) {};');
 
 	$testast->clear();
 	return 1;
