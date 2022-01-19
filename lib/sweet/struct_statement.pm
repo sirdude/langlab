@@ -13,9 +13,9 @@ use struct_print;
 use struct_return;
 use struct_exit;
 use struct_goto;
+use struct_break;
 
 # XXX Need to do these....
-# use struct_break;
 # use struct_switch;
 # use struct_default;
 # use struct_continue;
@@ -32,6 +32,7 @@ my @mods = ('struct_if',
 	'struct_print',
 	'struct_return',
 	'struct_exit',
+	'struct_break',
 	'struct_goto');
 
 my %actions = (
@@ -53,6 +54,8 @@ my %actions = (
 	'struct_return::get' => \&struct_return::get,
 	'struct_exit::start' => \&struct_exit::start,
 	'struct_exit::get' => \&struct_exit::get,
+	'struct_break::start' => \&struct_break::start,
+	'struct_break::get' => \&struct_break::get,
 	'struct_goto::start' => \&struct_goto::start,
 	'struct_goto::get' => \&struct_goto::get
 );

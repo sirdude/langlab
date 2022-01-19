@@ -5,6 +5,7 @@ use strict;
 use warnings;
 
 use struct_expression;
+use struct_exp_list;
 
 sub start {
 	my ($ast) = @_;
@@ -34,9 +35,12 @@ sub get {
 	$node->{'data'} = $tmp;
 	if ($ast->match('(')) {
 		$node->{'type'} = 'function_call';
-
-		# XXX Need to get params 
-
+		if (!struct_exp_list::get($ast, $tmp)) {
+			$ast->error('Invalid function param');
+			$ast->pop_scope();
+			return 0;
+		}
+		$node->{'params'} = $tmp;
 	} else {
 		$node->{'type'} = 'var';
 		if ($ast->match('[')) {
