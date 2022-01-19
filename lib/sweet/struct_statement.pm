@@ -10,10 +10,11 @@ use struct_foreach;
 use struct_block;
 use struct_def; # XXX should not allow nested functions...
 use struct_print;
+use struct_return;
+use struct_exit;
+use struct_goto;
 
 # XXX Need to do these....
-# use struct_return;
-# use struct_exit;
 # use struct_break;
 # use struct_switch;
 # use struct_default;
@@ -28,7 +29,10 @@ my @mods = ('struct_if',
 	'struct_foreach',
 	'struct_block',
 	'struct_def',
-	'struct_print');
+	'struct_print',
+	'struct_return',
+	'struct_exit',
+	'struct_goto');
 
 my %actions = (
 	'struct_if::start' => \&struct_if::start,
@@ -44,7 +48,13 @@ my %actions = (
 	'struct_def::start' => \&struct_def::start,
 	'struct_def::get' => \&struct_def::get,
 	'struct_print::start' => \&struct_print::start,
-	'struct_print::get' => \&struct_print::get
+	'struct_print::get' => \&struct_print::get,
+	'struct_return::start' => \&struct_return::start,
+	'struct_return::get' => \&struct_return::get,
+	'struct_exit::start' => \&struct_exit::start,
+	'struct_exit::get' => \&struct_exit::get,
+	'struct_goto::start' => \&struct_goto::start,
+	'struct_goto::get' => \&struct_goto::get
 );
 
 sub no_semi {
