@@ -46,7 +46,7 @@ sub get {
 		my $tnode = {};
 
 		if (!struct_expression::get($ast, $tmp)) {
-			error('Expected expression.');
+			$ast->error('Expected expression.');
 			$ast->pop_scope();
 			return 0;
 		}
@@ -62,7 +62,7 @@ sub get {
 	}
 
 	if (!$ast->match(')')) {
-	    error("struct_params::get expecting closing ')'");
+	    $ast->error("struct_params::get expecting closing ')'");
 		$ast->pop_scope();
 		return 0;
 	}
