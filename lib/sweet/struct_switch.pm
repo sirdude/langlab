@@ -9,8 +9,8 @@ use struct_block;
 sub start {
 	my ($ast) = @_;
 
-	$ast->debug('struct_foreach::start');
-	if ($ast->match('foreach')) {
+	$ast->debug('struct_switch::start');
+	if ($ast->match('switch')) {
 		return 1;
 	}
 	return 0;
@@ -23,26 +23,15 @@ sub get {
 	my $return = 0;
 
 	$ast->push_scope();
-	$ast->debug('struct_foreach::get');
+	$ast->debug('struct_switch::get');
 
 	if (!start($ast)) {
 		$ast->pop_scope();
 		return 0;
 	}
 
-	$tmp = $ast->consume('foreach');
-	$node->{'type'} = 'foreach';
-
-	if (!$ast->match_type('ident')) {
-		error('struct_foreach::get expected var');
-		$ast->pop_scope();
-		return 0;
-	}
-	$tmp = $ast->consume();
-
-	$node->{'iterator'} = $tmp;
-
-	$tmp = $ast->consume('(');
+	$tmp = $ast->consume('switch');
+	$node->{'type'} = 'switch';
 
 	if (!struct_expression::get($ast, $tmp)) {
 		$ast->error('Expected expression');
@@ -51,8 +40,6 @@ sub get {
 	}
 	$node->{'items'} = $tmp;
 	
-	$tmp = $ast->consume(')');
-
 	if (!struct_block::get($ast, $tmp)) {
 		$ast->error('Expected block');
 		$ast->pop_scope();
