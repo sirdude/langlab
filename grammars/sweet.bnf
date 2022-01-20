@@ -55,27 +55,30 @@ Goto = 'goto' Exp ';'
 
 
 Exp = Ident '=' Exp
-Exp1 = Exp2 '||' Exp2
-Exp1 = Exp2 '&&' Exp2
-Exp1 = Exp2 '<' Exp2
-Exp1 = Exp2 '>' Exp2
-Exp1 = Exp2 '<=' Exp2
-Exp1 = Exp2 '>=' Exp2
-Exp1 = Exp2 '==' Exp2
-Exp1 = Exp2 '!=' Exp2
-Exp1 = Exp2 '+=' Exp2
-Exp1 = Exp2 '-=' Exp2
-Exp2 = Exp2 '+' Exp3
-Exp2 = Exp2 '-' Exp3
-Exp3 = Exp3 '*' Exp4
-Exp3 = Exp3 '/' Exp4
-Exp4 = Ident '(' [Exp] ')'
-Exp4 = Ident
-Exp4 = String
-Exp4 = Integer
-Exp4 = Double
-Exp4 = Varcall
-Exp4 = Funcall
+Exp = Exp Binop Exp
+Exp = Unop Exp
+Exp = String
+Exp = Num
+Exp = Varcall
+Exp = Funcall
+
+Binop = '||'
+Binop = '&&'
+Binop = '=='
+Binop = '!='
+Binop '+='
+Binop '-='
+Binop '>'
+Binop '<'
+Binop '>='
+Binop '<='
+Binop '+'
+Binop '-'
+Binop '*'
+Binop '/'
+
+Unop = '-'
+Unop = '+'
 
 Varcall = Ident 
 Varcall = Ident '[' ']'
