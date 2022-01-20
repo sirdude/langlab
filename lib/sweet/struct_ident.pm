@@ -44,6 +44,7 @@ sub get {
 	} else {
 		$node->{'type'} = 'var';
 		if ($ast->match('[')) {
+			$tmp = $ast->consume();
 			if (!struct_expression::get($ast, $tmp)) {
 				$ast->error('Invalid variable index for var');
 				$ast->pop_scope();
