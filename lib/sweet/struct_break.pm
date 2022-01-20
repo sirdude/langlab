@@ -1,4 +1,4 @@
-package struct_return;
+package struct_break;
 
 use strict;
 use warnings;
