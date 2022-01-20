@@ -28,16 +28,6 @@ sub is_type {
 	return 0;
 }
 
-# XXX Not sure if we need this or not yet waiting...
-sub is_type_str {
-	my ($str) = @_;
-
-	foreach my $i (@types) {
-		if ($i eq $str) {
-			return 1;
-		}
-	}
-	return 0;
-}
+# XXX need to maybe move get typemods and get_type here to simplify other code?
 
 1;
