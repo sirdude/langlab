@@ -14,14 +14,12 @@ use struct_return;
 use struct_exit;
 use struct_goto;
 use struct_break;
+use struct_switch;
+use struct_default; # XXX May want to move this to switch
+use struct_case; # XXX May want to move this to switch
+use struct_label;
 
-# XXX Need to do these....
-# use struct_switch;
-# use struct_default;
-# use struct_continue;
-# use struct_try;
-# use struct_throw;
-# Need to also do functioncalls...
+# XXX Need to do functioncalls...
 
 my @mods = ('struct_if',
 	'struct_while',
@@ -33,7 +31,11 @@ my @mods = ('struct_if',
 	'struct_return',
 	'struct_exit',
 	'struct_break',
-	'struct_goto');
+	'struct_goto',
+	'struct_switch',
+	'struct_case',
+	'struct_default',
+	'struct_label');
 
 my %actions = (
 	'struct_if::start' => \&struct_if::start,
@@ -57,7 +59,15 @@ my %actions = (
 	'struct_break::start' => \&struct_break::start,
 	'struct_break::get' => \&struct_break::get,
 	'struct_goto::start' => \&struct_goto::start,
-	'struct_goto::get' => \&struct_goto::get
+	'struct_goto::get' => \&struct_goto::get,
+	'struct_goto::switch' => \&struct_switch::start,
+	'struct_goto::switch' => \&struct_switch::get,
+	'struct_goto::case' => \&struct_case::start,
+	'struct_goto::case' => \&struct_case::get,
+	'struct_goto::default' => \&struct_default::start,
+	'struct_goto::default' => \&struct_default::get,
+	'struct_goto::label' => \&struct_label::start,
+	'struct_goto::label' => \&struct_label::get
 );
 
 sub no_semi {
