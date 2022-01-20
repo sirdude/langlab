@@ -1,0 +1,114 @@
+
+comment = '//'
+comment = '/*' '*/'
+comment = '#'
+
+entrypoints Program
+
+Program = ''
+Program = Fundef Program
+Program = Vardef Program
+Program = Pkg Program
+
+# Note this 
+Fundef = [TypeDefl] Type Ident Params Block
+Fundef = [TypeDefl] Type "*" Ident Params Block
+
+Params = '(' ')' 
+Params = '(' Plist ')' 
+
+Plist = Param
+Plist = Param ',' Plist
+
+Vardef = [Typedefl] Type Varcall ';'
+Vardef = [Typedefl] Type '*' Varcall ';'	# Code doesn't use * yet...
+
+Pkg = 'use' Conststr  # Instead of inherit or include
+
+Statement = ''
+Statement = ';'
+Statement = Stm Statement
+
+Stm = Exp ';'    # XXX Need empty stm...
+Stm = Block
+Stm = While
+Stm = Do
+Stm = Return
+Stm = If
+Stm = Print
+Stm = Goto
+Stm = Return
+Stm = Break 
+Stm = Foreach
+Stm = Exp ';'
+
+Foreach = 'foreach' Ident '(' Exp ')' Block
+Return = 'return' Exp ';'
+While = 'while' '(' Exp ')' Block
+Do = 'do' Block 'while' '(' Exp ')' 
+Block = '{' [Stm] '}' # XXX not right...
+If = 'if' '(' Exp ')' Block
+If = 'if' '(' Exp ')' Block 'else' Block
+Print = 'print' Conststr ';'
+Break = 'break' ';'
+Goto = 'goto' Exp ';'
+
+
+Exp = Ident '=' Exp
+Exp1 = Exp2 '||' Exp2
+Exp1 = Exp2 '&&' Exp2
+Exp1 = Exp2 '<' Exp2
+Exp1 = Exp2 '>' Exp2
+Exp1 = Exp2 '<=' Exp2
+Exp1 = Exp2 '>=' Exp2
+Exp1 = Exp2 '==' Exp2
+Exp1 = Exp2 '!=' Exp2
+Exp1 = Exp2 '+=' Exp2
+Exp1 = Exp2 '-=' Exp2
+Exp2 = Exp2 '+' Exp3
+Exp2 = Exp2 '-' Exp3
+Exp3 = Exp3 '*' Exp4
+Exp3 = Exp3 '/' Exp4
+Exp4 = Ident '(' [Exp] ')'
+Exp4 = Ident
+Exp4 = String
+Exp4 = Integer
+Exp4 = Double
+Exp4 = Varcall
+Exp4 = Funcall
+
+Varcall = Ident 
+Varcall = Ident '[' ']'
+Varcall = Ident '[' Stm_']'
+Funcall = ident Exp_list
+
+Exp_list = '(' ')'
+Exp_list = '(' Exp_l ')'
+Exp_l = Exp
+Exp_l = Exp ',' Exp_l
+
+Type = 'void'
+Type = 'int'
+Type = 'float'
+Type = 'string'
+Type = 'object'
+Type = 'hash'
+Type = 'mixed'
+
+TypeDef = 'atomic'
+TypeDef = 'nomask'
+TypeDef = 'private'
+TypeDef = 'static'
+
+TypeDefl = ''
+TypeDefl = TypeDef
+TypeDefl = TypeDef TypeDefl
+
+Conststr = Constelm
+Conststr = Constelm '+' Conststr
+
+Constelm = String
+Constelm = Ident
+Constelm = Integer
+Constelm = Double
+
