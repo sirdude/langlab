@@ -5,6 +5,8 @@ use warnings;
 
 use struct_expression;
 use struct_block;
+use struct_case;
+use struct_default;
 
 sub start {
 	my ($ast) = @_;
@@ -40,11 +42,31 @@ sub get {
 	}
 	$node->{'items'} = $tmp;
 	
-	if (!struct_block::get($ast, $tmp)) {
-		$ast->error('Expected block');
+	if (!$ast->match('{')) {
+		$ast->error("Switch expected '{'");
 		$ast->pop_scope();
 		return 0;
 	}
+	$ast->consume('{');
+
+	while (struct_case::get($ast, $tmp)) {
+		${$node->{'data'}->{$tmp->{'value'}}} = $tmp;
+	}
+	if (struct_default::start($ast)) {
+		if (!struct_default::get($ast, $tmp)) {
+			$ast->error("error in get default");
+			$ast->pop_scope();
+			return 0;
+		}
+		${$node->{'data'}->{$tmp->{'value'}}} = $tmp;
+	}
+
+	if (!$ast->match('}')) {
+		$ast->error("Switch expected '}'");
+		$ast->pop_scope();
+		return 0;
+	}
+	$ast->consume('}');
 
 	$node->{'data'} = $tmp;
 	$output = $node;

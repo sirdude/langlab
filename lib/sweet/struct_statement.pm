@@ -15,8 +15,6 @@ use struct_exit;
 use struct_goto;
 use struct_break;
 use struct_switch;
-use struct_default; # XXX May want to move this to switch
-use struct_case; # XXX May want to move this to switch
 use struct_label;
 
 # XXX Need to do functioncalls...
@@ -33,8 +31,6 @@ my @mods = ('struct_if',
 	'struct_break',
 	'struct_goto',
 	'struct_switch',
-	'struct_case',
-	'struct_default',
 	'struct_label');
 
 my %actions = (
@@ -62,10 +58,6 @@ my %actions = (
 	'struct_goto::get' => \&struct_goto::get,
 	'struct_switch::start' => \&struct_switch::start,
 	'struct_switch::get' => \&struct_switch::get,
-	'struct_case::start' => \&struct_case::start,
-	'struct_case::get' => \&struct_case::get,
-	'struct_default::start' => \&struct_default::start,
-	'struct_default::get' => \&struct_default::get,
 	'struct_label::start' => \&struct_label::start,
 	'struct_label::get' => \&struct_label::get
 );
