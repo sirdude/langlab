@@ -4,49 +4,23 @@ package struct_def;
 use strict;
 use warnings;
 
+use struct_types;
 use struct_expression;
 use struct_block;
 use struct_params;
 
-my @types = ('void', 'int', 'float', 'string', 'object', 'mapping', 'mixed');
-my @typemods = ('atomic', 'nomask', 'private', 'static');
-
-sub is_typemod {
-	my ($ast) = @_;
-
-	foreach my $i (@typemods) {
-		if ($ast->match($i)) {
-			return 1;
-		}
-	}
-	return 0;
-}
-
-sub is_type {
-	my ($str) = @_;
-
-	foreach my $i (@types) {
-		if ($i eq $str) {
-			return 1;
-		}
-	}
-	return 0;
-}
-
 sub start {
 	my ($ast) = @_;
-	my $i;
 
 	$ast->debug('struct_def::start');
 
-	if (is_typemod($ast)) {
+	if (struct_types::is_typemod($ast)) {
 		return 1;
 	}
-	foreach my $i (@types) {
-		if ($ast->match($i)) {
-			return 1;
-		}
+	if (struct_types::is_type($ast)) {
+		return 1;
 	}
+
 	return 0;
 }
 
@@ -64,19 +38,19 @@ sub get {
 		return 0;
 	}
 
-	while(is_typemod($ast)) {
+	while(struct_types::is_typemod($ast)) {
 		$tmp = $ast->consume();
 		push(@tmods, $tmp);
 	}
 
 	$node->{'typemods'} = @tmods;
-	$tmp = $ast->consume();
 
-	if (!is_type($tmp)) {
+	if (!struct_types::is_type($ast)) {
 		$ast->error("struct_def::get Expected 'type'");
 		$ast->pop_scope();
 		return 0;
 	}
+	$tmp = $ast->consume();
 	$node->{'return_type'} = $tmp;
 
 	if (!$ast->match_type('ident')) {
@@ -141,7 +115,7 @@ sub get_var_only {
 		return 0;
 	}
 
-	while(is_typemod($ast)) {
+	while(struct_types::is_typemod($ast)) {
 		$tmp = $ast->consume();
 		push(@tmods, $tmp);
 	}
@@ -149,11 +123,12 @@ sub get_var_only {
 	$node->{'typemods'} = @tmods;
 	$tmp = $ast->consume();
 
-	if (!is_type($tmp)) {
+	if (!struct_types::is_type($ast)) {
 		$ast->error("struct_def::get Expected 'type'");
 		$ast->pop_scope();
 		return 0;
 	}
+	$tmp = $ast->consume();
 	$node->{'return_type'} = $tmp;
 
 	if (!$ast->match_type('ident')) {

@@ -3,30 +3,7 @@ package struct_params;
 use strict;
 use warnings;
 
-my @types = ('void', 'int', 'float', 'string', 'object', 'mapping', 'mixed');
-my @typemods = ('atomic', 'nomask', 'private', 'static');
-
-sub is_typemod {
-	my ($ast) = @_;
-
-	foreach my $i (@typemods) {
-		if ($ast->match($i)) {
-			return 1;
-		}
-	}
-	return 0;
-}
-
-sub is_type {
-	my ($ast) = @_;
-
-	foreach my $i (@types) {
-		if ($ast->match($i)) {
-			return 1;
-		}
-	}
-	return 0;
-}
+use struct_types;
 
 sub start {
 	my ($ast) = @_;
@@ -66,15 +43,17 @@ sub get {
 	while (!$done) {
 		my $tnode = {};
 
-		while (is_typemod($ast)) {
+		while (struct_types::is_typemod($ast)) {
 			$tmp = $ast->consume();
 			push(@{$tnode->{'typemods'}}, $tmp);
 		}
-		if (!is_type($ast)) {
+
+		if (!struct_types::is_type($ast)) {
 		    $ast->error('expected a valid type');
 			$ast->pop_scope();
 			return 0;
 		}
+
 		$tmp = $ast->consume();
 		$tnode->{'param_type'} = $tmp;
 		$tnode->{'type'} = 'param';
