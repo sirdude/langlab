@@ -28,12 +28,33 @@ sub test_goto {
 	return 1;
 }
 
+sub test_goto_no_label {
+	$testast->add_base_node('keyword', 'goto', 0, 18);
+	$testast->add_base_node('op', ';', 0, 19);
+
+	is(struct_goto::get($testast, $output), 0, 'Testing get goto with no label');
+	$testast->clear();
+	return 1;
+}
+
+sub test_goto_int {
+	$testast->add_base_node('keyword', 'goto', 0, 18);
+	$testast->add_base_node('int', '5', 0, 19);
+	$testast->add_base_node('op', ';', 0, 19);
+
+	is(struct_goto::get($testast, $output), 0, 'Testing get goto with int instead of label');
+	$testast->clear();
+	return 1;
+}
+
 sub main {
 	$testast = ast->new();
 	$output = ast->new();
 #	$testast->set_debug(1);
 	init_tests();
 	test_goto();
+	test_goto_no_label();
+	test_goto_int();
 	return test_summary();
 }
 
