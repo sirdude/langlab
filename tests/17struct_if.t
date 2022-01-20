@@ -32,18 +32,36 @@ sub test_simple_if {
 	return 1;
 }
 
-sub test_var_equals_if() {
+sub test_if_else() {
 	$testast->add_base_node('keyword', 'if', 0, 36);
 	$testast->add_base_node('op', '(', 0, 37);
 	$testast->add_base_node('ident', 'x', 0, 38);
-	$testast->add_base_node('op', '==', 0, 39);
-	$testast->add_base_node('int', '5', 0, 40);
-	$testast->add_base_node('op', ')', 0, 41);
-	$testast->add_base_node('op', '{', 0, 42);
-	$testast->add_base_node('op', '}', 0, 43);
-	$testast->add_base_node('op', ';', 0, 44);
+	$testast->add_base_node('op', ')', 0, 39);
+	$testast->add_base_node('op', '{', 0, 40);
+	$testast->add_base_node('op', '}', 0, 41);
+	$testast->add_base_node('keyword', 'else', 0, 42);
+	$testast->add_base_node('op', '{', 0, 43);
+	$testast->add_base_node('op', '}', 0, 44);
+	$testast->add_base_node('op', ';', 0, 45);
 
-	is(struct_if::get($testast, $output), 1, 'Testing if (x==5) {};');
+	is(struct_if::get($testast, $output), 1, 'Testing if else');
+
+	$testast->clear();
+	return 1;
+}
+
+sub test_if_else_noblock() {
+	$testast->add_base_node('keyword', 'if', 0, 54);
+	$testast->add_base_node('op', '(', 0, 55);
+	$testast->add_base_node('ident', 'x', 0, 56);
+	$testast->add_base_node('op', ')', 0, 57);
+	$testast->add_base_node('op', '{', 0, 58);
+	$testast->add_base_node('op', '}', 0, 59);
+	$testast->add_base_node('keyword', 'else', 0, 60);
+	$testast->add_base_node('ident', 'x', 0, 61);
+	$testast->add_base_node('op', ';', 0, 62);
+
+	is(struct_if::get($testast, $output), 0, 'Testing if else noblock');
 
 	$testast->clear();
 	return 1;
@@ -55,7 +73,8 @@ sub main {
 #	$testast->set_debug(1);
 	init_tests();
 	test_simple_if();
-	test_var_equals_if();
+	test_if_else();
+	test_if_else_noblock();
 	return test_summary();
 }
 
