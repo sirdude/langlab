@@ -19,7 +19,6 @@ sub get {
 	my ($ast, $output) = @_;
 	my $tmp;
 	my $node = {};
-	my $return = 0;
 
 	$ast->push_scope();
 	$ast->debug('struct_while::get');
@@ -29,8 +28,8 @@ sub get {
 		return 0;
 	}
 
-	$tmp = $ast->consume('return');
-	$node->{'type'} = 'return';
+	$tmp = $ast->consume('goto');
+	$node->{'type'} = 'goto';
 
 	if ($ast->match(';')) {
 		$ast->error("goto expected expression.");
@@ -38,11 +37,12 @@ sub get {
 		return 0;
 	}
 
-	if (!struct_expression::get($ast, $tmp)) {
-		$ast->error('Expected expression');
+	if (!$ast->match_type('ident') && !$ast->match_type('label')) {
+		$ast->error('Expected label');
 		$ast->pop_scope();
 		return 0;
 	}
+	$tmp = $ast->consume();
 	$node->{'data'} = $tmp;
 
 	$output = $node;
