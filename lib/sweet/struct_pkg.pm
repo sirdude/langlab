@@ -4,7 +4,7 @@ package struct_pkg;
 use strict;
 use warnings;
 
-use struct_string_expression;
+use struct_expression;
 
 sub start {
 	my ($ast) = @_;
@@ -38,7 +38,7 @@ sub get {
 		$tmp = $ast->consume();
 	}
 
-	if (!struct_string_expression::get($ast, $tmp)) {
+	if (!struct_expression::get($ast, $tmp)) {
 		$ast->error('Expected string expression');
 		$ast->pop_scope();
 		return 0;

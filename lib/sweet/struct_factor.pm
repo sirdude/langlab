@@ -3,6 +3,9 @@ package struct_factor;
 use strict;
 use warnings;
 
+use struct_const;
+use struct_ident;
+
 sub start {
 	my ($ast) = @_;
 
@@ -14,10 +17,7 @@ sub start {
 	if ($ast->match_type('ident')) {
 		return 1;
 	}
-	if ($ast->match_type('float') || $ast->match_type('int')) {
-		return 1;
-	}
-	return 0;
+	return struct_const::start($ast);
 }
 
 sub get {
@@ -45,10 +45,12 @@ sub get {
 		$ast->pop_scope();
 		return 1;
 	} elsif ($ast->match_type('ident')) {
-		$tmp = $ast->consume();
-	} elsif ($ast->match_type('float') || $ast->match_type('int')) {
-		$tmp = $ast->consume();
-	} else {
+		if (!struct_ident::get($ast, $tmp)) {
+			$ast->error('Expected var, array, hash or function call');
+			$ast->pop_scope();
+			return 0;
+		}
+	} elsif (!struct_const::get($ast, $tmp)) {
 		$ast->error('Expected ident, or number');
 		$ast->pop_scope();
 		return 0;
