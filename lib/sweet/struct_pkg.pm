@@ -43,6 +43,14 @@ sub get {
 		$ast->pop_scope();
 		return 0;
 	}
+
+	if (!$ast->match(';')) {
+		$ast->error('pkg expected ; after package');
+		$ast->pop_scope();
+		return 0;
+	}
+	$ast->consume(';');
+
 	$node->{'data'} = $tmp;
 
 	$output = $node;

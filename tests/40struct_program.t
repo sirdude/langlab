@@ -31,30 +31,26 @@ sub test_hello_world {
 	$testast->add_base_node('string', "Hello World!\n", 0, 31);
 	$testast->add_base_node('op', ';', 0, 32);
 	$testast->add_base_node('op', '}', 0, 33);
-	$testast->add_base_node('op', "'", 0, 34);
 
-	is(struct_program::start($testast), 1, 'Testing if we have the start of a program.');
 	is(struct_program::get($testast, $output), 1, 'Testing get hello world.');
-	is(struct_program::start($testast), 0, 'Testing invalid of a program "\'".');
-	is(struct_program::get($testast, $output), 0, 'Testing get invalid program.');
 
 	$testast->clear();
 	return 1;
 }
 
 sub test_pkg {
-	$testast->add_base_node('keyword', 'use', 0, 46);
-	$testast->add_base_node('keyword', 'options', 0, 47);
-	$testast->add_base_node('op', ';', 0, 48);
-	$testast->add_base_node('keyword', 'void', 0, 49);
-	$testast->add_base_node('ident', 'main', 0, 50);
-	$testast->add_base_node('op', '(', 0, 51);
-	$testast->add_base_node('op', ')', 0, 52);
-	$testast->add_base_node('op', '{', 0, 53);
-	$testast->add_base_node('keyword', 'print', 0, 54);
-	$testast->add_base_node('string', "Hello World!\n", 0, 55);
-	$testast->add_base_node('op', ';', 0, 56);
-	$testast->add_base_node('op', '}', 0, 57);
+	$testast->add_base_node('keyword', 'use', 0, 42);
+	$testast->add_base_node('keyword', 'options', 0, 43);
+	$testast->add_base_node('op', ';', 0, 44);
+	$testast->add_base_node('keyword', 'void', 0, 45);
+	$testast->add_base_node('ident', 'main', 0, 46);
+	$testast->add_base_node('op', '(', 0, 47);
+	$testast->add_base_node('op', ')', 0, 48);
+	$testast->add_base_node('op', '{', 0, 49);
+	$testast->add_base_node('keyword', 'print', 0, 50);
+	$testast->add_base_node('string', "Hello World!\n", 0, 51);
+	$testast->add_base_node('op', ';', 0, 52);
+	$testast->add_base_node('op', '}', 0, 53);
 
 	is(struct_program::start($testast), 1, 'Testing if we have the start of a program with use.');
 	is(struct_program::get($testast, $output), 1, 'Testing get pkg program.');
