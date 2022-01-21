@@ -133,6 +133,24 @@ sub at_eof {
 	return 0;
 }
 
+sub copy_node {
+	my ($self, $count) = @_;
+	my $node = ();
+
+	if (!$count || $count eq '') {
+		$count = 0;
+	}
+	my $ttt = $self->{'current'} + $count;
+	$self->debug("ast::copy_node($count:$ttt) size = " . $self->{'size'});
+
+	my @copykeys = keys(%{$self->{'data'}[$ttt]});
+	foreach my $i (@copykeys) {
+		$node->{$i} = $self->{'data'}[$ttt]->{$i};
+	}
+
+	return $node;
+}
+
 sub show_invis {
 	my ($tok) = @_;
 	my %syms;

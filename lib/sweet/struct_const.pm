@@ -4,14 +4,11 @@ package struct_const;
 use strict;
 use warnings;
 
-use struct_expression;
-use struct_exp_list;
-
 sub start {
 	my ($ast) = @_;
-	my @values = ('float', 'int', 'hex', 'html');
+	my @values = ('float', 'int', 'hex', 'html', 'string');
 
-	$ast->debug('struct_ident::start');
+	$ast->debug('struct_const::start');
 	foreach my $i (@values) {
 		if ($ast->match_type($i)) {
 			return 1;
@@ -34,9 +31,8 @@ sub get {
 		return 0;
 	}
 
+	$node = $ast->copy_node();
 	$tmp = $ast->consume();
-	# XXX Should redo this to copy more of the node...
-	$node->{'data'} = $tmp;
 
 	$output = $node;
 	$ast->pop_scope();
