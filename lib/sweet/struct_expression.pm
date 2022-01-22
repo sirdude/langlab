@@ -98,7 +98,16 @@ sub get {
 			$ast->pop_scope();
 			return 0;
 		}
-		if (is_binop($ast->peek())) {
+		if ($ast->peek() eq '=') {
+			$node->{'type'} = $ast->consume();
+			$node->{'lhs'} = $tmp;
+			if (!get($ast, $tmp)) {
+				$ast->error('reading rhs'); # XXX maybe remove this 
+				$ast->pop_scope();
+				return 0;
+			}
+			$node->{'rhs'} = $tmp;
+		} elsif (is_binop($ast->peek())) {
 			$node->{'type'} = $ast->consume();
 			$node->{'lhs'} = $tmp;
 			if (!get($ast, $tmp)) {
