@@ -55,6 +55,19 @@ sub test_unops {
 	return 1;
 }
 
+sub test_assignment {
+	$testast->add_base_node('ident', 'x', 0, 29);
+	$testast->add_base_node('op', '=', 0, 30);
+	$testast->add_base_node('int', '5', 0, 31);
+	$testast->add_base_node('op', ';', 0, 32);
+
+	is(struct_expression::get($testast, $output), 1, 'Testing expression "x=5"');
+
+	$testast->clear();
+
+	return 1;
+}
+
 sub test_var_equals {
 	$testast->add_base_node('ident', 'x', 0, 29);
 	$testast->add_base_node('op', '==', 0, 30);

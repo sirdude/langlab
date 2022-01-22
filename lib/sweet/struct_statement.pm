@@ -15,6 +15,7 @@ use struct_goto;
 use struct_break;
 use struct_switch;
 use struct_label;
+use struct_expression;
 
 # XXX Need to do functioncalls...
 
@@ -29,7 +30,8 @@ my @mods = ('struct_if',
 	'struct_break',
 	'struct_goto',
 	'struct_switch',
-	'struct_label');
+	'struct_label',
+	'struct_expression');
 
 my %actions = (
 	'struct_if::start' => \&struct_if::start,
@@ -55,7 +57,9 @@ my %actions = (
 	'struct_switch::start' => \&struct_switch::start,
 	'struct_switch::get' => \&struct_switch::get,
 	'struct_label::start' => \&struct_label::start,
-	'struct_label::get' => \&struct_label::get
+	'struct_label::get' => \&struct_label::get,
+	'struct_expression::start' => \&struct_expression::start,
+	'struct_expression::get' => \&struct_expression::get
 );
 
 sub no_semi {
