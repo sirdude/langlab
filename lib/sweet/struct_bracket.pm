@@ -32,13 +32,17 @@ sub get {
 	$tmp = $ast->consume('(');
 	$node->{'type'} = 'expression';
 
-	if (!struct_expression::get($ast, $tmp)) {
-		$ast->error("Expected expression.");
-		$output = $node;
-		$ast->pop_scope();
-		return 0;
+	if (struct_expression::start($ast)) {
+		if (!struct_expression::get($ast, $tmp)) {
+			$ast->error("Expected expression.");
+			$output = $node;
+			$ast->pop_scope();
+			return 0;
+		}
+		$node->{'data'} = $tmp;
+	} else {
+		$node->{'data'} = '';
 	}
-	$node->{'data'} = $tmp;
 
 	if (!$ast->match(')')) {
 		$ast->error("Expected ')'.");
