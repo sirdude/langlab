@@ -5,6 +5,7 @@ use warnings;
 
 use struct_const;
 use struct_ident;
+use struct_bracket;
 
 my @binops = ('||', '&&', '==', '!=', '+=', '-=', '>=', '<=', '>', '<',
 	'+', '=,', '*', '/');
@@ -40,6 +41,9 @@ sub start {
 		return 1;
 	}
 	if (struct_ident::start($ast)) {
+		return 1;
+	}
+	if (struct_bracket::start($ast)) {
 		return 1;
 	}
 	if (is_unop($ast->peek())) {
@@ -119,6 +123,14 @@ sub get {
 		} else {
 			# XXX node is a ident only...
 		}
+	} elsif (struct_bracket::start($ast)) { 
+		$node->{'type'} = 'expression';
+		if (!struct_bracket::get($ast, $tmp)) {
+			$ast->error('reading bracketed expression.');
+			$ast->pop_scope();
+			return 0;
+		}
+		$node->{'data'} = $tmp;
 	} else {
 		$ast->error('Expression expected unop, const or ident');
 		$ast->pop_scope();
