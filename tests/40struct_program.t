@@ -40,7 +40,7 @@ sub test_hello_world {
 
 sub test_pkg {
 	$testast->add_base_node('keyword', 'use', 0, 42);
-	$testast->add_base_node('keyword', 'options', 0, 43);
+	$testast->add_base_node('string', 'options', 0, 43);
 	$testast->add_base_node('op', ';', 0, 44);
 	$testast->add_base_node('keyword', 'void', 0, 45);
 	$testast->add_base_node('ident', 'main', 0, 46);
