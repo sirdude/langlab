@@ -17,10 +17,10 @@ use struct_default;
 my ($testast, $output);
 
 sub test_default {
-	$testast->add_base_node('keyword', 'default', 0, 18);
-	$testast->add_base_node('op', '{', 0, 20);
+	$testast->add_base_node('keyword', 'default', 0, 20);
+	$testast->add_base_node('op', '{', 0, 21);
 	$testast->add_base_node('op', '}', 0, 22);
-	$testast->add_base_node('op', ';', 0, 22);
+	$testast->add_base_node('op', ';', 0, 23);
 
 	is(struct_default::start($testast), 1, 'Testing start of case statement.');
 	is(struct_default::get($testast, $output), 1, 'Testing case x {};');

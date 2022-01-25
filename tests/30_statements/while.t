@@ -17,12 +17,12 @@ use struct_while;
 my ($testast, $output);
 
 sub test_simple_while {
-	$testast->add_base_node('keyword', 'while', 0, 18);
-	$testast->add_base_node('op', '(', 0, 19);
-	$testast->add_base_node('int', '1', 0, 20);
-	$testast->add_base_node('op', ')', 0, 21);
-	$testast->add_base_node('op', '{', 0, 22);
-	$testast->add_base_node('op', '}', 0, 23);
+	$testast->add_base_node('keyword', 'while', 0, 20);
+	$testast->add_base_node('op', '(', 0, 21);
+	$testast->add_base_node('int', '1', 0, 22);
+	$testast->add_base_node('op', ')', 0, 23);
+	$testast->add_base_node('op', '{', 0, 24);
+	$testast->add_base_node('op', '}', 0, 25);
 
 	is(struct_while::start($testast), 1, 'Testing start of while statement.');
 	is(struct_while::get($testast, $output), 1, 'Testing while (1) {};');

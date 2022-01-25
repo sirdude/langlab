@@ -28,8 +28,8 @@ sub test_int {
 }
 
 sub test_float {
-	$testast->add_base_node('float', '5.001', 0, 18);
-	$testast->add_base_node('op', ';', 0, 19);
+	$testast->add_base_node('float', '5.001', 0, 31);
+	$testast->add_base_node('op', ';', 0, 32);
 
 	is(struct_const::start($testast), 1, 'Testing start of float');
 	is(struct_const::get($testast, $output), 1, 'Testing get float');
@@ -39,8 +39,8 @@ sub test_float {
 }
 
 sub test_html {
-	$testast->add_base_node('html', '&#0000', 0, 18);
-	$testast->add_base_node('op', ';', 0, 19);
+	$testast->add_base_node('html', '&#0000', 0, 42);
+	$testast->add_base_node('op', ';', 0, 43);
 
 	is(struct_const::start($testast), 1, 'Testing start of html');
 	is(struct_const::get($testast, $output), 1, 'Testing get html');
@@ -50,8 +50,8 @@ sub test_html {
 }
 
 sub test_hex {
-	$testast->add_base_node('hex', 'x0CC', 0, 18);
-	$testast->add_base_node('op', ';', 0, 19);
+	$testast->add_base_node('hex', 'x0CC', 0, 53);
+	$testast->add_base_node('op', ';', 0, 54);
 
 	is(struct_const::start($testast), 1, 'Testing start of hex');
 	is(struct_const::get($testast, $output), 1, 'Testing get hex');
@@ -61,8 +61,8 @@ sub test_hex {
 }
 
 sub test_string {
-	$testast->add_base_node('string', 'hello world', 0, 18);
-	$testast->add_base_node('op', ';', 0, 19);
+	$testast->add_base_node('string', 'hello world', 0, 64);
+	$testast->add_base_node('op', ';', 0, 65);
 
 	is(struct_const::start($testast), 1, 'Testing start of string');
 	is(struct_const::get($testast, $output), 1, 'Testing get string');

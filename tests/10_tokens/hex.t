@@ -17,13 +17,13 @@ use tok_hex;
 my ($testast, $output);
 
 sub test_tok_hex_basics {
-	$testast->add_base_node('char', '0', 0, 18);
-	$testast->add_base_node('char', 'x', 0, 19);
-	$testast->add_base_node('char', '9', 0, 20);
-	$testast->add_base_node('char', '8', 0, 21);
-	$testast->add_base_node('char', '7', 0, 22);
-	$testast->add_base_node('char', '6', 0, 23);
-	$testast->add_base_node('char', ';', 0, 24);
+	$testast->add_base_node('char', '0', 0, 20);
+	$testast->add_base_node('char', 'x', 0, 21);
+	$testast->add_base_node('char', '9', 0, 22);
+	$testast->add_base_node('char', '8', 0, 23);
+	$testast->add_base_node('char', '7', 0, 24);
+	$testast->add_base_node('char', '6', 0, 25);
+	$testast->add_base_node('char', ';', 0, 26);
 
 	is(tok_hex::start($testast), 1, 'Testing if we have the start of a hex number.');
 	is(tok_hex::get($testast, $output), 1, 'Testing get a hex number.');
@@ -36,9 +36,9 @@ sub test_tok_hex_basics {
 }
 
 sub test_invalid_hex {
-	$testast->add_base_node('char', '0', 0, 37);
-	$testast->add_base_node('char', 'x', 0, 38);
-	$testast->add_base_node('char', ';', 0, 39);
+	$testast->add_base_node('char', '0', 0, 39);
+	$testast->add_base_node('char', 'x', 0, 40);
+	$testast->add_base_node('char', ';', 0, 41);
 	is(tok_hex::get($testast, $output), 0, 'Testing if get fails on invalid hex.');
 
 	$testast->clear();

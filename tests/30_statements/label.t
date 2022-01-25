@@ -17,8 +17,8 @@ use struct_label;
 my ($testast, $output);
 
 sub test_label {
-	$testast->add_base_node('keyword', 'label', 0, 18);
-	$testast->add_base_node('ident', 'x', 0, 19);
+	$testast->add_base_node('keyword', 'label', 0, 20);
+	$testast->add_base_node('ident', 'x', 0, 21);
 	$testast->add_base_node('op', ';', 0, 22);
 
 	is(struct_label::start($testast), 1, 'Testing start of label statement.');

@@ -17,9 +17,9 @@ use struct_return;
 my ($testast, $output);
 
 sub test_return {
-	$testast->add_base_node('keyword', 'return', 0, 18);
-	$testast->add_base_node('int', '1', 0, 18);
-	$testast->add_base_node('op', ';', 0, 19);
+	$testast->add_base_node('keyword', 'return', 0, 20);
+	$testast->add_base_node('int', '1', 0, 21);
+	$testast->add_base_node('op', ';', 0, 22);
 
 	is(struct_return::start($testast), 1, 'Testing start exit');
 	is(struct_return::get($testast, $output), 1, 'Testing get exit');

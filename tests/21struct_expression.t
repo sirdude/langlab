@@ -18,8 +18,8 @@ my @binops = ('||', '&&', '==', '!=', '+=', '-=', '>=', '<=', '>', '<',
 my @unops = ('+', '-');
 
 sub test_const_expression {
-	$testast->add_base_node('int', '1', 0, 18);
-	$testast->add_base_node('op', ';', 0, 19);
+	$testast->add_base_node('int', '1', 0, 21);
+	$testast->add_base_node('op', ';', 0, 22);
 
 	is(struct_expression::start($testast), 1, 'Testing start of constant expression 1.');
 	is(struct_expression::get($testast, $output), 1, 'Testing expression: 1;');
@@ -30,10 +30,10 @@ sub test_const_expression {
 
 sub test_binops {
 	foreach my $i (@binops) {
-		$testast->add_base_node('ident', 'x', 0, 29);
-		$testast->add_base_node('op', $i, 0, 30);
-		$testast->add_base_node('int', '5', 0, 31);
-		$testast->add_base_node('op', ';', 0, 32);
+		$testast->add_base_node('ident', 'x', 0, 33);
+		$testast->add_base_node('op', $i, 0, 34);
+		$testast->add_base_node('int', '5', 0, 35);
+		$testast->add_base_node('op', ';', 0, 36);
 
 		is(struct_expression::get($testast, $output), 1, 'Testing expression binop: ' . $i );
 
@@ -44,9 +44,9 @@ sub test_binops {
 
 sub test_unops {
 	foreach my $i (@unops) {
-		$testast->add_base_node('op', $i, 0, 30);
-		$testast->add_base_node('int', '5', 0, 31);
-		$testast->add_base_node('op', ';', 0, 32);
+		$testast->add_base_node('op', $i, 0, 47);
+		$testast->add_base_node('int', '5', 0, 48);
+		$testast->add_base_node('op', ';', 0, 49);
 
 		is(struct_expression::get($testast, $output), 1, 'Testing expression unop: ' . $i );
 
@@ -56,10 +56,10 @@ sub test_unops {
 }
 
 sub test_assignment {
-	$testast->add_base_node('ident', 'x', 0, 29);
-	$testast->add_base_node('op', '=', 0, 30);
-	$testast->add_base_node('int', '5', 0, 31);
-	$testast->add_base_node('op', ';', 0, 32);
+	$testast->add_base_node('ident', 'x', 0, 59);
+	$testast->add_base_node('op', '=', 0, 60);
+	$testast->add_base_node('int', '5', 0, 61);
+	$testast->add_base_node('op', ';', 0, 62);
 
 	is(struct_expression::get($testast, $output), 1, 'Testing expression "x=5"');
 
@@ -69,10 +69,10 @@ sub test_assignment {
 }
 
 sub test_var_equals {
-	$testast->add_base_node('ident', 'x', 0, 29);
-	$testast->add_base_node('op', '==', 0, 30);
-	$testast->add_base_node('int', '5', 0, 31);
-	$testast->add_base_node('op', ';', 0, 32);
+	$testast->add_base_node('ident', 'x', 0, 72);
+	$testast->add_base_node('op', '==', 0, 73);
+	$testast->add_base_node('int', '5', 0, 74);
+	$testast->add_base_node('op', ';', 0, 75);
 
 	is(struct_expression::start($testast), 1, 'Testing start of expression x==5.');
 	is(struct_expression::get($testast, $output), 1, 'Testing expression x==5.');

@@ -17,10 +17,10 @@ use struct_print;
 my ($testast, $output);
 
 sub test_print_string {
-	$testast->add_base_node('keyword', 'print', 0, 18);
-	$testast->add_base_node('string', 'Hello World!', 0, 19);
-	$testast->add_base_node('op', ';', 0, 20);
-	$testast->add_base_node('ident', 'a', 0, 21);
+	$testast->add_base_node('keyword', 'print', 0, 20);
+	$testast->add_base_node('string', 'Hello World!', 0, 21);
+	$testast->add_base_node('op', ';', 0, 22);
+	$testast->add_base_node('ident', 'a', 0, 23);
 
 	is(struct_print::start($testast), 1, 'Testing start of print.');
 	is(struct_print::get($testast, $output), 1, 'Testing simple print string;');

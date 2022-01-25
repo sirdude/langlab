@@ -30,8 +30,8 @@ sub test_break {
 }
 
 sub test_breaker {
-	$testast->add_base_node('keyword', 'breaker', 0, 18);
-	$testast->add_base_node('op', ';', 0, 19);
+	$testast->add_base_node('keyword', 'breaker', 0, 33);
+	$testast->add_base_node('op', ';', 0, 34);
 
 	is(struct_break::start($testast), 0, "Testing invalid start of break 'breaker'.");
 	is(struct_break::get($testast, $output), 0, 'Testing get break invalid;');

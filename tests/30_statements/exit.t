@@ -17,8 +17,8 @@ use struct_exit;
 my ($testast, $output);
 
 sub test_exit_no_arg {
-	$testast->add_base_node('keyword', 'exit', 0, 18);
-	$testast->add_base_node('op', ';', 0, 19);
+	$testast->add_base_node('keyword', 'exit', 0, 20);
+	$testast->add_base_node('op', ';', 0, 21);
 
 	is(struct_exit::start($testast), 1, 'Testing start exit');
 	is(struct_exit::get($testast, $output), 1, 'Testing get exit');
@@ -30,9 +30,9 @@ sub test_exit_no_arg {
 }
 
 sub test_exit_int {
-	$testast->add_base_node('keyword', 'exit', 0, 18);
-	$testast->add_base_node('int', '1', 0, 18);
-	$testast->add_base_node('op', ';', 0, 19);
+	$testast->add_base_node('keyword', 'exit', 0, 33);
+	$testast->add_base_node('int', '1', 0, 34);
+	$testast->add_base_node('op', ';', 0, 35);
 
 	is(struct_exit::get($testast, $output), 1, 'Testing get exit 5;');
 

@@ -33,7 +33,7 @@ sub test_type {
 
 sub test_typemod {
 	foreach my $i (@typemods) {
-		$testast->add_base_node('typemod', $i, 0, 33);
+		$testast->add_base_node('typemod', $i, 0, 36);
 		is(struct_types::is_typemod($testast), 1, "Testing is_typemod '$i'");
 		$testast->clear();
 	}
