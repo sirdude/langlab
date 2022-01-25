@@ -84,13 +84,13 @@ sub get {
 	$tmp = $ast->consume();
 	$word = $tmp;
 
-	$ast->debug("ident::get: start = '$word'");
+	$ast->debug("tok_ident::get: start = '$word'");
 	while (start_num($ast) || start($ast)) {
 		$tmp = $ast->consume();
 		$word .= $tmp;
 	}
 
-	$ast->debug("ident::get: '$word'");
+	$ast->debug("tok_ident::get: '$word'");
 	if (is_keyword($word)) {
 		$outast->add_base_node($keywords{$word}, $word, $l, $p);
 	} else {

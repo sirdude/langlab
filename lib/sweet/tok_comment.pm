@@ -6,7 +6,7 @@ use base 'Exporter';
 
 sub start {
 	my ($ast) = @_;
-	$ast->debug('comment::start');
+	$ast->debug('tok_comment::start');
 	if ($ast->match('/*') || $ast->match('#') || $ast->match('//')) {
 		return 1;
 	}
@@ -20,7 +20,7 @@ sub get {
 	my $done = 0;
 
 	$ast->push_scope();
-	$ast->debug('comment::get Buf: ' . $ast->peek());
+	$ast->debug('tok_comment::get Buf: ' . $ast->peek());
 
 	if (!start($ast)) {
 		return 0;

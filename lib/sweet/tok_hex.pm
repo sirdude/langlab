@@ -18,7 +18,7 @@ sub valid {
 	my @values = ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 		'A', 'B', 'C', 'D', 'E', 'F', 'a', 'b', 'c', 'd', 'e', 'f');
 
-	$ast->debug('hex::valid');
+	$ast->debug('tok_hex::valid');
 	foreach my $i (@values) {
 		if ($ast->match($i)) {
 			return 1;
@@ -34,7 +34,7 @@ sub get {
 	my $return = 0;
 
 	$ast->push_scope();
-	$ast->debug('hex::get');
+	$ast->debug('tok_hex::get');
 
 	if (!start($ast)) {
 		$ast->pop_scope();
@@ -52,7 +52,7 @@ sub get {
 		$return = 1;
 	}
 
-	$ast->debug("hex::get: $word");
+	$ast->debug("tok_hex::get: $word");
 	if ($return) {
 		$ast->add_stat('literal', 'hex', 1);
 		$outast->add_base_node('hex', $word, $l, $p);

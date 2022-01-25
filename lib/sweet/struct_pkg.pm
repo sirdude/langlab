@@ -9,7 +9,7 @@ use struct_expression;
 sub start {
 	my ($ast) = @_;
 
-	$ast->debug('struct_def::start');
+	$ast->debug('struct_pkg::start');
 	if ($ast->match('use')) {
 		return 1;
 	}

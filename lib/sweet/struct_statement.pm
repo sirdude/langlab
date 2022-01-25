@@ -123,12 +123,6 @@ sub get {
 		}
 	}
 
-	if (!$ast->match(')')) {
-		$ast->error('Unable to find valid statement.');
-		$ast->pop_scope();
-		return 0;
-	}
-
 	$ast->pop_scope();
 	return 1;
 }

@@ -8,7 +8,7 @@ use struct_expression;
 sub start {
 	my ($ast) = @_;
 
-	$ast->debug('struct_label::start');
+	$ast->debug('struct_bracket::start');
 	if ($ast->match('(')) {
 		return 1;
 	}
@@ -22,7 +22,7 @@ sub get {
 	my $return = 0;
 
 	$ast->push_scope();
-	$ast->debug('struct_label::get');
+	$ast->debug('struct_bracket::get');
 
 	if (!start($ast)) {
 		$ast->pop_scope();

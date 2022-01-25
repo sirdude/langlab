@@ -7,7 +7,7 @@ sub start {
 	my ($ast) = @_;
 	my @values = ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
 
-	$ast->debug('num::start');
+	$ast->debug('tok_num::start');
 	foreach my $i (@values) {
 		if ($ast->match($i)) {
 			return 1;
@@ -22,7 +22,7 @@ sub get {
 	my ($word, $tmp);
 
 	$ast->push_scope();
-	$ast->debug('num::get:');
+	$ast->debug('tok_num::get:');
 
 	if (!start($ast)) {
 		$ast->pop_scope();
@@ -36,7 +36,7 @@ sub get {
 		$word .= $tmp;
 	}
 	if ($ast->match('..')) {
-		$ast->debug("num::get $word");
+		$ast->debug("tok_num::get $word");
 		$ast->add_stat('num', 'int', 1);
 		$outast->add_base_node('int', $word, $l, $p);
 		$ast->pop_scope();
@@ -48,13 +48,13 @@ sub get {
 			$tmp = $ast->consume();
 			$word .= $tmp;
 		}
-		$ast->debug("num::get $word");
+		$ast->debug("tok_num::get $word");
 		$ast->add_stat('num', 'float', 1);
 		$outast->add_base_node('float', $word, $l, $p);
 		$ast->pop_scope();
 		return 1;
 	}
-	$ast->debug("num::get $word");
+	$ast->debug("tok_num::get $word");
 	$ast->add_stat('num', 'int', 1);
 	$outast->add_base_node('int', $word, $l, $p);
 	$ast->pop_scope();

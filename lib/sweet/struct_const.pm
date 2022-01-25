@@ -24,7 +24,7 @@ sub get {
 	my $return = 0;
 
 	$ast->push_scope();
-	$ast->debug('struct_ident::get');
+	$ast->debug('struct_const::get');
 
 	if (!start($ast)) {
 		$ast->pop_scope();

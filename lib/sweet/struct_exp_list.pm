@@ -25,7 +25,7 @@ sub get {
 	my $done = 0;
 
 	$ast->push_scope();
-	$ast->debug('struct_params::get');
+	$ast->debug('struct_exp_list::get');
 
 	if (!start($ast)) {
 		$ast->pop_scope();
@@ -34,10 +34,10 @@ sub get {
 
 	$tmp = $ast->consume(); # Get rid of the (
 
-	if ($ast->match(')')) { # Empty params list... 
+	if ($ast->match(')')) { # Empty list... 
 		$tmp = $ast->consume(); # Get rid of the trailing )
 
-		$output = @params;
+		$output = ();
 		$ast->pop_scope();
 		return 1;
 	}
@@ -62,7 +62,7 @@ sub get {
 	}
 
 	if (!$ast->match(')')) {
-	    $ast->error("struct_params::get expecting closing ')'");
+	    $ast->error("struc_exp_list::get expecting closing ')'");
 		$ast->pop_scope();
 		return 0;
 	}

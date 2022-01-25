@@ -5,7 +5,7 @@ use warnings;
 
 sub start {
 	my ($ast) = @_;
-	$ast->debug('string::start');
+	$ast->debug('tok_string::start');
 	if ($ast->match('"') || $ast->match("'")) {
 		return 1;
 	}
@@ -22,7 +22,7 @@ sub get {
 	my $word = '';
 
 	$ast->push_scope();
-	$ast->debug('string::get:');
+	$ast->debug('tok_string::get:');
 
 	if (!start($ast)) {
 		$ast->pop_scope();
@@ -44,7 +44,7 @@ sub get {
 			$lastchr = $tmp;
 		}
 	}
-	$ast->debug("string::get: string = $word");
+	$ast->debug("tok_string::get: string = $word");
 
 	$ast->add_stat('string', $type, 1);
 	$outast->add_base_node('string', $word, $l, $p);

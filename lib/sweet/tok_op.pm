@@ -9,7 +9,7 @@ sub start {
 		',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']',
 		'^', '`', '{', '|', '}', '~', "\\");
 
-	$ast->debug('op::start');
+	$ast->debug('tok_op::start');
 	foreach my $i (@values) {
 		if ($ast->match($i)) {
 			return 1;
@@ -31,7 +31,7 @@ sub get {
 		'!!', '=~', '=~', '..');
 
 	$ast->push_scope();
-	$ast->debug('op::get');
+	$ast->debug('tok_op::get');
 
 	if (!start($ast)) {
 		$ast->pop_scope();
@@ -53,7 +53,7 @@ sub get {
 		$tmp = $ast->consume();
 		$op = $tmp;
 	}
-	$ast->debug("op::get: $op");
+	$ast->debug("tok_op::get: $op");
 	$outast->add_base_node('op', $op, $l, $p);
 	$ast->add_stat('op', $op, 1);
 

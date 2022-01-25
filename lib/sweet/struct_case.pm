@@ -11,7 +11,7 @@ use struct_const;
 sub start {
 	my ($ast) = @_;
 
-	$ast->debug('struct_return::start');
+	$ast->debug('struct_case::start');
 	if ($ast->match('case')) {
 		return 1;
 	}

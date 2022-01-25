@@ -5,7 +5,7 @@ use warnings;
 
 sub start {
 	my ($ast) = @_;
-	$ast->debug('whitespace::start');
+	$ast->debug('tok_whitespace::start');
 	if ($ast->match("\n") || $ast->match("\t") || $ast->match(' ') ||
 		$ast->match("\r")) {
 		return 1;
@@ -19,7 +19,7 @@ sub get {
 	my $word = '';
 
 	$ast->push_scope();
-	$ast->debug('whitespace::get');
+	$ast->debug('tok_whitespace::get');
 
 	while(start($ast)) {
 		my $tmp = $ast->consume();
@@ -38,7 +38,7 @@ sub get {
 
 	if ($ast->{'keep-ws'}) {
 		$outast->add_base_node('whitespace', $word, $l, $p);
-		$ast->debug("whitespace::get added '$word\' length:" . length($word) . "\n");
+		$ast->debug("tok_whitespace::get added '$word\' length:" . length($word) . "\n");
 	}
 
 	$ast->pop_scope();

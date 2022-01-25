@@ -9,7 +9,7 @@ use struct_block;
 sub start {
 	my ($ast) = @_;
 
-	$ast->debug('struct_return::start');
+	$ast->debug('struct_default::start');
 	if ($ast->match('default')) {
 		return 1;
 	}
@@ -23,7 +23,7 @@ sub get {
 	my $return = 0;
 
 	$ast->push_scope();
-	$ast->debug('struct_case::get');
+	$ast->debug('struct_default::get');
 
 	if (!start($ast)) {
 		$ast->pop_scope();

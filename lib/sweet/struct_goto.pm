@@ -21,7 +21,7 @@ sub get {
 	my $node = {};
 
 	$ast->push_scope();
-	$ast->debug('struct_while::get');
+	$ast->debug('struct_goto::get');
 
 	if (!start($ast)) {
 		$ast->pop_scope();

@@ -7,7 +7,7 @@ use warnings;
 use struct_types;
 use struct_expression;
 use struct_block;
-use struct_params;
+use struct_fundef_params;
 
 sub start {
 	my ($ast) = @_;
@@ -67,12 +67,12 @@ sub get {
 
 		$tmp = ();
 
-		if (!struct_params::get($ast, $tmp)) {
-			$ast->error('Expected params');
+		if (!struct_fundef_params::get($ast, $tmp)) {
+			$ast->error('Expected function definition params');
 			$ast->pop_scope();
 			return 0;
 		}
-		$node->{'params'} = $tmp;
+		$node->{'fundef_params'} = $tmp;
 
 		if (!struct_block::get($ast, $tmp)) {
 			$ast->error('Expected block');

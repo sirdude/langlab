@@ -1,4 +1,4 @@
-package struct_params;
+package struct_fundef_params;
 
 use strict;
 use warnings;
@@ -8,7 +8,7 @@ use struct_types;
 sub start {
 	my ($ast) = @_;
 
-	$ast->debug('struct_params::start');
+	$ast->debug('struct_fundef_params::start');
 
 	if ($ast->match('(')) {
 		return 1;
@@ -24,7 +24,7 @@ sub get {
 	my $done = 0;
 
 	$ast->push_scope();
-	$ast->debug('struct_params::get');
+	$ast->debug('struct_fundef_params::get');
 
 	if (!start($ast)) {
 		$ast->pop_scope();
@@ -66,12 +66,12 @@ sub get {
 		if (!$ast->match(',')) {
 			$done = 1;
 		} else {
-			$tmp = $ast->consume(); # getting rid of ,
+			$tmp = $ast->consume(','); # getting rid of ,
 		}
 	}
 
 	if (!$ast->match(')')) {
-	    $ast->error("struct_params::get expecting closing ')'");
+	    $ast->error("struct_fundef_params::get expecting closing ')'");
 		$ast->pop_scope();
 		return 0;
 	}

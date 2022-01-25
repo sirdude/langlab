@@ -5,7 +5,7 @@ use warnings;
 
 sub start {
 	my ($ast) = @_;
-	$ast->debug('html::start');
+	$ast->debug('tok_html::start');
 	if ($ast->match('&#')) {
 		return 1;
 	}
@@ -31,7 +31,7 @@ sub get {
 	my $tmp;
 
 	$ast->push_scope();
-	$ast->debug('html::get');
+	$ast->debug('tok_html::get');
 
 	if (!start($ast)) {
 		return 0;
@@ -45,13 +45,13 @@ sub get {
 	if ($ast->match(';')) {
 		$tmp = $ast->consume();
 		$word .= $tmp;
-		$ast->debug("html::get found: $word");
+		$ast->debug("tok_html::get found: $word");
 		$ast->add_stat('literal', 'html', 1);
 		$outast->add_base_node('html', $word, $l, $p);
 		$ast->pop_scope();
 		return 1;
 	}
-	$ast->error("html::get: expected '&#DDDD'");
+	$ast->error("tok_html::get: expected '&#DDDD'");
 	$ast->pop_scope();
 	return 0;
 }
