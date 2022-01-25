@@ -26,37 +26,51 @@ Vardef = [Typedefl] Type '*' Varcall ';'	# Code doesn't use * yet...
 Pkg = 'use' Conststr  # Instead of inherit or include
 
 Block = '{'  '}'
-Block = '{' Statement '}'
+Block = '{' Statements '}'
 
-Statement = ''
-Statement = ';'
-Statement = Stm Statement
+Statements = ''
+Statements = ';'
+Statements = Stm Statements
 
 Stm = ';'
 Stm = Exp ';'
 Stm = Block
 Stm = While
-Stm = Do
+Stm = Do_While
 Stm = Return
 Stm = If
 Stm = Print
 Stm = Goto
+Stm = Label
 Stm = Return
+Stm = Exit 
 Stm = Break 
 Stm = Foreach
 Stm = Exp_list
+Stm = Switch
 
 Foreach = 'foreach' Ident '(' Exp ')' Block
 While = 'while' '(' Exp ')' Block
-Do = 'do' Block 'while' '(' Exp ')' ';'
 If = 'if' '(' Exp ')' Block
 If = 'if' '(' Exp ')' Block 'else' Block
+Switch = 'switch' '(' Exp ')' Switch_Block
+Do_While = 'do' Block 'while' '(' Exp ')' ';'
 Return = 'return' Exp ';'
+Exit = 'Exit' Exp ';'
 Print = 'print' Exp ';'
+Label = 'label' Ident ';'
 Break = 'break' ';'
 Goto = 'goto' Exp ';'
 Exp_list = '(' Exp ')'
 
+Switch_block = '{' Case_list Default '}'
+
+Case_list = ''
+Case_list = Case Case_list
+
+Case = 'case' '{' Statements '}'
+
+Default = 'default' '{' Statements '}'
 
 Exp = Ident '=' Exp
 Exp = Bracket

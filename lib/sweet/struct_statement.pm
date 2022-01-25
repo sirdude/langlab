@@ -5,6 +5,7 @@ use warnings;
 
 use struct_if;
 use struct_while;
+use struct_do_while;
 use struct_foreach;
 use struct_block;
 use struct_def; # XXX should not allow nested functions...
@@ -21,6 +22,7 @@ use struct_expression;
 
 my @mods = ('struct_if',
 	'struct_while',
+	'struct_do_while',
 	'struct_foreach',
 	'struct_block',
 	'struct_def',
@@ -38,6 +40,8 @@ my %actions = (
 	'struct_if::get' => \&struct_if::get,
 	'struct_while::start' => \&struct_while::start,
 	'struct_while::get' => \&struct_while::get,
+	'struct_do_while::start' => \&struct_do_while::start,
+	'struct_do_while::get' => \&struct_do_while::get,
 	'struct_foreach::start' => \&struct_foreach::start,
 	'struct_foreach::get' => \&struct_foreach::get,
 	'struct_block::start' => \&struct_block::start,
