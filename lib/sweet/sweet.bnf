@@ -25,11 +25,15 @@ Vardef = [Typedefl] Type '*' Varcall ';'	# Code doesn't use * yet...
 
 Pkg = 'use' Conststr  # Instead of inherit or include
 
+Block = '{'  '}'
+Block = '{' Statement '}'
+
 Statement = ''
 Statement = ';'
 Statement = Stm Statement
 
-Stm = Exp ';'    # XXX Need empty stm...
+Stm = ';'
+Stm = Exp ';'
 Stm = Block
 Stm = While
 Stm = Do
@@ -40,27 +44,32 @@ Stm = Goto
 Stm = Return
 Stm = Break 
 Stm = Foreach
-Stm = Exp ';'
+Stm = Exp_list
 
 Foreach = 'foreach' Ident '(' Exp ')' Block
-Return = 'return' Exp ';'
 While = 'while' '(' Exp ')' Block
-Do = 'do' Block 'while' '(' Exp ')' 
-Block = '{' [Stm] '}' # XXX not right...
+Do = 'do' Block 'while' '(' Exp ')' ';'
 If = 'if' '(' Exp ')' Block
 If = 'if' '(' Exp ')' Block 'else' Block
-Print = 'print' Conststr ';'
+Return = 'return' Exp ';'
+Print = 'print' Exp ';'
 Break = 'break' ';'
 Goto = 'goto' Exp ';'
+Exp_list = '(' Exp ')'
 
 
 Exp = Ident '=' Exp
+Exp = Bracket
 Exp = Exp Binop Exp
 Exp = Unop Exp
-Exp = String
-Exp = Num
-Exp = Varcall
-Exp = Funcall
+Exp = Const
+
+Bracket = '(' Exp ')'
+
+Const = String
+Const = Num
+Const = Varcall
+Const = Funcall
 
 Binop = '||'
 Binop = '&&'
@@ -82,7 +91,8 @@ Unop = '+'
 
 Varcall = Ident 
 Varcall = Ident '[' ']'
-Varcall = Ident '[' Stm_']'
+Varcall = Ident '[' Exp ']'
+
 Funcall = ident Exp_list
 
 Exp_list = '(' ')'
@@ -106,12 +116,4 @@ TypeDef = 'static'
 TypeDefl = ''
 TypeDefl = TypeDef
 TypeDefl = TypeDef TypeDefl
-
-Conststr = Constelm
-Conststr = Constelm '+' Conststr
-
-Constelm = String
-Constelm = Ident
-Constelm = Integer
-Constelm = Double
 
