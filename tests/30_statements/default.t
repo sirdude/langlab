@@ -4,9 +4,11 @@ use strict;
 use warnings;
 
 use lib "./lib";
-use lib "../lib";
 use lib "./lib/sweet";
+use lib "../lib";
 use lib "../lib/sweet";
+use lib "../../lib";
+use lib "../../lib/sweet";
 
 use ast;
 use tests;
