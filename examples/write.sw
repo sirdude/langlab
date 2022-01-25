@@ -1,3 +1,3 @@
 int fun() {
-	write("Hello" + 5 + "\n");
+	print "Hello" + 5 + "\n";
 }

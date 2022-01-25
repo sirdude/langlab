@@ -1,14 +1,14 @@
 int fun() {
-#	int x;
+	int x;
 
-#	x = 5;
+	x = 5;
 	switch(x) {
-		case 1:
-			break;
-
-		case 5:
-		case default:
-			write("Woo!\n");
-			break;
+		case 1 {
+		}
+		case 5 {
+		}
+		case default {
+			write "Woo!\n";
+		}
 	}
 }

@@ -1,6 +1,6 @@
-include "sw_header.h";
+use "sw_header.h";
 
 int main() {
-	write("Woo\n";
-	write("X = " + x + "\n");
+	print "Woo\n";
+	print "X = " + x + "\n";
 }
