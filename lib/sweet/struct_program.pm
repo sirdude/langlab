@@ -40,23 +40,24 @@ sub get {
 				$ast->pop_scope();
 				return 0;
 			}
-			$node->{'packages'} = $tmp;
+			push(@{$node->{'packages'}}, $tmp);
 		} elsif (struct_def::start($ast)) {
 			if (!struct_def::get($ast, $tmp)) {
 				$ast->error('Expected function or var def');
 				$ast->pop_scope();
 				return 0;
 			}
-			$node->{'data'} = $tmp;
+			push(@{$node->{'data'}}, $tmp);
 		} else {
 			$ast->error('Not a pkg or definition');
 			$ast->pop_scope();
 			return 0;
 		}
 
-		$node->{'type'} = 'program';
-		$outast->add_node($node);
 	}
+	$node->{'type'} = 'program';
+	$outast->add_node($node);
+
 	$ast->pop_scope();
 	return 1;
 }

@@ -272,8 +272,10 @@ sub expand_stats_type {
 sub add_node {
 	my ($self, $node) = @_;
 
-	$self->debug("ast::add_node: type = " . $node->{'type'} . " data = " . $node->{'data'} . "\n");
-	if ($node->{'data'} eq $EOF) {
+	$self->debug("ast::add_node: type = " . $node->{'type'} . "\n");
+	if (!exists($node->{'data'})) {
+		$self->add_stat('char', 'EOF', 1);
+	} elsif ($node->{'data'} eq $EOF) {
 		$self->add_stat('char', 'EOF', 1);
 	} elsif ($node->{'data'} eq $EOL) {
 		$self->add_stat('char', 'EOL', 1);
