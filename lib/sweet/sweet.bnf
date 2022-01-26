@@ -46,7 +46,6 @@ Stm = Return
 Stm = Exit 
 Stm = Break 
 Stm = Foreach
-Stm = Exp_list
 Stm = Switch
 
 Foreach = 'foreach' Ident '(' Exp ')' Block
@@ -61,7 +60,6 @@ Print = 'print' Exp ';'
 Label = 'label' Ident ';'
 Break = 'break' ';'
 Goto = 'goto' Exp ';'
-Exp_list = '(' Exp ')'
 
 Switch_block = '{' Case_list Default '}'
 
