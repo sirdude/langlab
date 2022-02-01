@@ -36,21 +36,21 @@ sub get {
 	$node->{'type'} = 'case';
 
 	if ($ast->match_type('ident')) {
-		if (!struct_ident::get($ast, $tmp)) {
+		if (!struct_ident::get($ast, \$tmp)) {
 			$ast->error('Case expected constant or variable');
 			$ast->pop_scope();
 			return 0;
 		}
-		$node->{'case'} = $tmp;
-	} elsif (!struct_const::get($ast, $tmp)) {
+		$node->{'value'} = $tmp;
+	} elsif (!struct_const::get($ast, \$tmp)) {
 		$ast->error('Case expected constant or variable');
 		$ast->pop_scope();
 		return 0;
 	} else {
-		$node->{'case'} = $tmp;
+		$node->{'value'} = $tmp;
 	}
 
-	if (!struct_block::get($ast, $tmp)) {
+	if (!struct_block::get($ast, \$tmp)) {
 		$ast->error('Expected :');
 		$ast->pop_scope();
 		return 0;

@@ -35,14 +35,14 @@ sub get {
 
 	while (!$ast->at_eof()) {
 	    if (struct_pkg::start($ast)) {
-			if (!struct_pkg::get($ast, $tmp)) {
+			if (!struct_pkg::get($ast, \$tmp)) {
 				$ast->error('Expected pkg');
 				$ast->pop_scope();
 				return 0;
 			}
 			push(@{$node->{'packages'}}, $tmp);
 		} elsif (struct_def::start($ast)) {
-			if (!struct_def::get($ast, $tmp)) {
+			if (!struct_def::get($ast, \$tmp)) {
 				$ast->error('Expected function or var def');
 				$ast->pop_scope();
 				return 0;

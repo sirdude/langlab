@@ -45,7 +45,7 @@ sub get {
 	while (!$done) {
 		my $tnode = {};
 
-		if (!struct_expression::get($ast, $tmp)) {
+		if (!struct_expression::get($ast, \$tmp)) {
 			$ast->error('Expected expression.');
 			$ast->pop_scope();
 			return 0;

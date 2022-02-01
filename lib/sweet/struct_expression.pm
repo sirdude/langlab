@@ -71,7 +71,7 @@ sub get {
 	if (is_unop($ast->peek())) {
 		$tmp = $ast->consume();
 		$node->{'type'} = $tmp;
-		if (!get($ast, $tmp)) {
+		if (!get($ast, \$tmp)) {
 			$ast->error('Op ' . $node->{'type'} . ' expected expression');
 			$ast->pop_scope();
 			return 0;
@@ -79,7 +79,7 @@ sub get {
 		$node->{'data'} = $tmp;
 
 	} elsif (struct_const::start($ast)) {
-		if (!struct_const::get($ast, $tmp)) {
+		if (!struct_const::get($ast, \$tmp)) {
 			$ast->error('reading const');
 			$ast->pop_scope();
 			return 0;
@@ -87,7 +87,7 @@ sub get {
 		if (is_binop($ast->peek())) {
 			$node->{'type'} = $ast->consume();
 			$node->{'lhs'} = $tmp;
-			if (!get($ast, $tmp)) {
+			if (!get($ast, \$tmp)) {
 				$ast->error('reading rhs'); # XXX maybe remove this 
 				$ast->pop_scope();
 				return 0;
@@ -97,7 +97,7 @@ sub get {
 			# XXX node is a const only...
 		}
 	} elsif (struct_ident::start($ast)) {
-		if (!struct_ident::get($ast, $tmp)) {
+		if (!struct_ident::get($ast, \$tmp)) {
 			$ast->error('reading const');
 			$ast->pop_scope();
 			return 0;
@@ -105,7 +105,7 @@ sub get {
 		if ($ast->peek() eq '=') {
 			$node->{'type'} = $ast->consume();
 			$node->{'lhs'} = $tmp;
-			if (!get($ast, $tmp)) {
+			if (!get($ast, \$tmp)) {
 				$ast->error('reading rhs'); # XXX maybe remove this 
 				$ast->pop_scope();
 				return 0;
@@ -114,7 +114,7 @@ sub get {
 		} elsif (is_binop($ast->peek())) {
 			$node->{'type'} = $ast->consume();
 			$node->{'lhs'} = $tmp;
-			if (!get($ast, $tmp)) {
+			if (!get($ast, \$tmp)) {
 				$ast->error('reading rhs'); # XXX maybe remove this 
 				$ast->pop_scope();
 				return 0;
@@ -125,7 +125,7 @@ sub get {
 		}
 	} elsif (struct_bracket::start($ast)) { 
 		$node->{'type'} = 'expression';
-		if (!struct_bracket::get($ast, $tmp)) {
+		if (!struct_bracket::get($ast, \$tmp)) {
 			$ast->error('reading bracketed expression.');
 			$ast->pop_scope();
 			return 0;

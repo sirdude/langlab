@@ -1,6 +1,6 @@
 package struct_switch;
 
-use strict;
+# use strict;
 use warnings;
 
 use struct_expression;
@@ -40,7 +40,7 @@ sub get {
 		$ast->pop_scope();
 		return 0;
 	}
-	$node->{'items'} = $tmp;
+	$node->{'variable'} = $tmp;
 	
 	if (!$ast->match('{')) {
 		$ast->error("Switch expected '{'");
@@ -50,7 +50,8 @@ sub get {
 	$ast->consume('{');
 
 	while (struct_case::get($ast, $tmp)) {
-		${$node->{'data'}->{$tmp->{'value'}}} = $tmp;
+		my $hhh = $tmp->{'value'};
+		$node->{'data'}{$hhh} = $tmp;
 	}
 	if (struct_default::start($ast)) {
 		if (!struct_default::get($ast, $tmp)) {
@@ -58,7 +59,7 @@ sub get {
 			$ast->pop_scope();
 			return 0;
 		}
-		${$node->{'data'}->{$tmp->{'value'}}} = $tmp;
+		$node->{'data'}{'default'} = $tmp;
 	}
 
 	if (!$ast->match('}')) {

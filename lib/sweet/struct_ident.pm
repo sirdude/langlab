@@ -35,7 +35,7 @@ sub get {
 	$node->{'data'} = $tmp;
 	if ($ast->match('(')) {
 		$node->{'type'} = 'function_call';
-		if (!struct_exp_list::get($ast, $tmp)) {
+		if (!struct_exp_list::get($ast, \$tmp)) {
 			$ast->error('Invalid function param');
 			$ast->pop_scope();
 			return 0;
@@ -45,7 +45,7 @@ sub get {
 		$node->{'type'} = 'var';
 		if ($ast->match('[')) {
 			$tmp = $ast->consume();
-			if (!struct_expression::get($ast, $tmp)) {
+			if (!struct_expression::get($ast, \$tmp)) {
 				$ast->error('Invalid variable index for var');
 				$ast->pop_scope();
 				return 0;

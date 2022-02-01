@@ -38,11 +38,12 @@ sub get {
 		$tmp = $ast->consume();
 	}
 
-	if (!struct_expression::get($ast, $tmp)) {
+	if (!struct_expression::get($ast, \$tmp)) {
 		$ast->error('Expected string expression');
 		$ast->pop_scope();
 		return 0;
 	}
+	$node->{'data'} = $tmp;
 
 	if (!$ast->match(';')) {
 		$ast->error('pkg expected ; after package');
@@ -50,8 +51,6 @@ sub get {
 		return 0;
 	}
 	$ast->consume(';');
-
-	$node->{'data'} = $tmp;
 
 	$output = $node;
 	$ast->pop_scope();

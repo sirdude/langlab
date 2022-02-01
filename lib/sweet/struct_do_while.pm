@@ -33,7 +33,7 @@ sub get {
 	$tmp = $ast->consume('do');
 	$node->{'type'} = 'do_while';
 
-	if (!struct_block::get($ast, $tmp)) {
+	if (!struct_block::get($ast, \$tmp)) {
 		$ast->error('Expected block');
 		$ast->pop_scope();
 		return 0;
@@ -54,7 +54,7 @@ sub get {
 	}
 	$tmp = $ast->consume('(');
 
-	if (!struct_expression::get($ast, $tmp)) {
+	if (!struct_expression::get($ast, \$tmp)) {
 		$ast->error('Expected expression');
 		$ast->pop_scope();
 		return 0;

@@ -33,7 +33,7 @@ sub get {
 	$node->{'type'} = 'expression';
 
 	if (struct_expression::start($ast)) {
-		if (!struct_expression::get($ast, $tmp)) {
+		if (!struct_expression::get($ast, \$tmp)) {
 			$ast->error("Expected expression.");
 			$output = $node;
 			$ast->pop_scope();

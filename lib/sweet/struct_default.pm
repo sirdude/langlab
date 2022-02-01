@@ -34,7 +34,7 @@ sub get {
 	$node->{'type'} = 'case';
 	$node->{'case'} = 'default'; # XXX Need to make sure it can't get clobbered by var default or something.
 
-	if (!struct_block::get($ast, $tmp)) {
+	if (!struct_block::get($ast, \$tmp)) {
 		$ast->error('Expected :');
 		$ast->pop_scope();
 		return 0;
