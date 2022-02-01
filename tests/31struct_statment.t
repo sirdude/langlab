@@ -45,6 +45,7 @@ sub test_switch {
 	$testast->add_base_node('ident', 'values', 0, 20);
 	$testast->add_base_node('op', '{', 0, 21);
 	$testast->add_base_node('keyword', 'case', 0, 21);
+	$testast->add_base_node('int', '5', 0, 21);
 	$testast->add_base_node('op', '{', 0, 21);
 	$testast->add_base_node('op', '}', 0, 21);
 	$testast->add_base_node('keyword', 'default', 0, 21);
