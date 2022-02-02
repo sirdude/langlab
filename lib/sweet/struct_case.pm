@@ -41,14 +41,12 @@ sub get {
 			$ast->pop_scope();
 			return 0;
 		}
-		$node->{'value'} = $tmp;
 	} elsif (!struct_const::get($ast, \$tmp)) {
 		$ast->error('Case expected constant or variable');
 		$ast->pop_scope();
 		return 0;
-	} else {
-		$node->{'value'} = $tmp;
 	}
+	$node->{'value'} = $tmp;
 
 	if (!struct_block::get($ast, \$tmp)) {
 		$ast->error('Expected :');
