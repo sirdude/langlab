@@ -16,9 +16,8 @@ sub start {
 }
 
 sub get {
-	my ($ast, $output) = @_;
+	my ($ast, $node) = @_;
 	my $tmp;
-	my $node = {};
 	my $return = 0;
 
 	$ast->push_scope();
@@ -30,12 +29,12 @@ sub get {
 	}
 
 	$tmp = $ast->consume('(');
+	$node = {};
 	$node->{'type'} = 'expression';
 
 	if (struct_expression::start($ast)) {
 		if (!struct_expression::get($ast, \$tmp)) {
 			$ast->error("Expected expression.");
-			$output = $node;
 			$ast->pop_scope();
 			return 0;
 		}
@@ -50,7 +49,6 @@ sub get {
 		return 0;
 	}
 
-	$output = $node;
 	$ast->pop_scope();
 	return 1;
 }

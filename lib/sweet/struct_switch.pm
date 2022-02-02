@@ -19,9 +19,8 @@ sub start {
 }
 
 sub get {
-	my ($ast, $output) = @_;
+	my ($ast, $node) = @_;
 	my $tmp;
-	my $node = {};
 	my $return = 0;
 
 	$ast->push_scope();
@@ -33,6 +32,7 @@ sub get {
 	}
 
 	$tmp = $ast->consume('switch');
+	$node = {};
 	$node->{'type'} = 'switch';
 
 	if (!struct_expression::get($ast, \$tmp)) {
@@ -69,8 +69,6 @@ sub get {
 	}
 	$ast->consume('}');
 
-	$node->{'data'} = $tmp;
-	$output = $node;
 	$ast->pop_scope();
 
 	return 1;

@@ -16,9 +16,8 @@ sub start {
 }
 
 sub get {
-	my ($ast, $output) = @_;
+	my ($ast, $node) = @_;
 	my $tmp;
-	my $node = {};
 
 	$ast->push_scope();
 	$ast->debug('struct_goto::get');
@@ -29,6 +28,7 @@ sub get {
 	}
 
 	$tmp = $ast->consume('goto');
+	$node = {};
 	$node->{'type'} = 'goto';
 
 	if ($ast->match(';')) {
@@ -43,10 +43,9 @@ sub get {
 		return 0;
 	}
 	$tmp = $ast->consume();
+
 	$node->{'data'} = $tmp;
 
-	$output = $node;
-	
 	$ast->pop_scope();
 	return 1;
 }

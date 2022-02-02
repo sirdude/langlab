@@ -17,9 +17,8 @@ sub start {
 }
 
 sub get {
-	my ($ast, $output) = @_;
+	my ($ast, $node) = @_;
 	my $tmp;
-	my $node = {};
 	my $return = 0;
 
 	$ast->push_scope();
@@ -31,6 +30,7 @@ sub get {
 	}
 
 	$tmp = $ast->consume('do');
+	$node = {};
 	$node->{'type'} = 'do_while';
 
 	if (!struct_block::get($ast, \$tmp)) {
@@ -63,10 +63,6 @@ sub get {
 
 	$tmp = $ast->consume(')');
 
-	$node->{'data'} = $tmp;
-
-	$output = $node;
-	
 	$ast->pop_scope();
 	return 1;
 }

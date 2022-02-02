@@ -19,9 +19,8 @@ sub start {
 }
 
 sub get {
-	my ($ast, $output) = @_;
+	my ($ast, $node) = @_;
 	my $tmp;
-	my $node = {};
 	my $return = 0;
 
 	$ast->push_scope();
@@ -33,6 +32,7 @@ sub get {
 	}
 
 	$tmp = $ast->consume('case');
+	$node = {};
 	$node->{'type'} = 'case';
 
 	if ($ast->match_type('ident')) {
@@ -55,8 +55,6 @@ sub get {
 	}
 	$node->{'data'} = $tmp;
 
-	$output = $node;
-	
 	$ast->pop_scope();
 	return 1;
 }

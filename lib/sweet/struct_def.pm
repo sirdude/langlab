@@ -25,10 +25,9 @@ sub start {
 }
 
 sub get {
-	my ($ast, $output) = @_;
+	my ($ast, $node) = @_;
 	my ($tmp);
 	my @tmods = ();
-	my $node = {};
 
 	$ast->push_scope();
 	$ast->debug('struct_def::get');
@@ -43,6 +42,7 @@ sub get {
 		push(@tmods, $tmp);
 	}
 
+	$node = {};
 	$node->{'typemods'} = @tmods;
 
 	if (!struct_types::is_type($ast)) {
@@ -95,17 +95,15 @@ sub get {
 			$node->{'data'} = $tmp;
 		}
 
-		$output = $node;
 		$ast->pop_scope();
 		return 1;
 	}
 }
 
 sub get_var_only {
-	my ($ast, $output) = @_;
+	my ($ast, $node) = @_;
 	my ($tmp);
 	my @tmods = ();
-	my $node = {};
 
 	$ast->push_scope();
 	$ast->debug('struct_def::get');
@@ -120,6 +118,7 @@ sub get_var_only {
 		push(@tmods, $tmp);
 	}
 
+	$node = {};
 	$node->{'typemods'} = @tmods;
 	$tmp = $ast->consume();
 
@@ -150,7 +149,6 @@ sub get_var_only {
 		$node->{'data'} = $tmp;
 	}
 
-	$output = $node;
 	$ast->pop_scope();
 	return 1;
 }

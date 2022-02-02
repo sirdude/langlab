@@ -17,9 +17,8 @@ sub start {
 }
 
 sub get {
-	my ($ast, $output) = @_;
+	my ($ast, $node) = @_;
 	my $tmp;
-	my $node = {};
 	my $return = 0;
 
 	$ast->push_scope();
@@ -31,8 +30,9 @@ sub get {
 	}
 
 	$tmp = $ast->consume('default');
+	$node = {};
 	$node->{'type'} = 'case';
-	$node->{'case'} = 'default'; # XXX Need to make sure it can't get clobbered by var default or something.
+	$node->{'case'} = 'default';
 
 	if (!struct_block::get($ast, \$tmp)) {
 		$ast->error('Expected :');
@@ -41,8 +41,6 @@ sub get {
 	}
 	$node->{'data'} = $tmp;
 
-	$output = $node;
-	
 	$ast->pop_scope();
 	return 1;
 }

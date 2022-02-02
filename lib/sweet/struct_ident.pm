@@ -18,9 +18,8 @@ sub start {
 }
 
 sub get {
-	my ($ast, $output) = @_;
+	my ($ast, $node) = @_;
 	my $tmp;
-	my $node = {};
 	my $return = 0;
 
 	$ast->push_scope();
@@ -32,6 +31,7 @@ sub get {
 	}
 
 	$tmp = $ast->consume();
+	$node = {};
 	$node->{'data'} = $tmp;
 	if ($ast->match('(')) {
 		$node->{'type'} = 'function_call';
@@ -60,7 +60,6 @@ sub get {
 		}
 	}
 
-	$output = $node;
 	$ast->pop_scope();
 
 	return 1;

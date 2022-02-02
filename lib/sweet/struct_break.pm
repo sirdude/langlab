@@ -16,9 +16,8 @@ sub start {
 }
 
 sub get {
-	my ($ast, $output) = @_;
+	my ($ast, $node) = @_;
 	my $tmp;
-	my $node = {};
 	my $return = 0;
 
 	$ast->push_scope();
@@ -30,11 +29,11 @@ sub get {
 	}
 
 	$tmp = $ast->consume('break');
+	$node = {};
 	$node->{'type'} = 'break';
 
 	if ($ast->match(';')) {
 		$node->{'data'} = 'void';
-		$output = $node;
 		$ast->pop_scope();
 		return 1;
 	}

@@ -17,10 +17,9 @@ sub start {
 }
 
 sub get {
-	my ($ast, $output) = @_;
+	my ($ast, $node) = @_;
 	my ($tmp);
 	my @tmods = ();
-	my $node = {};
 
 	$ast->push_scope();
 	$ast->debug('struct_pkg::get');
@@ -30,6 +29,7 @@ sub get {
 		return 0;
 	}
 
+	$node = {};
 	$tmp = $ast->consume();
 	if (!$ast->match("lib")) {
 		$node->{'type'} = 'use';
@@ -52,7 +52,6 @@ sub get {
 	}
 	$ast->consume(';');
 
-	$output = $node;
 	$ast->pop_scope();
 
 	return 1;

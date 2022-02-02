@@ -95,15 +95,14 @@ sub start {
 }
 
 sub get {
-	my ($ast, $output) = @_;
-	my $node = {};
+	my ($ast, $node) = @_;
 	my $done = 0;
 	my $tmp;
 
 	$ast->push_scope();
 	$ast->debug('struct_statement::get');
 
-	$output = ();
+	$node = ();
 
 	# Assume we return 1 unless we run into an error.
 	while (!$done) {
@@ -117,7 +116,7 @@ sub get {
 					return 0;
 				}
 
-				push(@{$output}, $tmp);
+				push(@{$node}, $tmp);
 
 				if (!no_semi($i)) {
 					if (!$ast->match(';')) {

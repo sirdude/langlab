@@ -18,7 +18,7 @@ sub start {
 }
 
 sub get {
-	my ($ast, $output) = @_;
+	my ($ast, $node) = @_;
 	my $tmp;
 	my $return = 0;
 	my @params;
@@ -37,7 +37,7 @@ sub get {
 	if ($ast->match(')')) { # Empty list... 
 		$tmp = $ast->consume(); # Get rid of the trailing )
 
-		$output = ();
+		$node = ();
 		$ast->pop_scope();
 		return 1;
 	}
@@ -68,7 +68,7 @@ sub get {
 	}
 	$tmp = $ast->consume(); # Get rid of the trailing )
 
-	$output = @params;
+	$node = @params;
 	$ast->pop_scope();
 
 	return 1;

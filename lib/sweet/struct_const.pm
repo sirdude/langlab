@@ -18,9 +18,8 @@ sub start {
 }
 
 sub get {
-	my ($ast, $output) = @_;
+	my ($ast, $node) = @_;
 	my $tmp;
-	my $node = {};
 	my $return = 0;
 
 	$ast->push_scope();
@@ -34,7 +33,6 @@ sub get {
 	$node = $ast->copy_node();
 	$tmp = $ast->consume();
 
-	$output = $node;
 	$ast->pop_scope();
 
 	return 1;

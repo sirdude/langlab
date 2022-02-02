@@ -16,10 +16,9 @@ sub start {
 }
 
 sub get {
-	my ($ast, $output) = @_;
+	my ($ast, $node) = @_;
 	my ($p, $l) = $ast->get_loc();
 	my $tmp;
-	my $node = {};
 	my $done = 0;
 
 	$ast->push_scope();
@@ -31,6 +30,7 @@ sub get {
 		return 0;
 	}
 
+	$node = {};
 	$node->{'type'} = 'block';
 	$node->{'columnnum'} = $p;
 	$node->{'linenum'} = $l;
@@ -55,7 +55,6 @@ sub get {
 
 	$tmp = $ast->consume('}');
 	$ast->pop_scope();
-	$output = $node;
 
 	return 1;
 }
