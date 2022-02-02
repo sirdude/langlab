@@ -52,7 +52,7 @@ sub error {
 
 	print "ERROR:" . $self->{'data'}->[$self->{'current'}]->{'linenum'} . ':' .
 		$self->{'data'}->[$self->{'current'}]->{'columnnum'} . ': \'' .
-		$self->peek() . '\'' . $info . "\n";
+		$self->peek() . '\' ' . $info . "\n";
 	return 1;
 }
 
