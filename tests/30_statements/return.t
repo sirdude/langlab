@@ -22,9 +22,9 @@ sub test_return {
 	$testast->add_base_node('op', ';', 0, 22);
 
 	is(struct_return::start($testast), 1, 'Testing start exit');
-	is(struct_return::get($testast, $output), 1, 'Testing get exit');
+	is(struct_return::get($testast, \$output), 1, 'Testing get exit');
 	is(struct_return::start($testast), 0, 'Testing invalid start of exit.');
-	is(struct_return::get($testast, $output), 0, 'Testing get exit invalid;');
+	is(struct_return::get($testast, \$output), 0, 'Testing get exit invalid;');
 
 	$testast->clear();
 	return 1;

@@ -20,9 +20,9 @@ sub test_no_params {
 	$testast->add_base_node('op', ';', 0, 20);
 
 	is(struct_exp_list::start($testast), 1, 'Testing start exp_list');
-	is(struct_exp_list::get($testast, $output), 1, 'Testing get no params');
+	is(struct_exp_list::get($testast, \$output), 1, 'Testing get no params');
 	is(struct_exp_list::start($testast), 0, 'Testing invalid start of exp_list.');
-	is(struct_exp_list::get($testast, $output), 0, 'Testing get exp_list invalid;');
+	is(struct_exp_list::get($testast, \$output), 0, 'Testing get exp_list invalid;');
 
 	$testast->clear();
 	return 1;
@@ -34,7 +34,7 @@ sub test_one_param {
 	$testast->add_base_node('op', ')', 0, 34);
 	$testast->add_base_node('op', ';', 0, 35);
 
-	is(struct_exp_list::get($testast, $output), 1, 'Testing get one params');
+	is(struct_exp_list::get($testast, \$output), 1, 'Testing get one params');
 
 	$testast->clear();
 	return 1;
@@ -48,7 +48,7 @@ sub test_multi_params {
 	$testast->add_base_node('op', ')', 0, 48);
 	$testast->add_base_node('op', ';', 0, 49);
 
-	is(struct_exp_list::get($testast, $output), 1, 'Testing get multi params.');
+	is(struct_exp_list::get($testast, \$output), 1, 'Testing get multi params.');
 
 	$testast->clear();
 	return 1;
@@ -61,7 +61,7 @@ sub test_invalid_multi_params {
 	$testast->add_base_node('op', ')', 0, 61);
 	$testast->add_base_node('op', ';', 0, 62);
 
-	is(struct_exp_list::get($testast, $output), 0, 'Testing invalid get multi params.');
+	is(struct_exp_list::get($testast, \$output), 0, 'Testing invalid get multi params.');
 
 	$testast->clear();
 	return 1;

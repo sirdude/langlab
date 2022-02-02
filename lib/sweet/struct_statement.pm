@@ -103,6 +103,8 @@ sub get {
 	$ast->push_scope();
 	$ast->debug('struct_statement::get');
 
+	$output = ();
+
 	# Assume we return 1 unless we run into an error.
 	while (!$done) {
 		$done = 1;

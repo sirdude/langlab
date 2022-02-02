@@ -20,9 +20,9 @@ sub test_var_def {
 	$testast->add_base_node('op', ';', 0, 20);
 
 	is(struct_def::start($testast), 1, 'Testing start of definition type int.');
-	is(struct_def::get($testast, $output), 1, 'Testing int x;');
+	is(struct_def::get($testast, \$output), 1, 'Testing int x;');
 	is(struct_def::start($testast), 0, 'Testing invalid start of definition ;.');
-	is(struct_def::get($testast, $output), 0, 'Testing get with invalid start of definition ;');
+	is(struct_def::get($testast, \$output), 0, 'Testing get with invalid start of definition ;');
 
 	$testast->clear();
 	return 1;
@@ -37,7 +37,7 @@ sub test_function_def {
 	$testast->add_base_node('op', '}', 0, 37);
 
 	is(struct_def::start($testast), 1, 'Testing if we have the start of a function def.');
-	is(struct_def::get($testast, $output), 1, 'Testing void main() {}.');
+	is(struct_def::get($testast, \$output), 1, 'Testing void main() {}.');
 
 	$testast->clear();
 	return 1;

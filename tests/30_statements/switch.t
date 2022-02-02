@@ -28,7 +28,7 @@ sub test_simple_switch {
 	$testast->add_base_node('op', ';', 0, 26);
 
 	is(struct_switch::start($testast), 1, 'Testing start of switch statement.');
-	is(struct_switch::get($testast, $output), 1, 'Testing simple switch;');
+	is(struct_switch::get($testast, \$output), 1, 'Testing simple switch;');
 	is(struct_switch::start($testast), 0, 'Testing start of switch with ;.');
 
 	$testast->clear();

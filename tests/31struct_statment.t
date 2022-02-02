@@ -21,7 +21,7 @@ sub test_assignment {
 	$testast->add_base_node('op', ';', 0, 21);
 
 	is(struct_statement::start($testast), 1, 'Testing start of assignment.');
-	is(struct_statement::get($testast, $output), 1, 'Testing x=5;');
+	is(struct_statement::get($testast, \$output), 1, 'Testing x=5;');
 
 	$testast->clear();
 	return 1;
@@ -34,8 +34,8 @@ sub test_label_goto {
 	$testast->add_base_node('keyword', 'goto', 0, 18);
 	$testast->add_base_node('ident', 'HERE', 0, 20);
 	$testast->add_base_node('op', ';', 0, 21);
-	is(struct_statement::get($testast, $output), 1, 'Testing label;');
-	is(struct_statement::get($testast, $output), 1, 'Testing goto;');
+	is(struct_statement::get($testast, \$output), 1, 'Testing label;');
+	is(struct_statement::get($testast, \$output), 1, 'Testing goto;');
 
 	$testast->clear();
 }
@@ -54,7 +54,7 @@ sub test_switch {
 	$testast->add_base_node('op', '}', 0, 21);
 	$testast->add_base_node('op', ';', 0, 21);
 
-	is(struct_statement::get($testast, $output), 1, 'Testing foreach');
+	is(struct_statement::get($testast, \$output), 1, 'Testing foreach');
 
 	$testast->clear();
 }
@@ -70,7 +70,7 @@ sub test_while {
 	$testast->add_base_node('op', '}', 0, 21);
 	$testast->add_base_node('op', ';', 0, 21);
 
-	is(struct_statement::get($testast, $output), 1, 'Testing foreach');
+	is(struct_statement::get($testast, \$output), 1, 'Testing foreach');
 
 	$testast->clear();
 }
@@ -87,7 +87,7 @@ sub test_dowhile {
 	$testast->add_base_node('op', ')', 0, 21);
 	$testast->add_base_node('op', ';', 0, 21);
 
-	is(struct_statement::get($testast, $output), 1, 'Testing foreach');
+	is(struct_statement::get($testast, \$output), 1, 'Testing foreach');
 
 	$testast->clear();
 }
@@ -103,7 +103,7 @@ sub test_if {
 	$testast->add_base_node('op', '}', 0, 21);
 	$testast->add_base_node('op', ';', 0, 21);
 
-	is(struct_statement::get($testast, $output), 1, 'Testing foreach');
+	is(struct_statement::get($testast, \$output), 1, 'Testing foreach');
 
 	$testast->clear();
 }
@@ -118,7 +118,7 @@ sub test_foreach {
 	$testast->add_base_node('op', '}', 0, 21);
 	$testast->add_base_node('op', ';', 0, 21);
 
-	is(struct_statement::get($testast, $output), 1, 'Testing foreach');
+	is(struct_statement::get($testast, \$output), 1, 'Testing foreach');
 
 	$testast->clear();
 }
@@ -128,7 +128,7 @@ sub test_print {
 	$testast->add_base_node('string', 'Hello Joe', 0, 20);
 	$testast->add_base_node('op', ';', 0, 21);
 
-	is(struct_statement::get($testast, $output), 1, 'Testing print;');
+	is(struct_statement::get($testast, \$output), 1, 'Testing print;');
 
 	$testast->clear();
 }
@@ -138,7 +138,7 @@ sub test_return {
 	$testast->add_base_node('int', '1', 0, 20);
 	$testast->add_base_node('op', ';', 0, 21);
 
-	is(struct_statement::get($testast, $output), 1, 'Testing return;');
+	is(struct_statement::get($testast, \$output), 1, 'Testing return;');
 
 	$testast->clear();
 }
@@ -148,7 +148,7 @@ sub test_exit {
 	$testast->add_base_node('int', '1', 0, 20);
 	$testast->add_base_node('op', ';', 0, 21);
 
-	is(struct_statement::get($testast, $output), 1, 'Testing exit;');
+	is(struct_statement::get($testast, \$output), 1, 'Testing exit;');
 
 	$testast->clear();
 }

@@ -20,9 +20,9 @@ sub test_var {
 	$testast->add_base_node('op', '+', 0, 20);
 
 	is(struct_ident::start($testast), 1, 'Testing start of varable reference');
-	is(struct_ident::get($testast, $output), 1, 'Testing get simple var');
+	is(struct_ident::get($testast, \$output), 1, 'Testing get simple var');
 	is(struct_ident::start($testast), 0, 'Testing invalid start of varable reference');
-	is(struct_ident::get($testast, $output), 0, 'Testing get simple var on invalid input');
+	is(struct_ident::get($testast, \$output), 0, 'Testing get simple var on invalid input');
 
 	$testast->clear();
 	return 1;
@@ -35,7 +35,7 @@ sub test_array {
 	$testast->add_base_node('op', ']', 0, 35);
 	$testast->add_base_node('op', ';', 0, 36);
 
-	is(struct_ident::get($testast, $output), 1, 'Testing get an reference to an array');
+	is(struct_ident::get($testast, \$output), 1, 'Testing get an reference to an array');
 
 	$testast->clear();
 	return 1;
@@ -48,7 +48,7 @@ sub test_hash {
 	$testast->add_base_node('op', ']', 0, 48);
 	$testast->add_base_node('op', ';', 0, 49);
 
-	is(struct_ident::get($testast, $output), 1, 'Testing get a reference to a hash');
+	is(struct_ident::get($testast, \$output), 1, 'Testing get a reference to a hash');
 
 	$testast->clear();
 	return 1;
@@ -60,7 +60,7 @@ sub test_function_no_args {
 	$testast->add_base_node('op', ')', 0, 60);
 	$testast->add_base_node('op', ';', 0, 61);
 
-	is(struct_ident::get($testast, $output), 1, 'Testing functioncall with no args;');
+	is(struct_ident::get($testast, \$output), 1, 'Testing functioncall with no args;');
 
 	$testast->clear();
 	return 1;
@@ -75,7 +75,7 @@ sub test_function_multi_args {
 	$testast->add_base_node('op', ')', 0, 75);
 	$testast->add_base_node('op', ';', 0, 76);
 
-	is(struct_ident::get($testast, $output), 1, 'Testing function call with multiple args;');
+	is(struct_ident::get($testast, \$output), 1, 'Testing function call with multiple args;');
 
 	$testast->clear();
 	return 1;

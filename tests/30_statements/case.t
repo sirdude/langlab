@@ -24,7 +24,7 @@ sub test_case {
 	$testast->add_base_node('op', ';', 0, 22);
 
 	is(struct_case::start($testast), 1, 'Testing start of case statement.');
-	is(struct_case::get($testast, $output), 1, 'Testing case x {};');
+	is(struct_case::get($testast, \$output), 1, 'Testing case x {};');
 	is(struct_case::start($testast), 0, 'Testing start of case with ;.');
 
 	$testast->clear();

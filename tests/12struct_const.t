@@ -19,9 +19,9 @@ sub test_int {
 	$testast->add_base_node('op', ';', 0, 19);
 
 	is(struct_const::start($testast), 1, 'Testing start of int');
-	is(struct_const::get($testast, $output), 1, 'Testing get int');
+	is(struct_const::get($testast, \$output), 1, 'Testing get int');
 	is(struct_const::start($testast), 0, 'Testing invalid start of const');
-	is(struct_const::get($testast, $output), 0, 'Testing get const on invalid input');
+	is(struct_const::get($testast, \$output), 0, 'Testing get const on invalid input');
 
 	$testast->clear();
 	return 1;
@@ -32,7 +32,7 @@ sub test_float {
 	$testast->add_base_node('op', ';', 0, 32);
 
 	is(struct_const::start($testast), 1, 'Testing start of float');
-	is(struct_const::get($testast, $output), 1, 'Testing get float');
+	is(struct_const::get($testast, \$output), 1, 'Testing get float');
 
 	$testast->clear();
 	return 1;
@@ -43,7 +43,7 @@ sub test_html {
 	$testast->add_base_node('op', ';', 0, 43);
 
 	is(struct_const::start($testast), 1, 'Testing start of html');
-	is(struct_const::get($testast, $output), 1, 'Testing get html');
+	is(struct_const::get($testast, \$output), 1, 'Testing get html');
 
 	$testast->clear();
 	return 1;
@@ -54,7 +54,7 @@ sub test_hex {
 	$testast->add_base_node('op', ';', 0, 54);
 
 	is(struct_const::start($testast), 1, 'Testing start of hex');
-	is(struct_const::get($testast, $output), 1, 'Testing get hex');
+	is(struct_const::get($testast, \$output), 1, 'Testing get hex');
 
 	$testast->clear();
 	return 1;
@@ -65,7 +65,7 @@ sub test_string {
 	$testast->add_base_node('op', ';', 0, 65);
 
 	is(struct_const::start($testast), 1, 'Testing start of string');
-	is(struct_const::get($testast, $output), 1, 'Testing get string');
+	is(struct_const::get($testast, \$output), 1, 'Testing get string');
 
 	$testast->clear();
 	return 1;

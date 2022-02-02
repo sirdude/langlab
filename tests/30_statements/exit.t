@@ -21,9 +21,9 @@ sub test_exit_no_arg {
 	$testast->add_base_node('op', ';', 0, 21);
 
 	is(struct_exit::start($testast), 1, 'Testing start exit');
-	is(struct_exit::get($testast, $output), 1, 'Testing get exit');
+	is(struct_exit::get($testast, \$output), 1, 'Testing get exit');
 	is(struct_exit::start($testast), 0, 'Testing invalid start of exit.');
-	is(struct_exit::get($testast, $output), 0, 'Testing get exit invalid;');
+	is(struct_exit::get($testast, \$output), 0, 'Testing get exit invalid;');
 
 	$testast->clear();
 	return 1;
@@ -34,7 +34,7 @@ sub test_exit_int {
 	$testast->add_base_node('int', '1', 0, 34);
 	$testast->add_base_node('op', ';', 0, 35);
 
-	is(struct_exit::get($testast, $output), 1, 'Testing get exit 5;');
+	is(struct_exit::get($testast, \$output), 1, 'Testing get exit 5;');
 
 	$testast->clear();
 	return 1;

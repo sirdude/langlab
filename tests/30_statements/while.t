@@ -25,7 +25,7 @@ sub test_simple_while {
 	$testast->add_base_node('op', '}', 0, 25);
 
 	is(struct_while::start($testast), 1, 'Testing start of while statement.');
-	is(struct_while::get($testast, $output), 1, 'Testing while (1) {};');
+	is(struct_while::get($testast, \$output), 1, 'Testing while (1) {};');
 
 	$testast->clear();
 	return 1;
