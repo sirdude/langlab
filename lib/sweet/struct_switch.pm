@@ -59,7 +59,7 @@ sub get {
 			$ast->pop_scope();
 			return 0;
 		}
-		$node->{'data'}{'default'} = $tmp;
+		$node->{'default'} = $tmp;
 	}
 
 	if (!$ast->match('}')) {
