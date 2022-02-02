@@ -33,6 +33,7 @@ sub get {
 
 	$tmp = $ast->consume('switch');
 	$node = {};
+    $node->{'data'} = {};
 	$node->{'type'} = 'switch';
 
 	if (!struct_expression::get($ast, \$tmp)) {
