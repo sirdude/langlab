@@ -54,7 +54,7 @@ sub test_switch {
 	$testast->add_base_node('op', '}', 0, 21);
 	$testast->add_base_node('op', ';', 0, 21);
 
-	is(struct_statement::get($testast, \$output), 1, 'Testing foreach');
+	is(struct_statement::get($testast, \$output), 1, 'Testing switch');
 
 	$testast->clear();
 }
@@ -70,7 +70,7 @@ sub test_while {
 	$testast->add_base_node('op', '}', 0, 21);
 	$testast->add_base_node('op', ';', 0, 21);
 
-	is(struct_statement::get($testast, \$output), 1, 'Testing foreach');
+	is(struct_statement::get($testast, \$output), 1, 'Testing while');
 
 	$testast->clear();
 }
@@ -87,7 +87,7 @@ sub test_dowhile {
 	$testast->add_base_node('op', ')', 0, 21);
 	$testast->add_base_node('op', ';', 0, 21);
 
-	is(struct_statement::get($testast, \$output), 1, 'Testing foreach');
+	is(struct_statement::get($testast, \$output), 1, 'Testing do while');
 
 	$testast->clear();
 }
@@ -103,7 +103,7 @@ sub test_if {
 	$testast->add_base_node('op', '}', 0, 21);
 	$testast->add_base_node('op', ';', 0, 21);
 
-	is(struct_statement::get($testast, \$output), 1, 'Testing foreach');
+	is(struct_statement::get($testast, \$output), 1, 'Testing if');
 
 	$testast->clear();
 }
@@ -128,7 +128,7 @@ sub test_print {
 	$testast->add_base_node('string', 'Hello Joe', 0, 20);
 	$testast->add_base_node('op', ';', 0, 21);
 
-	is(struct_statement::get($testast, \$output), 1, 'Testing print;');
+	is(struct_statement::get($testast, \$output), 1, 'Testing print');
 
 	$testast->clear();
 }
@@ -138,7 +138,7 @@ sub test_return {
 	$testast->add_base_node('int', '1', 0, 20);
 	$testast->add_base_node('op', ';', 0, 21);
 
-	is(struct_statement::get($testast, \$output), 1, 'Testing return;');
+	is(struct_statement::get($testast, \$output), 1, 'Testing return 1;');
 
 	$testast->clear();
 }
@@ -148,7 +148,7 @@ sub test_exit {
 	$testast->add_base_node('int', '1', 0, 20);
 	$testast->add_base_node('op', ';', 0, 21);
 
-	is(struct_statement::get($testast, \$output), 1, 'Testing exit;');
+	is(struct_statement::get($testast, \$output), 1, 'Testing exit 1;');
 
 	$testast->clear();
 }
