@@ -38,7 +38,8 @@ sub get {
 		return 1;
 	}
 
-	if (!struct_expression::get($ast, \$tmp)) {
+	$tmp = {};
+	if (!struct_expression::get($ast, \%{$tmp})) {
 		$ast->error('Expected expression');
 		$ast->pop_scope();
 		return 0;

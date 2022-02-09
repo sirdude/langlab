@@ -13,8 +13,9 @@ use lib "../../lib/sweet";
 use ast;
 use tests;
 use struct_label;
+use Data::Dumper;
 
-my ($testast, $output);
+my ($testast, $output, %teststr);
 
 sub test_label {
 	$testast->add_base_node('keyword', 'label', 0, 20);
@@ -23,6 +24,9 @@ sub test_label {
 
 	is(struct_label::start($testast), 1, 'Testing start of label statement.');
 	is(struct_label::get($testast, \$output), 1, 'Testing label x;');
+	print Dumper(\%{$output});
+	# %teststr = {};
+	is(%teststr, \%{$output}, 1, 'Testing output node of get label x.');
 	is(struct_label::start($testast), 0, 'Testing start of label with ;.');
 
 	$testast->clear();

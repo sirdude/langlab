@@ -13,18 +13,22 @@ use lib "../../lib/sweet";
 use ast;
 use tests;
 use struct_return;
+# use Data::Dumper;
 
-my ($testast, $output);
+my ($testast, $output, %teststr);
 
 sub test_return {
 	$testast->add_base_node('keyword', 'return', 0, 20);
 	$testast->add_base_node('int', '1', 0, 21);
 	$testast->add_base_node('op', ';', 0, 22);
 
-	is(struct_return::start($testast), 1, 'Testing start exit');
-	is(struct_return::get($testast, \$output), 1, 'Testing get exit');
-	is(struct_return::start($testast), 0, 'Testing invalid start of exit.');
-	is(struct_return::get($testast, \$output), 0, 'Testing get exit invalid;');
+	is(struct_return::start($testast), 1, 'Testing start return');
+	is(struct_return::get($testast, \%{$output}), 1, 'Testing get return');
+	# print Dumper(\%{$output});
+	%teststr = { 'type'=> 'return', 'data'=> {}};
+	is(%teststr, \%{$output}, 1, 'Testing output node of get return');
+	is(struct_return::start($testast), 0, 'Testing invalid start of return.');
+	is(struct_return::get($testast, \$output), 0, 'Testing get return invalid;');
 
 	$testast->clear();
 	return 1;

@@ -17,7 +17,7 @@ sub start {
 
 sub get {
 	my ($ast, $node) = @_;
-	my $tmp;
+	my ($tmp, %node);
 	my $return = 0;
 
 	$ast->push_scope();
@@ -34,6 +34,7 @@ sub get {
 
 	if ($ast->match_type('ident')) {
 		$node->{'data'} = $ast->consume();;
+
 		$ast->pop_scope();
 		return 1;
 	}
