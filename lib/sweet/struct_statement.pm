@@ -110,7 +110,7 @@ sub get {
 		foreach my $i (@mods) {
 			if ($actions{$i . '::start'}->($ast)) {
 				$ast->debug('Looking at ' . $i . '::get');
-				if (!$actions{$i . '::get'}->($ast, \$tmp)) {
+				if (!$actions{$i . '::get'}->($ast, \%{$tmp})) {
 					$ast->error("Expected $i");
 					$ast->pop_scope();
 					return 0;

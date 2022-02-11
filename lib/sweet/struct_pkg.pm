@@ -38,7 +38,8 @@ sub get {
 		$tmp = $ast->consume();
 	}
 
-	if (!struct_expression::get($ast, \$tmp)) {
+	$tmp = {};
+	if (!struct_expression::get($ast, \%{$tmp})) {
 		$ast->error('Expected string expression');
 		$ast->pop_scope();
 		return 0;

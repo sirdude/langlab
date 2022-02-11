@@ -67,14 +67,14 @@ sub get {
 
 		$tmp = ();
 
-		if (!struct_fundef_params::get($ast, \$tmp)) {
+		if (!struct_fundef_params::get($ast, \%{$tmp})) {
 			$ast->error('Expected function definition params');
 			$ast->pop_scope();
 			return 0;
 		}
 		$node->{'fundef_params'} = $tmp;
 
-		if (!struct_block::get($ast, \$tmp)) {
+		if (!struct_block::get($ast, \%{$tmp})) {
 			$ast->error('Expected block');
 			$ast->pop_scope();
 			return 0;
@@ -87,7 +87,7 @@ sub get {
 		$node->{'type'} = 'var_def';
 		if ($ast->match('=')) {
 			$ast->consume('=');
-			if (!struct_expression::get($ast, \$tmp)) {
+			if (!struct_expression::get($ast, \%{$tmp})) {
 				$ast->error('Expected expression');
 				$ast->pop_scope();
 				return 0;
@@ -141,7 +141,7 @@ sub get_var_only {
 	$node->{'type'} = 'var_def';
 	if ($ast->match('=')) {
 		$ast->consume('=');
-		if (!struct_expression::get($ast, \$tmp)) {
+		if (!struct_expression::get($ast, \%{$tmp})) {
 			$ast->error('Expected expression');
 			$ast->pop_scope();
 			return 0;

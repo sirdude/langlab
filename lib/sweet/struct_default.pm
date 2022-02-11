@@ -34,7 +34,8 @@ sub get {
 	$node->{'type'} = 'case';
 	$node->{'case'} = 'default';
 
-	if (!struct_block::get($ast, \$tmp)) {
+	$tmp = {};
+	if (!struct_block::get($ast, \%{$tmp})) {
 		$ast->error('Expected :');
 		$ast->pop_scope();
 		return 0;

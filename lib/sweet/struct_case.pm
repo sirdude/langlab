@@ -35,6 +35,7 @@ sub get {
 	$node = {};
 	$node->{'type'} = 'case';
 
+	$tmp = {};
 	if ($ast->match_type('ident')) {
 		if (!struct_ident::get($ast, \%{$tmp})) {
 			$ast->error('Case expected constant or variable');
@@ -48,6 +49,7 @@ sub get {
 	}
 	$node->{'value'} = $tmp;
 
+	$tmp = {};
 	if (!struct_block::get($ast, \%{$tmp})) {
 		$ast->error('Expected :');
 		$ast->pop_scope();
