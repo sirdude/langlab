@@ -2,6 +2,7 @@
 
 use strict;
 use warnings;
+use Data::Dumper;
 
 use lib "./lib";
 use lib "./lib/sweet";
@@ -13,7 +14,6 @@ use lib "../../lib/sweet";
 use ast;
 use tests;
 use struct_label;
-use Data::Dumper;
 
 my ($testast, $output, %teststr);
 

@@ -2,6 +2,7 @@
 
 use strict;
 use warnings;
+use Data::Dumper;
 
 use lib "./lib";
 use lib "./lib/sweet";
@@ -14,7 +15,7 @@ use ast;
 use tests;
 use struct_goto;
 
-my ($testast, $output);
+my ($testast, $output, $teststr);
 
 sub test_goto {
 	$testast->add_base_node('keyword', 'goto', 0, 20);
@@ -22,7 +23,9 @@ sub test_goto {
 	$testast->add_base_node('op', ';', 0, 22);
 
 	is(struct_goto::start($testast), 1, 'Testing start goto');
-	is(struct_goto::get($testast, \$output), 1, 'Testing get goto');
+	is(struct_goto::get($testast, \%{$output}), 1, 'Testing get goto');
+	print Dumper(\%{$output});
+	is($output, $teststr, 1, 'Testing output of get goto');
 	is(struct_goto::start($testast), 0, 'Testing invalid start of goto.');
 	is(struct_goto::get($testast, \$output), 0, 'Testing get goto invalid;');
 

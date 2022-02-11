@@ -8,6 +8,8 @@ use struct_block;
 use struct_case;
 use struct_default;
 
+use Data::Dumper;
+
 sub start {
 	my ($ast) = @_;
 
@@ -36,7 +38,7 @@ sub get {
     $node->{'data'} = {};
 	$node->{'type'} = 'switch';
 
-	if (!struct_expression::get($ast, \$tmp)) {
+	if (!struct_expression::get($ast, \%{$tmp})) {
 		$ast->error('Expected expression');
 		$ast->pop_scope();
 		return 0;
@@ -50,12 +52,12 @@ sub get {
 	}
 	$ast->consume('{');
 
-	while (struct_case::get($ast, \$tmp)) {
+	while (struct_case::get($ast, \%{$tmp})) {
 		my $hhh = $tmp->{'value'};
 		$node->{'data'}{$hhh} = $tmp;
 	}
 	if (struct_default::start($ast)) {
-		if (!struct_default::get($ast, \$tmp)) {
+		if (!struct_default::get($ast, \%{$tmp})) {
 			$ast->error("error in get default");
 			$ast->pop_scope();
 			return 0;

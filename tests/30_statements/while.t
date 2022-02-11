@@ -2,6 +2,7 @@
 
 use strict;
 use warnings;
+use Data::Dumper;
 
 use lib "./lib";
 use lib "./lib/sweet";
@@ -14,7 +15,7 @@ use ast;
 use tests;
 use struct_while;
 
-my ($testast, $output);
+my ($testast, $output, $teststr);
 
 sub test_simple_while {
 	$testast->add_base_node('keyword', 'while', 0, 20);
@@ -25,7 +26,10 @@ sub test_simple_while {
 	$testast->add_base_node('op', '}', 0, 25);
 
 	is(struct_while::start($testast), 1, 'Testing start of while statement.');
-	is(struct_while::get($testast, \$output), 1, 'Testing while (1) {};');
+	is(struct_while::get($testast, \%{$output}), 1, 'Testing while (1) {};');
+	print Dumper(\%{$output});
+#XXX Need to set teststr
+	is($output, $teststr, 1, 'Test output of while (1) {}');
 
 	$testast->clear();
 	return 1;
