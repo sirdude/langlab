@@ -39,7 +39,7 @@ sub get {
 
 	while (!$ast->match('}') && !$done) {
 	    $tmp = ();
-		if (struct_statement::get($ast, \@{$tmp})) {
+		if (struct_statement::get($ast, \%{$tmp})) {
 			push(@{$node->{'data'}}, $tmp);
 		} else {
 			$done = 1;

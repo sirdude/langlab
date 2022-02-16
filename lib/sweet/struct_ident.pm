@@ -35,7 +35,7 @@ sub get {
 	if ($ast->match('(')) {
 		$node->{'type'} = 'function_call';
 		$tmp = {};
-		if (!struct_exp_list::get($ast, \@{$tmp})) {
+		if (!struct_exp_list::get($ast, \%{$tmp})) {
 			$ast->error('Invalid function param');
 			$ast->pop_scope();
 			return 0;

@@ -26,6 +26,7 @@ sub get {
 	$ast->push_scope();
 	$ast->debug('struct_exp_list::get');
 
+	$node->{'type'} = 'exp_list';
 	if (!start($ast)) {
 		$ast->pop_scope();
 		return 0;
@@ -51,7 +52,7 @@ sub get {
 		}
 		$tnode->{'data'} = $tmp;
 		$tnode->{'type'} = 'expression';
-		push(@{$node}, $tnode);
+		push(@{$node->{'data'}}, $tnode);
 
 		if (!$ast->match(',')) {
 			$done = 1;

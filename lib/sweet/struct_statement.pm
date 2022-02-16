@@ -102,6 +102,7 @@ sub get {
 	$ast->push_scope();
 	$ast->debug('struct_statement::get');
 
+	$node->{'type'} = 'statement';
 	# Assume we return 1 unless we run into an error.
 	while (!$done) {
 		$done = 1;
@@ -114,7 +115,7 @@ sub get {
 					return 0;
 				}
 
-				push(@{$node}, $tmp);
+				push(@{$node->{'data'}}, $tmp);
 
 				if (!no_semi($i)) {
 					if (!$ast->match(';')) {
