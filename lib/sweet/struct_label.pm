@@ -17,7 +17,7 @@ sub start {
 
 sub get {
 	my ($ast, $node) = @_;
-	my ($tmp, %node);
+	my ($tmp);
 	my $return = 0;
 
 	$ast->push_scope();
@@ -29,7 +29,6 @@ sub get {
 	}
 
 	$tmp = $ast->consume('label');
-	$node = {};
 	$node->{'type'} = 'label';
 
 	if ($ast->match_type('ident')) {

@@ -30,7 +30,6 @@ sub get {
 	}
 
 	$tmp = $ast->consume('if');
-	$node = {};
 	$node->{'type'} = 'if';
 
 	$tmp = $ast->consume('(');

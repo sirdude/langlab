@@ -29,7 +29,6 @@ sub get {
 		return 0;
 	}
 
-	$node = {};
 	$tmp = $ast->consume();
 	if (!$ast->match("lib")) {
 		$node->{'type'} = 'use';

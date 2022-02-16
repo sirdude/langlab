@@ -29,7 +29,6 @@ sub get {
 	}
 
 	$tmp = $ast->consume('(');
-	$node = {};
 	$node->{'type'} = 'expression';
 
 	if (struct_expression::start($ast)) {

@@ -2,6 +2,7 @@ package struct_return;
 
 use strict;
 use warnings;
+use Data::Dumper;
 
 use struct_expression;
 
@@ -29,7 +30,6 @@ sub get {
 	}
 
 	$tmp = $ast->consume('return');
-	$node = {};
 	$node->{'type'} = 'return';
 
 	if ($ast->match(';')) {
@@ -46,6 +46,7 @@ sub get {
 	}
 	$node->{'data'} = $tmp;
 
+print Dumper(\%{$node});
 	$ast->pop_scope();
 	return 1;
 }

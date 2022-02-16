@@ -29,7 +29,6 @@ sub get {
 	}
 
 	$tmp = $ast->consume('exit');
-	$node = {};
 	$node->{'type'} = 'exit';
 
 	if ($ast->match(';')) {

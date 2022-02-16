@@ -27,7 +27,7 @@ sub test_simple_foreach {
 	$testast->add_base_node('op', ';', 0, 27);
 
 	is(struct_foreach::start($testast), 1, 'Testing start of foreach statement.');
-	is(struct_foreach::get($testast, \$output), 1, 'Testing foreach x (1) {};');
+	is(struct_foreach::get($testast, \%{$output}), 1, 'Testing foreach x (1) {};');
 	is(struct_foreach::start($testast), 0, 'Testing start of foreach with ;.');
 
 	$testast->clear();

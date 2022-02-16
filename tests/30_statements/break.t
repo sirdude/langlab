@@ -2,6 +2,7 @@
 
 use strict;
 use warnings;
+use Data::Dumper;
 
 use lib "./lib";
 use lib "./lib/sweet";
@@ -21,9 +22,11 @@ sub test_break {
 	$testast->add_base_node('op', ';', 0, 19);
 
 	is(struct_break::start($testast), 1, 'Testing start break');
-	is(struct_break::get($testast, \$output), 1, 'Testing get break');
+	is(struct_break::get($testast, \%{$output}), 1, 'Testing get break');
+	print Dumper(\%{$output});
+
 	is(struct_break::start($testast), 0, 'Testing invalid start of break.');
-	is(struct_break::get($testast, \$output), 0, 'Testing get break invalid;');
+	is(struct_break::get($testast, \%{$output}), 0, 'Testing get break invalid;');
 
 	$testast->clear();
 	return 1;
@@ -34,7 +37,7 @@ sub test_breaker {
 	$testast->add_base_node('op', ';', 0, 34);
 
 	is(struct_break::start($testast), 0, "Testing invalid start of break 'breaker'.");
-	is(struct_break::get($testast, \$output), 0, 'Testing get break invalid;');
+	is(struct_break::get($testast, \%{$output}), 0, 'Testing get break invalid;');
 
 	$testast->clear();
 	return 1;

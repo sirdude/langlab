@@ -22,7 +22,7 @@ sub test_const_expression {
 	$testast->add_base_node('op', ';', 0, 22);
 
 	is(struct_expression::start($testast), 1, 'Testing start of constant expression 1.');
-	is(struct_expression::get($testast, \$output), 1, 'Testing expression: 1;');
+	is(struct_expression::get($testast, \%{$output}), 1, 'Testing expression: 1;');
 
 	$testast->clear();
 	return 1;
@@ -35,7 +35,7 @@ sub test_binops {
 		$testast->add_base_node('int', '5', 0, 35);
 		$testast->add_base_node('op', ';', 0, 36);
 
-		is(struct_expression::get($testast, \$output), 1, 'Testing expression binop: ' . $i );
+		is(struct_expression::get($testast, \%{$output}), 1, 'Testing expression binop: ' . $i );
 
 		$testast->clear();
 	}
@@ -48,7 +48,7 @@ sub test_unops {
 		$testast->add_base_node('int', '5', 0, 48);
 		$testast->add_base_node('op', ';', 0, 49);
 
-		is(struct_expression::get($testast, \$output), 1, 'Testing expression unop: ' . $i );
+		is(struct_expression::get($testast, \%{$output}), 1, 'Testing expression unop: ' . $i );
 
 		$testast->clear();
 	}
@@ -61,7 +61,7 @@ sub test_assignment {
 	$testast->add_base_node('int', '5', 0, 61);
 	$testast->add_base_node('op', ';', 0, 62);
 
-	is(struct_expression::get($testast, \$output), 1, 'Testing expression "x=5"');
+	is(struct_expression::get($testast, \%{$output}), 1, 'Testing expression "x=5"');
 
 	$testast->clear();
 
@@ -75,7 +75,7 @@ sub test_var_equals {
 	$testast->add_base_node('op', ';', 0, 75);
 
 	is(struct_expression::start($testast), 1, 'Testing start of expression x==5.');
-	is(struct_expression::get($testast, \$output), 1, 'Testing expression x==5.');
+	is(struct_expression::get($testast, \%{$output}), 1, 'Testing expression x==5.');
 
 	$testast->clear();
 	return 1;

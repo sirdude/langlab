@@ -26,9 +26,9 @@ sub test_simple_if {
 	$testast->add_base_node('op', ';', 0, 26);
 
 	is(struct_if::start($testast), 1, 'Testing start of if statement.');
-	is(struct_if::get($testast, \$output), 1, 'Testing if (1) {};');
+	is(struct_if::get($testast, \%{$output}), 1, 'Testing if (1) {};');
 	is(struct_if::start($testast), 0, 'Testing start of if statement with ;.');
-	is(struct_if::get($testast, \$output), 0, 'Testing get on invalid if');
+	is(struct_if::get($testast, \%{$output}), 0, 'Testing get on invalid if');
 
 	$testast->clear();
 	return 1;
@@ -46,7 +46,7 @@ sub test_if_else() {
 	$testast->add_base_node('op', '}', 0, 46);
 	$testast->add_base_node('op', ';', 0, 47);
 
-	is(struct_if::get($testast, \$output), 1, 'Testing if else');
+	is(struct_if::get($testast, \%{$output}), 1, 'Testing if else');
 
 	$testast->clear();
 	return 1;
@@ -63,7 +63,7 @@ sub test_if_else_noblock() {
 	$testast->add_base_node('ident', 'x', 0, 63);
 	$testast->add_base_node('op', ';', 0, 64);
 
-	is(struct_if::get($testast, \$output), 0, 'Testing if else noblock');
+	is(struct_if::get($testast, \%{$output}), 0, 'Testing if else noblock');
 
 	$testast->clear();
 	return 1;

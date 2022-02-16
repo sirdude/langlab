@@ -25,10 +25,10 @@ sub test_print_string {
 
 	is(struct_print::start($testast), 1, 'Testing start of print.');
 	is(struct_print::get($testast, \%{$output}), 1, 'Testing simple print string;');
-	print Dumper(%{$output});
+	print Dumper(\%{$output});
 	is($output, $teststr, 1, 'Testing output of simple print string;');
 	is(struct_print::start($testast), 0, 'Testing invalid start of print.');
-	is(struct_print::get($testast, \$output), 0, 'Testing get string invalid;');
+	is(struct_print::get($testast, \%{$output}), 0, 'Testing get string invalid;');
 
 	$testast->clear();
 	return 1;

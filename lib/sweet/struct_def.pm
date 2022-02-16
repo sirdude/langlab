@@ -42,7 +42,6 @@ sub get {
 		push(@tmods, $tmp);
 	}
 
-	$node = {};
 	$node->{'typemods'} = @tmods;
 
 	if (!struct_types::is_type($ast)) {
@@ -118,7 +117,6 @@ sub get_var_only {
 		push(@tmods, $tmp);
 	}
 
-	$node = {};
 	$node->{'typemods'} = @tmods;
 	$tmp = $ast->consume();
 

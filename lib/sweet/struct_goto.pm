@@ -28,7 +28,6 @@ sub get {
 	}
 
 	$tmp = $ast->consume('goto');
-	$node = {};
 	$node->{'type'} = 'goto';
 
 	if ($ast->match(';')) {

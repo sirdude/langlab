@@ -30,7 +30,6 @@ sub get {
 		return 0;
 	}
 
-	$node = {};
 	$node->{'type'} = 'block';
 	$node->{'columnnum'} = $p;
 	$node->{'linenum'} = $l;
@@ -39,8 +38,8 @@ sub get {
 	$tmp = $ast->consume('{');
 
 	while (!$ast->match('}') && !$done) {
-	    $tmp = {};
-		if (struct_statement::get($ast, \%{$tmp})) {
+	    $tmp = ();
+		if (struct_statement::get($ast, \@{$tmp})) {
 			push(@{$node->{'data'}}, $tmp);
 		} else {
 			$done = 1;

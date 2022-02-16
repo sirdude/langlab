@@ -35,7 +35,6 @@ sub get {
 	if ($ast->match(')')) { # Empty params list... 
 		$tmp = $ast->consume(); # Get rid of the trailing )
 
-		$node = ();
 		$ast->pop_scope();
 		return 1;
 	}
@@ -61,7 +60,7 @@ sub get {
 		$tmp = $ast->consume();
 		$tnode->{'data'} = $tmp;
 
-		push(@params, $tnode);
+		push(@{$node}, $tnode);
 
 		if (!$ast->match(',')) {
 			$done = 1;
@@ -77,7 +76,6 @@ sub get {
 	}
 	$tmp = $ast->consume(); # Get rid of the trailing )
 
-	$node = @params;
 	$ast->pop_scope();
 
 	return 1;

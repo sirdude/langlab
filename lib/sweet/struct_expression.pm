@@ -54,9 +54,8 @@ sub start {
 }
 
 sub get {
-	my ($ast, $output) = @_;
+	my ($ast, $node) = @_;
 	my $tmp;
-	my $node = {};
 
 	$ast->push_scope();
 	$ast->debug('struct_expression::get');
@@ -141,7 +140,6 @@ sub get {
 		return 0;
 	}
 
-	$output = $node;
 	$ast->pop_scope();
 
 	return 1;

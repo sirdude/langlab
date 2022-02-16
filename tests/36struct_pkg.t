@@ -21,9 +21,9 @@ sub test_use_pkg {
 	$testast->add_base_node('op', 'a', 0, 21);
 
 	is(struct_pkg::start($testast), 1, 'Testing start of use.');
-	is(struct_pkg::get($testast, \$output), 1, 'Testing use options;');
+	is(struct_pkg::get($testast, \%{$output}), 1, 'Testing use options;');
 	is(struct_pkg::start($testast), 0, 'Testing start of use on a');
-	is(struct_pkg::get($testast, \$output), 0, 'Testing get use with invalid stuff.');
+	is(struct_pkg::get($testast, \%{$output}), 0, 'Testing get use with invalid stuff.');
 
 	$testast->clear();
 	return 1;
@@ -36,9 +36,9 @@ sub test_use_lib {
 	$testast->add_base_node('op', ';', 0, 36);
 	$testast->add_base_node('op', 'a', 0, 27);
 
-	is(struct_pkg::get($testast, \$output), 1, 'Testing use lib "./";.');
+	is(struct_pkg::get($testast, \%{$output}), 1, 'Testing use lib "./";.');
 	is(struct_pkg::start($testast), 0, 'Testing start of use on a');
-	is(struct_pkg::get($testast, \$output), 0, 'Testing get use with invalid stuff.');
+	is(struct_pkg::get($testast, \%{$output}), 0, 'Testing get use with invalid stuff.');
 
 	$testast->clear();
 	return 1;

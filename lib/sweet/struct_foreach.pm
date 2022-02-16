@@ -30,7 +30,6 @@ sub get {
 	}
 
 	$tmp = $ast->consume('foreach');
-	$node = {};
 	$node->{'type'} = 'foreach';
 
 	if (!$ast->match_type('ident')) {

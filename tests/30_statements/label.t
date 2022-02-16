@@ -23,7 +23,7 @@ sub test_label {
 	$testast->add_base_node('op', ';', 0, 22);
 
 	is(struct_label::start($testast), 1, 'Testing start of label statement.');
-	is(struct_label::get($testast, \$output), 1, 'Testing label x;');
+	is(struct_label::get($testast, \%{$output}), 1, 'Testing label x;');
 	print Dumper(\%{$output});
 	# %teststr = {};
 	is(%teststr, \%{$output}, 1, 'Testing output node of get label x.');

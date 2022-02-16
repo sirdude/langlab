@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-# use Data::Dumper;
+use Data::Dumper;
 
 use lib "./lib";
 use lib "./lib/sweet";
@@ -24,11 +24,12 @@ sub test_return {
 
 	is(struct_return::start($testast), 1, 'Testing start return');
 	is(struct_return::get($testast, \%{$output}), 1, 'Testing get return');
-	# print Dumper(\%{$output});
+	print "Woo\n";
+	print Dumper(\%{$output});
 	%teststr = { 'type'=> 'return', 'data'=> {}};
 	is(%teststr, \%{$output}, 1, 'Testing output node of get return');
 	is(struct_return::start($testast), 0, 'Testing invalid start of return.');
-	is(struct_return::get($testast, \$output), 0, 'Testing get return invalid;');
+	is(struct_return::get($testast, \%{$output}), 0, 'Testing get return invalid;');
 
 	$testast->clear();
 	return 1;
@@ -36,7 +37,6 @@ sub test_return {
 
 sub main {
 	$testast = ast->new();
-	$output = ast->new();
 #	$testast->set_debug(1);
 	init_tests();
 	test_return();

@@ -30,7 +30,6 @@ sub get {
 	}
 
 	$tmp = $ast->consume('do');
-	$node = {};
 	$node->{'type'} = 'do_while';
 
 	$tmp = {};

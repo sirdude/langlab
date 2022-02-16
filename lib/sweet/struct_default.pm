@@ -30,7 +30,6 @@ sub get {
 	}
 
 	$tmp = $ast->consume('default');
-	$node = {};
 	$node->{'type'} = 'case';
 	$node->{'case'} = 'default';
 

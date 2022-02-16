@@ -20,9 +20,9 @@ sub test_no_params {
 	$testast->add_base_node('op', ';', 0, 20);
 
 	is(struct_fundef_params::start($testast), 1, 'Testing start params');
-	is(struct_fundef_params::get($testast, \$output), 1, 'Testing get no params');
+	is(struct_fundef_params::get($testast, \%{$output}), 1, 'Testing get no params');
 	is(struct_fundef_params::start($testast), 0, 'Testing invalid start of params.');
-	is(struct_fundef_params::get($testast, \$output), 0, 'Testing get params invalid;');
+	is(struct_fundef_params::get($testast, \%{$output}), 0, 'Testing get params invalid;');
 
 	$testast->clear();
 	return 1;
@@ -35,7 +35,7 @@ sub test_one_param {
 	$testast->add_base_node('op', ')', 0, 35);
 	$testast->add_base_node('op', ';', 0, 36);
 
-	is(struct_fundef_params::get($testast, \$output), 1, 'Testing get one params');
+	is(struct_fundef_params::get($testast, \%{$output}), 1, 'Testing get one params');
 
 	$testast->clear();
 	return 1;
@@ -51,7 +51,7 @@ sub test_multi_params {
 	$testast->add_base_node('op', ')', 0, 51);
 	$testast->add_base_node('op', ';', 0, 52);
 
-	is(struct_fundef_params::get($testast, \$output), 1, 'Testing get multi params.');
+	is(struct_fundef_params::get($testast, \%{$output}), 1, 'Testing get multi params.');
 
 	$testast->clear();
 	return 1;
@@ -66,7 +66,7 @@ sub test_invalid_multi_params {
 	$testast->add_base_node('op', ')', 0, 66);
 	$testast->add_base_node('op', ';', 0, 67);
 
-	is(struct_fundef_params::get($testast, \$output), 0, 'Testing invalid get multi params.');
+	is(struct_fundef_params::get($testast, \%{$output}), 0, 'Testing invalid get multi params.');
 
 	$testast->clear();
 	return 1;

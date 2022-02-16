@@ -29,7 +29,6 @@ sub get {
 	}
 
 	$tmp = $ast->consume('print');
-	$node = {};
 	$node->{'type'} = 'print';
 
 	$tmp = {};
