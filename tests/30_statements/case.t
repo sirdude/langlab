@@ -15,6 +15,21 @@ use tests;
 use struct_case;
 
 my ($testast, $output);
+my %teststr = {
+	'value' => {
+		'type' => 'var',
+		'data' => 'x' },
+	'type' => 'case',
+	'size' => 0,
+	'data' => {
+		'columnnum' => 0,
+		'linenum' => 20,
+		'data' => undef,
+		'type' => 'block'
+	},
+	'scope' => 0,
+	'current' => 0
+};
 
 sub test_case {
 	$testast->add_base_node('keyword', 'case', 0, 18);
@@ -25,6 +40,8 @@ sub test_case {
 
 	is(struct_case::start($testast), 1, 'Testing start of case statement.');
 	is(struct_case::get($testast, \%{$output}), 1, 'Testing case x {};');
+	is(%teststr, \%{$output}, 1, 'Testing output of get case x {};');
+
 	is(struct_case::start($testast), 0, 'Testing start of case with ;.');
 
 	$testast->clear();
@@ -33,7 +50,6 @@ sub test_case {
 
 sub main {
 	$testast = ast->new();
-	$output = ast->new();
 #	$testast->set_debug(1);
 	init_tests();
 	test_case();

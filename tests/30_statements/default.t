@@ -32,7 +32,6 @@ sub test_default {
 
 sub main {
 	$testast = ast->new();
-	$output = ast->new();
 #	$testast->set_debug(1);
 	init_tests();
 	test_default();

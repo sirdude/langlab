@@ -70,7 +70,6 @@ sub test_invalid_multi_params {
 
 sub main {
 	$testast = ast->new();
-	$output = ast->new();
 #	$testast->set_debug(1);
 	init_tests();
 	test_no_params();

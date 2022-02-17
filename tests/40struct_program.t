@@ -16,7 +16,7 @@ my ($testast, $output);
 
 sub test_empty_program {
 	is(struct_program::start($testast), 1, 'Testing if we have the start of a program.');
-	is(struct_program::get($testast, \$output), 1, 'Testing get program on empty.');
+	is(struct_program::get($testast, \%{$output}), 1, 'Testing get program on empty.');
 
 	return 1;
 }
@@ -32,7 +32,7 @@ sub test_hello_world {
 	$testast->add_base_node('op', ';', 0, 32);
 	$testast->add_base_node('op', '}', 0, 33);
 
-	is(struct_program::get($testast, \$output), 1, 'Testing get hello world.');
+	is(struct_program::get($testast, \%{$output}), 1, 'Testing get hello world.');
 
 	$testast->clear();
 	return 1;
@@ -53,14 +53,13 @@ sub test_pkg {
 	$testast->add_base_node('op', '}', 0, 53);
 
 	is(struct_program::start($testast), 1, 'Testing if we have the start of a program with use.');
-	is(struct_program::get($testast, \$output), 1, 'Testing get pkg program.');
+	is(struct_program::get($testast, \%{$output}), 1, 'Testing get pkg program.');
 	$testast->clear();
 	return 1;
 }
 
 sub main {
 	$testast = ast->new();
-	$output = ast->new();
 #	$testast->set_debug(1);
 	init_tests();
 	test_empty_program();

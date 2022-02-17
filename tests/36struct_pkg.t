@@ -46,7 +46,6 @@ sub test_use_lib {
 
 sub main {
 	$testast = ast->new();
-	$output = ast->new();
 #	$testast->set_debug(1);
 	init_tests();
 	test_use_pkg();

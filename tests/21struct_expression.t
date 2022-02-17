@@ -83,7 +83,6 @@ sub test_var_equals {
 
 sub main {
 	$testast = ast->new();
-	$output = ast->new();
 #	$testast->set_debug(1);
 	init_tests();
 	test_const_expression();

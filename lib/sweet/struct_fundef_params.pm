@@ -31,6 +31,7 @@ sub get {
 		return 0;
 	}
 	$tmp = $ast->consume(); # Get rid of the (
+	$node->{'type'} = 'fundef_params';
 
 	if ($ast->match(')')) { # Empty params list... 
 		$tmp = $ast->consume(); # Get rid of the trailing )
@@ -60,7 +61,7 @@ sub get {
 		$tmp = $ast->consume();
 		$tnode->{'data'} = $tmp;
 
-		push(@{$node}, $tnode);
+		push(@{$node->{'data'}}, $tnode);
 
 		if (!$ast->match(',')) {
 			$done = 1;

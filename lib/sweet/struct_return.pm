@@ -2,7 +2,6 @@ package struct_return;
 
 use strict;
 use warnings;
-use Data::Dumper;
 
 use struct_expression;
 
@@ -46,7 +45,6 @@ sub get {
 	}
 	$node->{'data'} = $tmp;
 
-print Dumper(\%{$node});
 	$ast->pop_scope();
 	return 1;
 }

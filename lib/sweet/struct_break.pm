@@ -2,7 +2,6 @@ package struct_break;
 
 use strict;
 use warnings;
-use Data::Dumper;
 
 use struct_expression;
 
@@ -35,7 +34,6 @@ sub get {
 	if ($ast->match(';')) {
 		$node->{'data'} = 'void';
 		$ast->pop_scope();
-		print Dumper($node);
 		return 1;
 	}
 

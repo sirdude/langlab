@@ -21,9 +21,8 @@ sub start {
 }
 
 sub get {
-	my ($ast, $outast) = @_;
+	my ($ast, $node) = @_;
 	my $tmp;
-	my $node = {};
 
 	$ast->push_scope();
 	$ast->debug('struct_program::get');
@@ -56,7 +55,6 @@ sub get {
 
 	}
 	$node->{'type'} = 'program';
-	$outast->add_node($node);
 
 	$ast->pop_scope();
 	return 1;
