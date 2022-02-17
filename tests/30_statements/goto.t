@@ -15,7 +15,9 @@ use ast;
 use tests;
 use struct_goto;
 
-my ($testast, $output, $teststr);
+my ($testast, $output);
+my %teststr = {
+};
 
 sub test_goto {
 	$testast->add_base_node('keyword', 'goto', 0, 20);
@@ -25,7 +27,9 @@ sub test_goto {
 	is(struct_goto::start($testast), 1, 'Testing start goto');
 	is(struct_goto::get($testast, \%{$output}), 1, 'Testing get goto');
 	print Dumper(\%{$output});
-	is($output, $teststr, 1, 'Testing output of get goto');
+	# is($output, $teststr, 1, 'Testing output of get goto');
+	exit(1);
+
 	is(struct_goto::start($testast), 0, 'Testing invalid start of goto.');
 	is(struct_goto::get($testast, \%{$output}), 0, 'Testing get goto invalid;');
 

@@ -15,6 +15,16 @@ use tests;
 use struct_default;
 
 my ($testast, $output);
+my %teststr = {
+	'data' => {
+		'data' => undef,
+		'columnnum' => 0,
+		'type' => 'block',
+		'linenum' => 21
+	},
+	'case' => 'default',
+	'type' => 'case'
+};
 
 sub test_default {
 	$testast->add_base_node('keyword', 'default', 0, 20);
@@ -22,9 +32,11 @@ sub test_default {
 	$testast->add_base_node('op', '}', 0, 22);
 	$testast->add_base_node('op', ';', 0, 23);
 
-	is(struct_default::start($testast), 1, 'Testing start of case statement.');
-	is(struct_default::get($testast, \%{$output}), 1, 'Testing case x {};');
-	is(struct_default::start($testast), 0, 'Testing start of case with ;.');
+	is(struct_default::start($testast), 1, 'Testing start of default statement.');
+	is(struct_default::get($testast, \%{$output}), 1, 'Testing default {};');
+	is(%teststr, \%{$output}, 1, 'Test output of get default {};'); 
+
+	is(struct_default::start($testast), 0, 'Testing start of default with ;.');
 
 	$testast->clear();
 	return 1;

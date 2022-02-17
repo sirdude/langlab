@@ -16,6 +16,10 @@ use struct_exit;
 use Data::Dumper;
 
 my ($testast, $output, $teststr);
+my %teststr = {
+	'data' => 'void',
+	'type' => 'exit'
+};
 
 sub test_exit_no_arg {
 	$testast->add_base_node('keyword', 'exit', 0, 20);
@@ -23,9 +27,8 @@ sub test_exit_no_arg {
 
 	is(struct_exit::start($testast), 1, 'Testing start exit');
 	is(struct_exit::get($testast, \%{$output}), 1, 'Testing get exit');
-	print Dumper(\%{$output});
-# XXX Need to set teststr
-	is($teststr, $output, 1, 'Testing output of get exit.');
+	is(%teststr, \%{$output}, 1, 'Testing output of get exit.');
+
 	is(struct_exit::start($testast), 0, 'Testing invalid start of exit.');
 	is(struct_exit::get($testast, \%{$output}), 0, 'Testing get exit invalid;');
 
@@ -39,9 +42,9 @@ sub test_exit_int {
 	$testast->add_base_node('op', ';', 0, 35);
 
 	is(struct_exit::get($testast, \%{$output}), 1, 'Testing get exit 5;');
-	#print Dumper(\%{$output});
-# XXX Need to set teststr
-	is($teststr, $output, 1, 'Testing output of get exit.');
+	$teststr{'data'} = { 'type' => 'expression' };
+	$teststr{'type'}= 'exit';
+	is(%teststr, \%{$output}, 1, 'Testing output of get exit.');
 
 	$testast->clear();
 	return 1;

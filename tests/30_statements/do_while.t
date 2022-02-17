@@ -15,6 +15,18 @@ use tests;
 use struct_do_while;
 
 my ($testast, $output);
+my %teststr = {
+	'data' => {
+		'data' => undef,
+		'type' => 'block',
+		'linenum' => 21,
+		'columnnum' => 0
+	},
+	'type' => 'do_while',
+	'test' => {
+		'type' => 'expression'
+	}
+};
 
 sub test_simple_while {
 	$testast->add_base_node('keyword', 'do', 0, 20);
@@ -25,8 +37,9 @@ sub test_simple_while {
 	$testast->add_base_node('int', '1', 0, 25);
 	$testast->add_base_node('op', ')', 0, 26);
 
-	is(struct_do_while::start($testast), 1, 'Testing start of while statement.');
-	is(struct_do_while::get($testast, \%{$output}), 1, 'Testing while (1) {};');
+	is(struct_do_while::start($testast), 1, 'Testing start of do while statement.');
+	is(struct_do_while::get($testast, \%{$output}), 1, 'Testing do {} while (1);');
+	is(%teststr, \%{$output}, 'Testing output of do {} while (1);');
 
 	$testast->clear();
 	return 1;
