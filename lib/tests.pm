@@ -94,6 +94,19 @@ sub compare_array {
 }
 
 sub is {
+	my ($first, $second, $text) = @_;
+	if (is_quiet($first, $second)) {
+		print color('bold green') . "ok " . color('reset') . total_tests() . " - $text\n";
+
+		return 1;
+	}
+	print color('bold red') . "not ok " . color('reset') . total_tests() . " - $text\n";
+
+	return 0;
+}
+
+
+sub is_quiet {
 	my ($functioncall, $expected, $text) = @_;
 
 	add_test();
@@ -105,24 +118,14 @@ sub is {
 	} elsif (!$functioncall) {
 		if (!$expected) {
 			add_success();
-			print color('bold green') . "ok " . color('reset') . total_tests() . " - $text\n";
 			return 1;
 		} else {
-			print color('bold red') . "not ok " . color('reset') . total_tests() . " - $text\n";
-			print "\tgot: '' expected: $expected\n";
 			return 0;
 		}
 	} elsif ($functioncall eq $expected) {
 		add_success();
-		print color('bold green') . "ok " . color('reset') . total_tests() . " - $text\n";
 		return 1;
 	} else {
-		print color('bold red') . "not ok " . color('reset') . total_tests() . " - $text\n";
-		if (!$expected) {
-			print "\tgot: " . $functioncall .  " expected: ''\n";
-		} else {
-			print "\tgot: " . $functioncall .  " expected: $expected\n";
-		}
 		return 0;
 	}
 }
