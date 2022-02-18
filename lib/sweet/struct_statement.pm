@@ -18,8 +18,6 @@ use struct_switch;
 use struct_label;
 use struct_expression;
 
-# XXX Need to do functioncalls...
-
 my @mods = ('struct_if',
 	'struct_while',
 	'struct_do_while',

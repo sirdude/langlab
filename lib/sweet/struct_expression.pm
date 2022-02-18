@@ -107,6 +107,13 @@ sub get {
 		if ($ast->peek() eq '=') {
 			$node->{'type'} = $ast->consume();
 			$node->{'lhs'} = $tmp;
+
+			if ($tmp->{'type'} = 'function_call') {
+				$ast->error('Cannot assign a vallue to a function call');
+				$ast->pop_scope();
+				return 0;
+			}
+
 			if (!get($ast, \%{$tmp})) {
 				$ast->error('reading rhs'); # XXX maybe remove this 
 				$ast->pop_scope();
