@@ -42,7 +42,7 @@ sub test_simple_while {
 	is(struct_while::get($testast, \%{$output}), 1, 'Testing while (1) {};');
 
 	# print Dumper(\%{$output});
-	is($output, %teststr, 1, 'Test output of while (1) {}');
+	is(\%{$output}, %teststr, 1, 'Test output of while (1) {}');
 
 	$testast->clear();
 	return 1;

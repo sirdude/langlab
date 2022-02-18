@@ -16,7 +16,7 @@ use tests;
 use struct_exit;
 use Data::Dumper;
 
-my ($testast, $output, $teststr);
+my ($testast, $output);
 
 sub test_exit_no_arg {
 	my %teststr = {
@@ -41,11 +41,11 @@ sub test_exit_no_arg {
 }
 
 sub test_exit_int {
-	my $teststr = {
+	my %teststr = {
 		'data' => {
 			type => 'expression'
 		},
-		'type' => 'exit';
+		'type' => 'exit'
 	};
 
 	$testast->add_base_node('keyword', 'exit', 0, 33);
