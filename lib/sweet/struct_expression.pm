@@ -108,8 +108,8 @@ sub get {
 			$node->{'type'} = $ast->consume();
 			$node->{'lhs'} = $tmp;
 
-			if ($tmp->{'type'} = 'function_call') {
-				$ast->error('Cannot assign a vallue to a function call');
+			if ($tmp->{'type'} eq 'function_call') {
+				$ast->error('Cannot assign a value to a function call');
 				$ast->pop_scope();
 				return 0;
 			}
