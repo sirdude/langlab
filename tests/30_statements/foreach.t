@@ -2,6 +2,7 @@
 
 use strict;
 use warnings;
+use Data::Dumper;
 
 use lib "./lib";
 use lib "./lib/sweet";
@@ -15,21 +16,22 @@ use tests;
 use struct_foreach;
 
 my ($testast, $output);
-my %teststr = {
-	'items' => {
-		'type' => 'expression'
-	},
-	'iterator' => 'x',
-	'type' => 'foreach',
-	'data' => {
-		'data' => undef,
-		'linenum' => 25,
-		'columnnum' => 0,
-		'type' => 'block'
-	}
-};
 
 sub test_simple_foreach {
+	my %teststr = {
+		'items' => {
+			'type' => 'expression'
+		},
+		'iterator' => 'x',
+		'type' => 'foreach',
+		'data' => {
+			'data' => undef,
+			'linenum' => 25,
+			'columnnum' => 0,
+			'type' => 'block'
+		}
+	};
+
 	$testast->add_base_node('keyword', 'foreach', 0, 20);
 	$testast->add_base_node('ident', 'x', 0, 21);
 	$testast->add_base_node('op', '(', 0, 22);
@@ -41,6 +43,8 @@ sub test_simple_foreach {
 
 	is(struct_foreach::start($testast), 1, 'Testing start of foreach statement.');
 	is(struct_foreach::get($testast, \%{$output}), 1, 'Testing foreach x (1) {};');
+
+	# print Dumper(\%{$output});
 	is(%teststr, \%{$output}, 1, 'Testing output of get foreach x (1) {};');
 
 	is(struct_foreach::start($testast), 0, 'Testing start of foreach with ;.');

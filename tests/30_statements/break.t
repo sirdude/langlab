@@ -2,6 +2,7 @@
 
 use strict;
 use warnings;
+use Data::Dumper;
 
 use lib "./lib";
 use lib "./lib/sweet";
@@ -15,20 +16,23 @@ use tests;
 use struct_break;
 
 my ($testast, $output);
-my %teststr = {
+
+sub test_break {
+	my %teststr = {
 		'size' => 0,
 		'data' => 'void',
 		'type' => 'break',
 		'scope' => 0,
 		'current' => 0
-		};
+	};
 
-sub test_break {
 	$testast->add_base_node('keyword', 'break', 0, 18);
 	$testast->add_base_node('op', ';', 0, 19);
 
 	is(struct_break::start($testast), 1, 'Testing start break');
 	is(struct_break::get($testast, \%{$output}), 1, 'Testing get break');
+
+	# print Dumper(\%{$output});
 	is(%teststr, \%{$output}, 1, 'Test output of get break');
 
 	is(struct_break::start($testast), 0, 'Testing invalid start of break.');

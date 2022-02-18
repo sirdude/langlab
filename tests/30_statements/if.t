@@ -2,6 +2,7 @@
 
 use strict;
 use warnings;
+use Data::Dumper;
 
 use lib "./lib";
 use lib "./lib/sweet";
@@ -17,6 +18,19 @@ use struct_if;
 my ($testast, $output);
 
 sub test_simple_if {
+	my %teststr = {
+		'data' => {
+			'type' => 'expression'
+		},
+		'ifcase' => {
+			'linenum' => 24,
+			'data' => undef,
+			'columnnum' => 0,
+			'type' => 'block'
+		},
+		'type' => 'if'
+	};
+
 	$testast->add_base_node('keyword', 'if', 0, 20);
 	$testast->add_base_node('op', '(', 0, 21);
 	$testast->add_base_node('int', '1', 0, 22);
@@ -27,6 +41,10 @@ sub test_simple_if {
 
 	is(struct_if::start($testast), 1, 'Testing start of if statement.');
 	is(struct_if::get($testast, \%{$output}), 1, 'Testing if (1) {};');
+
+	# print Dumper(\%{$output});
+	is(\%{$output}, %teststr, 'Testing output of get if (1) {}');
+
 	is(struct_if::start($testast), 0, 'Testing start of if statement with ;.');
 	is(struct_if::get($testast, \%{$output}), 0, 'Testing get on invalid if');
 
@@ -35,6 +53,25 @@ sub test_simple_if {
 }
 
 sub test_if_else() {
+	my %teststr = {
+		'data' => {
+			'type' => 'expression'
+		},
+		'elsecase' => {
+			'type' => 'block',
+			'columnnum' => 0,
+			'linenum' => 45,
+			'data' => undef
+		},
+		'type' => 'if',
+		'ifcase' => {
+			'type' => 'block',
+			'data' => undef,
+			'linenum' => 42,
+			'columnnum' => 0
+		}
+	};
+
 	$testast->add_base_node('keyword', 'if', 0, 38);
 	$testast->add_base_node('op', '(', 0, 39);
 	$testast->add_base_node('ident', 'x', 0, 40);
@@ -47,6 +84,9 @@ sub test_if_else() {
 	$testast->add_base_node('op', ';', 0, 47);
 
 	is(struct_if::get($testast, \%{$output}), 1, 'Testing if else');
+
+	# print Dumper(\%{$output});
+	is(\%{$output}, %teststr, 'Testing output of get if else');
 
 	$testast->clear();
 	return 1;

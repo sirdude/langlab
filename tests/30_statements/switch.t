@@ -15,9 +15,12 @@ use ast;
 use tests;
 use struct_switch;
 
-my ($testast, $output, $teststr);
+my ($testast, $output);
 
 sub test_nodefault_switch {
+	my %teststr = {
+	};
+
 	$testast->add_base_node('keyword', 'switch', 0, 18);
 	$testast->add_base_node('ident', 'x', 0, 19);
 	$testast->add_base_node('op', '{', 0, 20);
@@ -30,8 +33,10 @@ sub test_nodefault_switch {
 
 	is(struct_switch::start($testast), 1, 'Testing start of switch statement.');
 	is(struct_switch::get($testast, \%{$output}), 1, 'Testing switch with no default');
+
 	print Dumper(\%{$output});
-	is($output, $teststr, 1, 'Testing output of switch with no default');
+	is(\%{$output}, %teststr, 1, 'Testing output of switch with no default');
+
 	is(struct_switch::start($testast), 0, 'Testing start of switch with ;.');
 
 	$testast->clear();
@@ -39,6 +44,13 @@ sub test_nodefault_switch {
 }
 
 sub test_nocase_switch {
+	my %teststr = {
+		'variable' => 'switch',
+		'data' => {},
+		'type' => 'switch',
+		'default' => '{}'
+	};
+
 	$testast->add_base_node('keyword', 'switch', 0, 39);
 	$testast->add_base_node('ident', 'x', 0, 40);
 	$testast->add_base_node('op', '{', 0, 41);
@@ -49,14 +61,22 @@ sub test_nocase_switch {
 	$testast->add_base_node('op', ';', 0, 46);
 
 	is(struct_switch::get($testast, \%{$output}), 1, 'Testing nocase switch');
+
 	print Dumper(\%{$output});
-	is($output, $teststr, 1, 'Testing output of nocase switch');
+	is(\%{$output}, %teststr, 1, 'Testing output of nocase switch');
 
 	$testast->clear();
 	return 1;
 }
 
 sub test_simple_switch {
+	my %teststr = {
+		'data' => {},
+		'type' => 'switch',
+		'default' => {},
+		'variable' => 'x'
+	};
+
 	$testast->add_base_node('keyword', 'switch', 0, 55);
 	$testast->add_base_node('ident', 'x', 0, 56);
 	$testast->add_base_node('op', '{', 0, 57);
@@ -70,8 +90,9 @@ sub test_simple_switch {
 	$testast->add_base_node('op', ';', 0, 65);
 
 	is(struct_switch::get($testast, \%{$output}), 1, 'Testing simple switch');
+
 	print Dumper(\%{$output});
-	is($output, $teststr, 1, 'Testing output of simple switch');
+	is(\%{$output}, %teststr, 1, 'Testing output of simple switch');
 
 	$testast->clear();
 	return 1;
