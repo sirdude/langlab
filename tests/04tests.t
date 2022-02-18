@@ -54,7 +54,7 @@ sub test_init_tests {
 }
 
 sub test_basic_is {
-	my ($x, $y);
+	my ($x, $y, $z, $w);
 
 	$y = total_success() + 1;
 	is($x, $x, 'Testing test_basic_is true');
@@ -64,13 +64,22 @@ sub test_basic_is {
 	} else {
 		print "Failure testing basic_is true x= $x y = $y\n";
 	}
+	$x = total_success() + 1;
+	$w = total_tests() + 2;
+	is(is_quiet($x, 1, ''), 0, 'Testing test_basic_is False');
 	$y = total_success();
-	is($x, 1, 'Testing test_basic_is False, this is an expected failure');
-	$x = total_success();
-	if ($y == $x) { 
-		print "Success testing basic_is false\n";
+	$z = total_tests();
+
+	if ($x == $y) {
+		print "total success correct for false test.\n";
 	} else {
-		print "Failure testing basic_is false x= $x y = $y\n";
+		print "ERROR: total success not correct for false test.\n";
+	}
+
+	if ($w == $z) {
+		print "total tests correct for false test.\n";
+	} else {
+		print "ERROR: total tests not correct for false test.\n";
 	}
 
 	return 1;
@@ -80,8 +89,8 @@ sub test_array_compare {
 	my @values = ('1', '2', '3');
 	my @values2 = ('1', '2', '3', '4');
 
-	is(@values, @values, 'Testing equal arrays');
-	is(@values, @values2, 'Testing unequal arrays this is expected error');
+	is(compare_array(@values, @values), 1, 'Testing compare_array with equal arrays');
+	is(compare_array(@values, @values2), 0, 'Testing compare_array with unequal arrays');
 }
 
 sub test_hash_compare {
@@ -90,8 +99,8 @@ sub test_hash_compare {
 	$h2{'test'} = 'wah';
 	$h1{'test2'} = 'wah';
 
-	is(%h1, %h1, 'Testing equal arrays');
-	is(%h1, %h2, 'Testing unequal arrays this is expected error');
+	is(compare_hash(%h1, %h1), 1, 'Testing compare_hash with equal hashes');
+	is(compare_hash(%h1, %h2), 0, 'Testing compare_hash with unequal hashes');
 }
 
 sub main {

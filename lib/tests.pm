@@ -5,8 +5,8 @@ use Term::ANSIColor;
 use base 'Exporter';
 use Scalar::Util qw(reftype);
 
-our @EXPORT = qw(add_test add_success total_tests total_success is
-	init_tests test_summary);
+our @EXPORT = qw(add_test add_success total_tests total_success is is_quiet
+	init_tests test_summary compare_array compare_hash);
 
 my ($tests, $success);
 
@@ -50,8 +50,8 @@ sub is_array {
 
 sub compare_hash {
 	my ($h1, $h2) = @_;
-	my %rhash_1 = %$a;
-	my %rhash_2 = %$b;
+	my %rhash_1 = %$h1;
+	my %rhash_2 = %$h2;
 
 	my $hash_2_line = undef;
 	my $hash_1_line = undef;
@@ -71,11 +71,20 @@ sub compare_hash {
 			return 0;
 		}
 	}
+
 	return 1;
 }
 
 sub compare_array {
 	my ($h1, $h2) = @_;
+
+	if (!$h1 && !$h2) {
+		return 1;
+	}
+
+	if ((!$h1 && $h2) || ($h1 && !$h2)) {
+		return 0;
+	}
 
 	my $len = length($h1);
 
@@ -85,9 +94,13 @@ sub compare_array {
 
 	my $x = 0;
 	while ($x < $len) {
+		if (!exists($h1[$x]) || !exists($h2[$x])) {
+			return 0;
+		}
 		if ($h1[$x] ne $h2[$x]) {
 			return 0;
 		}
+		$x = $x + 1;
 	}
 
 	return 1;
