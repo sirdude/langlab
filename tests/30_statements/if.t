@@ -43,7 +43,7 @@ sub test_simple_if {
 	is(struct_if::get($testast, \%{$output}), 1, 'Testing if (1) {};');
 
 	# print Dumper(\%{$output});
-	is(\%{$output}, %teststr, 'Testing output of get if (1) {}');
+	is(compare_hash(\%{$output}, %teststr), 1, 'Testing output of get if (1) {}');
 
 	is(struct_if::start($testast), 0, 'Testing start of if statement with ;.');
 	is(struct_if::get($testast, \%{$output}), 0, 'Testing get on invalid if');
@@ -86,7 +86,7 @@ sub test_if_else() {
 	is(struct_if::get($testast, \%{$output}), 1, 'Testing if else');
 
 	# print Dumper(\%{$output});
-	is(\%{$output}, %teststr, 'Testing output of get if else');
+	is(compare_hash(\%{$output}, %teststr), 1, 'Testing output of get if else');
 
 	$testast->clear();
 	return 1;

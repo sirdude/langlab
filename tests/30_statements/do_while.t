@@ -43,7 +43,7 @@ sub test_simple_while {
 	is(struct_do_while::get($testast, \%{$output}), 1, 'Testing do {} while (1);');
 
 	# print Dumper(\%{$output});
-	is(%teststr, \%{$output}, 'Testing output of do {} while (1);');
+	is(compare_hash(%teststr, \%{$output}), 1, 'Testing output of do {} while (1);');
 
 	$testast->clear();
 	return 1;

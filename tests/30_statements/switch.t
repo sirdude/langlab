@@ -35,7 +35,7 @@ sub test_nodefault_switch {
 	is(struct_switch::get($testast, \%{$output}), 1, 'Testing switch with no default');
 
 	print Dumper(\%{$output});
-	is(\%{$output}, %teststr, 1, 'Testing output of switch with no default');
+	is(compare_hash(\%{$output}, %teststr), 1, 'Testing output of switch with no default');
 
 	is(struct_switch::start($testast), 0, 'Testing start of switch with ;.');
 
@@ -63,7 +63,7 @@ sub test_nocase_switch {
 	is(struct_switch::get($testast, \%{$output}), 1, 'Testing nocase switch');
 
 	print Dumper(\%{$output});
-	is(\%{$output}, %teststr, 1, 'Testing output of nocase switch');
+	is(compare_hash(\%{$output}, %teststr), 1, 'Testing output of nocase switch');
 
 	$testast->clear();
 	return 1;
@@ -92,7 +92,7 @@ sub test_simple_switch {
 	is(struct_switch::get($testast, \%{$output}), 1, 'Testing simple switch');
 
 	print Dumper(\%{$output});
-	is(\%{$output}, %teststr, 1, 'Testing output of simple switch');
+	is(compare_hash(\%{$output}, %teststr), 1, 'Testing output of simple switch');
 
 	$testast->clear();
 	return 1;

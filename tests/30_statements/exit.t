@@ -31,7 +31,7 @@ sub test_exit_no_arg {
 	is(struct_exit::get($testast, \%{$output}), 1, 'Testing get exit');
 
 	# print Dumper(\%{$output});
-	is(%teststr, \%{$output}, 1, 'Testing output of get exit.');
+	is(compare_hash(%teststr, \%{$output}), 1, 'Testing output of get exit.');
 
 	is(struct_exit::start($testast), 0, 'Testing invalid start of exit.');
 	is(struct_exit::get($testast, \%{$output}), 0, 'Testing get exit invalid;');
@@ -55,7 +55,7 @@ sub test_exit_int {
 	is(struct_exit::get($testast, \%{$output}), 1, 'Testing get exit 5;');
 
 	# print Dumper(\%{$output});
-	is(%teststr, \%{$output}, 1, 'Testing output of get exit.');
+	is(compare_hash(%teststr, \%{$output}), 1, 'Testing output of get exit.');
 
 	$testast->clear();
 	return 1;
