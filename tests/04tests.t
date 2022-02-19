@@ -89,8 +89,8 @@ sub test_array_compare {
 	my @values = ('1', '2', '3');
 	my @values2 = ('1', '2', '3', '4');
 
-	is(compare_array(@values, @values), 1, 'Testing compare_array with equal arrays');
-	is(compare_array(@values, @values2), 0, 'Testing compare_array with unequal arrays');
+	is(compare_array(\@values, \@values), 1, 'Testing compare_array with equal arrays');
+	is(compare_array(\@values, \@values2), 0, 'Testing compare_array with unequal arrays');
 }
 
 sub test_hash_compare {
@@ -99,8 +99,8 @@ sub test_hash_compare {
 	$h2{'test'} = 'wah';
 	$h1{'test2'} = 'wah';
 
-	is(compare_hash(%h1, %h1), 1, 'Testing compare_hash with equal hashes');
-	is(compare_hash(%h1, %h2), 0, 'Testing compare_hash with unequal hashes');
+	is(compare_hash(\%h1, \%h1), 1, 'Testing compare_hash with equal hashes');
+	is(compare_hash(\%h1, \%h2), 0, 'Testing compare_hash with unequal hashes');
 }
 
 sub main {

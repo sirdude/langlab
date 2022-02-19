@@ -38,7 +38,7 @@ sub test_default {
 	is(struct_default::get($testast, \%{$output}), 1, 'Testing default {};');
 
 	# print Dumper(\%{$output});
-	is(compare_hash(%teststr, \%{$output}), 1, 'Test output of get default {};'); 
+	is(compare_hash(\%teststr, \%{$output}), 1, 'Test output of get default {};'); 
 
 	is(struct_default::start($testast), 0, 'Testing start of default with ;.');
 

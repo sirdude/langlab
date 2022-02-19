@@ -33,7 +33,7 @@ sub test_break {
 	is(struct_break::get($testast, \%{$output}), 1, 'Testing get break');
 
 	# print Dumper(\%{$output});
-	is(compare_hash(%teststr, \%{$output}), 1, 'Test output of get break');
+	is(compare_hash(\%teststr, \%{$output}), 1, 'Test output of get break');
 
 	is(struct_break::start($testast), 0, 'Testing invalid start of break.');
 	is(struct_break::get($testast, \%{$output}), 0, 'Testing get break invalid;');

@@ -4,6 +4,7 @@ use warnings;
 use Term::ANSIColor;
 use base 'Exporter';
 use Scalar::Util qw(reftype);
+use Data::Dumper;
 
 our @EXPORT = qw(add_test add_success total_tests total_success is is_quiet
 	init_tests test_summary compare_array compare_hash);
@@ -50,6 +51,7 @@ sub is_array {
 
 sub compare_hash {
 	my ($h1, $h2) = @_;
+
 	my %rhash_1 = %$h1;
 	my %rhash_2 = %$h2;
 
@@ -76,19 +78,14 @@ sub compare_hash {
 }
 
 sub compare_array {
-	my ($h1, $h2) = @_;
+	my ($hh1, $hh2) = @_;
 
-	if (!$h1 && !$h2) {
-		return 1;
-	}
+	my @h1 = @{$hh1};
+	my @h2 = @{$hh2};
 
-	if ((!$h1 && $h2) || ($h1 && !$h2)) {
-		return 0;
-	}
+	my $len = $#h1;
 
-	my $len = length($h1);
-
-	if ($len ne length($h2)) {
+	if ($len ne $#h2) {
 		return 0;
 	}
 

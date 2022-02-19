@@ -30,7 +30,7 @@ sub test_label {
 	is(struct_label::get($testast, \%{$output}), 1, 'Testing label x;');
 
 	# print Dumper(\%{$output});
-	is(compare_hash(%teststr, \%{$output}), 1, 'Testing output node of get label x.');
+	is(compare_hash(\%teststr, \%{$output}), 1, 'Testing output node of get label x.');
 
 	is(struct_label::start($testast), 0, 'Testing start of label with ;.');
 

@@ -45,7 +45,7 @@ sub test_simple_foreach {
 	is(struct_foreach::get($testast, \%{$output}), 1, 'Testing foreach x (1) {};');
 
 	# print Dumper(\%{$output});
-	is(compare_hash(%teststr, \%{$output}), 1, 'Testing output of get foreach x (1) {};');
+	is(compare_hash(\%teststr, \%{$output}), 1, 'Testing output of get foreach x (1) {};');
 
 	is(struct_foreach::start($testast), 0, 'Testing start of foreach with ;.');
 

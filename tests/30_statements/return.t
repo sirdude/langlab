@@ -34,7 +34,7 @@ sub test_return {
 	is(struct_return::get($testast, \%{$output}), 1, 'Testing get return');
 
 	# print Dumper(\%{$output});
-	is(compare_hash(%teststr, \%{$output}), 1, 'Testing output node of get return');
+	is(compare_hash(\%teststr, \%{$output}), 1, 'Testing output node of get return');
 
 	is(struct_return::start($testast), 0, 'Testing invalid start of return.');
 	is(struct_return::get($testast, \%{$output}), 0, 'Testing get return invalid;');

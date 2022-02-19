@@ -30,7 +30,7 @@ sub test_goto {
 	is(struct_goto::get($testast, \%{$output}), 1, 'Testing get goto');
 
 	# print Dumper(\%{$output});
-	is(compare_hash(\%{$output}, %teststr), 1, 'Testing output of get goto');
+	is(compare_hash(\%{$output}, \%teststr), 1, 'Testing output of get goto');
 
 	is(struct_goto::start($testast), 0, 'Testing invalid start of goto.');
 	is(struct_goto::get($testast, \%{$output}), 0, 'Testing get goto invalid;');
