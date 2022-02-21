@@ -52,8 +52,8 @@ sub is_array {
 sub compare_hash {
 	my ($h1, $h2) = @_;
 
-	my %rhash_1 = %$h1;
-	my %rhash_2 = %$h2;
+	my %rhash_1 = %{$h1};
+	my %rhash_2 = %{$h2};
 
 	my $hash_2_line = undef;
 	my $hash_1_line = undef;

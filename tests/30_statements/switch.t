@@ -18,8 +18,12 @@ use struct_switch;
 my ($testast, $output);
 
 sub test_nodefault_switch {
-	my %teststr = {
-	};
+	my %teststr = (
+		'type' => 'switch',
+		'data' => {},
+		'variable' => 'switch',
+		'default' => 'switch'
+	);
 
 	$testast->add_base_node('keyword', 'switch', 0, 18);
 	$testast->add_base_node('ident', 'x', 0, 19);
@@ -44,12 +48,12 @@ sub test_nodefault_switch {
 }
 
 sub test_nocase_switch {
-	my %teststr = {
+	my %teststr = (
 		'variable' => 'switch',
 		'data' => {},
 		'type' => 'switch',
 		'default' => '{}'
-	};
+	);
 
 	$testast->add_base_node('keyword', 'switch', 0, 39);
 	$testast->add_base_node('ident', 'x', 0, 40);
@@ -70,12 +74,12 @@ sub test_nocase_switch {
 }
 
 sub test_simple_switch {
-	my %teststr = {
+	my %teststr = (
 		'data' => {},
 		'type' => 'switch',
 		'default' => {},
 		'variable' => 'x'
-	};
+	);
 
 	$testast->add_base_node('keyword', 'switch', 0, 55);
 	$testast->add_base_node('ident', 'x', 0, 56);

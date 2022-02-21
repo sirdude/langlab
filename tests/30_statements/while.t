@@ -18,7 +18,7 @@ use struct_while;
 my ($testast, $output);
 
 sub test_simple_while {
-	my %teststr = {
+	my %teststr = (
 		'test' => {
 			'type' => 'expression'
 		},
@@ -29,7 +29,7 @@ sub test_simple_while {
 			'linenum' => 24
 		},
 		'type' => 'while'
-	};
+	);
 
 	$testast->add_base_node('keyword', 'while', 0, 20);
 	$testast->add_base_node('op', '(', 0, 21);

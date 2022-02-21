@@ -18,7 +18,7 @@ use struct_foreach;
 my ($testast, $output);
 
 sub test_simple_foreach {
-	my %teststr = {
+	my %teststr = (
 		'items' => {
 			'type' => 'expression'
 		},
@@ -30,7 +30,7 @@ sub test_simple_foreach {
 			'columnnum' => 0,
 			'type' => 'block'
 		}
-	};
+	);
 
 	$testast->add_base_node('keyword', 'foreach', 0, 20);
 	$testast->add_base_node('ident', 'x', 0, 21);

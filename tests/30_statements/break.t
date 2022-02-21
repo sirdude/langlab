@@ -18,13 +18,10 @@ use struct_break;
 my ($testast, $output);
 
 sub test_break {
-	my %teststr = {
-		'size' => 0,
+	my %teststr = (
 		'data' => 'void',
 		'type' => 'break',
-		'scope' => 0,
-		'current' => 0
-	};
+	);
 
 	$testast->add_base_node('keyword', 'break', 0, 18);
 	$testast->add_base_node('op', ';', 0, 19);
@@ -33,7 +30,7 @@ sub test_break {
 	is(struct_break::get($testast, \%{$output}), 1, 'Testing get break');
 
 	# print Dumper(\%{$output});
-	is(compare_hash(\%teststr, \%{$output}), 1, 'Test output of get break');
+	is(compare_hash(\%{$output}, \%teststr), 1, 'Test output of get break');
 
 	is(struct_break::start($testast), 0, 'Testing invalid start of break.');
 	is(struct_break::get($testast, \%{$output}), 0, 'Testing get break invalid;');

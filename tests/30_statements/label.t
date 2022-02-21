@@ -18,10 +18,10 @@ use struct_label;
 my ($testast, $output);
 
 sub test_label {
-	my %teststr = {
+	my %teststr = (
 		'data' => 'x',
 		'type' => 'label'
-	};
+	);
 	$testast->add_base_node('keyword', 'label', 0, 20);
 	$testast->add_base_node('ident', 'x', 0, 21);
 	$testast->add_base_node('op', ';', 0, 22);

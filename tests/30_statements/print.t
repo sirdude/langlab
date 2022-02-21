@@ -18,12 +18,12 @@ use struct_print;
 my ($testast, $output);
 
 sub test_print_string {
-	my %teststr = {
+	my %teststr = (
 		'type' => 'print',
 		'data' => {
 			'type' => 'expression'
 		}
-	};
+	);
 
 	$testast->add_base_node('keyword', 'print', 0, 20);
 	$testast->add_base_node('string', 'Hello World!', 0, 21);

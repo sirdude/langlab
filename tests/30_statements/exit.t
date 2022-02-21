@@ -19,10 +19,10 @@ use Data::Dumper;
 my ($testast, $output);
 
 sub test_exit_no_arg {
-	my %teststr = {
+	my %teststr = (
 		'data' => 'void',
 		'type' => 'exit'
-	};
+	);
 
 	$testast->add_base_node('keyword', 'exit', 0, 20);
 	$testast->add_base_node('op', ';', 0, 21);
@@ -41,12 +41,12 @@ sub test_exit_no_arg {
 }
 
 sub test_exit_int {
-	my %teststr = {
+	my %teststr = (
 		'data' => {
 			type => 'expression'
 		},
 		'type' => 'exit'
-	};
+	);
 
 	$testast->add_base_node('keyword', 'exit', 0, 33);
 	$testast->add_base_node('int', '1', 0, 34);

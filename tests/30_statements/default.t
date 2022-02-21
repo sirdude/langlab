@@ -18,7 +18,7 @@ use struct_default;
 my ($testast, $output);
 
 sub test_default {
-	my %teststr = {
+	my %teststr = (
 		'data' => {
 			'data' => undef,
 			'columnnum' => 0,
@@ -27,7 +27,7 @@ sub test_default {
 		},
 		'case' => 'default',
 		'type' => 'case'
-	};
+	);
 
 	$testast->add_base_node('keyword', 'default', 0, 20);
 	$testast->add_base_node('op', '{', 0, 21);

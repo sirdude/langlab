@@ -18,7 +18,7 @@ use struct_do_while;
 my ($testast, $output);
 
 sub test_simple_while {
-	my %teststr = {
+	my %teststr = (
 		'data' => {
 			'data' => undef,
 			'type' => 'block',
@@ -29,7 +29,7 @@ sub test_simple_while {
 		'test' => {
 			'type' => 'expression'
 		}
-	};
+	);
 
 	$testast->add_base_node('keyword', 'do', 0, 20);
 	$testast->add_base_node('op', '{', 0, 21);

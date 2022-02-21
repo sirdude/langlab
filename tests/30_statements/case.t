@@ -18,21 +18,18 @@ use struct_case;
 my ($testast, $output);
 
 sub test_case {
-	my %teststr = {
+	my %teststr = (
 		'value' => {
 			'type' => 'var',
 			'data' => 'x' },
 		'type' => 'case',
-		'size' => 0,
 		'data' => {
 			'columnnum' => 0,
 			'linenum' => 20,
 			'data' => undef,
 			'type' => 'block'
 		},
-		'scope' => 0,
-		'current' => 0
-	};
+	);
 
 	$testast->add_base_node('keyword', 'case', 0, 18);
 	$testast->add_base_node('ident', 'x', 0, 19);
@@ -43,7 +40,7 @@ sub test_case {
 	is(struct_case::start($testast), 1, 'Testing start of case statement.');
 	is(struct_case::get($testast, \%{$output}), 1, 'Testing case x {};');
 
-	# print Dumper(\%{$output});
+	print Dumper(\%{$output});
 	is(compare_hash(\%teststr, \%{$output}), 1, 'Testing output of get case x {};');
 
 	is(struct_case::start($testast), 0, 'Testing start of case with ;.');

@@ -19,12 +19,12 @@ my ($testast, $output);
 my %teststr = { 'type'=> 'return', 'data'=> {}};
 
 sub test_return {
-	my %teststr = {
+	my %teststr = (
 		'type' => 'return',
 		'data' => {
 			'type' => 'expression'
 		}
-	};
+	);
 
 	$testast->add_base_node('keyword', 'return', 0, 20);
 	$testast->add_base_node('int', '1', 0, 21);

@@ -18,7 +18,7 @@ use struct_if;
 my ($testast, $output);
 
 sub test_simple_if {
-	my %teststr = {
+	my %teststr = (
 		'data' => {
 			'type' => 'expression'
 		},
@@ -29,7 +29,7 @@ sub test_simple_if {
 			'type' => 'block'
 		},
 		'type' => 'if'
-	};
+	);
 
 	$testast->add_base_node('keyword', 'if', 0, 20);
 	$testast->add_base_node('op', '(', 0, 21);
@@ -53,7 +53,7 @@ sub test_simple_if {
 }
 
 sub test_if_else() {
-	my %teststr = {
+	my %teststr = (
 		'data' => {
 			'type' => 'expression'
 		},
@@ -70,7 +70,7 @@ sub test_if_else() {
 			'linenum' => 42,
 			'columnnum' => 0
 		}
-	};
+	);
 
 	$testast->add_base_node('keyword', 'if', 0, 38);
 	$testast->add_base_node('op', '(', 0, 39);

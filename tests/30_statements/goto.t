@@ -18,10 +18,10 @@ use struct_goto;
 my ($testast, $output);
 
 sub test_goto {
-	my %teststr = {
+	my %teststr = (
 		'type' => 'goto',
 		'data' => 'FUN'
-	};
+	);
 	$testast->add_base_node('keyword', 'goto', 0, 20);
 	$testast->add_base_node('label', 'FUN', 0, 21);
 	$testast->add_base_node('op', ';', 0, 22);
