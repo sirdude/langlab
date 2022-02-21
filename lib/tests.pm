@@ -55,12 +55,20 @@ sub compare_hash {
 	my %rhash_1 = %{$h1};
 	my %rhash_2 = %{$h2};
 
-	my $hash_2_line = undef;
-	my $hash_1_line = undef;
+	# print "rhash1" . Dumper(\%rhash_1);
+	# print "rhash2" . Dumper(\%rhash_2);
 
 	foreach my $key ( keys(%rhash_2) ) {
 		if ( exists( $rhash_1{$key} ) ) {
-			if ( $rhash_1{$key} ne $rhash_2{$key} ) {
+		    if (is_hash($rhash_1{$key})) {
+				if (!compare_hash(\%{$rhash_1{$key}}, \%{$rhash_2{$key}})) {
+					return 0;
+				}
+			} elsif (is_array($rhash_1{$key})) {
+				if (!compare_array($rhash_1{$key}, $rhash_2{$key})) {
+					return 0;
+				}
+			} elsif ( $rhash_1{$key} ne $rhash_2{$key} ) {
 				return 0;
 			}
 	 	} else {
