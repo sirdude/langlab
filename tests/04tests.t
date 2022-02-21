@@ -103,6 +103,20 @@ sub test_hash_compare {
 	is(compare_hash(\%h1, \%h2), 0, 'Testing compare_hash with unequal hashes');
 }
 
+sub test_hash_of_hash_compare {
+	my (%h1, %h2, %h3);
+
+	$h1{'type'} = 'hash_test';
+	$h3{'type'} = 'hash_test';
+	$h2{'test'} = 'test';
+	$h1{'value'} = %h2;
+	$h3{'value'} = %h2;
+
+	is(compare_hash(\%h1, \%h3), 1, 'Testing comare_hash with equal hashes and nested hash');
+	$h3{'value'} = %h1;
+	is(compare_hash(\%h1, \%h3), 0, 'Testing comare_hash with unequal hashes and nested hash');
+}
+
 sub main {
 	print "\n\nWARINGING you may see failures in this test that are not falures read carefully.\n";
 	print "The total number of tests and falures may also " .
@@ -113,6 +127,7 @@ sub main {
 	test_basic_is();
 	test_array_compare();
 	test_hash_compare();
+	test_hash_of_hash_compare();
 	return test_summary();
 }
 
