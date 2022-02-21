@@ -17,7 +17,8 @@ sub test_options {
 	is(add_option('filename', 'Set output filename to FILENAME.', 'FILENAME'), 1,
 		'Add option filename=FILENAME');
 
-	is(add_option('debug', 5), 1, 'Set debug=5');
+	is(add_option('debug', 'INT'), 1, 'add_option debug=INT');
+	is(set_option('debug', 5), 1, 'Set debug=5');
 	is(query_option('debug'), 5, 'Query debug=5');
 
 	my @ans = ('');
