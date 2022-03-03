@@ -1,4 +1,4 @@
-package unop;
+package binop;
 
 use strict;
 use warnings;
@@ -17,6 +17,8 @@ sub is {
 			return 1;
 		}
 	}
+
+	return 0;
 }
 
 sub output {

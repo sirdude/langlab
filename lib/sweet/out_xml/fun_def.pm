@@ -28,18 +28,19 @@ sub output {
 	if (!fun_def_params::is($self{'params'})) {
 			$self->error("Invalid Paramaters: " . Dumper($self{'params'});
 			return 0;
-		}
-		if (!fun_def_params::output($self{'data'}, \$output) {
-			return 0;
-		}
 	}
+
+	if (!fun_def_params::output($self{'data'}, \$output) {
+		return 0;
+	}
+
 	if (!block::is($self{'data'})) {
 			$self->error("Invalid Function block: " . Dumper($self{'data'});
 			return 0;
-		}
-		if (!block::output($self{'data'}, \$output) {
-			return 0;
-		}
+	}
+
+	if (!block::output($self{'data'}, \$output) {
+		return 0;
 	}
 
 	$data .= "</fun_def>\n";

@@ -1,5 +1,9 @@
 package unop;
 
+use strict;
+use warnings;
+use Data::Dumper;
+
 my @OPS = ('-', '+');
 
 sub is {
@@ -10,6 +14,8 @@ sub is {
 			return 1;
 		}
 	}
+
+	return 0;
 }
 
 sub output {
