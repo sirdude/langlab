@@ -11,7 +11,7 @@ use fun_def;
 sub is {
 	my ($self) = @_;
 
-	if ($self{'type'} eq 'sweet_program') {
+	if ($self->{'type'} eq 'sweet_program') {
 		return 1;
 	}
 

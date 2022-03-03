@@ -13,7 +13,7 @@ use unop;
 sub is {
 	my ($self) = @_;
 
-	if ($self{'type'} eq 'expression') {
+	if ($self->{'type'} eq 'expression') {
 		return 1;
 	}
 	return 0;
@@ -35,12 +35,12 @@ sub output {
 		$data .= "<unop>\n";
 		$data .= "<type>" . $self->{'type'} . "</type>\n";
 		$data .= "<lhs>";
-		if (!ident::output($self{'lhs'}, \$output) {
+		if (!ident::output($self->{'lhs'}, \$output) {
 			return 0;
 		}
 		$data .= "</lhs>\n";
 		$data .= "<rhs>\n";
-		if (!output:$self{'data'}, \$output) {
+		if (!output:$self->{'data'}, \$output) {
 			return 0;
 		}
 		$data .= "</rhs>\n";

@@ -9,7 +9,7 @@ use statement;
 sub is {
 	my ($self) = @_;
 
-	if ($self{'type'} eq 'block') {
+	if ($self->{'type'} eq 'block') {
 		return 1;
 	}
 	return 0;
@@ -21,11 +21,11 @@ sub output {
 	$data .= "<block>\n";
 
 	foreach my $i ($self->{'data'}) {
-		if (!statement::is($self{'data'})) {
-				$self->error("Invalid Function block: " . Dumper($self{'data'});
+		if (!statement::is($self->{'data'})) {
+				$self->error("Invalid Function block: " . Dumper($self->{'data'});
 				return 0;
 			}
-		if (!statement::output($self{'data'}, \$output) {
+		if (!statement::output($self->{'data'}, \$output) {
 			return 0;
 		}
 	}

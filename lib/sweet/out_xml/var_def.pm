@@ -9,7 +9,7 @@ use expression;
 sub is {
 	my ($self) = @_;
 
-	if ($self{'type'} eq 'var_def') {
+	if ($self->{'type'} eq 'var_def') {
 		return 1;
 	}
 	return 0;
@@ -25,11 +25,11 @@ sub output {
 	$data .= "</typemods>\n";
 	if ($self->{'data'}) {
 		print "<assignment>\n";
-		if (!expression::is($self{'data'})) {
-			$self->error("Invalid package: " . Dumper($self{'data'});
+		if (!expression::is($self->{'data'})) {
+			$self->error("Invalid package: " . Dumper($self->{'data'});
 			return 0;
 		}
-		if (!expression::output($self{'data'}, \$output) {
+		if (!expression::output($self->{'data'}, \$output) {
 			return 0;
 		}
 		print "</assignment>\n";

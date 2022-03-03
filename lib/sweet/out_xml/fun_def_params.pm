@@ -10,7 +10,7 @@ use block;
 sub is {
 	my ($self) = @_;
 
-	if ($self{'type'} eq 'fundef_params') {
+	if ($self->{'type'} eq 'fundef_params') {
 		return 1;
 	}
 	return 0;
@@ -20,7 +20,7 @@ sub output {
 	my ($self, $data) = @_;
 
 	$data .= "<fun_def_params>\n";
-	foreach my $i ($self{'data'}) {
+	foreach my $i ($self->{'data'}) {
 		if (!output_param($i, $data)) {
 			$self->error("Invalid param: " . Dumper($i));
 			return 0;
