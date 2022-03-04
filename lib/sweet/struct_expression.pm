@@ -90,7 +90,7 @@ sub get {
 			$node->{'type'} = $ast->consume();
 			$node->{'lhs'} = $tmp;
 			if (!get($ast, \%{$tmp})) {
-				$ast->error('reading rhs'); # XXX maybe remove this 
+				$ast->error('reading rhs');
 				$ast->pop_scope();
 				return 0;
 			}
@@ -116,7 +116,7 @@ sub get {
 			}
 
 			if (!get($ast, \%{$tmp})) {
-				$ast->error('reading rhs'); # XXX maybe remove this 
+				$ast->error('reading rhs');
 				$ast->pop_scope();
 				return 0;
 			}
@@ -125,7 +125,7 @@ sub get {
 			$node->{'type'} = $ast->consume();
 			$node->{'lhs'} = $tmp;
 			if (!get($ast, \%{$tmp})) {
-				$ast->error('reading rhs'); # XXX maybe remove this 
+				$ast->error('reading rhs');
 				$ast->pop_scope();
 				return 0;
 			}
