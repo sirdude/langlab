@@ -32,6 +32,9 @@ sub get {
 		return 0;
 	}
 
+	$node = $ast->copy_node();
+	$node->{'data'} = ();
+
 	while (!$ast->at_eof()) {
 	    if (struct_pkg::start($ast)) {
 			if (!struct_pkg::get($ast, \%{$tmp})) {

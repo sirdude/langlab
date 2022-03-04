@@ -27,6 +27,7 @@ sub get {
 		return 0;
 	}
 
+	$node = $ast->copy_node();
 	$tmp = $ast->consume('goto');
 	$node->{'type'} = 'goto';
 

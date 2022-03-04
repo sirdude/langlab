@@ -26,13 +26,15 @@ sub get {
 	$ast->push_scope();
 	$ast->debug('struct_exp_list::get');
 
-	$node->{'type'} = 'exp_list';
 	if (!start($ast)) {
 		$ast->pop_scope();
 		return 0;
 	}
 
+	$node = $ast->copy_node();
 	$tmp = $ast->consume(); # Get rid of the (
+	$node->{'type'} = 'exp_list';
+	$node->{'data'} = ();
 
 	if ($ast->match(')')) { # Empty list... 
 		$tmp = $ast->consume(); # Get rid of the trailing )

@@ -29,6 +29,7 @@ sub get {
 		return 0;
 	}
 
+	$node = $ast->copy_node();
 	$tmp = $ast->consume('do');
 	$node->{'type'} = 'do_while';
 

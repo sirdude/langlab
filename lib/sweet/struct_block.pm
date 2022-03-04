@@ -17,7 +17,6 @@ sub start {
 
 sub get {
 	my ($ast, $node) = @_;
-	my ($p, $l) = $ast->get_loc();
 	my $tmp;
 	my $done = 0;
 
@@ -30,12 +29,10 @@ sub get {
 		return 0;
 	}
 
-	$node->{'type'} = 'block';
-	$node->{'columnnum'} = $p;
-	$node->{'linenum'} = $l;
-	$node->{'data'} = ();
-
+	$node = $ast->copy_node();
 	$tmp = $ast->consume('{');
+	$node->{'type'} = 'block';
+	$node->{'data'} = ();
 
 	while (!$ast->match('}') && !$done) {
 	    $tmp = ();

@@ -29,7 +29,9 @@ sub get {
 		return 0;
 	}
 
-	$tmp = $ast->consume();
+	$node = $ast->copy_node();
+	$tmp = $ast->consume('use');
+
 	if (!$ast->match("lib")) {
 		$node->{'type'} = 'use';
 	} else {

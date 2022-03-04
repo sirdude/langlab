@@ -65,6 +65,7 @@ sub get {
 		return 0;
 	}
 
+	$node = $ast->copy_node();
 	$node->{'type'} = 'expression';
 
 	if (is_unop($ast->peek())) {

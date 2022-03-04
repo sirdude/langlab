@@ -31,6 +31,7 @@ sub get {
 		return 0;
 	}
 
+	$node = $ast->copy_node();
 	$tmp = $ast->consume('case');
 	$node->{'type'} = 'case';
 
