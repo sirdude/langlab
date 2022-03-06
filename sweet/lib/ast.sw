@@ -7,23 +7,19 @@ string EOF = '__YY_EOF___';
 #  used for reading in text files and debugging info for them.
 int linenum;
 
-sub new {
-	my ($class, $args) = @_;
-	my $self = {};
+object new {
+	object self = {};
 
-	bless $self, $class;
-
-	$self->clear();
-	return $self;
+	self->clear();
+	return self;
 }
 
-sub clear {
-	my ($self) = @_;
+int clear(object self) {
 
-	$self->{'current'} = 0;
-	$self->{'size'} = 0;
-	$self->{'scope'} = 0;
-	$self->{'data'} = ();
+	self['current'] = 0;
+	self['size'] = 0;
+	self['scope'] = 0;
+	self['data'] = ();
 
 	return 1;	
 }
@@ -43,7 +39,7 @@ int debug(object self, string info) {
 	return 0;
 }
 
-sub error(object self, string info) {
+int error(object self, string info) {
 
 	print 'ERROR:' . self['data'][self['current']]['linenum'] + ':' +
 		self['data'][self['current']]['columnnum'] + ': \'' +
@@ -101,10 +97,9 @@ mixed peek(object self, int count) {
 	}
 }
 
-sub get_loc {
-	my ($self) = @_;
-	return ($self->{'data'}[$self->{'current'}]->{'linenum'},
-		$self->{'data'}[$self->{'current'}]->{'columnnum'});
+sub get_loc(object self) {
+	return (self['data'][self['current']]['linenum'],
+		self['data'][self['current']]['columnnum']);
 }
 
 string get_eof() {
@@ -124,83 +119,82 @@ int at_eof(object self) {
 	return 0;
 }
 
-sub copy_node {
-	my ($self, $count) = @_;
-	my $node = ();
+object copy_node(object self, int count) {
+	object node = ();
+	int ttt;
+	string copykeys, i;
 
-	if (!$count || $count eq '') {
-		$count = 0;
+	if (!count || count eq '') {
+		count = 0;
 	}
-	my $ttt = $self->{'current'} + $count;
+	ttt = self['current'] + count;
 	$self->debug("ast::copy_node($count:$ttt) size = " . $self->{'size'});
 
-	my @copykeys = keys(%{$self->{'data'}[$ttt]});
-	foreach my $i (@copykeys) {
-		$node->{$i} = $self->{'data'}[$ttt]->{$i};
+	copykeys = keys(self['data'][ttt]);
+	foreach i (copykeys) {
+		node[i] = self['data'][ttt][i];
 	}
 
-	return $node;
+	return node;
 }
 
-sub show_invis {
-	my ($tok) = @_;
-	my %syms;
+string show_invis(tok) {
+	hash syms;
 
-	$syms{' '} = ' ';
-	$syms{"\t"} = '\t';
-	$syms{"\n"} = '\n';
-	$syms{"\r"} = '\r';
+	syms[' '] = ' ';
+	syms["\t"] = '\t';
+	syms["\n"] = '\n';
+	syms["\r"] = '\r';
 
-	if (exists($syms{$tok})) {
-		return $syms{$tok};
+	if (exists(syms[tok])) {
+		return syms[tok];
 	}
-	return $tok;
+	return tok;
 }
 
 # See if STR is a match to the next few tokens.
-sub match {
-	my ($self, $str) = @_;
-	my $done = 0;
-	my $c = 0;
-	my $l = length($str);
-	my $ans = '';
+int match(object self, string str) {
+	int done = 0;
+	int c = 0;
+	int l = length($str);
+	string ans = '';
+	string tmp;
 
-	$self->debug("ast::match($str)");
+	self->debug("ast::match(" + str + ")");
 	
-	if (($str eq 'EOF') && $self->at_eof()) {
+	if ((str == 'EOF') && self->at_eof()) {
 		return 1;
 	}
 
-	while ($c < $l && !$done) {
-		my $tmp = $self->peek($c);
-		if ($tmp eq get_eof()) {
-			$done = 1;
+	while (c < l && !done) {
+		tmp = self->peek(c);
+		if (tmp == get_eof()) {
+			done = 1;
 		} else {
-			$ans .= $tmp;
+			ans = ans + tmp;
 		}
-		$c = $c + length($tmp);
+		c = c + length(tmp);
 	}
 
-	$self->debug("ast::match(" . show_invis($str) . 
-		") tmp = '" . show_invis($ans) . "'");
+	self->debug("ast::match(" + show_invis(str) + 
+		") tmp = '" + show_invis(ans) + "'");
 
-	if ($str eq $ans) {
+	if (str == ans) {
 		return 1;
 	}
 	return 0;
 }
 
-sub match_type {
-	my ($self, $type) = @_;
+int match_type(object self, string type) {
 
-	if ($self->at_eof()) {
-		if ($type eq 'EOF') {
+	if (self->at_eof()) {
+		if (type == 'EOF') {
 			return 1;
 		}
 		return 0;
 	}
 
-	if ($self->{'data'}[$self->{'current'}]->{'type'} eq $type) {
+	if (self['data'][self['current']]['type'] == type) {
 		return 1;
 	}
 	return 0;
@@ -573,7 +567,7 @@ int set_stat(object self, string stype, string skey, string svalue) {
 	return 1;
 }
 
-sub query_stat(object self, string stype, string name) {
+string query_stat(object self, string stype, string name) {
 	string tmp;
 
 	tmp == stype + ":" + name;
