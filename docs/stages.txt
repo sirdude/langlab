@@ -1,14 +1,14 @@
-The idea here is to make the grammar moduler.
+The idea here is to make the grammar modular.
 each grammar object has a number of functions associated with it to read,write and
-modify.  programing a new langage consists of defining the language and then
+modify.  programing a new language consists of defining the language and then
 creating objects for each element of the grammar.
 
-Running a process on a grammar consists of loading the approprate objects and
+Running a process on a grammar consists of loading the appropriate objects and
 walking the tree.
 Walking a tree needs some working parts:
 two trees: input, output
 with nodes that have the following definitions: type, data, next as well as other node specific types
-each tree has the following pointers: head, current, newcurrent
+each tree has the following pointers: head, current, new-current
 
 input:    level 1         convert the following things to a node tree.
 readfile -> chars
@@ -30,32 +30,25 @@ tokens -> json
 tokens -> xml
 tokens -> human
 
-level 4
-walkers: do not modify ast but like transform
-warn on nesting level > 5
-warn on args > 8
-warn on no return value
-
-level 5:
+level 4:
 transforms: ast -> ast2
 pretty printer
 remove trailing whitespace
 spaces -> tabs for nesting
 desugarize (remove whitespace, comments, docs)
-optimazaions
+optimizations
 num (+,-,/,*) num  => newnum
-
-output: level 6
-ast-> language file
-ast-> xml
-ast-> json
-ast-> human
+warn on nesting level > 5
+warn on args > 8
+warn on no return value
 
 Need way to select input, output types and filenames?
 
 level 1: array of chars
 level 2: array of tokens
 level 3: walk tokens to output ast or files.
-level 4: walk ast and warn on issues or fix?
-level 5: walk ast and produce new ast. combine level 4 and 5?
-level 6: walk ast to output files
+level 4: walk ast and produce new ast. and or warn on things.
+level 5: rewrite code in our new language
+level 6: write transform from our language to c
+level 7: start working in our language exclusively and start the process
+	over again to do it better.
