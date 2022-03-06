@@ -30,7 +30,7 @@ sub get {
 
 	$node = $ast->copy_node();
 	$tmp = $ast->consume('(');
-	$node->{'type'} = 'expression';
+	$node->{'type'} = 'bracket';
 
 	if (struct_expression::start($ast)) {
 		$tmp = {};
