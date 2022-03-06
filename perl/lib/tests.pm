@@ -125,7 +125,7 @@ sub is {
 
 
 sub is_quiet {
-	my ($functioncall, $expected, $text) = @_;
+	my ($functioncall, $expected) = @_;
 
 	add_test();
 
