@@ -1,6 +1,5 @@
 # package symbol_table;
 
-
 object new() {
 	object self = {};
 
