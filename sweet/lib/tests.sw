@@ -1,7 +1,6 @@
 # package tests;
 
-use Term::ANSIColor;
-use Data::Dumper;
+use ANSIColor;
 
 int tests, success;
 
@@ -93,11 +92,11 @@ int compare_array(mixed h1, mixed h2) {
 
 int is(mixed first, mixed second, string text) {
 	if (is_quiet(first, second)) {
-		print color('bold green') + 'ok ' + color('reset') + total_tests() + ' - ' + text + "\n";
+		print color('Green') + 'ok ' + color('reset') + total_tests() + ' - ' + text + "\n";
 
 		return 1;
 	}
-	print color('bold red') + 'not ok ' + color('reset') + total_tests() + ' - ' + text + "\n";
+	print color('Red') + 'not ok ' + color('reset') + total_tests() + ' - ' + text + "\n";
 
 	return 0;
 }
