@@ -41,7 +41,7 @@ int debug(object self, string info) {
 
 int error(object self, string info) {
 
-	print 'ERROR:' . self['data'][self['current']]['linenum'] + ':' +
+	print 'ERROR:' + self['data'][self['current']]['linenum'] + ':' +
 		self['data'][self['current']]['columnnum'] + ': \'' +
 		self->peek() + '\' ' + info + "\n";
 	return 1;
@@ -84,7 +84,7 @@ mixed peek(object self, int count) {
 	if (count >= self['size']) {
 		return EOF;
 	} else {
-		$self->debug("Node: " + count + " numnodes: " + self['size'] +
+		self->debug("Node: " + count + " numnodes: " + self['size'] +
 			' Type ' + self['data'][count]['type'] +
 			' data ' + self['data'][count]['data']);
 		if (self['data'][count]['type'] == 'EOF') {
@@ -128,7 +128,7 @@ object copy_node(object self, int count) {
 		count = 0;
 	}
 	ttt = self['current'] + count;
-	$self->debug("ast::copy_node($count:$ttt) size = " . $self->{'size'});
+	self->debug("ast::copy_node(" + count + ":" + ttt) size = " + self->{'size'});
 
 	copykeys = keys(self['data'][ttt]);
 	foreach i (copykeys) {
@@ -156,7 +156,7 @@ string show_invis(tok) {
 int match(object self, string str) {
 	int done = 0;
 	int c = 0;
-	int l = length($str);
+	int l = length(str);
 	string ans = '';
 	string tmp;
 
@@ -201,130 +201,130 @@ int match_type(object self, string type) {
 }
 
 # Get the next token, if STR consume tokens until STR is fully consumed.  If not error.
-sub consume {
-	my ($self, $str) = @_;
+string consume(object self, string str) {
+	int pos, l;
+	string tmp;
 
-	if ($self->at_eof()) {
+	if (self->at_eof()) {
 		return 'EOF';
 	}
-	if (!$str || $str eq '') {
-		my $pos = $self->{'current'};
-		$self->{'current'} = $pos + 1;
-		$str = '';
-		$self->debug("ast::consume($str):" . $self->{'data'}[$pos]->{'data'});
-		return $self->{'data'}[$pos]->{'data'};
+	if (!str || str == '') {
+		pos = self['current'];
+		self['current'] = pos + 1;
+		str = '';
+		self->debug("ast::consume(" + str + "):" + self['data'][pos]['data']);
+		return self['data'][pos]['data'];
 	} else {
-		my $l = length($str);
-		my $pos = $self->{'current'};
-		$self->debug("ast::consume($str):" . $self->{'data'}[$pos]->{'data'});
-		my $tmp = $self->{'data'}[$pos]->{'data'};
-		while (length($tmp) < $l) {
-			$pos = $pos + 1;
-			$tmp .= $self->{'data'}[$pos]->{'data'};
+		l = length(str);
+		pos = self['current'];
+		self->debug("ast::consume(" + str + "):" + self['data'][pos]['data']);
+		tmp = self['data'][pos]['data'];
+		while (length(tmp) < l) {
+			pos = pos + 1;
+			tmp += self['data'][pos]['data'];
 		}
-		$self->{'current'} = $pos + 1;
-		$self->debug("ast::consume($str):" . $tmp);
-		return $tmp;
+		self['current'] = pos + 1;
+		self->debug("ast::consume(" + str + "):" + tmp);
+		return tmp;
 	}
 }
 
-sub add_base_node {
-	my ($self, $type, $data, $line, $column) = @_;
-	my $node = {};
+object add_base_node(object self, string type, mixed data, int line, int column) {
+	object node = {};
 
-	$self->debug("ast::add_base_node($type, $data, $line, $column)\n");
-	$node->{'type'} = $type;
-	$node->{'data'} = $data;
-	$node->{'linenum'} = $line;
-	$node->{'columnnum'} = $column;
+	self->debug("ast::add_base_node(" + type + ", " +
+		data + ", " + line + ", " + column + ")\n");
+	node['type'] = type;
+	node-['data'] = data;
+	node['linenum'] = line;
+	node['columnnum'] = column;
 
-    return add_node($self, $node);
+    return add_node(self, node);
 }
 
-sub expand_stats_type {
-	my ($type) = @_;
+int expand_stats_type(string type) {
+	string *values = ('string', 'comment', 'whitespace', 'ident');
+	string i;
 
-	my @values = ('string', 'comment', 'whitespace', 'ident');
-
-	foreach my $i (@values) {
-		if ($i eq $type) {
+	foreach i (values) {
+		if (i == type) {
 			return 1;
 		}
 	}
 	return 0;
 }
 
-sub add_node {
-	my ($self, $node) = @_;
+int add_node(object self, object node) {
 
-	$self->debug("ast::add_node: type = " . $node->{'type'} . "\n");
-	if (!exists($node->{'data'})) {
-		$self->add_stat('char', 'EOF', 1);
-	} elsif ($node->{'data'} eq $EOF) {
-		$self->add_stat('char', 'EOF', 1);
-	} elsif ($node->{'data'} eq $EOL) {
-		$self->add_stat('char', 'EOL', 1);
+	self->debug("ast::add_node: type = " + node['type'] + "\n");
+	if (!exists(node['data'])) {
+		self->add_stat('char', 'EOF', 1);
+	} elsif (node['data'] == EOF) {
+		self->add_stat('char', 'EOF', 1);
+	} elsif (node['data'] == EOL) {
+		self->add_stat('char', 'EOL', 1);
 	} else {
-	    if (!$self->{'expand-stats'}) {
-			if (expand_stats_type($node->{'type'})) {
-					$self->add_stat($node->{'type'}, $node->{'type'}, 1);
+	    if (!self['expand-stats']) {
+			if (expand_stats_type(node['type'])) {
+					self->add_stat(node['type'], node['type'], 1);
 				} else {
-					$self->add_stat($node->{'type'}, $node->{'data'}, 1);
+					self->add_stat(node['type'], node['data'], 1);
 				}
 		} else {
-			$self->add_stat($node->{'type'}, $node->{'data'}, 1);
+			self->add_stat(node['type'], node['data'], 1);
 		}
 	}
-	$self->add_stat('stats', 'totalchars', 1);
+	self->add_stat('stats', 'totalchars', 1);
 
-	push(@{$self->{'data'}}, $node);
-	$self->{'size'} += 1;
+	push(self['data'], node);
+	self['size'] += 1;
 
 	return 1;
 }
 
-sub print_nodes {
-	my ($self, $filename) = @_;
-	my $c = 0;
-	my $fh;
+int print_nodes(object self, string filename) {
+	int c = 0;
+	int fh;
+	mixed i, key;
 
-	if (!$filename || ($filename eq '')) {
-		foreach my $i (@{$self->{'data'}}) {
-			print "Node: $c\n";
-			foreach my $key (sort keys %{$i}) {
-				print "\t" . $key . ': ' . $i->{$key} . "\n";
+	if (!filename || (filename == '')) {
+		foreach i (self['data']) {
+			print "Node: " + c + "\n";
+			foreach key (sort keys i) {
+				print "\t" + key + ': ' + i[key] + "\n";
 			}
-			$c = $c + 1;
+			c = c + 1;
 		}
 	} else {
-		open($fh, ">", $filename) or die "Unable to open $filename\n";
-		foreach my $i (@{$self->{'data'}}) {
-			print $fh "Node: $c\n";
-			foreach my $key (sort keys %{$i}) {
-				print $fh "\t" . $key . ': ' . $i->{$key} . "\n";
+		open(fh, ">", filename) or die "Unable to open " + filename + "\n";
+		foreach i (self['data']) {
+			print fh "Node: " + c + "\n";
+			foreach key (sort keys i) {
+				print fh "\t" + key + ': ' + i[key] + "\n";
 			}
-			$c = $c + 1;
+			c = c + 1;
 	}
 	}
 	return 1;
 }
 
-sub nodes_to_json {
-	my ($self, $filename) = @_;
-	my $start = 0;
-	my $fh;
+int nodes_to_json(object self, string filename) {
+	int start = 0;
+	int fh;
+	mixed i;
+	string keys;
 
-	if (!$filename || ($filename eq '')) {
+	if (!filename || (filename == '')) {
 		print "{ \"NODES\": [\n";
-		foreach my $i (@{$self->{'data'}}) {
-			if (!$start) {
-				$start = 1;
+		foreach i (self['data']) {
+			if (!start) {
+				start = 1;
 			} else {
 				print ",\n";
 			}
 			print '{ ';
-				foreach my $key (sort keys %{$i}) {
-					print "\t" . $key . ":" . $i->{$key} . ",\n";
+				foreach key (sort keys i) {
+					print "\t" + key + ":" + i[key] + ",\n";
 				}
 			print ' }';
 		}
@@ -333,24 +333,24 @@ sub nodes_to_json {
 		}
 		print "] }\n";
 	} else {
-		open($fh, ">", $filename) or die "Unable to open $filename\n";
+		open(fh, ">", $filename) or die "Unable to open " + filename + "\n";
 		print $fh "{ \"NODES\": [\n";
-		foreach my $i (@{$self->{'data'}}) {
-			if (!$start) {
+		foreach i (self['data']) {
+			if (!start) {
 				$start = 1;
 			} else {
-				print $fh ",\n";
+				print fh ",\n";
 			}
-			print $fh '{ ';
-				foreach my $key (sort keys %{$i}) {
-					print $fh "\t" . $key . ":" . $i->{$key} . ",\n";
+			print fh '{ ';
+				foreach key (sort keys i) {
+					print fh "\t" + key + ":" + i[key] + ",\n";
 				}
-			print $fh ' }';
+			print fh ' }';
 		}
-		if ($start) {
-			print $fh "\n";
+		if (start) {
+			print fh "\n";
 		}
-		print $fh "] }\n";
+		print fh "] }\n";
 	}
 
 	return 1;
@@ -387,23 +387,21 @@ sub nodes_to_xml {
 	return 1;
 }
 
-sub is_xml_file {
-	my ($self, $infile) = @_;
-	my $end = length($infile);
-	my $start = $end - 4;
+int is_xml_file(object self, string infile) {
+	my end = length(infile);
+	my start = end - 4;
 
-	if (($start > 0) && substr($infile, $start, $end) eq ".xml") {
+	if ((start > 0) && substr(infile, start, end) == ".xml") {
 		return 1;
 	}
 	return 0;
 }
 
-sub is_json_file {
-	my ($self, $infile) = @_;
-	my $end = length($infile);
-	my $start = $end - 5;
+int is_json_file(object self, string infile) {
+	my end = length(infile);
+	my start = end - 5;
 
-	if (($start > 0) && substr($infile, $start, $end) eq ".json") {
+	if ((start > 0) && substr(infile, start, end) == ".json") {
 		return 1;
 	}
 	return 0;
