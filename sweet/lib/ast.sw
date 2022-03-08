@@ -407,150 +407,148 @@ int is_json_file(object self, string infile) {
 	return 0;
 }
 
-sub get_xml_header {
-	my ($self, $fhh) = @_;
+int get_xml_header(object self, int fhh) {
+	string header = <fhh>;
 
-	my $header = <$fhh>;
-	$linenum = 1;
-	chomp $header;
-	if ($header eq "<nodes>") {
+	linenum = 1;
+	chomp(header);
+	if (header == "<nodes>") {
 		return 1;
 	}
 
 	return 0;
 }
 
-sub get_xml_node {
-	my ($self, $fhh) = @_;
-	my $node = {};
+int get_xml_node(object self, int fhh) {
+	object node = {};
+	string row;
 
-	my $row = <$fhh>;
-	chomp $row;
-	$linenum += 1;
-	if ($row =~ /\t<node>/) {
-		$row = <$fhh>;
-		chomp $row;
-		$linenum += 1;
-		while ($row ne "\t</node>") {
-			if ($row =~ /<(.*)>(.*)<\/(.*)>/) {
-				my $tag = $1;
-				my $value = $2;
-				$node->{$tag} = $value;
-				$row = <$fhh>;
-				chomp $row;
-				$linenum += 1;
+	row = <fhh>;
+	chomp(row);
+	linenum += 1;
+	if (row =~ /\t<node>/) {
+		row = <fhh>;
+		chomp(row);
+		linenum += 1;
+		while (row != "\t</node>") {
+			if (row =~ /<(.*)>(.*)<\/(.*)>/) {
+				my tag = $1;
+				my value = $2;
+				node[tag] = value;
+				row = <fhh>;
+				chomp(row);
+				linenum += 1;
 			} else {
-				print "Error reading line $linenum: $row\n";
+				print "Error reading line " + linenum + ":" + row + "\n";
 				return 0;
 			}
 		}
-		if ($row eq "\t</node>") {
-			push(@{$self->{'data'}}, $node);
+		if (row == "\t</node>") {
+			push(self['data'], node);
 			return 1;
 		}
 		
-	} elsif ($row eq "</nodes>") {
+	} elsif (row == "</nodes>") {
 		return 2;
 	}
 	return 0;
 }
 
-sub read_xml_file {
-	my ($self, $infile) = @_;
-	my ($fh, $done);
+int read_xml_file(object self, string infile) {
+	int fh, done;
 
-	if (open($fh, "<", $infile)) {
-		if (get_xml_header($self, $fh)) {
-			$done = 1;
-			while($done == 1) {
-				$done = get_xml_node($self, $fh);
+	if (open(fh, "<", infile)) {
+		if (get_xml_header(self, fh)) {
+			done = 1;
+			while(done == 1) {
+				done = get_xml_node(self, fh);
 			}
-			close($fh);
-			if ($done == 2) {
+			close(fh);
+			if (done == 2) {
 				return 1;
 			}
 		} else {
-			close($fh);
+			close(fh);
 		}
 	}
 	return 0;
 }
 
-sub get_json_header {
-	my ($self, $fhh) = @_;
+int get_json_header(object self, int fhh) {
+	string header;
 
-	my $header = <$fhh>;
-	$linenum = 1;
-	chomp $header;
-	if ($header eq "{ \"NODES\": [") {
+	header = <fhh>;
+	linenum = 1;
+	chomp(header);
+	if (header == "{ \"NODES\": [") {
 		return 1;
 	}
 
 	return 0;
 }
 
-sub get_json_node {
-	my ($self, $fhh) = @_;
-	my $node = {};
+int get_json_node(object self, int fhh) {
+	object node = {};
+	string row;
 
-	my $row = <$fhh>;
-	chomp $row;
-	$linenum += 1;
-	if ($row =~ /^{\s+(.*):(.*),/) {
-		while ($row !~ /^\s*}(,?)/) {
-			if ($row =~ /\s+(.*):(.*)(,?)/) {
-				my $tag = $1;
-				my $value = $2;
-				$node->{$tag} = $value;
-				$row = <$fhh>;
-				chomp $row;
-				$linenum += 1;
+	row = <fhh>;
+	chomp(row);
+
+	linenum += 1;
+	if (row =~ /^{\s+(.*):(.*),/) {
+		while (row !~ /^\s*}(,?)/) {
+			if (row =~ /\s+(.*):(.*)(,?)/) {
+				my tag = $1;
+				my value = $2;
+				node[tag] = value;
+				row = <fhh>;
+				chomp(row);
+				linenum += 1;
 			} else {
-				print "Error reading line $linenum: $row\n";
+				print "Error reading line " + linenum + ":" + row + "\n";
 				return 0;
 			}
 		}
-		if (($row =~ /^\s*}(,?)/)) {
-			push(@{$self->{'data'}}, $node);
+		if ((row =~ /^\s*}(,?)/)) {
+			push(self['data'], node);
 			return 1;
 		}
 		
-	} elsif ($row eq "] }") {
+	} elsif (row == "] }") {
 		return 2;
 	}
 	return 0;
 }
 
-sub read_json_file {
-	my ($self, $infile) = @_;
-	my ($fh, $done);
+int read_json_file(object self, string infile) {
+	int fh, done;
 
-	if (open($fh, "<", $infile)) {
-		if (get_json_header($self, $fh)) {
-			$done = 1;
-			while($done == 1) {
-				$done = get_json_node($self, $fh);
+	if (open(fh, "<", infile)) {
+		if (get_json_header(self, fh)) {
+			done = 1;
+			while(done == 1) {
+				done = get_json_node(self, fh);
 			}
-			close($fh);
-			if ($done == 2) {
+			close(fh);
+			if (done == 2) {
 				return 1;
 			}
 		} else {
-			close($fh);
+			close(fh);
 		}
 	}
 	return 0;
 }
 
-sub add_stat {
-	my ($self, $stype, $skey, $svalue) = @_;
+int add_stat(object self, string stype, string skey, string svalue) = @_;
+	string tmp;
 
-	$self->debug("add_stat: $stype: $skey: $svalue");
-	my $tmp = $stype . ":" . $skey;
-	if (exists($self->{'stats'}->{$tmp})) {
-		$self->{'stats'}->{$tmp} = $self->{'stats'}->{$tmp} + $svalue;
+	self->debug("add_stat: " + stype + ":" + skey + ":" + svalue);
+	tmp = stype + ":" + skey;
+	if (exists(self['stats'][tmp])) {
+		self['stats'][tmp] = self['stats'][tmp] + svalue;
 	} else {
-		$self->{'stats'}->{$tmp} = $svalue;
+		self['stats'][tmp] = svalue;
 	}
 	return 1;
 }
