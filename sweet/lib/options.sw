@@ -67,38 +67,39 @@ int print_options {
 	return c;
 }
 
-sub parse_options {
-	my (@args) = @_;
-	my @args2;
+string *parse_options(string *args) {
+	string *args2;
+	string i, x;
+	int done;
 
-	foreach my $i (@args) {
-		my $done = 0;
-		if ($i =~ /-.*/) {
-			foreach my $x (keys(%options)) {
-				if ($i =~ /--$x="([^"]*)"(.*)/) {
-					my $rest = $1;
+	foreach my i (@args) {
+		done = 0;
+		if (i =~ /-.*/) {
+			foreach x (keys(options)) {
+				if (i =~ /--$x="([^"]*)"(.*)/) {
+					my rest = $1;
 
-					set_option($x, $rest);
-					$done = 1;
-				} elsif ($i =~ /--$x=([^\ ]*)(.*)/) {
-					my $rest = $1;
+					set_option(x, rest);
+					done = 1;
+				} elsif (i =~ /--$x=([^\ ]*)(.*)/) {
+					my rest = 1;
 
-					set_option($x, $rest);
+					set_option(x, rest);
 					$done = 1;
-				} elsif ($i =~ /--$x/) {
-					set_option($x, 1);
-					$done = 1;
+				} elsif (i =~ /--$x/) {
+					set_option(x, 1);
+					done = 1;
 				}
 			}
-			if (!$done) {
-				print "Invalid option $i\n";
+			if (!done) {
+				print "Invalid option " + i + "\n";
 				return 0;
 			}
 		} else {
-			push(@args2, $i);
+			push(args2, i);
 		}
 	}
 
-	return @args2;
+	return args2;
 }
 

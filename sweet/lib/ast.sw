@@ -97,7 +97,7 @@ mixed peek(object self, int count) {
 	}
 }
 
-sub get_loc(object self) {
+int *get_loc(object self) {
 	return (self['data'][self['current']]['linenum'],
 		self['data'][self['current']]['columnnum']);
 }
@@ -356,32 +356,32 @@ int nodes_to_json(object self, string filename) {
 	return 1;
 }
 
-sub nodes_to_xml {
-	my ($self, $filename) = @_;
-	my $start = 0;
-	my $fh;
+int nodes_to_xml(object self, string filename) {
+	int start = 0;
+	int fh, key;
+	hash i;
 
-	if (!$filename || ($filename eq '')) {
+	if (!filename || (filename eq '')) {
 		print "<nodes>\n";
-		foreach my $i (@{$self->{'data'}}) {
+		foreach i (self['data']) {
 			print "\t<node>\n";
-			foreach my $key (sort keys %{$i}) {
-				print "\t\t<$key>" . $i->{$key} . "</$key>\n";
+			foreach key (sort keys i) {
+				print "\t\t<$key>" . i[key] . "</$key>\n";
 			}
 			print "\t</node>\n";
 		}
 		print "</nodes>\n";
 	} else {
-		open($fh, ">", $filename) or die "Unable to open $filename\n";
-		print $fh "<nodes>\n";
-		foreach my $i (@{$self->{'data'}}) {
+		open(fh, ">", filename) or die "Unable to open " + filename + "\n";
+		print fh "<nodes>\n";
+		foreach i (self-['data']) {
 			print $fh "\t<node>\n";
-			foreach my $key (sort keys %{$i}) {
-				print $fh "\t\t<$key>" . $i->{$key} . "</$key>\n";
+			foreach key (sort keys i) {
+				print fh "\t\t<$key>" + i[key] + "</$key>\n";
 			}
-			print $fh "\t</node>\n";
+			print fh "\t</node>\n";
 		}
-		print $fh "</nodes>\n";
+		print fh "</nodes>\n";
 	}
 
 	return 1;
@@ -557,7 +557,7 @@ int set_stat(object self, string stype, string skey, string svalue) {
 	string tmp;
 
 	self->debug("set_stat: " + stype + ":" + skey+ ":" +  svalue);
-	tmp =$stype + ":" + skey;
+	tmp = stype + ":" + skey;
 	self['stats'][tmp] = svalue;
 
 	return 1;
@@ -643,9 +643,8 @@ int parse_file(object self, string fname) {
 	if (open(fh, "<", fname)) {
 		while (fh) {
 			str = read_line(fh);
-			my $line = $_;
 			l = l + 1;
-			self->parse_string(line, l);
+			self->parse_string(str, l);
 		}
 		close(fh);
 		l = l + 1;
@@ -670,7 +669,7 @@ int parse_file_or_string(object self, mixed *values) {
 		}
 		return tmp;
 	} else {
-		str = join(' ', @values);
+		str = join(' ', values);
 		return self->parse_string(str, 0);
 	}
 }
