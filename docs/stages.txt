@@ -46,7 +46,7 @@ Need way to select input, output types and filenames?
 
 level 1: array of chars
 level 2: array of tokens
-level 3: walk tokens to output ast or files.
+level 3: AST
 level 4: walk ast and produce new ast. and or warn on things.
 level 5: rewrite code in our new language
 level 6: write transform from our language to c
