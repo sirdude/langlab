@@ -156,6 +156,7 @@ sub main {
 	if (!struct_program::get($tokast, $progast)) {
 		return 0;
 	}
+
 	if (!outputfile(query_option('output-ast-file'), $progast, 'ast_stats.txt')) {
 		return 0;
 	}
