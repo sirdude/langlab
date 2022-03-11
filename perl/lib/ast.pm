@@ -30,7 +30,7 @@ sub clear {
 	$self->{'hscope'} = '';
 	$self->{'data'} = ();
 
-	return 1;	
+	return 1;
 }
 
 sub set_debug {

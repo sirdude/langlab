@@ -112,8 +112,8 @@ sub compare_array {
 }
 
 sub is {
-	my ($first, $second, $text) = @_;
-	if (is_quiet($first, $second)) {
+	my ($first, $sec, $text) = @_;
+	if (is_quiet($first, $sec)) {
 		print color('bold green') . "ok " . color('reset') . total_tests() . " - $text\n";
 
 		return 1;

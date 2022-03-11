@@ -1,6 +1,7 @@
 package symbol_table;
 
 use warnings;
+use strict;
 use base 'Exporter';
 
 sub new {
@@ -18,6 +19,8 @@ sub clear {
 	my ($self) = @_;
 
 	$self->{'symtable'} = ();
+
+	return 1;
 }
 
 # Simple symbol table functions
