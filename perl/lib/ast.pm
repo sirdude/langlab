@@ -80,11 +80,10 @@ sub pop_scope {
 	}
 	$tmp = $self->{'scope'};
 	$tmp =~ s{^.*/|\:[^:]+$}{}g;
-	$self->{'scope'} = $1;
+	$self->{'scope'} = $tmp;
 	$tmp = $self->{'hscope'};
 	$tmp =~ s{^.*/|\:[^:]+$}{}g;
-	$self->{'hscope'} = $1;
-	
+	$self->{'hscope'} = $tmp;
 
 	return $self->{'scope'};
 }
