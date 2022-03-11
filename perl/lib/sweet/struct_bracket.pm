@@ -20,8 +20,8 @@ sub get {
 	my $tmp;
 	my $return = 0;
 
-	$ast->push_scope();
-	$ast->debug('struct_bracket::get');
+	$ast->push_scope('bracket');
+	$ast->debug($ast->get_hscope());
 
 	if (!start($ast)) {
 		$ast->pop_scope();

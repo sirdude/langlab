@@ -23,8 +23,8 @@ sub get {
 	my $return = 0;
 	my $done = 0;
 
-	$ast->push_scope();
-	$ast->debug('struct_exp_list::get');
+	$ast->push_scope('exp_list');
+	$ast->debug($ast->get_hscope());
 
 	if (!start($ast)) {
 		$ast->pop_scope();

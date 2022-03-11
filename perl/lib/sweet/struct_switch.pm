@@ -25,8 +25,8 @@ sub get {
 	my $tmp;
 	my $return = 0;
 
-	$ast->push_scope();
-	$ast->debug('struct_switch::get');
+	$ast->push_scope('switch');
+	$ast->debug($ast->get_hscope());
 
 	if (!start($ast)) {
 		$ast->pop_scope();

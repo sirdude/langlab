@@ -19,8 +19,8 @@ sub get {
 	my ($p, $l) = $ast->get_loc();
 	my $done = 0;
 
-	$ast->push_scope();
-	$ast->debug('tok_comment::get Buf: ' . $ast->peek());
+	$ast->push_scope('tok_comment->get');
+	$ast->debug($ast->get_hscope() . ' Buf: ' . $ast->peek());
 
 	if (!start($ast)) {
 		return 0;

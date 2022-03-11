@@ -19,8 +19,8 @@ sub get {
 	my ($ast, $node) = @_;
 	my $tmp;
 
-	$ast->push_scope();
-	$ast->debug('struct_goto::get');
+	$ast->push_scope('goto');
+	$ast->debug($ast->get_hscope());
 
 	if (!start($ast)) {
 		$ast->pop_scope();

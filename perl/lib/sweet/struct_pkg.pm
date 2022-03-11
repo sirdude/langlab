@@ -21,8 +21,8 @@ sub get {
 	my ($tmp);
 	my @tmods = ();
 
-	$ast->push_scope();
-	$ast->debug('struct_pkg::get');
+	$ast->push_scope('pkg');
+	$ast->debug($ast->get_hscope());
 
 	if (!start($ast)) {
 		$ast->pop_scope();

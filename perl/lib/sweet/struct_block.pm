@@ -20,8 +20,8 @@ sub get {
 	my $tmp;
 	my $done = 0;
 
-	$ast->push_scope();
-	$ast->debug('struct_block::get');
+	$ast->push_scope('block');
+	$ast->debug($ast->get_hscope());
 
 	if (!start($ast)) {
 		$ast->error('struct_block::get called and not the start of a block');

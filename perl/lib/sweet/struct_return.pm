@@ -20,8 +20,8 @@ sub get {
 	my $tmp;
 	my $return = 0;
 
-	$ast->push_scope();
-	$ast->debug('struct_return::get');
+	$ast->push_scope('return');
+	$ast->debug($ast->get_hscope());
 
 	if (!start($ast)) {
 		$ast->pop_scope();

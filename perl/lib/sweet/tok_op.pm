@@ -30,8 +30,8 @@ sub get {
 		'-=', '*=', '/=', '%=', '&=', '|=', '^=', '?:', '->', '::', '<-',
 		'!!', '=~', '=~', '..');
 
-	$ast->push_scope();
-	$ast->debug('tok_op::get');
+	$ast->push_scope('tok_op->get');
+	$ast->debug($ast->get_hscope());
 
 	if (!start($ast)) {
 		$ast->pop_scope();

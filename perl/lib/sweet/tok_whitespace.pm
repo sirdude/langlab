@@ -18,8 +18,8 @@ sub get {
 	my ($p, $l) = $ast->get_loc();
 	my $word = '';
 
-	$ast->push_scope();
-	$ast->debug('tok_whitespace::get');
+	$ast->push_scope('tok_whitespace->get');
+	$ast->debug($ast->get_hscope());
 
 	while(start($ast)) {
 		my $tmp = $ast->consume();

@@ -33,8 +33,8 @@ sub get {
 	my ($word, $tmp);
 	my $return = 0;
 
-	$ast->push_scope();
-	$ast->debug('tok_hex::get');
+	$ast->push_scope('tok_hex->get');
+	$ast->debug($ast->get_hscope());
 
 	if (!start($ast)) {
 		$ast->pop_scope();

@@ -21,8 +21,8 @@ sub get {
 	my $lastchr = '';
 	my $word = '';
 
-	$ast->push_scope();
-	$ast->debug('tok_string::get:');
+	$ast->push_scope('tok_string->get');
+	$ast->debug($ast->get_hscope());
 
 	if (!start($ast)) {
 		$ast->pop_scope();

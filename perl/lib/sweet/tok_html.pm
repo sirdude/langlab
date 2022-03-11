@@ -30,8 +30,8 @@ sub get {
 	my ($p, $l) = $ast->get_loc();
 	my $tmp;
 
-	$ast->push_scope();
-	$ast->debug('tok_html::get');
+	$ast->push_scope('tok_html->get');
+	$ast->debug($ast->get_hscope());
 
 	if (!start($ast)) {
 		return 0;

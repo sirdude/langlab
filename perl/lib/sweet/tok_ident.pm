@@ -73,8 +73,8 @@ sub get {
 	my ($p, $l) = $ast->get_loc();
 	my ($word, $tmp);
 
-	$ast->push_scope();
-	$ast->debug('tok_ident::get');
+	$ast->push_scope('tok_ident->get');
+	$ast->debug($ast->get_hscope());
 
 	if (!start($ast)) {
 		$ast->pop_scope();

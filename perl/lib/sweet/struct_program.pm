@@ -24,8 +24,8 @@ sub get {
 	my ($ast, $node) = @_;
 	my $tmp;
 
-	$ast->push_scope();
-	$ast->debug('struct_program::get');
+	$ast->push_scope('program');
+	$ast->debug($ast->get_hscope());
 
 	if (!start($ast)) {
 		$ast->pop_scope();

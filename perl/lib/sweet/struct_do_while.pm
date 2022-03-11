@@ -21,8 +21,8 @@ sub get {
 	my $tmp;
 	my $return = 0;
 
-	$ast->push_scope();
-	$ast->debug('struct_do_while::get');
+	$ast->push_scope('do_while');
+	$ast->debug($ast->get_hscope());
 
 	if (!start($ast)) {
 		$ast->pop_scope();

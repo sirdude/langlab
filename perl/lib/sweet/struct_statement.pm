@@ -97,8 +97,8 @@ sub get {
 	my $done = 0;
 	my $tmp;
 
-	$ast->push_scope();
-	$ast->debug('struct_statement::get');
+	$ast->push_scope('statement');
+	$ast->debug($ast->get_hscope());
 
 	$node = $ast->copy_node();
 	$node->{'type'} = 'statement';

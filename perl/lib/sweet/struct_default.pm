@@ -21,8 +21,8 @@ sub get {
 	my $tmp;
 	my $return = 0;
 
-	$ast->push_scope();
-	$ast->debug('struct_default::get');
+	$ast->push_scope('default');
+	$ast->debug($ast->get_hscope());
 
 	if (!start($ast)) {
 		$ast->pop_scope();

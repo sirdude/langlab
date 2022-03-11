@@ -18,7 +18,10 @@ int clear(object self) {
 
 	self['current'] = 0;
 	self['size'] = 0;
-	self['scope'] = 0;
+	self['scopeindent'] = 0;
+	self['scopeid'] = 0;
+	self['scope'] = '';
+	self['hscope'] = '';
 	self['data'] = ();
 
 	return 1;	
@@ -47,19 +50,29 @@ int error(object self, string info) {
 	return 1;
 }
 
-int push_scope(object self) {
+int push_scope(object self, string str) {
 
-	self->['scope'] = self['scope'] + 1;
+	self->['scopeindent'] += 1;
+	self->['scopeid'] += 1;
+	self->['hscope'] += ':' + str;
+	self->['scope'] += ':' + self->['scopeid'];
 
 	return self->['scope'];
 }
 
 int pop_scope(object self) {
+	string tmp;
 
-	self['scope'] = self['scope'] - 1;
-	if (self['scope'] < 0) {
+	self['scopeindent'] -= 1;
+	if (self['scopeindent'] < 0) {
 		print "ERROR: Scope < 0\n";
 	}
+	tmp = self->['scope'];
+	tmp  =~ s{^.*/|\:[^:]+$}{}g;
+	self->['scope'] = $1;
+	tmp = self->['hscope'];
+	tmp  =~ s{^.*/|\:[^:]+$}{}g;
+	self->['hscope'] = $1;
 
 	return self['scope'];
 }
@@ -67,6 +80,23 @@ int pop_scope(object self) {
 int get_scope(object self) {
 
 	return self['scope'];
+}
+
+int get_hscope(object self) {
+
+	return self['hscope'];
+}
+
+sub get_scopeindent {
+	my ($self) = @_;
+
+	return $self->{'scopeindent'};
+}
+
+sub get_total_scopes {
+	my ($self) = @_;
+
+	return $self->{'scopeid'};
 }
 
 # Look at just the next token

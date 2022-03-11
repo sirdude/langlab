@@ -23,8 +23,8 @@ sub get {
 	my @params;
 	my $done = 0;
 
-	$ast->push_scope();
-	$ast->debug('struct_fundef_params::get');
+	$ast->push_scope('fundev_params');
+	$ast->debug($ast->get_hscope());
 
 	if (!start($ast)) {
 		$ast->pop_scope();

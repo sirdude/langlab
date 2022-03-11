@@ -29,8 +29,8 @@ sub get {
 	my ($tmp);
 	my @tmods = ();
 
-	$ast->push_scope();
-	$ast->debug('struct_def::get');
+	$ast->push_scope('def');
+	$ast->debug($ast->get_hscope());
 
 	if (!start($ast)) {
 		$ast->pop_scope();
@@ -106,8 +106,8 @@ sub get_var_only {
 	my ($tmp);
 	my @tmods = ();
 
-	$ast->push_scope();
-	$ast->debug('struct_def::get');
+	$ast->push_scope('var_def');
+	$ast->debug($ast->get_hscope());
 
 	if (!start($ast)) {
 		$ast->pop_scope();
