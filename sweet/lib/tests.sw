@@ -42,17 +42,17 @@ int is_array(mixed input) {
 
 int compare_hash(mixed h1, mixed h2) {
 
-	foreach my $key (keys(h2)) {
+	foreach my key (keys(h2)) {
 		if (exists(h1[key])) {
 		    if (is_hash(h1[key])) {
 				if (!compare_hash(h1[key], h2[key])) {
 					return 0;
 				}
 			} elsif (is_array(h1[key])) {
-				if (!compare_array(h1[key], h2[$key])) {
+				if (!compare_array(h1[key], h2[key])) {
 					return 0;
 				}
-			} elsif (h1[$key] == h2[key]) {
+			} elsif (h1[key] == h2[key]) {
 				return 0;
 			}
 	 	} else {
@@ -61,7 +61,7 @@ int compare_hash(mixed h1, mixed h2) {
 	}
 
 	foreach my comp_key (keys(h1)) {
-		if (!exists(h2[$comp_key])) {
+		if (!exists(h2[comp_key])) {
 			return 0;
 		}
 	}
@@ -125,8 +125,8 @@ int is_quiet(mixed functioncall, mixed expected) {
 }
 
 int init_tests {
-	$tests = 0;
-	$success = 0;
+	tests = 0;
+	success = 0;
 
 	return 1;
 }

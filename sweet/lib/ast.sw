@@ -10,7 +10,7 @@ int linenum;
 object new {
 	object self = {};
 
-	self->clear();
+	self.clear();
 	return self;
 }
 
@@ -46,18 +46,18 @@ int error(object self, string info) {
 
 	print 'ERROR:' + self['data'][self['current']]['linenum'] + ':' +
 		self['data'][self['current']]['columnnum'] + ': \'' +
-		self->peek() + '\' ' + info + "\n";
+		self.peek() + '\' ' + info + "\n";
 	return 1;
 }
 
 int push_scope(object self, string str) {
 
-	self->['scopeindent'] += 1;
-	self->['scopeid'] += 1;
-	self->['hscope'] += ':' + str;
-	self->['scope'] += ':' + self->['scopeid'];
+	self['scopeindent'] += 1;
+	self['scopeid'] += 1;
+	self['hscope'] += ':' + str;
+	self['scope'] += ':' + self['scopeid'];
 
-	return self->['scope'];
+	return self['scope'];
 }
 
 int pop_scope(object self) {
@@ -67,12 +67,12 @@ int pop_scope(object self) {
 	if (self['scopeindent'] < 0) {
 		print "ERROR: Scope < 0\n";
 	}
-	tmp = self->['scope'];
+	tmp = self['scope'];
 	tmp  =~ s{^.*/|\:[^:]+$}{}g;
-	self->['scope'] = tmp;
-	tmp = self->['hscope'];
+	self['scope'] = tmp;
+	tmp = self['hscope'];
 	tmp  =~ s{^.*/|\:[^:]+$}{}g;
-	self->['hscope'] = tmp;
+	self['hscope'] = tmp;
 
 	return self['scope'];
 }
@@ -87,16 +87,14 @@ int get_hscope(object self) {
 	return self['hscope'];
 }
 
-sub get_scopeindent {
-	my ($self) = @_;
+sub get_scopeindent(object self) {
 
-	return $self->{'scopeindent'};
+	return self['scopeindent'];
 }
 
-sub get_total_scopes {
-	my ($self) = @_;
+sub get_total_scopes(object self) {
 
-	return $self->{'scopeid'};
+	return self['scopeid'];
 }
 
 # Look at just the next token
@@ -108,13 +106,13 @@ mixed peek(object self, int count) {
 	}
 	ttt = self['current'] + count;
 
-	self->debug("ast::peek(" + count + ":" + ttt + ") size = " + self['size']);
+	self.debug("ast::peek(" + count + ":" + ttt + ") size = " + self['size']);
 	count = ttt;
 
 	if (count >= self['size']) {
 		return EOF;
 	} else {
-		self->debug("Node: " + count + " numnodes: " + self['size'] +
+		self.debug("Node: " + count + " numnodes: " + self['size'] +
 			' Type ' + self['data'][count]['type'] +
 			' data ' + self['data'][count]['data']);
 		if (self['data'][count]['type'] == 'EOF') {
@@ -158,7 +156,7 @@ object copy_node(object self, int count) {
 		count = 0;
 	}
 	ttt = self['current'] + count;
-	self->debug("ast::copy_node(" + count + ":" + ttt) size = " + self->{'size'});
+	self.debug("ast::copy_node(" + count + ":" + ttt) size = " + self['size']);
 
 	copykeys = keys(self['data'][ttt]);
 	foreach i (copykeys) {
@@ -190,14 +188,14 @@ int match(object self, string str) {
 	string ans = '';
 	string tmp;
 
-	self->debug("ast::match(" + str + ")");
+	self.debug("ast::match(" + str + ")");
 	
-	if ((str == 'EOF') && self->at_eof()) {
+	if ((str == 'EOF') && self.at_eof()) {
 		return 1;
 	}
 
 	while (c < l && !done) {
-		tmp = self->peek(c);
+		tmp = self.peek(c);
 		if (tmp == get_eof()) {
 			done = 1;
 		} else {
@@ -206,7 +204,7 @@ int match(object self, string str) {
 		c = c + length(tmp);
 	}
 
-	self->debug("ast::match(" + show_invis(str) + 
+	self.debug("ast::match(" + show_invis(str) + 
 		") tmp = '" + show_invis(ans) + "'");
 
 	if (str == ans) {
@@ -217,7 +215,7 @@ int match(object self, string str) {
 
 int match_type(object self, string type) {
 
-	if (self->at_eof()) {
+	if (self.at_eof()) {
 		if (type == 'EOF') {
 			return 1;
 		}
@@ -235,26 +233,26 @@ string consume(object self, string str) {
 	int pos, l;
 	string tmp;
 
-	if (self->at_eof()) {
+	if (self.at_eof()) {
 		return 'EOF';
 	}
 	if (!str || str == '') {
 		pos = self['current'];
 		self['current'] = pos + 1;
 		str = '';
-		self->debug("ast::consume(" + str + "):" + self['data'][pos]['data']);
+		self.debug("ast::consume(" + str + "):" + self['data'][pos]['data']);
 		return self['data'][pos]['data'];
 	} else {
 		l = length(str);
 		pos = self['current'];
-		self->debug("ast::consume(" + str + "):" + self['data'][pos]['data']);
+		self.debug("ast::consume(" + str + "):" + self['data'][pos]['data']);
 		tmp = self['data'][pos]['data'];
 		while (length(tmp) < l) {
 			pos = pos + 1;
 			tmp += self['data'][pos]['data'];
 		}
 		self['current'] = pos + 1;
-		self->debug("ast::consume(" + str + "):" + tmp);
+		self.debug("ast::consume(" + str + "):" + tmp);
 		return tmp;
 	}
 }
@@ -262,7 +260,7 @@ string consume(object self, string str) {
 object add_base_node(object self, string type, mixed data, int line, int column) {
 	object node = {};
 
-	self->debug("ast::add_base_node(" + type + ", " +
+	self.debug("ast::add_base_node(" + type + ", " +
 		data + ", " + line + ", " + column + ")\n");
 	node['type'] = type;
 	node-['data'] = data;
@@ -286,25 +284,25 @@ int expand_stats_type(string type) {
 
 int add_node(object self, object node) {
 
-	self->debug("ast::add_node: type = " + node['type'] + "\n");
+	self.debug("ast::add_node: type = " + node['type'] + "\n");
 	if (!exists(node['data'])) {
-		self->add_stat('char', 'EOF', 1);
+		self.add_stat('char', 'EOF', 1);
 	} elsif (node['data'] == EOF) {
-		self->add_stat('char', 'EOF', 1);
+		self.add_stat('char', 'EOF', 1);
 	} elsif (node['data'] == EOL) {
-		self->add_stat('char', 'EOL', 1);
+		self.add_stat('char', 'EOL', 1);
 	} else {
 	    if (!self['expand-stats']) {
 			if (expand_stats_type(node['type'])) {
-					self->add_stat(node['type'], node['type'], 1);
+					self.add_stat(node['type'], node['type'], 1);
 				} else {
-					self->add_stat(node['type'], node['data'], 1);
+					self.add_stat(node['type'], node['data'], 1);
 				}
 		} else {
-			self->add_stat(node['type'], node['data'], 1);
+			self.add_stat(node['type'], node['data'], 1);
 		}
 	}
-	self->add_stat('stats', 'totalchars', 1);
+	self.add_stat('stats', 'totalchars', 1);
 
 	push(self['data'], node);
 	self['size'] += 1;
@@ -358,16 +356,16 @@ int nodes_to_json(object self, string filename) {
 				}
 			print ' }';
 		}
-		if ($start) {
+		if (start) {
 			print "\n";
 		}
 		print "] }\n";
 	} else {
-		open(fh, ">", $filename) or die "Unable to open " + filename + "\n";
-		print $fh "{ \"NODES\": [\n";
+		open(fh, ">", filename) or die "Unable to open " + filename + "\n";
+		print fh "{ \"NODES\": [\n";
 		foreach i (self['data']) {
 			if (!start) {
-				$start = 1;
+				start = 1;
 			} else {
 				print fh ",\n";
 			}
@@ -396,7 +394,7 @@ int nodes_to_xml(object self, string filename) {
 		foreach i (self['data']) {
 			print "\t<node>\n";
 			foreach key (sort keys i) {
-				print "\t\t<$key>" . i[key] . "</$key>\n";
+				print "\t\t<" . key . ">" . i[key] . "</" . key . ">\n";
 			}
 			print "\t</node>\n";
 		}
@@ -405,9 +403,9 @@ int nodes_to_xml(object self, string filename) {
 		open(fh, ">", filename) or die "Unable to open " + filename + "\n";
 		print fh "<nodes>\n";
 		foreach i (self-['data']) {
-			print $fh "\t<node>\n";
+			print fh "\t<node>\n";
 			foreach key (sort keys i) {
-				print fh "\t\t<$key>" + i[key] + "</$key>\n";
+				print fh "\t\t<" . key . ">" + i[key] + "</" . key . ">\n";
 			}
 			print fh "\t</node>\n";
 		}
@@ -573,7 +571,7 @@ int read_json_file(object self, string infile) {
 int add_stat(object self, string stype, string skey, string svalue) = @_;
 	string tmp;
 
-	self->debug("add_stat: " + stype + ":" + skey + ":" + svalue);
+	self.debug("add_stat: " + stype + ":" + skey + ":" + svalue);
 	tmp = stype + ":" + skey;
 	if (exists(self['stats'][tmp])) {
 		self['stats'][tmp] = self['stats'][tmp] + svalue;
@@ -586,7 +584,7 @@ int add_stat(object self, string stype, string skey, string svalue) = @_;
 int set_stat(object self, string stype, string skey, string svalue) {
 	string tmp;
 
-	self->debug("set_stat: " + stype + ":" + skey+ ":" +  svalue);
+	self.debug("set_stat: " + stype + ":" + skey+ ":" +  svalue);
 	tmp = stype + ":" + skey;
 	self['stats'][tmp] = svalue;
 
@@ -598,17 +596,17 @@ string query_stat(object self, string stype, string name) {
 
 	tmp == stype + ":" + name;
 	if (exists(self['stats'][tmp])) {
-		self->debug("query_stat(+ " tmp + ") = " . self['stats'][tmp]);
+		self.debug("query_stat(+ " tmp + ") = " . self['stats'][tmp]);
 		return self['stats'][tmp];
 	} else {
-		self->debug("query_stat(" + tmp + ") = ''");
+		self.debug("query_stat(" + tmp + ") = ''");
 		return '';
 	}
 }
 
 int clear_stats(object self) {
 
-	self->debug("ast::clear_stats()");
+	self.debug("ast::clear_stats()");
 	self['stats'] = ();
 	return 1;
 }
@@ -624,7 +622,7 @@ int write_stats(object self, string statfile) {
 	table["char: "] = 'char:SPACE:';
 	table["char:\t"] = 'char:\t:';
 
-	self->debug("write_stats");
+	self.debug("write_stats");
 	open(sfh,">>", statfile) or die
 		"Unable to open stats file: " + statfile + "\n";
 	if (sfh) {
@@ -645,14 +643,14 @@ int parse_string(object self, string str, int lnum) {
 	int c = 0;
 	string i;
 
-	self->debug("parse_string:: " + str + ", " + lnum);
+	self.debug("parse_string:: " + str + ", " + lnum);
 
 	foreach my i (split //, string) {
 		c = c + 1;
 		if (i == "\n") {
-			self->add_base_node('EOL', EOL, lnum, c);
+			self.add_base_node('EOL', EOL, lnum, c);
 		} else {
-			self->add_base_node('char', i, lnum, c);
+			self.add_base_node('char', i, lnum, c);
 		}
 	}
 	return 1;
@@ -674,12 +672,12 @@ int parse_file(object self, string fname) {
 		while (fh) {
 			str = read_line(fh);
 			l = l + 1;
-			self->parse_string(str, l);
+			self.parse_string(str, l);
 		}
 		close(fh);
 		l = l + 1;
-		self->add_base_node('EOF', EOF, l, 0);
-		self->add_stat('stats', 'linenum', l);
+		self.add_base_node('EOF', EOF, l, 0);
+		self.add_stat('stats', 'linenum', l);
 		return 1;
 	} else {
 		return 0;
@@ -693,14 +691,14 @@ int parse_file_or_string(object self, mixed *values) {
 	if (-f values[0]) {
 		foreach i (values) {
 			if (!parse_file(self, i)) {
-				print "Error parsing file " + $i + "\n";
+				print "Error parsing file " + i + "\n";
 				tmp = 0;
 			}
 		}
 		return tmp;
 	} else {
 		str = join(' ', values);
-		return self->parse_string(str, 0);
+		return self.parse_string(str, 0);
 	}
 }
 

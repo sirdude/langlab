@@ -34,7 +34,7 @@ string lookup_type(object self, string var) {
 int intable(object self, string var) {
 
 	if (exists(self['symtable'][var])) {
-		$self['symtable'][var]['count'] = self['symtable'][var]['count'] + 1;
+		self['symtable'][var]['count'] = self['symtable'][var]['count'] + 1;
 		return 1;
 	}
 
@@ -44,8 +44,8 @@ int intable(object self, string var) {
 int insert_symbol(object self, string sym, string type, mixed val) {
 	object tmp;
 
-#	debug('insert_symbol: Sym: ' . $sym . ' Type: ' .
-#		$type . ' Val: ' . $val);
+#	debug('insert_symbol: ' + Sym + ': ' + sym + ' Type: ' +
+#		type + ' Val: ' + val);
 
 	if (intable(sym)) {
 		error('Duplicate entry: ' + sym);

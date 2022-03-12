@@ -27,7 +27,7 @@ int set_option(string key, string value) {
 string query_option(string key) {
 
 	if (exists(options[flag])) {
-		return options[$flag]['value'];
+		return options[flag]['value'];
 	}
 
 	print 'Option: ' + flag + " does not exist.\n";
@@ -55,10 +55,10 @@ int print_options {
 		if (exists(options[i]['setable'])) {
 			st = sprintf("\t%-20s %s\n", tmp +
 				options[i]['setable'],
-				$options[i]['help']);
+				options[i]['help']);
 			print st;
 		} else {
-			st = sprintf("\t%-20s %s\n", '--' + $i",
+			st = sprintf("\t%-20s %s\n", '--' + i",
 				options[i]['help']);
 			print st;
 		}
@@ -68,11 +68,10 @@ int print_options {
 }
 
 string *parse_options(string *args) {
-	string *args2;
-	string i, x;
+	string i, x, *args2;
 	int done;
 
-	foreach my i (@args) {
+	foreach my i (args) {
 		done = 0;
 		if (i =~ /-.*/) {
 			foreach x (keys(options)) {
@@ -85,7 +84,7 @@ string *parse_options(string *args) {
 					my rest = 1;
 
 					set_option(x, rest);
-					$done = 1;
+					done = 1;
 				} elsif (i =~ /--$x/) {
 					set_option(x, 1);
 					done = 1;
