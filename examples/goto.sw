@@ -1,3 +1,3 @@
 int fun() {
-	goto(TEST);
+	goto TEST;
 }
