@@ -2,6 +2,7 @@ package ast;
 
 use strict;
 use warnings;
+use Data::Dumper;
 
 our $EOL = "\n";
 our $EOF = '__YY_EOF___';
@@ -128,8 +129,7 @@ sub peek {
 		return $EOF;
 	} else {
 		$self->debug("Node: $count numnodes: " . $self->{'size'} .
-			' Type ' . $self->{'data'}[$count]->{'type'} .
-			' data ' . $self->{'data'}[$count]->{'data'});
+			' Node ' . Dumper($self->{'data'}[$count]));
 		if ($self->{'data'}[$count]->{'type'} eq 'EOF') {
 			return $EOF;
 		} elsif ($self->{'data'}[$count]->{'type'} eq 'EOL') {

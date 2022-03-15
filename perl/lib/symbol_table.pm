@@ -22,10 +22,18 @@ sub clear {
 	return 1;
 }
 
+sub debug {
+	my ($str) = @_;
+
+# XXX Uncomment to get info...
+#	print "DEBUG_SYMTABLE: $str\n";
+}
+
 # Simple symbol table functions
 sub lookup_value {
 	my ($self, $var) = @_;
 
+	debug("lookup_value($var)");
 	if (exists($self->{'symtable'}{$var})) {
 		return $self->{'symtable'}{$var}->{'value'};
 	}
@@ -36,6 +44,7 @@ sub lookup_value {
 sub lookup_type {
 	my ($self, $var) = @_;
 
+	debug("lookup_type($var)");
 	if (exists($self->{'symtable'}{$var})) {
 		return $self->{'symtable'}{$var}->{'type'};
 	}
@@ -45,6 +54,7 @@ sub lookup_type {
 sub intable {
 	my ($self, $var) = @_;
 
+	debug("intable($var)");
 	if (exists($self->{'symtable'}{$var})) {
 		$self->{'symtable'}{$var}->{'count'} = $self->{'symtable'}{$var}->{'count'} + 1;
 		return 1;
@@ -57,10 +67,10 @@ sub insert_symbol {
 	my ($self, $sym, $type, $val) = @_;
 	my %tmp;
 
-#	debug('insert_symbol: Sym: ' . $sym . ' Type: ' .
-#		$type . ' Val: ' . $val);
+	debug('insert_symbol: Sym: ' . $sym . ' Type: ' .
+		$type . ' Val: ' . $val);
 
-	if (intable($sym)) {
+	if ($self->intable($sym)) {
 		error('Duplicate entry: ' . $sym);
 		return 0;
 	}

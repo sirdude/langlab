@@ -13,8 +13,13 @@ void clear(object self) {
 	self['symtable'] = ();
 }
 
+void debug(string str) {
+	print 'DEBUG: ' + str + "\n";
+}
+
 # Simple symbol table functions
 mixed lookup_value(object self, string var) {
+	debug('lookup_value: ' + var);
 
 	if (exists(self['symtable'][var])) {
 		return self['symtable'][var]['value'];
@@ -24,6 +29,7 @@ mixed lookup_value(object self, string var) {
 }
 
 string lookup_type(object self, string var) {
+	debug('lookup_type: ' + var);
 
 	if (exists(self['symtable'][var])) {
 		return self['symtable'][var]['type'];
@@ -32,6 +38,7 @@ string lookup_type(object self, string var) {
 }
 
 int intable(object self, string var) {
+	debug('intable: ' + var);
 
 	if (exists(self['symtable'][var])) {
 		self['symtable'][var]['count'] = self['symtable'][var]['count'] + 1;
@@ -44,10 +51,10 @@ int intable(object self, string var) {
 int insert_symbol(object self, string sym, string type, mixed val) {
 	object tmp;
 
-#	debug('insert_symbol: ' + Sym + ': ' + sym + ' Type: ' +
-#		type + ' Val: ' + val);
+	debug('insert_symbol: ' + Sym + ': ' + sym + ' Type: ' +
+		type + ' Val: ' + val);
 
-	if (intable(sym)) {
+	if (self.intable(sym)) {
 		error('Duplicate entry: ' + sym);
 		return 0;
 	}
