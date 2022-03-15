@@ -14,15 +14,21 @@ my ($testast);
 sub test_scope {
 
 	is($testast->get_scope(), 0, 'Check initial scope.');
-	$testast->push_scope();
-	is($testast->get_scope(), 1, 'Check initial scope +1.');
-	$testast->push_scope();
-	is($testast->get_scope(), 2, 'Check initial scope +2.');
+	$testast->push_scope('test_scope');
+	is($testast->get_scopeindent(), 1, 'Check initial scopeindent +1.');
+	is($testast->get_hscope(), ':test_scope', 'Check initial hscope +1.');
+	is($testast->get_scope(), ':1', 'Check initial scope +1.');
+	$testast->push_scope('if');
+	is($testast->get_scopeindent(), 2, 'Check scopeident +2.');
+	is($testast->get_hscope(), ':test_scope:if', 'Check initial hscope +1.');
+	is($testast->get_scope(), ':1:2', 'Check initial scope +1.');
 	$testast->pop_scope();
-	is($testast->get_scope(), 1, 'Check pop_scope.');
+	is($testast->get_scopeindent(), 1, 'Check pop_scope.');
 	$testast->pop_scope();
 	$testast->pop_scope();
-	is($testast->get_scope(), -1, 'Check pop_scope to -1');
+	is($testast->get_hscope(), '', 'Check hscope -1.');
+	is($testast->get_scope(), '', 'Check scope -1.');
+	is($testast->get_scopeindent(), -1, 'Check pop_scope to -1');
 
 	$testast->clear();
 	return 1;

@@ -1,7 +1,6 @@
 package symbol_table;
 
 use warnings;
-use strict;
 use base 'Exporter';
 
 sub new {

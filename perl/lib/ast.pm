@@ -64,7 +64,7 @@ sub push_scope {
 
 	$self->{'scopeindent'} += 1;
 	$self->{'scopeid'} += 1;
-	$self->{'hscope'} .= ':$str';
+	$self->{'hscope'} .= ":$str";
 	$self->{'scope'} .= ':' . $self->{'scopeid'};
 
 	return $self->{'scope'};
