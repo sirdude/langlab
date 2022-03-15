@@ -105,6 +105,14 @@ int is(mixed first, mixed second, string text) {
 int is_quiet(mixed functioncall, mixed expected) {
 	add_test();
 
+	if (!functioncall && !expected) {
+		return 1;
+	}
+
+	if (!functioncall || !expected) {
+		return 0;
+	}
+
 	if (is_hash(functioncall) || is_hash(expected)) {
 		return compare_hash(functioncall, expected);
 	} elsif (is_array(functioncall) || is_array(expected)) {

@@ -87,11 +87,19 @@ sub compare_hash {
 
 sub compare_array {
 	my ($hh1, $hh2) = @_;
+	my (@h1, @h2, $len);
 
-	my @h1 = @{$hh1};
-	my @h2 = @{$hh2};
+	if (!$hh1 && !$hh2) {
+		return 1;
+	}
+	if (!$hh1 || !$hh2) {
+		return 0;
+	}
 
-	my $len = $#h1;
+	@h1 = @{$hh1};
+	@h2 = @{$hh2};
+
+	$len = $#h1;
 
 	if ($len ne $#h2) {
 		return 0;
@@ -128,6 +136,14 @@ sub is_quiet {
 	my ($functioncall, $expected) = @_;
 
 	add_test();
+
+	if (!$functioncall && !$expected) {
+		return 1;
+	}
+	if (!$functioncall || !$expected) {
+		return 0;
+	}
+
 
 	if (is_hash($functioncall) || is_hash($expected)) {
 		return compare_hash($functioncall, $expected);
