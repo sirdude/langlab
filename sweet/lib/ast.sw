@@ -147,20 +147,17 @@ int at_eof(object self) {
 	return 0;
 }
 
-object copy_node(object self, int count) {
-	object node = ();
+object copy_node(object self, object out) {
 	int ttt;
 	string copykeys, i;
 
-	if (!count || count eq '') {
-		count = 0;
-	}
 	ttt = self['current'] + count;
-	self.debug("ast::copy_node(" + count + ":" + ttt) size = " + self['size']);
+	self.debug("ast::copy_node(" + self['current'] +
+		") size = " + self['size']);
 
-	copykeys = keys(self['data'][ttt]);
+	copykeys = keys(self['data'][self['current']]);
 	foreach i (copykeys) {
-		node[i] = self['data'][ttt][i];
+		node[i] = self['data'][self['current']][i];
 	}
 
 	return node;
