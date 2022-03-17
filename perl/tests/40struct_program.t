@@ -18,6 +18,7 @@ sub test_empty_program {
 	is(struct_program::start($testast), 1, 'Testing if we have the start of a program.');
 	is(struct_program::get($testast, \%{$output}), 1, 'Testing get program on empty.');
 
+	$testast->clear();
 	return 1;
 }
 
@@ -54,6 +55,7 @@ sub test_pkg {
 
 	is(struct_program::start($testast), 1, 'Testing if we have the start of a program with use.');
 	is(struct_program::get($testast, \%{$output}), 1, 'Testing get pkg program.');
+
 	$testast->clear();
 	return 1;
 }
