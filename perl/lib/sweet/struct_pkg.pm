@@ -29,7 +29,7 @@ sub get {
 		return 0;
 	}
 
-	$node = $ast->copy_node();
+	$ast->copy_node(\%{$node});
 	$tmp = $ast->consume('use');
 
 	if (!$ast->match("lib")) {

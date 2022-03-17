@@ -32,7 +32,7 @@ sub get {
 		return 0;
 	}
 
-	$node = $ast->copy_node();
+	$ast->copy_node(\%{$node});
 	$node->{'data'} = ();
 
 	while (!$ast->at_eof()) {

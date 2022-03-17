@@ -165,21 +165,16 @@ sub at_eof {
 }
 
 sub copy_node {
-	my ($self, $count) = @_;
+	my ($self, $out) = @_;
 	my $node = ();
 
-	if (!$count || $count eq '') {
-		$count = 0;
-	}
-	my $ttt = $self->{'current'} + $count;
-	$self->debug("ast::copy_node($count:$ttt) size = " . $self->{'size'});
-
+	my $ttt = $self->{'current'};
 	my @copykeys = keys(%{$self->{'data'}[$ttt]});
 	foreach my $i (@copykeys) {
-		$node->{$i} = $self->{'data'}[$ttt]->{$i};
+		$out->{$i} = $self->{'data'}[$ttt]->{$i};
 	}
 
-	return $node;
+	return 1;
 }
 
 sub show_invis {

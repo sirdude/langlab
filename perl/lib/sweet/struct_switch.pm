@@ -8,8 +8,6 @@ use struct_block;
 use struct_case;
 use struct_default;
 
-use Data::Dumper;
-
 sub start {
 	my ($ast) = @_;
 
@@ -33,9 +31,9 @@ sub get {
 		return 0;
 	}
 
-	$node = $ast->copy_node();
+	$ast->copy_node(\%{$node});
 	$tmp = $ast->consume('switch');
-    $node->{'data'} = {};
+	$node->{'data'} = {};
 	$node->{'type'} = 'switch';
 
 	if (!struct_expression::get($ast, \%{$tmp})) {

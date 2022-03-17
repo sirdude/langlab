@@ -100,7 +100,7 @@ sub get {
 	$ast->push_scope('statement');
 	$ast->debug($ast->get_hscope());
 
-	$node = $ast->copy_node();
+	$ast->copy_node(\%{$node});
 	$node->{'type'} = 'statement';
 	$node->{'data'} = ();
 	# Assume we return 1 unless we run into an error.

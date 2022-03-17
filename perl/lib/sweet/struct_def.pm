@@ -37,7 +37,7 @@ sub get {
 		return 0;
 	}
 
-	$node = $ast->copy_node();
+	$ast->copy_node(\%{$node});
 
 	while(struct_types::is_typemod($ast)) {
 		$tmp = $ast->consume();
@@ -114,7 +114,7 @@ sub get_var_only {
 		return 0;
 	}
 
-	$node = $ast->copy_node();
+	$ast->copy_node(\%{$node});
 
 	while(struct_types::is_typemod($ast)) {
 		$tmp = $ast->consume();

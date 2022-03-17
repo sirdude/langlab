@@ -30,7 +30,7 @@ sub get {
 		$ast->pop_scope();
 		return 0;
 	}
-	$node = $ast->copy_node();
+	$ast->copy_node(\%{$node});
 	$tmp = $ast->consume(); # Get rid of the (
 	$node->{'type'} = 'fundef_params';
 	$node->{'data'} = ();
