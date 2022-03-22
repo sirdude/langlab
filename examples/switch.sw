@@ -8,7 +8,7 @@ int fun() {
 		case 5 {
 		}
 		case default {
-			write "Woo!\n";
+			print("Woo!\n");
 		}
 	}
 }
