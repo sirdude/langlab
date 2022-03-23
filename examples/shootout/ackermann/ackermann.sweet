@@ -20,5 +20,5 @@ int main() {
 		n = 1;
 	}
 
-	write("Ack(3," + n + "): " + Ack(3,n) + "\n");
+	print("Ack(3," + n + "): " + Ack(3,n) + "\n");
 }

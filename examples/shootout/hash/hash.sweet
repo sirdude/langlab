@@ -26,5 +26,5 @@ int main() {
 			c = c + 1;
 		}
 	}
-	write(c . "\n");
+	print(c . "\n");
 }

@@ -56,5 +56,5 @@ int main() {
 		num = num - 1;
 	}
 
-	write(result + "\n");
+	print(result + "\n");
 }

@@ -26,5 +26,5 @@ int main() {
 		}
 	}
 
-	write(y[0] + " " + y[last] + "\n");
+	print(y[0] + " " + y[last] + "\n");
 }

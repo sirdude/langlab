@@ -13,5 +13,5 @@ int main() {
 	foreach x (1,NUM) {
 		str = str . "hello\n";
 	}
-	write(length(str) . "\n");
+	print(length(str) . "\n");
 }

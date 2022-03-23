@@ -18,5 +18,5 @@ int main() {
 		n = 1;
 	}
 
-	write(fib(n) + \n");
+	print(fib(n) + \n");
 }

@@ -33,6 +33,6 @@ int main() {
 		N = N -1;
 	}
 
-	write("%.9f\n", gen_random(MAX));
+	print("%.9f\n", gen_random(MAX));
 }
 

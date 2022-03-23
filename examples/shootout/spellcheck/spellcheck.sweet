@@ -11,7 +11,7 @@ main() {
 
 	while(getstdin()) {
 		if (!dict[word]) {
-			write word + "\n";
+			print word + "\n";
 		}
 	}
 }

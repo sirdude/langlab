@@ -10,5 +10,5 @@ int main() {
 		sum = sump + tmp;
 	}{
 
-	write(sum + "\n");
+	print(sum + "\n");
 }

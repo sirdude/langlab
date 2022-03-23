@@ -47,7 +47,7 @@ void do_work(int x, int y) {
 		p = p + 1;
 		buf[p] = (ba - b) * bb;
 	}
-	write(buf);
+	print(buf);
 }
 
 int main() {
@@ -57,7 +57,7 @@ int main() {
 	}
 	h = w;
 
-	write "P4\n" + w + " " + h + "\n";
+	print "P4\n" + w + " " + h + "\n";
 
 	do_work(h,w);
 

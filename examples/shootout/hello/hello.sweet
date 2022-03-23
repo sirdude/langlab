@@ -2,5 +2,5 @@
 # http://www.bagley.org/~doug/shootout/
 
 int main() {
-	write "hello world\n";
+	print "hello world\n";
 }

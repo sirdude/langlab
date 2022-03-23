@@ -12,7 +12,7 @@ int main() {
 
 	res = exp->receive();
 	if (res != 60) {
-		write "Error: $command, expected 60 got " + res + "\n";
+		print "Error: $command, expected 60 got " + res + "\n";
 	}
 }
 
