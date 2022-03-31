@@ -1,7 +1,6 @@
 package struct_def;
 # This package covers both function and variable definitions.
 
-use strict;
 use warnings;
 
 use struct_types;

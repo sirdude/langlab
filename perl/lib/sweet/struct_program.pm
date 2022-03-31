@@ -35,7 +35,7 @@ sub get {
 	$ast->copy_node(\%{$node});
 	$node->{'data'} = ();
 
-	while (!$ast->at_eof()) {
+	while (!$ast->at_eof() && ($ast->peek() ne '}')) {
 	    if (struct_pkg::start($ast)) {
 			if (!struct_pkg::get($ast, \%{$tmp})) {
 				$ast->error('Expected pkg');
