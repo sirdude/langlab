@@ -63,8 +63,19 @@ sub print_stats {
 	return $pc;
 }
 
-my ($infile) = @ARGV;
-print "Read in : " . read_stats($infile) . " stats.";
-print "\tTotal composite stats:\n";
+sub usage {
+	print "$0 INFILE\n";
+	print "Parses INFILE stats and prints out a summary.\n";
 
-print_stats();
+	return 1;
+}
+
+my ($infile) = @ARGV;
+if (!$infile || $infile eq "") {
+	usage();
+} else {
+	print "Read in : " . read_stats($infile) . " stats.";
+	print "\tTotal composite stats:\n";
+
+	print_stats();
+}
